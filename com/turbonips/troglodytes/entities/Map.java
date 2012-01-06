@@ -17,7 +17,7 @@ public class Map extends Entity {
 	private static final int BACKGROUND = 1;
 	private static final int FOREGROUND = 2;
 	int offx = 0, offy = 0;
-	private final int SPEED = 10;
+	private final int SCROLL_SPEED = 10;
 	
 	
 	public Map(String mapPath, ArrayList<Creature> creatures) throws SlickException {
@@ -40,18 +40,15 @@ public class Map extends Entity {
 		Input input = container.getInput();
 		
 		if(input.isKeyDown(Input.KEY_DOWN)) {
-			offy -= SPEED;
+			offy -= SCROLL_SPEED;
 		} else if (input.isKeyDown(Input.KEY_UP)) {
-			offy += SPEED;
+			offy += SCROLL_SPEED;
 			
 		} if(input.isKeyDown(Input.KEY_RIGHT)) {
-			offx -= SPEED;
+			offx -= SCROLL_SPEED;
 		} else if (input.isKeyDown(Input.KEY_LEFT)) {
-			offx += SPEED;
-			
+			offx += SCROLL_SPEED;
 		}
-		
-		
 		
 		for (Creature creature : creatures) {
 			creature.update(container, game, delta);

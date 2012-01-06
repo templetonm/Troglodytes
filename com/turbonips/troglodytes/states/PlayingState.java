@@ -18,6 +18,7 @@ public class PlayingState extends BaseGameState {
 			throws SlickException {
 		super.init(container, game);
 		
+		creatures.add(new Player("resources/player.png"));
 		entities.add(new Map("resources/demo.tmx", creatures));
 	}
 
