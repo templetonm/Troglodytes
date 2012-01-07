@@ -4,22 +4,30 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.tiled.TiledMap;
+
 import com.turbonips.troglodytes.entities.*;
 
 public class PlayingState extends BaseGameState {
 	public static final int ID = 3;
 	private final ArrayList<Entity> entities = new ArrayList<Entity>();
-	private final ArrayList<Creature> creatures = new ArrayList<Creature>();
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		super.init(container, game);
 		
-		creatures.add(new Player("resources/player.png"));
-		entities.add(new Map("resources/demo.tmx", creatures));
+		
+		TiledMap tiledMap = new TiledMap("resources/demo.tmx");
+		entities.add(new GroundLayer(tiledMap));
+		entities.add(new BgLayer(tiledMap));
+		// Add enemys here...
+		
+		entities.add(new PlayerLayer(tiledMap, new Image("resources/player.png")));
+		entities.add(new FgLayer(tiledMap));
 	}
 
 	@Override
