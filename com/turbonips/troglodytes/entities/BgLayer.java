@@ -15,7 +15,7 @@ public class BgLayer extends Layer {
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
-		tiledMap.render(offx, offy, BACKGROUND);
+		tiledMap.render((int)(off.x + container.getWidth()/2 - (playerSize.x/2)), (int)(off.y + container.getHeight()/2 - (playerSize.y/2)), BACKGROUND);
 	}
 
 }

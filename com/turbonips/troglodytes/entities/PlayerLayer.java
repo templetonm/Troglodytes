@@ -16,7 +16,7 @@ public class PlayerLayer extends Layer {
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
-		player.draw(slidingPos.x+container.getWidth()/2-player.getWidth()/2, slidingPos.y+container.getHeight()/2-player.getHeight()/2);
+		player.draw(slidingPos.x+container.getWidth()/2-playerSize.x/2, slidingPos.y+container.getHeight()/2-playerSize.y/2);
 	}
 
 }
