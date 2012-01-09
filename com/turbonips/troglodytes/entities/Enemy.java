@@ -7,6 +7,8 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class Enemy extends Entity {
 
+	public EnemyData enemyData;
+	
 	public Enemy(String creaturePath) throws SlickException {
 	}
 
@@ -19,5 +21,4 @@ public class Enemy extends Entity {
 	public void update(GameContainer container, StateBasedGame game, int delta) {
 		
 	}
-
 }

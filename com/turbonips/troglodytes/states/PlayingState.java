@@ -24,8 +24,8 @@ public class PlayingState extends BaseGameState {
 		TiledMap tiledMap = new TiledMap("resources/demo.tmx");
 		entities.add(new GroundLayer(tiledMap));
 		entities.add(new BgLayer(tiledMap));
-		// Add enemys here...
-		
+		// Add enemies here...
+
 		entities.add(new PlayerLayer(tiledMap, new Image("resources/player.png")));
 		entities.add(new FgLayer(tiledMap));
 	}
