@@ -10,7 +10,7 @@ public abstract class Layer extends Entity {
 	
 	protected final TiledMap tiledMap;
 	protected Vector2f off;
-	private final int PLAYER_SPEED = 10;
+	private final int PLAYER_SPEED = 8;
 	private final int WALL_LAYER = 3;
 	
 	protected Vector2f slidingMin;
@@ -30,133 +30,93 @@ public abstract class Layer extends Entity {
 	}
 	
 	private boolean isBlocked(int tileX, int tileY) {
-		boolean state = false;
-		int tileId = tiledMap.getTileId(tileX, tileY, WALL_LAYER);
-		if (tileId > 0) {
-			state = true;
-		}
-		logger.info(tileX + "," + tileY + ": " + state);
-		return state;
-	}
-	
-	/*private boolean blocked (int x, int y) {
 		boolean blocked = false;
 		
-		if (x < 0) {
-			return true;
-		}
-		if (x > tiledMap.getWidth() * playerSize.x - playerSize.x) {
-			return true;
+		if (tileX < 0  || tileX >= tiledMap.getWidth()) {
+			blocked = true;
+		} else if (tileY < 0  || tileY >= tiledMap.getHeight()) {
+			blocked = true;
+		} else {
+			int tileId = tiledMap.getTileId(tileX, tileY, WALL_LAYER);
+			if (tileId > 0) {
+				blocked = true;
+			}
 		}
 		
-		if (y < 0) {
-			return true;
-		}
-		if (y > tiledMap.getWidth() * playerSize.y - playerSize.y) {
-			return true;
-		}
-		
-		if (isBlocked(getX(x - (int)playerSize.x / 2), getY(y + (int)playerSize.y / 2))) {
-			blocked = true;
-		}
-		if (isBlocked(getX(x + (int)playerSize.x / 2), getY(y + (int)playerSize.y / 2))) {
-			blocked = true;
-		}
-		if (isBlocked(getX(x - (int)playerSize.x / 2), getY(y - (int)playerSize.y / 2))) {
-			blocked = true;
-		}
-		if (isBlocked(getX(x + (int)playerSize.x / 2), getY(y - (int)playerSize.y / 2))) {
-			blocked = true;
-		}
+		if (blocked) logger.info(tileX + "," + tileY + ": " + blocked);
 		return blocked;
-	}*/
+	}
 	
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) {
 		Input input = container.getInput();
 		
-//		Vector2f curPlayerPos = new Vector2f(playerLoc.x/playerSize.x, playerLoc.y/playerSize.y);		
 		
-		Vector2f tempOff = off;
-		Vector2f tempSlidingPos = slidingPos;
-		Vector2f tempPlayerLoc = playerLoc;
-						
+		
 		if(input.isKeyDown(Input.KEY_DOWN)) { 
-			int left1, left2, right1, right2;
-			left1 = (int)((playerLoc.x-playerSize.x/2)/32);
-			left2 = (int)((playerLoc.y+playerSize.y/2+PLAYER_SPEED)/32);
-			right1 = (int)((playerLoc.x+playerSize.x/2)/32);
-			right2 = (int)((playerLoc.y+playerSize.y/2+PLAYER_SPEED)/32);
-			if (!(isBlocked(left1,left2) || isBlocked(right1,right2))){
-				if (tempSlidingPos.y >= slidingMax.y) {
-					tempOff.y -= PLAYER_SPEED;
+			int leftBottomX, leftBottomY, rightBottomX, rightBottomY;
+			leftBottomX = (int)Math.floor((playerLoc.x)/32);
+			leftBottomY = (int)Math.floor((playerLoc.y+playerSize.y-0.1f+PLAYER_SPEED)/32f);
+			rightBottomX = (int)Math.floor((playerLoc.x+playerSize.x-0.1f)/32);
+			rightBottomY = (int)Math.floor((playerLoc.y+playerSize.y-0.1f+PLAYER_SPEED)/32f);
+
+			if (!(isBlocked(leftBottomX,leftBottomY) || isBlocked(rightBottomX,rightBottomY))){
+				if (slidingPos.y >= slidingMax.y) {
+					off.y -= PLAYER_SPEED;
 				} else {
-					tempSlidingPos.y += PLAYER_SPEED;
+					slidingPos.y += PLAYER_SPEED;
 				}
 				
-				tempPlayerLoc.y += PLAYER_SPEED;
+				playerLoc.y += PLAYER_SPEED;
 			}
 		} else if (input.isKeyDown(Input.KEY_UP)) {
-			int left1, left2, right1, right2;
-			left1 = (int)((playerLoc.x-playerSize.x/2)/32);
-			left2 = (int)((playerLoc.y-playerSize.y/2-PLAYER_SPEED)/32);
-			right1 = (int)((playerLoc.x+playerSize.x/2)/32);
-			right2 = (int)((playerLoc.y-playerSize.y/2-PLAYER_SPEED)/32);
-			if (!(isBlocked(left1,left2) || isBlocked(right1,right2))){
-				if (tempSlidingPos.y <= slidingMin.y) {
-					tempOff.y += PLAYER_SPEED;
+			int leftTopX, leftTopY, rightTopX, rightTopY;
+			leftTopX = (int)Math.floor((playerLoc.x)/32);
+			leftTopY = (int)Math.floor((playerLoc.y-PLAYER_SPEED)/32);
+			rightTopX = (int)Math.floor((playerLoc.x+playerSize.x-0.1f)/32);
+			rightTopY = (int)Math.floor((playerLoc.y-PLAYER_SPEED)/32);
+			if (!(isBlocked(leftTopX,leftTopY) || isBlocked(rightTopX,rightTopY))){
+				if (slidingPos.y <= slidingMin.y) {
+					off.y += PLAYER_SPEED;
 				} else {
-					tempSlidingPos.y -= PLAYER_SPEED;
+					slidingPos.y -= PLAYER_SPEED;
 				}
 				
-				tempPlayerLoc.y -= PLAYER_SPEED;
+				playerLoc.y -= PLAYER_SPEED;
 			}
 		}
 		
 		if(input.isKeyDown(Input.KEY_RIGHT)) {
-			int up1, up2, down1, down2;
-			up1 = (int)((playerLoc.x+playerSize.x/2+PLAYER_SPEED)/32);
-			up2 = (int)((playerLoc.y-playerSize.y/2)/32);
-			down1 = (int)((playerLoc.x+playerSize.x/2+PLAYER_SPEED)/32);
-			down2 = (int)((playerLoc.y+playerSize.y/2)/32);
-			if (!(isBlocked(up1,up2) || isBlocked(down1,down2))){
-				if (tempSlidingPos.x >= slidingMax.x) {
-					tempOff.x -= PLAYER_SPEED;
+			int topRightX, topRightY, bottomRightX, bottomRightY;
+			topRightX = (int)Math.floor((playerLoc.x+playerSize.x-0.1f+PLAYER_SPEED)/32);
+			topRightY = (int)Math.floor((playerLoc.y)/32);
+			bottomRightX = (int)Math.floor((playerLoc.x+playerSize.x-0.1f+PLAYER_SPEED)/32);
+			bottomRightY = (int)Math.floor((playerLoc.y+playerSize.y-0.1f)/32);
+			if (!(isBlocked(topRightX,topRightY) || isBlocked(bottomRightX,bottomRightY))){
+				if (slidingPos.x >= slidingMax.x) {
+					off.x -= PLAYER_SPEED;
 				} else {
-					tempSlidingPos.x += PLAYER_SPEED;
+					slidingPos.x += PLAYER_SPEED;
 				}
 	
-				tempPlayerLoc.x += PLAYER_SPEED;
+				playerLoc.x += PLAYER_SPEED;
 			}
 		} else if (input.isKeyDown(Input.KEY_LEFT)) {
-			int up1, up2, down1, down2;
-			up1 = (int)((playerLoc.x-playerSize.x/2-PLAYER_SPEED)/32);
-			up2 = (int)((playerLoc.y-playerSize.y/2)/32);
-			down1 = (int)((playerLoc.x-playerSize.x/2-PLAYER_SPEED)/32);
-			down2 = (int)((playerLoc.y+playerSize.y/2)/32);
-			if (!(isBlocked(up1,up2) || isBlocked(down1,down2))){
-				if (tempSlidingPos.x <= slidingMin.x) {
-					tempOff.x += PLAYER_SPEED;
+			int topLeftX, topLeftY, bottomLeftX, bottomLeftY;
+			topLeftX = (int)Math.floor((playerLoc.x-PLAYER_SPEED)/32);
+			topLeftY = (int)Math.floor((playerLoc.y)/32);
+			bottomLeftX = (int)Math.floor((playerLoc.x-PLAYER_SPEED)/32);
+			bottomLeftY = (int)Math.floor((playerLoc.y+playerSize.y-0.1f)/32);
+			//logger.info((playerLoc.x-PLAYER_SPEED)/32 + "," + topLeftY);
+			if (!(isBlocked(topLeftX,topLeftY) || isBlocked(bottomLeftX,bottomLeftY))){
+				if (slidingPos.x <= slidingMin.x) {
+					off.x += PLAYER_SPEED;
 				} else {
-					tempSlidingPos.x -= PLAYER_SPEED;
+					slidingPos.x -= PLAYER_SPEED;
 				}
 				
-				tempPlayerLoc.x -= PLAYER_SPEED;
+				playerLoc.x -= PLAYER_SPEED;
 			}
 		}
-		
-		/*if (!blocked((int)(tempPlayerLoc.x), (int)(tempPlayerLoc.y))) {
-			off = tempOff;
-			slidingPos = tempSlidingPos;
-			playerLoc = tempPlayerLoc;
-		} else if (!blocked((int)(playerLoc.x), (int)(tempPlayerLoc.y))) {			
-			playerLoc.y = tempPlayerLoc.y;
-			slidingPos.y = tempSlidingPos.y;
-			off.y = tempOff.y;
-		} else if (!blocked((int)(tempPlayerLoc.x), (int)(playerLoc.y))) {
-			playerLoc.x = tempPlayerLoc.x;
-			slidingPos.x = tempSlidingPos.x;
-			off.x = tempOff.x;
-		}*/
 	}
 }
