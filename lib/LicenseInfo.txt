@@ -1,7 +1,0 @@
-Some things require notification for the licenses they use.
-
-+ JOgg and JOrbis are used in complience with an LGPL license.
-
-We also need to add an entry for Slick and if I understood their
-license correctly we will need to have a copy of it (it's a BSD
-style license).
