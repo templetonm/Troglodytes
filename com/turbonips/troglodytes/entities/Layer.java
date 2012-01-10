@@ -18,6 +18,7 @@ public abstract class Layer extends Entity {
 	protected Vector2f slidingPos;
 	protected Vector2f playerLoc;
 	protected final Vector2f playerSize;
+	protected final int TILE_SIZE;
 	
 	public Layer(TiledMap tiledMap) {
 		this.tiledMap = tiledMap;
@@ -27,6 +28,7 @@ public abstract class Layer extends Entity {
 		slidingMin = new Vector2f(-100,-100);
 		slidingMax = new Vector2f(100, 100);
 		off = new Vector2f(0,0);
+		TILE_SIZE=32;
 	}
 	
 	private boolean isBlocked(int tileX, int tileY) {
@@ -38,29 +40,26 @@ public abstract class Layer extends Entity {
 			blocked = true;
 		} else {
 			int tileId = tiledMap.getTileId(tileX, tileY, WALL_LAYER);
-			if (tileId > 0) {
+			if (tiledMap.getTileProperty(tileId, "Type", "None").equals("Wall")) {
 				blocked = true;
 			}
+			if (blocked) logger.info(tileX + "," + tileY + ": " + tileId);
 		}
 		
-		if (blocked) logger.info(tileX + "," + tileY + ": " + blocked);
+		
 		return blocked;
 	}
 	
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) {
 		Input input = container.getInput();
-		
-		
-		
 		if(input.isKeyDown(Input.KEY_DOWN)) { 
 			int leftBottomX, leftBottomY, rightBottomX, rightBottomY;
-			leftBottomX = (int)Math.floor((playerLoc.x)/32);
-			leftBottomY = (int)Math.floor((playerLoc.y+playerSize.y-0.1f+PLAYER_SPEED)/32f);
-			rightBottomX = (int)Math.floor((playerLoc.x+playerSize.x-0.1f)/32);
-			rightBottomY = (int)Math.floor((playerLoc.y+playerSize.y-0.1f+PLAYER_SPEED)/32f);
-
-			if (!(isBlocked(leftBottomX,leftBottomY) || isBlocked(rightBottomX,rightBottomY))){
+			leftBottomX = (int)Math.floor((playerLoc.x)/TILE_SIZE);
+			leftBottomY = (int)Math.floor((playerLoc.y+playerSize.y-0.1f+PLAYER_SPEED)/TILE_SIZE);
+			rightBottomX = (int)Math.floor((playerLoc.x+playerSize.x-0.1f)/TILE_SIZE);
+			rightBottomY = (int)Math.floor((playerLoc.y+playerSize.y-0.1f+PLAYER_SPEED)/TILE_SIZE);
+			if (!(isBlocked(leftBottomX,leftBottomY) || isBlocked(rightBottomX,rightBottomY))) {
 				if (slidingPos.y >= slidingMax.y) {
 					off.y -= PLAYER_SPEED;
 				} else {
@@ -71,11 +70,11 @@ public abstract class Layer extends Entity {
 			}
 		} else if (input.isKeyDown(Input.KEY_UP)) {
 			int leftTopX, leftTopY, rightTopX, rightTopY;
-			leftTopX = (int)Math.floor((playerLoc.x)/32);
-			leftTopY = (int)Math.floor((playerLoc.y-PLAYER_SPEED)/32);
-			rightTopX = (int)Math.floor((playerLoc.x+playerSize.x-0.1f)/32);
-			rightTopY = (int)Math.floor((playerLoc.y-PLAYER_SPEED)/32);
-			if (!(isBlocked(leftTopX,leftTopY) || isBlocked(rightTopX,rightTopY))){
+			leftTopX = (int)Math.floor((playerLoc.x)/TILE_SIZE);
+			leftTopY = (int)Math.floor((playerLoc.y-PLAYER_SPEED)/TILE_SIZE);
+			rightTopX = (int)Math.floor((playerLoc.x+playerSize.x-0.1f)/TILE_SIZE);
+			rightTopY = (int)Math.floor((playerLoc.y-PLAYER_SPEED)/TILE_SIZE);
+			if (!(isBlocked(leftTopX,leftTopY) || isBlocked(rightTopX,rightTopY))) {
 				if (slidingPos.y <= slidingMin.y) {
 					off.y += PLAYER_SPEED;
 				} else {
@@ -88,11 +87,11 @@ public abstract class Layer extends Entity {
 		
 		if(input.isKeyDown(Input.KEY_RIGHT)) {
 			int topRightX, topRightY, bottomRightX, bottomRightY;
-			topRightX = (int)Math.floor((playerLoc.x+playerSize.x-0.1f+PLAYER_SPEED)/32);
-			topRightY = (int)Math.floor((playerLoc.y)/32);
-			bottomRightX = (int)Math.floor((playerLoc.x+playerSize.x-0.1f+PLAYER_SPEED)/32);
-			bottomRightY = (int)Math.floor((playerLoc.y+playerSize.y-0.1f)/32);
-			if (!(isBlocked(topRightX,topRightY) || isBlocked(bottomRightX,bottomRightY))){
+			topRightX = (int)Math.floor((playerLoc.x+playerSize.x-0.1f+PLAYER_SPEED)/TILE_SIZE);
+			topRightY = (int)Math.floor((playerLoc.y)/TILE_SIZE);
+			bottomRightX = (int)Math.floor((playerLoc.x+playerSize.x-0.1f+PLAYER_SPEED)/TILE_SIZE);
+			bottomRightY = (int)Math.floor((playerLoc.y+playerSize.y-0.1f)/TILE_SIZE);
+			if (!(isBlocked(topRightX,topRightY) || isBlocked(bottomRightX,bottomRightY))) {
 				if (slidingPos.x >= slidingMax.x) {
 					off.x -= PLAYER_SPEED;
 				} else {
@@ -103,12 +102,11 @@ public abstract class Layer extends Entity {
 			}
 		} else if (input.isKeyDown(Input.KEY_LEFT)) {
 			int topLeftX, topLeftY, bottomLeftX, bottomLeftY;
-			topLeftX = (int)Math.floor((playerLoc.x-PLAYER_SPEED)/32);
-			topLeftY = (int)Math.floor((playerLoc.y)/32);
-			bottomLeftX = (int)Math.floor((playerLoc.x-PLAYER_SPEED)/32);
-			bottomLeftY = (int)Math.floor((playerLoc.y+playerSize.y-0.1f)/32);
-			//logger.info((playerLoc.x-PLAYER_SPEED)/32 + "," + topLeftY);
-			if (!(isBlocked(topLeftX,topLeftY) || isBlocked(bottomLeftX,bottomLeftY))){
+			topLeftX = (int)Math.floor((playerLoc.x-PLAYER_SPEED)/TILE_SIZE);
+			topLeftY = (int)Math.floor((playerLoc.y)/TILE_SIZE);
+			bottomLeftX = (int)Math.floor((playerLoc.x-PLAYER_SPEED)/TILE_SIZE);
+			bottomLeftY = (int)Math.floor((playerLoc.y+playerSize.y-0.1f)/TILE_SIZE);
+			if (!(isBlocked(topLeftX,topLeftY) || isBlocked(bottomLeftX,bottomLeftY))) {
 				if (slidingPos.x <= slidingMin.x) {
 					off.x += PLAYER_SPEED;
 				} else {
