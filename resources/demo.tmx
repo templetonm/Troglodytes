@@ -4,19 +4,7 @@
   <property name="Name" value="The Forest"/>
  </properties>
  <tileset firstgid="1" source="tileset.tsx"/>
- <tileset firstgid="153" name="attributes" tilewidth="32" tileheight="32">
-  <image source="attributes.png" width="64" height="32"/>
-  <tile id="0">
-   <properties>
-    <property name="Type" value="Wall"/>
-   </properties>
-  </tile>
-  <tile id="1">
-   <properties>
-    <property name="Type" value="Warp"/>
-   </properties>
-  </tile>
- </tileset>
+ <tileset firstgid="153" source="attributes.tsx"/>
  <layer name="Ground" width="50" height="50">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC81ZS7LDMAjzsvNuleOFXXLitykzjCowxnbTBZM0/kkI/OurtfYy9pe0O/jule00xuF4W5aHJPh9i4eOr0/L43r/Roy2jjjcBHh+yy6C0dMiqhNht9wk2SZr2XjQ+MfYQz0rmKTN63cbLRg3jCH9pjHH4u6G9xl8o20PM671vZbbuLsMD88H1r+R5itiCsdX3CyPbRmr58Uh02iHJjcYYrXxfwT9ZtYPaXyujtpim4hH5ptys/0yTMw0DlfGTwZzT1f8bXNiJH4yfh7hsWotxnz49hqPY3p+svWifRa+Z/js4u3lTTUWRvKjOobHA/OTYblI2dU+5wC1LEZpubmKzbc9P0b1vLLd81SkJWK6DF+2fnv73QrvStz8wZgRl1V+3j2HIS5xyrGe9/0Js5i9XBaojzyx7Qll+HuVvmrRvg99zTRCjj28Wuc0dT0OV8vtaYRgt/xYn4xP5HfrC8R9Oobj9fTyeCjOaF9+El6IBTF7GFg8Yj/Z2LLnO3Y+Qp8wzDguYrxIm1nDvOidjTAPFBPWP5sfd8rB6og5Vsk3T+coBiyPTP5lsfRy2vNNto60OI8wVtTf6Ncnja2Nlhdqx/JjdB3BOhVfSNBW4Hvv/nSF7dbTntXR9yNjn+Q5O5d5+XXAu7Ud/p/hweaJHk6vvIJD2tjcNqtHlmPVKhxm9peYG1l8do/FcGf3Uyt5zGq/6tzi7Z8wVzCne+et3T7s9cfexTw1lrz7EX1WeFVN2icW1Dvj8xG/rtBAkn4aHasX4zLR9ywmq0vvDBhpp77zNN51L5GdP7LjK4eVcVCJ42guz3Cu/ufxtE6qAXvuwJM1u25EucKwSnHM1Twz40f568Xhbt9X2vzCPWgVG8ZZrx+2z8muvbu1jO4Zd2g3qzvexeEetbe2/UrcZe99n7Z/9hUc6hAnAAA=
@@ -32,9 +20,18 @@
    H4sIAAAAAAAAC+2YwQrEIAxEvWz31Pb//3aFpaeFNiEbneB7kJuIycyI2NqXV6+t17uNZ+919Dof1lnOaN1rJtEzztTqn1TQCjTxZEA5L54MqOQlY54zNMqYp4pGq6KcdQ9eH1n6rjAbS99k7JcK2lpA23FkeWa0F7M8gxdhNtlZGvVuuMtS9v6eNRFWui94b0AV8GoezNYG/5VwoayvB/R9Bq1BjdU8GelXaVaRDJJfqIZS9iKQvTp8ALRXOtUQJwAA
   </data>
  </layer>
- <layer name="Attributes" width="50" height="50">
+ <layer name="Wall" width="50" height="50">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3YQQ6AIAwEQP7/A32tB+MdYitgZx5gYLs1xtaIdCz6rCw7nPELcridsw/ANCM7YF9iZeRpRkSo2qOee1fNpgKzZVRWZ3QRYmTv0grfDd4X+zEzdqGreWTbx/9KHuZbh1mzmmqdfHPfalnBKv6+exdM+/L/ECcAAA==
+   H4sIAAAAAAAAC+3YQQ6AMAgEwP7/B/7Wk/c2ggGZeYCxy9IY1yLSVfRZWTq84xfkwHQnO2BfYmXkaUZEmNqjnXNPzWYCs+VUVmd0EWJk71KF7wb3RT9mRhe6mke2e/yv5GG+c5g11Uzr5JvzTssKqvj77t2S0AeUECcAAA==
   </data>
  </layer>
+ <objectgroup name="Attributes" width="50" height="50">
+  <object name="MushroomWarp" type="Warp" gid="0" x="833" y="189" width="1024" height="1024">
+   <properties>
+    <property name="Map" value="demo1.tmx"/>
+    <property name="X" value="5"/>
+    <property name="Y" value="5"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

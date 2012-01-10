@@ -1,5 +1,7 @@
 package com.turbonips.troglodytes.entities;
 
+import org.newdawn.slick.Image;
+
 // This is a support class for Enemy.
 public class EnemyData
 {
@@ -19,6 +21,9 @@ public class EnemyData
 	private int mspd;
 	private boolean flier;
 	private int loot;
+	private int x;
+	private int y;
+	private Image image;
 
 	public String getName () {return name;}
 	public int getSize() {return size;}
@@ -33,6 +38,9 @@ public class EnemyData
 	public int getMspd() {return mspd;}
 	public boolean getFlier() {return flier;}
 	public int getLoot() {return loot;}
+	public Image getImage() {return image;}
+	public int getX() {return x;}
+	public int getY() {return y;}
 	
 	public void setName (String newName) { name = newName; }
 	public void setSize (int newSize) { size = newSize; }
@@ -47,4 +55,7 @@ public class EnemyData
 	public void setMspd (int newMspd) { mspd = newMspd; }
 	public void setFlier (boolean newFlier) { flier = newFlier; }
 	public void setLoot (int newLoot) { loot = newLoot; }
+	public void setImage(Image image) { this.image = image; }
+	public void setX(int x) { this.x = x; }
+	public void setY(int y) { this.y = y; }
 }

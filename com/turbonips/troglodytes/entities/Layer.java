@@ -1,7 +1,9 @@
 package com.turbonips.troglodytes.entities;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
@@ -10,18 +12,16 @@ public abstract class Layer extends Entity {
 	
 	protected TiledMap tiledMap;
 	protected Vector2f off;
-	private final int PLAYER_SPEED = 8;
-	private final int ATTRIBUTE_LAYER = 3;
-	
-	// Attributes
+	protected final int PLAYER_SPEED = 8;
+	protected final int ATTRIBUTE_LAYER = 3;
 	private final int NONE_ATT = 0;
 	private final int WALL_ATT = 1;
 	private final int WARP_ATT = 2;
 	
-	// UGLY HACK
+	// Ugly HACK for region attributes
 	private int groupID = 0;
 	private int objectID = 0;
-	
+
 	protected Vector2f slidingMin;
 	protected Vector2f slidingMax;
 	protected Vector2f slidingPos;
@@ -29,8 +29,23 @@ public abstract class Layer extends Entity {
 	protected final Vector2f playerSize;
 	protected final int TILE_SIZE;
 	
+	protected EnemyData enemyData;
+	
 	public Layer(TiledMap tiledMap) {
 		this.tiledMap = tiledMap;
+		
+		// TODO: This should probably be passed into Layer
+	    enemyData = new EnemyData();
+		enemyData.setX(0);
+		enemyData.setY(0);
+		
+		try {
+			enemyData.setImage(new Image("resources/enemy.png"));
+		} catch (SlickException ex) {
+			logger.fatal(ex);
+		}
+		
+		
 		playerLoc = new Vector2f(0, 0);
 		playerSize = new Vector2f(32, 32);
 		slidingPos = new Vector2f(0, 0);
@@ -39,6 +54,7 @@ public abstract class Layer extends Entity {
 		off = new Vector2f(0,0);
 		TILE_SIZE=32;
 	}
+	
 	
 	private int getAttribute(int tileX, int tileY) {
 		int attribute = NONE_ATT;
@@ -119,20 +135,26 @@ public abstract class Layer extends Entity {
 		}
 	}
 	
-	private void warpPlayer(String warpMap, int warpX, int warpY) throws Exception {
+	private void warpPlayer(String warpMap, int warpX, int warpY) throws SlickException {
 		this.tiledMap = new TiledMap("resources/" + warpMap);
 		this.playerLoc = new Vector2f(warpX*TILE_SIZE, warpY*TILE_SIZE);
 		this.slidingPos = new Vector2f(0, 0);
 		this.off = new Vector2f(warpX*-TILE_SIZE, warpY*-TILE_SIZE);
+	    enemyData = new EnemyData();
+		enemyData.setX(0);
+		enemyData.setY(0);
+		try {
+			enemyData.setImage(new Image("resources/enemy.png"));
+		} catch (SlickException ex) {
+			logger.fatal(ex);
+		}
 	}
 	
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) {
-		
 		int attVertical = NONE_ATT;
 		int attHorizontal = NONE_ATT;
-		
-		
+
 		Input input = container.getInput();
 		if(input.isKeyDown(Input.KEY_DOWN)) {
 			int leftBottomX, leftBottomY, rightBottomX, rightBottomY;
@@ -185,8 +207,7 @@ public abstract class Layer extends Entity {
 			   int warpY = Integer.valueOf(tiledMap.getObjectProperty(groupID, objectID, "Y", "0"));
 				try {
 					warpPlayer(warpMap, warpX, warpY);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
+				} catch (SlickException e) {
 					logger.fatal(e);
 				}
 
