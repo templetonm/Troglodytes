@@ -8,6 +8,7 @@
  </tile>
  <tile id="1">
   <properties>
+   <property name="Map" value="demo1.tmx"/>
    <property name="Type" value="Warp"/>
   </properties>
  </tile>
