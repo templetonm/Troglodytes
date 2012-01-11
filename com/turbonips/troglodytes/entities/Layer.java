@@ -1,9 +1,11 @@
 package com.turbonips.troglodytes.entities;
 
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
@@ -30,18 +32,46 @@ public abstract class Layer extends Entity {
 	protected final int TILE_SIZE;
 	
 	protected EnemyData enemyData;
+
+	// hack for player sprites and animation
+	protected SpriteSheet playerSheet;
+	protected Animation upAnim;
+	protected Animation downAnim;
+	protected Animation leftAnim;
+	protected Animation rightAnim;
+	protected Animation idleAnim;
+	protected Animation playerAnimation;
 	
 	public Layer(TiledMap tiledMap) {
 		this.tiledMap = tiledMap;
 		
 		createSampleMonster();
-		playerLoc = new Vector2f(14*32, 36*32);
+		playerLoc = new Vector2f(0, 0);
 		playerSize = new Vector2f(32, 32);
 		slidingPos = new Vector2f(0, 0);
 		slidingMin = new Vector2f(-100,-100);
 		slidingMax = new Vector2f(100, 100);
+		off = new Vector2f(0,0);
 		TILE_SIZE=32;
-		off = new Vector2f(playerLoc.x*-1, playerLoc.y*-1);
+		
+		// hack for player sprites and animation
+		try
+		{
+			playerSheet = new SpriteSheet(new Image("resources/demoCharTest.png"), 32, 64);
+			Image[] upImgs = {playerSheet.getSubImage(0, 2), playerSheet.getSubImage(1, 2), playerSheet.getSubImage(2, 2), playerSheet.getSubImage(3, 2), playerSheet.getSubImage(4, 2), playerSheet.getSubImage(5, 2), playerSheet.getSubImage(6, 2)};
+			upAnim = new Animation(upImgs, 60);
+			Image[] leftImgs = {playerSheet.getSubImage(0, 1), playerSheet.getSubImage(1, 1), playerSheet.getSubImage(2, 1), playerSheet.getSubImage(3, 1), playerSheet.getSubImage(4, 1), playerSheet.getSubImage(5, 1), playerSheet.getSubImage(6, 1)};
+			leftAnim = new Animation(leftImgs, 60);
+			Image[] rightImgs = {playerSheet.getSubImage(0, 3), playerSheet.getSubImage(1, 3), playerSheet.getSubImage(2, 3), playerSheet.getSubImage(3, 3), playerSheet.getSubImage(4, 3), playerSheet.getSubImage(5, 3), playerSheet.getSubImage(6, 3)};
+			rightAnim = new Animation(rightImgs, 60);
+			Image[] downImgs = {playerSheet.getSubImage(0, 0), playerSheet.getSubImage(1, 0), playerSheet.getSubImage(2, 0), playerSheet.getSubImage(3, 0), playerSheet.getSubImage(4, 0), playerSheet.getSubImage(5, 0), playerSheet.getSubImage(6, 0)};
+			downAnim = new Animation(downImgs, 60);
+			Image[] idleImgs = {playerSheet.getSubImage(0, 0)};
+			idleAnim = new Animation(idleImgs, 300);
+			playerAnimation = downAnim;
+		} catch (SlickException ex){
+			logger.fatal(ex);
+		}
 	}
 	
 	private void createSampleMonster() {
@@ -67,14 +97,15 @@ public abstract class Layer extends Entity {
 			attribute = WALL_ATT;
 		} else {
 			int tileId = tiledMap.getTileId(tileX, tileY, ATTRIBUTE_LAYER);
-			if (tileId > 0) {
+			String attType = tiledMap.getTileProperty(tileId, "Type", "None").toLowerCase();
+			if (attType.equals("wall")) {
 				attribute = WALL_ATT;
 			} else {
 				for (int groupID=0; groupID<tiledMap.getObjectGroupCount(); groupID++) {
 					for (int objectID=0; objectID<tiledMap.getObjectCount(groupID); objectID++) {
 						int x = tiledMap.getObjectX(groupID, objectID)/TILE_SIZE;
 						int y = tiledMap.getObjectY(groupID, objectID)/TILE_SIZE;
-						String attType = tiledMap.getObjectType(groupID, objectID).toLowerCase();
+						attType = tiledMap.getObjectType(groupID, objectID).toLowerCase();
 						
 						if (x == tileX && y == tileY) {
 							if (attType.equals("warp")) {
@@ -99,6 +130,9 @@ public abstract class Layer extends Entity {
 	
 	private void moveVertical(Input input) {
 		if(input.isKeyDown(Input.KEY_DOWN)) {
+			
+			playerAnimation = downAnim;
+			
 			if (slidingPos.y >= slidingMax.y) {
 				off.y -= PLAYER_SPEED;
 			} else {
@@ -107,6 +141,9 @@ public abstract class Layer extends Entity {
 			
 			playerLoc.y += PLAYER_SPEED;
 		} else if (input.isKeyDown(Input.KEY_UP)) {
+			
+			playerAnimation = upAnim;
+			
 			if (slidingPos.y <= slidingMin.y) {
 				off.y += PLAYER_SPEED;
 			} else {
@@ -118,6 +155,9 @@ public abstract class Layer extends Entity {
 	
 	private void moveHorizontal(Input input) {
 		if(input.isKeyDown(Input.KEY_RIGHT)) {
+			
+			playerAnimation = rightAnim;
+			
 			if (slidingPos.x >= slidingMax.x) {
 				off.x -= PLAYER_SPEED;
 			} else {
@@ -126,6 +166,9 @@ public abstract class Layer extends Entity {
 
 			playerLoc.x += PLAYER_SPEED;
 		} else if (input.isKeyDown(Input.KEY_LEFT)) {
+			
+			playerAnimation = leftAnim;
+			
 			if (slidingPos.x <= slidingMin.x) {
 				off.x += PLAYER_SPEED;
 			} else {
@@ -136,6 +179,14 @@ public abstract class Layer extends Entity {
 		}
 	}
 	
+	private void checkForNoMoveInput(Input input)
+	{
+		if(!input.isKeyDown(Input.KEY_RIGHT) && !input.isKeyDown(Input.KEY_LEFT) && !input.isKeyDown(Input.KEY_DOWN) && !input.isKeyDown(Input.KEY_UP))
+		{
+			playerAnimation = idleAnim;
+		}
+	}
+	
 	private void warpPlayer(String warpMap, int warpX, int warpY) throws SlickException {
 		this.tiledMap = new TiledMap("resources/" + warpMap);
 		this.playerLoc = new Vector2f(warpX*TILE_SIZE, warpY*TILE_SIZE);
@@ -143,7 +194,7 @@ public abstract class Layer extends Entity {
 		this.off = new Vector2f(warpX*-TILE_SIZE, warpY*-TILE_SIZE);
 		
 		// HACK to make the monster spawn on demo map only
-		if (warpMap.equals("trog2.tmx")) {
+		if (warpMap.equals("demo.tmx")) {
 			createSampleMonster();
 		} else {
 			enemyData = null;
@@ -154,11 +205,8 @@ public abstract class Layer extends Entity {
 	public void update(GameContainer container, StateBasedGame game, int delta) {
 		int attVertical = NONE_ATT;
 		int attHorizontal = NONE_ATT;
-		
-		
 
 		Input input = container.getInput();
-		if(input.isKeyDown(Input.KEY_ESCAPE)) container.exit();
 		if(input.isKeyDown(Input.KEY_DOWN)) {
 			int leftBottomX, leftBottomY, rightBottomX, rightBottomY;
 			leftBottomX = (int)Math.floor((playerLoc.x)/TILE_SIZE);
@@ -199,6 +247,8 @@ public abstract class Layer extends Entity {
 	   if (attVertical != WALL_ATT) {
 		   moveVertical(input);
 	   }
+	   
+	   checkForNoMoveInput(input);
 	   
 	   int att = attVertical;
 	   if (attHorizontal != NONE_ATT) att = attHorizontal;
