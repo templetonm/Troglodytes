@@ -53,7 +53,7 @@ public abstract class Layer extends Entity {
 		
 		createSampleMonster();
 		playerLoc = new Vector2f(14*32, 36*32);
-		playerSize = new Vector2f(32, 64);
+		playerSize = new Vector2f(32, 32);
 		slidingPos = new Vector2f(0, 0);
 		slidingMin = new Vector2f(-100,-100);
 		slidingMax = new Vector2f(100, 100);
@@ -68,7 +68,7 @@ public abstract class Layer extends Entity {
 			upAnim = new Animation(upImgs, 60);
 			Image[] leftImgs = {playerSheet.getSubImage(0, 1), playerSheet.getSubImage(1, 1), playerSheet.getSubImage(2, 1), playerSheet.getSubImage(3, 1), playerSheet.getSubImage(4, 1), playerSheet.getSubImage(5, 1), playerSheet.getSubImage(6, 1)};
 			leftAnim = new Animation(leftImgs, 60);
-			Image[] rightImgs = {playerSheet.getSubImage(0, 3), playerSheet.getSubImage(1, 3), playerSheet.getSubImage(2, 3), playerSheet.getSubImage(3, 3), playerSheet.getSubImage(4, 3), playerSheet.getSubImage(5, 3), playerSheet.getSubImage(6, 3)};
+			Image[] rightImgs = {playerSheet.getSubImage(6, 3), playerSheet.getSubImage(5, 3), playerSheet.getSubImage(4, 3), playerSheet.getSubImage(3, 3), playerSheet.getSubImage(2, 3), playerSheet.getSubImage(1, 3), playerSheet.getSubImage(0, 3)};
 			rightAnim = new Animation(rightImgs, 60);
 			Image[] downImgs = {playerSheet.getSubImage(0, 0), playerSheet.getSubImage(1, 0), playerSheet.getSubImage(2, 0), playerSheet.getSubImage(3, 0), playerSheet.getSubImage(4, 0), playerSheet.getSubImage(5, 0), playerSheet.getSubImage(6, 0)};
 			downAnim = new Animation(downImgs, 60);
@@ -230,34 +230,34 @@ public abstract class Layer extends Entity {
 		if(input.isKeyDown(Input.KEY_DOWN)) {
 			int leftBottomX, leftBottomY, rightBottomX, rightBottomY;
 			leftBottomX = (int)Math.floor((playerLoc.x)/TILE_SIZE);
-			leftBottomY = (int)Math.floor((playerLoc.y+playerSize.y-0.1f+PLAYER_SPEED)/TILE_SIZE);
+			leftBottomY = (int)Math.floor((playerLoc.y+playerSize.y*2-0.1f+PLAYER_SPEED)/TILE_SIZE);
 			rightBottomX = (int)Math.floor((playerLoc.x+playerSize.x-0.1f)/TILE_SIZE);
-			rightBottomY = (int)Math.floor((playerLoc.y+playerSize.y-0.1f+PLAYER_SPEED)/TILE_SIZE);
+			rightBottomY = (int)Math.floor((playerLoc.y+playerSize.y*2-0.1f+PLAYER_SPEED)/TILE_SIZE);
 			attVertical = getAttribute(leftBottomX,leftBottomY,rightBottomX,rightBottomY);
 			
 		} else if (input.isKeyDown(Input.KEY_UP)) {
 			int leftTopX, leftTopY, rightTopX, rightTopY;
 			leftTopX = (int)Math.floor((playerLoc.x)/TILE_SIZE);
-			leftTopY = (int)Math.floor((playerLoc.y-PLAYER_SPEED)/TILE_SIZE);
+			leftTopY = (int)Math.floor((playerLoc.y-PLAYER_SPEED+playerSize.y)/TILE_SIZE);
 			rightTopX = (int)Math.floor((playerLoc.x+playerSize.x-0.1f)/TILE_SIZE);
-			rightTopY = (int)Math.floor((playerLoc.y-PLAYER_SPEED)/TILE_SIZE);
+			rightTopY = (int)Math.floor((playerLoc.y-PLAYER_SPEED+playerSize.y)/TILE_SIZE);
 			attVertical = getAttribute(leftTopX,leftTopY,rightTopX,rightTopY);
 		}
 		
 	   if(input.isKeyDown(Input.KEY_RIGHT)) {
 			int topRightX, topRightY, bottomRightX, bottomRightY;
 			topRightX = (int)Math.floor((playerLoc.x+playerSize.x-0.1f+PLAYER_SPEED)/TILE_SIZE);
-			topRightY = (int)Math.floor((playerLoc.y)/TILE_SIZE);
+			topRightY = (int)Math.floor((playerLoc.y+playerSize.y)/TILE_SIZE);
 			bottomRightX = (int)Math.floor((playerLoc.x+playerSize.x-0.1f+PLAYER_SPEED)/TILE_SIZE);
-			bottomRightY = (int)Math.floor((playerLoc.y+playerSize.y-0.1f)/TILE_SIZE);
+			bottomRightY = (int)Math.floor((playerLoc.y+playerSize.y+playerSize.y-0.1f)/TILE_SIZE);
 			attHorizontal = getAttribute(topRightX,topRightY,bottomRightX,bottomRightY);
 			
 		} else if (input.isKeyDown(Input.KEY_LEFT)) {
 			int topLeftX, topLeftY, bottomLeftX, bottomLeftY;
 			topLeftX = (int)Math.floor((playerLoc.x-PLAYER_SPEED)/TILE_SIZE);
-			topLeftY = (int)Math.floor((playerLoc.y)/TILE_SIZE);
+			topLeftY = (int)Math.floor((playerLoc.y+playerSize.y)/TILE_SIZE);
 			bottomLeftX = (int)Math.floor((playerLoc.x-PLAYER_SPEED)/TILE_SIZE);
-			bottomLeftY = (int)Math.floor((playerLoc.y+playerSize.y-0.1f)/TILE_SIZE);
+			bottomLeftY = (int)Math.floor((playerLoc.y+playerSize.y+playerSize.y-0.1f)/TILE_SIZE);
 			attHorizontal = getAttribute(topLeftX,topLeftY,bottomLeftX,bottomLeftY);
 		}
 	   
