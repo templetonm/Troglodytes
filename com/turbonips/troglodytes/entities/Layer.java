@@ -35,7 +35,7 @@ public abstract class Layer extends Entity {
 		this.tiledMap = tiledMap;
 		
 		createSampleMonster();
-		playerLoc = new Vector2f(21*32, 20*32);
+		playerLoc = new Vector2f(14*32, 36*32);
 		playerSize = new Vector2f(32, 32);
 		slidingPos = new Vector2f(0, 0);
 		slidingMin = new Vector2f(-100,-100);
@@ -143,7 +143,7 @@ public abstract class Layer extends Entity {
 		this.off = new Vector2f(warpX*-TILE_SIZE, warpY*-TILE_SIZE);
 		
 		// HACK to make the monster spawn on demo map only
-		if (warpMap.equals("trog1.tmx")) {
+		if (warpMap.equals("trog2.tmx")) {
 			createSampleMonster();
 		} else {
 			enemyData = null;
@@ -154,8 +154,11 @@ public abstract class Layer extends Entity {
 	public void update(GameContainer container, StateBasedGame game, int delta) {
 		int attVertical = NONE_ATT;
 		int attHorizontal = NONE_ATT;
+		
+		
 
 		Input input = container.getInput();
+		if(input.isKeyDown(Input.KEY_ESCAPE)) container.exit();
 		if(input.isKeyDown(Input.KEY_DOWN)) {
 			int leftBottomX, leftBottomY, rightBottomX, rightBottomY;
 			leftBottomX = (int)Math.floor((playerLoc.x)/TILE_SIZE);

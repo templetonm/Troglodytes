@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="40" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="Cave1" tilewidth="32" tileheight="32">
+  <image source="cave.png" width="512" height="256"/>
+ </tileset>
+ <tileset firstgid="129" name="Cave2" tilewidth="32" tileheight="32">
+  <image source="cave_bilevel.png" width="512" height="512"/>
+ </tileset>
+ <tileset firstgid="385" name="Collision" tilewidth="32" tileheight="32">
+  <image source="collision.png" width="64" height="32"/>
+ </tileset>
+ <tileset firstgid="387" name="Cave3" tilewidth="32" tileheight="32">
+  <image source="set_cave.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="451" name="Out1" tilewidth="32" tileheight="32">
+  <image source="Woodland_ground.png" width="512" height="512"/>
+ </tileset>
+ <tileset firstgid="707" name="Out2" tilewidth="32" tileheight="32">
+  <image source="Woodland_swamp.png" width="512" height="512"/>
+ </tileset>
+ <tileset firstgid="963" name="Out3" tilewidth="32" tileheight="32">
+  <image source="Woodland_x2.png" width="512" height="128"/>
+ </tileset>
+ <tileset firstgid="1027" name="Out4" tilewidth="32" tileheight="32">
+  <image source="Woodland_x3.png" width="512" height="192"/>
+ </tileset>
+ <tileset firstgid="1123" name="Out5" tilewidth="32" tileheight="32">
+  <image source="Forest_cover.png" width="320" height="320"/>
+ </tileset>
+ <layer name="Ground" width="20" height="40">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC5WWS3LbMBBESbASH0ByfP+zIC45azjlZM1Ikda09wYTtPTYGsrlBUogPm8a8wFU+q4r1qbacjA+t7HNq782P4Hl7Iib8SuGs/StNRl9cmhjxFrumYzlOlwLtVMXtWYbL2bX7WXjjSv9EtgaAzvk+5qcuu4xXXg8W+Rf+kc6p7Z/Zj0MXXeov99bE5s86R4wN/dLY/xt/aGyjmnZDo1Z2p65MZbUODXWsa3fVN62tpc29lTbDzA9t+WLQXPQscjTNvartt+t/63aeUvX+UW/OS8aP6H/ZVie2+uD+xivyI+ukWf/Fxf4TjzFb40njWO/zGE/E3lTy5k13k/3tXTYOuWbsxRj6pPvWEfi7bB2F+hhjBkT1vK44qOvdewuGD9h/n6I78GIN9tWTv9Jl7wWa58uuaIzq8bcT7LNtZvG3UKXao0+lLZn8PbpUtesUepRbjhvE/hpSPGd4UzPu7yicQCzmDbaKcY/361BPjuP96jmcr+Mxa364LrSX5+dtrLZnM+7C3hikh/FhI0xeW4+pP1sDLL8DVnc/4gx3yCe2+86n6PODe72+W57TddvhRiRLX6fdaf/NeDvj8eU54pi7znpbxq1ZuNIl9cLv6O7U1pZf+T5f5DyAU9+FZO5F+Xp2nlv6SzYQ61eL7d4vOd5t9APnuNr74Wfmxx/08/vLfb5exFppB9zv4zLaDy+F2w70zgGLPr0I//5+xudlf79DM9zm3Wi9g7+atJ7gAwAAA==
+  </data>
+ </layer>
+ <layer name="Background" width="20" height="40">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC91VPWsCQRA9Tn/b5R+phaWYYC1GrIWAtSKX/5AiUbCy0ItftVGTzreEgeWyO7O3txD0wcNixrmdtzNvo4hHK46iGlgHG2An5vPrMc8u2AZfwCdwIOQ/ChyCPXAK9sGRkP8scAymWo+vQr4JWeX3963yNzZh9HtgYgliS9TbgwdDXV98o9ZPwHoKqg+uz3vGMrCWLlg4fpPmeov8nfAfbhbzOKPWJUDf+W+69sXhFvblP/CJHjYB+/hCrZNQjzxhhrw5k5t5niu1zOyxQD1dl6SEh5EPuOiiwGnSrPqfg9PyHbEPLe7iCyYtacdW4LqA1qRvfhZD7JjSPIR/2KBmzfS+F4HyO13zEG+HixcX9UTbHlD/vvdF906+ULZ/btckz5FAu1JmpvQz6LtC757Nv2yw7bavt6vdNnmAq4eZoM+j6Q6uVligKIAMAAA=
+  </data>
+ </layer>
+ <layer name="Foreground" width="20" height="40">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+WVz0oDMRDGA+4r6RvoG9QXqNCTgkKh0JNtPW2rp3Xtqf9OuvoUCr6W3+CEDiHJTtZgQT/42D3s/HYymUyM+V+6LYy5YOdQCc6CPYPvFFzKYQJP+XsZM8f7I1zDT/AQPokwiXVVfMdRDvfwA3zMccRawxt4y7yzCO/SYVEOS/iU4ySrZt55hFc566G4HdzjuBH8eWTMC54N/OZh2bWQVk4Or54Y4sVk10J6Lvb/DsW18XqBGnTlhdQ1LoUna52DJ2udQ6FaH0KaWqXUU1OrlHpqamW/mYp55Ood+/qh7L0JzzY7Q2YJc9FVxWd9LWbItZhxP+HJGULvN4k8WxPLbARzl6k/6TyNM/Z6l/kR698Yr8/9ZO/aAfdArH9DvD73VO2559we15y3UnDk3bT0xGnOWyk4sq98d5nmTFYOJ5RbiuQd1xywp9r2x/K0M6dtf1Lzk/uTMvf+on5j/V8TpQwzgAwAAA==
+  </data>
+ </layer>
+ <layer name="Collision" width="20" height="40">
+  <properties>
+   <property name="Type" value="Wall"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+WUSwrAIAxE7dU9ebdDaTSfp1Q64EbGhxNN+tVa37xUp/P+KqIOeq5a2+eZ6ntZ/iwzwvMw1VfNPfJl/j7VS5qv2seRe+zgjWT5SZblm4nqeysToRN5RD2/mleZNG/Wl1nmiloSzMwMyPCIv0gwq7M0wvHO0wxXvcQ9vaJyE7y3/RskfcIHgAwAAA==
+  </data>
+ </layer>
+ <objectgroup name="Attributes" width="20" height="40">
+  <object name="Warp to Cave" type="Warp" x="294" y="35" width="32" height="32">
+   <properties>
+    <property name="Map" value="trog1.tmx"/>
+    <property name="X" value="46"/>
+    <property name="Y" value="16"/>
+   </properties>
+  </object>
+  <object name="Warp to Cave" type="Warp" x="337" y="34" width="32" height="32">
+   <properties>
+    <property name="Map" value="trog1.tmx"/>
+    <property name="X" value="46"/>
+    <property name="Y" value="16"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

@@ -32,15 +32,22 @@
    <property name="Type" value="Wall"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2UwQ7CMAxDx6/z5ZyQENrUtU1iO7MlH2lfXsrer+N4u67ruq7ruq7rNu1V0Fzd++/ae6h1PhM0t3p3g+ZXbGTQsyi0IugZq/yx+O7mXzlod918zgTtGeWcYcdo39EOGJzeTRfnbLkzH9J7d/+j+K3j8jTvTLyK3hWZUXOocNo9jnPEHL0Pu+/53u1eb5ar37BxrobVO5K7IsxvHsVfkUrvmTOx82UyM83FyLTDqOR+Ngg2e4/Jynx2j4m/N7h08q625y7uV+5H7udJ3tm+gx3cM7NlMqNnU2DM5lZ3Xx0G77suFL1Hce/MFuXE3uPe/KqbSOfRe/r9vYr7nblXz8n8r1R5R7tfSTaPovsK/xkzRpzP4D7bf6b7au93uOxex33mDjIZEO5HjNm7nU3WvYzuo7kiknE+g/szfjb3Z0yRZzG9+0g+REb3sruP4GQL0vmuEzXX36B9KziKDNoxq/+M+9E+WdxX7hbtkdF/VtDOnuIf7ab7DtBzu67ruq7ruuN+AEWm0hfoZwAA
+   H4sIAAAAAAAAC+2UwQ7CMAxDx6/z5ZyQENrUtXViJ7MlH2lfXsrer+N4u67ruq7ruq7rNu1V2Fzd++/ae8h1PhM2d/Xuhs1fsciwZ2E4Y/p+4h5m52SE7QjpuFrY7rr5nAnbM8u5wo7ZvtEOFJzeTRfnarkzH9N7d/+j+K3z8jTvSrwVvVdkZs1RhdPueZwjZvQ+7L7ne7f7erNc/UaNczWq3pncGVF+8yz+jGR6j5xJnS+SWWkuRaYdxkruZ8Ngs3dMVuaze078veGlk/dqe+7ifuV+5n6e5F3tO9jBvTJbJDN7tgqM0dzV3WdHwfuui4reUdw7s6Gc2Dvuza+6QTpH7+n391Xc78y9ek7kfyXLO9v9SqJ5KrrP8B8xI+J8BffR/iPdZ3u/w2X3ddxH7iCSgeF+xBi929lE3avoHs2FSMT5Cu7P+NXcnzEhz1J690g+Rkb3qrtHcKqF6XzXSTXX37B9V3CEDNuxqv+I+9k+Vdxn7pbtUdF/VNjOnuKf7ab7Dthzu67ruq7ruuN+ABsH6njoZwAA
   </data>
  </layer>
  <objectgroup name="Attributes" width="95" height="70">
-  <object name="Warp To Forest" type="Warp" x="1441" y="448" width="92" height="32">
+  <object name="Warp To Forest" type="Warp" x="1446" y="416" width="32" height="32">
    <properties>
-    <property name="Map" value="demo.tmx"/>
-    <property name="X" value="5"/>
-    <property name="Y" value="5"/>
+    <property name="Map" value="trog2.tmx"/>
+    <property name="X" value="10"/>
+    <property name="Y" value="4"/>
+   </properties>
+  </object>
+  <object name="Warp To Forest" type="Warp" x="1492" y="416" width="32" height="32">
+   <properties>
+    <property name="Map" value="trog2.tmx"/>
+    <property name="X" value="10"/>
+    <property name="Y" value="4"/>
    </properties>
   </object>
  </objectgroup>
