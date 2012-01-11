@@ -41,6 +41,12 @@ public abstract class Layer extends Entity {
 	protected Animation rightAnim;
 	protected Animation idleAnim;
 	protected Animation playerAnimation;
+	// hack for enemy sprites and animation
+	protected SpriteSheet mobSheet;
+	protected Animation mobLeftAnim;
+	protected Animation mobRightAnim;
+	protected Animation mobIdleAnim;
+	protected Animation mobAnimation;
 	
 	public Layer(TiledMap tiledMap) {
 		this.tiledMap = tiledMap;
@@ -68,7 +74,22 @@ public abstract class Layer extends Entity {
 			downAnim = new Animation(downImgs, 60);
 			Image[] idleImgs = {playerSheet.getSubImage(0, 0)};
 			idleAnim = new Animation(idleImgs, 300);
-			playerAnimation = downAnim;
+			playerAnimation = idleAnim;
+		} catch (SlickException ex){
+			logger.fatal(ex);
+		}
+		// hack for mob sprite/anim
+		try
+		{
+			mobSheet = new SpriteSheet(new Image("resources/demoMobTest.png"), 64, 48);
+			Image[] leftImgs = {mobSheet.getSubImage(0, 1), mobSheet.getSubImage(1, 1), mobSheet.getSubImage(2, 1), mobSheet.getSubImage(3, 1), mobSheet.getSubImage(4, 1), mobSheet.getSubImage(5, 1)};
+			mobLeftAnim = new Animation(leftImgs, 60);
+			Image[] rightImgs = {mobSheet.getSubImage(0, 0), mobSheet.getSubImage(1, 0), mobSheet.getSubImage(2, 0), mobSheet.getSubImage(3, 0), mobSheet.getSubImage(4, 0), mobSheet.getSubImage(5, 0)};
+			mobRightAnim = new Animation(rightImgs, 60);
+			Image[] idleImg = {mobSheet.getSubImage(0, 0)};
+			mobIdleAnim = new Animation(idleImg, 300);
+			mobAnimation = mobIdleAnim;
+			
 		} catch (SlickException ex){
 			logger.fatal(ex);
 		}

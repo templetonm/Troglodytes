@@ -13,17 +13,10 @@ public class EnemyLayer extends Layer {
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
-		
-		if (enemyData != null) {
-			int x = (int)(off.x + container.getWidth()/2 - (playerSize.x/2))+enemyData.getX();
-			int y = (int)(off.y + container.getHeight()/2 - (playerSize.y/2))+enemyData.getY();
-			
-			if (enemyData.getX() < playerLoc.x) enemyData.setX(enemyData.getX()+enemyData.getSpeed());
-			if (enemyData.getY() < playerLoc.y) enemyData.setY(enemyData.getY()+enemyData.getSpeed());
-			if (enemyData.getX() > playerLoc.x) enemyData.setX(enemyData.getX()-enemyData.getSpeed());
-			if (enemyData.getY() > playerLoc.y) enemyData.setY(enemyData.getY()-enemyData.getSpeed());
-			//enemyData.setX(enemyData.getX()+enemyData.getSpeed());
-			enemyData.getImage().draw(x,y);
-		}
+		int x = (int)(off.x + container.getWidth()/2 - (playerSize.x/2))+enemyData.getX();
+		int y = (int)(off.y + container.getHeight()/2 - (playerSize.y/2))+enemyData.getY();
+		enemyData.setX(enemyData.getX()+1);
+		mobAnimation = mobRightAnim; // hardcoded here until the enemy does something other than move right.
+		mobAnimation.draw(x, y);
 	}
 }
