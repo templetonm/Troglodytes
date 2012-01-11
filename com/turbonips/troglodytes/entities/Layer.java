@@ -52,12 +52,12 @@ public abstract class Layer extends Entity {
 		this.tiledMap = tiledMap;
 		
 		createSampleMonster();
-		playerLoc = new Vector2f(0, 0);
-		playerSize = new Vector2f(32, 32);
+		playerLoc = new Vector2f(14*32, 36*32);
+		playerSize = new Vector2f(32, 64);
 		slidingPos = new Vector2f(0, 0);
 		slidingMin = new Vector2f(-100,-100);
 		slidingMax = new Vector2f(100, 100);
-		off = new Vector2f(0,0);
+		off = new Vector2f(playerLoc.x*-1, playerLoc.y*-1);
 		TILE_SIZE=32;
 		
 		// hack for player sprites and animation
@@ -118,15 +118,14 @@ public abstract class Layer extends Entity {
 			attribute = WALL_ATT;
 		} else {
 			int tileId = tiledMap.getTileId(tileX, tileY, ATTRIBUTE_LAYER);
-			String attType = tiledMap.getTileProperty(tileId, "Type", "None").toLowerCase();
-			if (attType.equals("wall")) {
+			if (tileId > 0) {
 				attribute = WALL_ATT;
 			} else {
 				for (int groupID=0; groupID<tiledMap.getObjectGroupCount(); groupID++) {
 					for (int objectID=0; objectID<tiledMap.getObjectCount(groupID); objectID++) {
 						int x = tiledMap.getObjectX(groupID, objectID)/TILE_SIZE;
 						int y = tiledMap.getObjectY(groupID, objectID)/TILE_SIZE;
-						attType = tiledMap.getObjectType(groupID, objectID).toLowerCase();
+						String attType = tiledMap.getObjectType(groupID, objectID).toLowerCase();
 						
 						if (x == tileX && y == tileY) {
 							if (attType.equals("warp")) {
