@@ -34,18 +34,7 @@ public abstract class Layer extends Entity {
 	public Layer(TiledMap tiledMap) {
 		this.tiledMap = tiledMap;
 		
-		// TODO: This should probably be passed into Layer
-	    enemyData = new EnemyData();
-		enemyData.setX(0);
-		enemyData.setY(0);
-		
-		try {
-			enemyData.setImage(new Image("resources/enemy.png"));
-		} catch (SlickException ex) {
-			logger.fatal(ex);
-		}
-		
-		
+		createSampleMonster();
 		playerLoc = new Vector2f(0, 0);
 		playerSize = new Vector2f(32, 32);
 		slidingPos = new Vector2f(0, 0);
@@ -53,6 +42,19 @@ public abstract class Layer extends Entity {
 		slidingMax = new Vector2f(100, 100);
 		off = new Vector2f(0,0);
 		TILE_SIZE=32;
+	}
+	
+	private void createSampleMonster() {
+		// TODO: This should probably be passed into Layer
+	    enemyData = new EnemyData();
+		enemyData.setX(tiledMap.getWidth()*32/2);
+		enemyData.setY(tiledMap.getHeight()*32/2);
+		enemyData.setSpeed(4);
+		try {
+			enemyData.setImage(new Image("resources/enemy.png"));
+		} catch (SlickException ex) {
+			logger.fatal(ex);
+		}
 	}
 	
 	
@@ -140,13 +142,12 @@ public abstract class Layer extends Entity {
 		this.playerLoc = new Vector2f(warpX*TILE_SIZE, warpY*TILE_SIZE);
 		this.slidingPos = new Vector2f(0, 0);
 		this.off = new Vector2f(warpX*-TILE_SIZE, warpY*-TILE_SIZE);
-	    enemyData = new EnemyData();
-		enemyData.setX(0);
-		enemyData.setY(0);
-		try {
-			enemyData.setImage(new Image("resources/enemy.png"));
-		} catch (SlickException ex) {
-			logger.fatal(ex);
+		
+		// HACK to make the monster spawn on demo map only
+		if (warpMap.equals("demo.tmx")) {
+			createSampleMonster();
+		} else {
+			enemyData = null;
 		}
 	}
 	

@@ -23,6 +23,7 @@ public class EnemyData
 	private int loot;
 	private int x;
 	private int y;
+	private int speed;
 	private Image image;
 
 	public String getName () {return name;}
@@ -41,6 +42,7 @@ public class EnemyData
 	public Image getImage() {return image;}
 	public int getX() {return x;}
 	public int getY() {return y;}
+	public int getSpeed() {return speed;}
 	
 	public void setName (String newName) { name = newName; }
 	public void setSize (int newSize) { size = newSize; }
@@ -58,4 +60,5 @@ public class EnemyData
 	public void setImage(Image image) { this.image = image; }
 	public void setX(int x) { this.x = x; }
 	public void setY(int y) { this.y = y; }
+	public void setSpeed(int speed) { this.speed = speed; }
 }
