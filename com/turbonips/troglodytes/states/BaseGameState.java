@@ -14,7 +14,7 @@ public abstract class BaseGameState extends BasicGameState {
 			throws SlickException {
 		logger.debug("Init");
 		container.setVSync(true);
-		container.setShowFPS(false);
+		container.setShowFPS(true);
 	}
 	
 	@Override

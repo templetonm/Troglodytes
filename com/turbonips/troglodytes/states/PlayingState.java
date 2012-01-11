@@ -21,7 +21,7 @@ public class PlayingState extends BaseGameState {
 		super.init(container, game);
 		
 		
-		TiledMap tiledMap = new TiledMap("resources/demo.tmx");
+		TiledMap tiledMap = new TiledMap("resources/trog1.tmx");
 		entities.add(new GroundLayer(tiledMap));
 		entities.add(new BgLayer(tiledMap));
 		entities.add(new PlayerLayer(tiledMap, new Image("resources/player.png")));
