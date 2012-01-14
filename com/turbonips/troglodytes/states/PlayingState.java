@@ -26,7 +26,7 @@ public class PlayingState extends BaseGameState {
 		
 		String spritePath = "resources/player.png";
 		logger.info("Loading " + spritePath);
-		Point playerPosition = new Point(13*32, 39*32);
+		Point playerPosition = new Point(46*32, 15*32);
 		int playerSpeed = 8;
 		Player player = new Player(spritePath, playerPosition, playerSpeed);
 		
