@@ -23,6 +23,7 @@ public class Map extends Entity {
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
+		g.clearAlphaMap();
 		
 		Point mapOffset = new Point(offset.x + container.getWidth()/2, offset.y + container.getHeight()/2);
 		g.setDrawMode(Graphics.MODE_NORMAL);
@@ -32,10 +33,13 @@ public class Map extends Entity {
 		tiledMap.render(mapOffset.x, mapOffset.y, 2);
 		
 		g.setDrawMode(Graphics.MODE_ALPHA_MAP);
-		g.setColor(new Color(0,0,0,225));
+		// Map darkness (higher is darker)
+		g.setColor(new Color(0,0,0,100));
 		g.fillRect(0, 0, container.getWidth(), container.getHeight());
-		player.drawLight(container, g, 75, 150);
+		// Player darkness (higher is darker)
+		player.drawLight(container, g, 75, 50);
 		
+		// This does the magic
 		g.setDrawMode(Graphics.MODE_ALPHA_BLEND);
 		g.setColor(new Color(0,0,0,255));
 		g.fillRect(0, 0, container.getWidth(), container.getHeight());
