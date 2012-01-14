@@ -7,20 +7,17 @@ import java.beans.XMLDecoder;
 
 import com.turbonips.troglodytes.entities.EnemyData;
 
-public class XMLSerializer
-{
+public class XMLSerializer {
 	private FileOutputStream fos;
 	private XMLEncoder xmle;
 	private FileInputStream fis;
 	private XMLDecoder xmld;
 
-	public XMLSerializer()
-	{
+	public XMLSerializer() {
 		
 	}
 	
-	public void SerializeObject(Object obj, String objName)
-	{
+	public void SerializeObject(Object obj, String objName) {
 		try
 		{
 			String objFilepath = objName; // TODO: Organize filepaths for XML files.
@@ -34,8 +31,7 @@ public class XMLSerializer
 		}
 	}
 	
-	public EnemyData DeserializeEnemyData(EnemyData enemyData, String enemyName)
-	{
+	public EnemyData DeserializeEnemyData(EnemyData enemyData, String enemyName) {
 		try
 		{
 			String objFilepath = enemyName; // See above todo message.

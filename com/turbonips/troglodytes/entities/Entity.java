@@ -7,7 +7,6 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public abstract class Entity {
 	protected final Logger logger = Logger.getLogger(getClass());
-	
 	public abstract void render(GameContainer container, StateBasedGame game, Graphics g);
 	public abstract void update(GameContainer container, StateBasedGame game, int delta);
 }
