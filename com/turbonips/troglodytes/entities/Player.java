@@ -20,7 +20,7 @@ public class Player extends Entity {
 	
 	public Player(String spritePath, Point position, int speed) throws SlickException {
 		playerImage = new Image(spritePath);
-		slidingBox = new Rectangle(speed*-15, speed*-15, speed*10, speed*10);
+		slidingBox = new Rectangle(speed*-15, speed*-10, speed*15, speed*10);
 		setPosition(position);
 		setSlidingPosition(new Point(0,0));
 		setSpeed(speed);
