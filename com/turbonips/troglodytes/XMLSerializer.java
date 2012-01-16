@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.beans.XMLEncoder;
 import java.beans.XMLDecoder;
 
-import com.turbonips.troglodytes.entities.EnemyData;
 
 public class XMLSerializer {
 	private FileOutputStream fos;

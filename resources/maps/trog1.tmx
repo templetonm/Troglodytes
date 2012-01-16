@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="95" height="70" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="Cave" tilewidth="32" tileheight="32">
-  <image source="cave_bilevel.png" width="512" height="512"/>
+  <image source="../graphics/cave_bilevel.png" width="512" height="512"/>
  </tileset>
  <tileset firstgid="257" name="Cave2" tilewidth="32" tileheight="32">
-  <image source="cave.png" width="512" height="256"/>
+  <image source="../graphics/cave.png" width="512" height="256"/>
  </tileset>
  <tileset firstgid="385" name="Collision" tilewidth="32" tileheight="32">
-  <image source="collision.png" width="64" height="32"/>
+  <image source="../graphics/collision.png" width="64" height="32"/>
  </tileset>
  <tileset firstgid="387" name="Cave3" tilewidth="32" tileheight="32">
-  <image source="set_cave.png" width="256" height="256"/>
+  <image source="../graphics/set_cave.png" width="256" height="256"/>
  </tileset>
  <layer name="Ground" width="95" height="70">
   <data encoding="base64" compression="gzip">
@@ -28,9 +28,6 @@
   </data>
  </layer>
  <layer name="Collision" width="95" height="70">
-  <properties>
-   <property name="Type" value="Wall"/>
-  </properties>
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC+2UwQ7CMAxDx6/z5ZyQENrUtXViJ7MlH2lfXsrer+N4u67ruq7ruq7rNu1V2Fzd++/ae8h1PhM2d/Xuhs1fsciwZ2E4Y/p+4h5m52SE7QjpuFrY7rr5nAnbM8u5wo7ZvtEOFJzeTRfnarkzH9N7d/+j+K3z8jTvSrwVvVdkZs1RhdPueZwjZvQ+7L7ne7f7erNc/UaNczWq3pncGVF+8yz+jGR6j5xJnS+SWWkuRaYdxkruZ8Ngs3dMVuaze078veGlk/dqe+7ifuV+5n6e5F3tO9jBvTJbJDN7tgqM0dzV3WdHwfuui4reUdw7s6Gc2Dvuza+6QTpH7+n391Xc78y9ek7kfyXLO9v9SqJ5KrrP8B8xI+J8BffR/iPdZ3u/w2X3ddxH7iCSgeF+xBi929lE3avoHs2FSMT5Cu7P+NXcnzEhz1J690g+Rkb3qrtHcKqF6XzXSTXX37B9V3CEDNuxqv+I+9k+Vdxn7pbtUdF/VNjOnuKf7ab7Dthzu67ruq7ruuN+ABsH6njoZwAA
   </data>
