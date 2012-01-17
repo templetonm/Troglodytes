@@ -28,10 +28,11 @@ public class Player extends Spatial {
 
 	@Override
 	public void render(Graphics g) {
+		//TODO: Make the commented out code work because it is more correct
 		if (sliding != null) {
-			g.drawImage(sprite, container.getWidth()/2 - sliding.getX() - sprite.getWidth()/2, container.getHeight()/2 - sliding.getY() - sprite.getHeight()/2);
+			g.drawImage(sprite, container.getWidth()/2 - sliding.getX(), container.getHeight()/2 - sliding.getY());
 		} else {
-			g.drawImage(sprite, container.getWidth()/2 - sprite.getWidth()/2, container.getHeight()/2 - sprite.getHeight()/2);
+			g.drawImage(sprite, container.getWidth()/2, container.getHeight()/2);
 		}
 	}
 

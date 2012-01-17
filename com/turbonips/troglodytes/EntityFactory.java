@@ -7,27 +7,30 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import com.artemis.Entity;
 import com.artemis.World;
+import com.turbonips.troglodytes.components.Collision;
 import com.turbonips.troglodytes.components.Sliding;
 import com.turbonips.troglodytes.components.SpatialForm;
 import com.turbonips.troglodytes.components.Transform;
 
 public class EntityFactory {
-	public static Entity createLayer(World world, TiledMap tiledMap, int speed, Rectangle box, int layerNum) {
+	public static Entity createLayer(World world, TiledMap tiledMap, int speed, Vector2f slidingStart, Rectangle box, int layerId) {
 		Entity layer = world.createEntity();
-		layer.setGroup("MAP");
+		layer.setGroup("LAYER");
 		layer.addComponent(new Transform(new Vector2f(0, 0), speed));
-		layer.addComponent(new Sliding(new Vector2f(0, 0), speed, box));
-		layer.addComponent(new SpatialForm(tiledMap, layerNum));
+		layer.addComponent(new Sliding(slidingStart, speed, box));
+		layer.addComponent(new SpatialForm(tiledMap, layerId));
+		layer.addComponent(new Collision());
 		layer.refresh();
 		return layer;
 	}
 	
-	public static Entity createPlayer(World world, int speed, Rectangle box, Image playerImage) {
+	public static Entity createPlayer(World world, int speed, Vector2f slidingStart, Rectangle box, Image playerImage) {
 		Entity player = world.createEntity();
-		player.setGroup("CREATURES");
+		player.setGroup("CREATURE");
 		player.addComponent(new Transform(new Vector2f(0, 0), speed));
-		player.addComponent(new Sliding(new Vector2f(0, 0), speed,  box));
+		player.addComponent(new Sliding(slidingStart, speed, box));
 		player.addComponent(new SpatialForm(playerImage, SpatialForm.TYPE_PLAYER));
+		player.addComponent(new Collision());
 		player.refresh();
 		return player;
 	}

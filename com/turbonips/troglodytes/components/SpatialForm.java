@@ -1,7 +1,5 @@
 package com.turbonips.troglodytes.components;
 
-import org.newdawn.slick.SlickException;
-
 import com.artemis.Component;
 
 public class SpatialForm extends Component {
@@ -15,7 +13,7 @@ public class SpatialForm extends Component {
 	public static final int TYPE_FOREGROUND_LAYER = 3;
 	public static final int TYPE_WALL_LAYER = 4;
 	
-	public SpatialForm(Object form, int type) throws SlickException {
+	public SpatialForm(Object form, int type) {
 		this.form = form;
 		this.type = type;
 	}

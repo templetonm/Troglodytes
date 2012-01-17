@@ -6,7 +6,7 @@ import org.newdawn.slick.geom.Vector2f;
 import com.artemis.Component;
 
 public class Transform extends Component {
-	private Vector2f position;
+	private Vector2f position = new Vector2f();
 	private int speed;
 	
 	public Transform(Vector2f position, int speed) {
@@ -14,8 +14,9 @@ public class Transform extends Component {
 		setSpeed(speed);
 	}
 	
-	public Transform(float x, float y) {
+	public Transform(float x, float y, int speed) {
 		setPosition(x, y);
+		setSpeed(speed);
 	}
 
 	public Vector2f getPosition() {

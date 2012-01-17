@@ -57,13 +57,13 @@ public class RenderSystem extends EntityProcessingSystem {
 			case SpatialForm.TYPE_PLAYER:
 				return new Player(world, e, form, container);
 			case SpatialForm.TYPE_GROUND_LAYER:
-				return new Layer(world, e, form, 0);
+				return new Layer(world, e, form, 0, container);
 			case SpatialForm.TYPE_BACKGROUND_LAYER:
-				return new Layer(world, e, form, 1);
+				return new Layer(world, e, form, 1, container);
 			case SpatialForm.TYPE_FOREGROUND_LAYER:
-				return new Layer(world, e, form, 2);
+				return new Layer(world, e, form, 2, container);
 			case SpatialForm.TYPE_WALL_LAYER:
-				return new Layer(world, e, form, 3);
+				return new Layer(world, e, form, 3, container);
 			default:
 				return null;
 		}

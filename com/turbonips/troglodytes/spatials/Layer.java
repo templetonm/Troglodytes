@@ -1,5 +1,6 @@
 package com.turbonips.troglodytes.spatials;
 
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.tiled.TiledMap;
 
@@ -14,11 +15,13 @@ public class Layer extends Spatial {
 	private Transform position;
 	private TiledMap tiledMap;
 	private int layer;
+	private final GameContainer container;
 
-	public Layer(World world, Entity owner, Object form, int layer) {
+	public Layer(World world, Entity owner, Object form, int layer, GameContainer container) {
 		super(world, owner);
-		tiledMap = (TiledMap)form;
+		this.tiledMap = (TiledMap)form;
 		this.layer = layer;
+		this.container = container;
 	}
 
 	@Override
@@ -32,9 +35,9 @@ public class Layer extends Spatial {
 	@Override
 	public void render(Graphics g) {
 		if (sliding != null) {
-			tiledMap.render((int)position.getX()*-1 - (int)sliding.getX(), (int)position.getY()*-1 - (int)sliding.getY(), layer);
+			tiledMap.render((int)position.getX()*-1 - (int)sliding.getX() + container.getWidth()/2, (int)position.getY()*-1 - (int)sliding.getY() + container.getHeight()/2, layer);
 		} else {
-			tiledMap.render((int)position.getX()*-1, (int)position.getY()*-1, layer);
+			tiledMap.render((int)position.getX()*-1 + container.getWidth()/2, (int)position.getY()*-1 + container.getHeight()/2 , layer);
 		}
 	}
 

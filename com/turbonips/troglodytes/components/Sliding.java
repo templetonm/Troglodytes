@@ -13,8 +13,9 @@ public class Sliding extends Transform {
 		setBox(box);
 	}
 
-	public Sliding(float x, float y) {
-		super(x, y);
+	public Sliding(float x, float y, int speed, Rectangle box) {
+		super(x, y, speed);
+		setBox(box);
 	}
 
 	public Rectangle getBox() {

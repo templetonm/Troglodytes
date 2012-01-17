@@ -7,6 +7,7 @@ import org.newdawn.slick.KeyListener;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.EntityProcessingSystem;
+import com.turbonips.troglodytes.components.Collision;
 import com.turbonips.troglodytes.components.Sliding;
 import com.turbonips.troglodytes.components.Transform;
 
@@ -14,6 +15,7 @@ public class ControlSystem extends EntityProcessingSystem implements KeyListener
 	private final GameContainer container;
     private ComponentMapper<Transform> positionMapper;
     private ComponentMapper<Sliding> slidingMapper;
+    private ComponentMapper<Collision> collisionMapper;
     
     boolean key_up = false, 
     		key_down = false, 
@@ -29,6 +31,7 @@ public class ControlSystem extends EntityProcessingSystem implements KeyListener
 	protected void initialize() {
 		positionMapper = new ComponentMapper<Transform>(Transform.class, world);
 		slidingMapper = new ComponentMapper<Sliding>(Sliding.class, world);
+		collisionMapper = new ComponentMapper<Collision>(Collision.class, world);
 		container.getInput().addKeyListener(this);
 	}
 
@@ -36,37 +39,60 @@ public class ControlSystem extends EntityProcessingSystem implements KeyListener
 	protected void process(Entity e) {
 		Transform position = positionMapper.get(e);
 		Sliding sliding = slidingMapper.get(e);
+		Collision collision = collisionMapper.get(e);
+		
+		boolean collisionUp = false,
+				collisionDown = false,
+				collisionLeft = false,
+				collisionRight = false;
+		
+		if (collision != null) {
+			collisionUp = collision.isCollidingUp();
+			collisionDown = collision.isCollidingDown();
+			collisionLeft = collision.isCollidingLeft();
+			collisionRight = collision.isCollidingRight();
+		}
+		
+		
 		if (key_up) {
-			position.setPosition(position.getX(), position.getY()-position.getSpeed());
-			
-			if (sliding != null) {
-				if (sliding.getY() < sliding.getBox().getHeight()) {
-					sliding.setY(sliding.getY() + sliding.getSpeed());
+			if (!collisionUp) {
+				position.setPosition(position.getX(), position.getY()-position.getSpeed());
+				
+				if (sliding != null) {
+					if (sliding.getY() < sliding.getBox().getHeight()) {
+						sliding.setY(sliding.getY() + sliding.getSpeed());
+					}
 				}
 			}
 		} else if (key_down) {
-			position.setPosition(position.getX(), position.getY()+position.getSpeed());
-			
-			if (sliding != null) {
-				if (sliding.getY() > sliding.getBox().getY()) {
-					sliding.setY(sliding.getY() - sliding.getSpeed());
+			if (!collisionDown) {
+				position.setPosition(position.getX(), position.getY()+position.getSpeed());
+				
+				if (sliding != null) {
+					if (sliding.getY() > sliding.getBox().getY()) {
+						sliding.setY(sliding.getY() - sliding.getSpeed());
+					}
 				}
 			}
 		} 
 		if (key_left) {
-			position.setPosition(position.getX()-position.getSpeed(), position.getY());
-			
-			if (sliding != null) {
-				if (sliding.getX() < sliding.getBox().getHeight()) {
-					sliding.setX(sliding.getX() + sliding.getSpeed());
+			if (!collisionLeft) {
+				position.setPosition(position.getX()-position.getSpeed(), position.getY());
+				
+				if (sliding != null) {
+					if (sliding.getX() < sliding.getBox().getHeight()) {
+						sliding.setX(sliding.getX() + sliding.getSpeed());
+					}
 				}
 			}
 		} else if (key_right) {
-			position.setPosition(position.getX()+position.getSpeed(), position.getY());
-			
-			if (sliding != null) {
-				if (sliding.getX() > sliding.getBox().getX()) {
-					sliding.setX(sliding.getX() - sliding.getSpeed());
+			if (!collisionRight) {
+				position.setPosition(position.getX()+position.getSpeed(), position.getY());
+				
+				if (sliding != null) {
+					if (sliding.getX() > sliding.getBox().getX()) {
+						sliding.setX(sliding.getX() - sliding.getSpeed());
+					}
 				}
 			}
 		}
@@ -79,7 +105,7 @@ public class ControlSystem extends EntityProcessingSystem implements KeyListener
 				key_up = true;
 				break;
 			case Input.KEY_DOWN:
-				key_down = true;
+				 key_down = true;
 				break;
 			case Input.KEY_LEFT:
 				key_left = true;
