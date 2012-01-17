@@ -42,7 +42,7 @@ public class PlayingState extends BaseGameState {
 		// TODO: We can add ground and background to the entity system together by editing RenderSystem
 		int speed = 8;
 		Rectangle box = new Rectangle(speed*-15, speed*-10, speed*15, speed*10);
-		TiledMap tiledMap = new TiledMap("resources/maps/trog2.tmx");
+		TiledMap tiledMap = new TiledMap("resources/maps/trog1.tmx");
 		Entity groundLayer = world.createEntity();
 		groundLayer.setGroup("MAP");
 		groundLayer.addComponent(new Transform(new Vector2f(0, 0), speed));
@@ -73,13 +73,13 @@ public class PlayingState extends BaseGameState {
 		fgLayer.addComponent(new SpatialForm(tiledMap, SpatialForm.TYPE_FOREGROUND_LAYER));
 		fgLayer.refresh();
 		
-		/*
+		
 		Entity wallLayer = world.createEntity();
 		wallLayer.setGroup("MAP");
 		wallLayer.addComponent(new Transform(new Vector2f(0, 0), speed));
 		wallLayer.addComponent(new Sliding(new Vector2f(0, 0), speed, box));
 		wallLayer.addComponent(new SpatialForm(tiledMap, SpatialForm.TYPE_WALL_LAYER));
-		wallLayer.refresh();*/
+		wallLayer.refresh();
 	}
 
 	@Override
