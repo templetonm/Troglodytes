@@ -33,14 +33,7 @@
   </data>
  </layer>
  <objectgroup name="Attributes" width="95" height="70">
-  <object name="Warp To Forest" type="Warp" x="1446" y="416" width="32" height="32">
-   <properties>
-    <property name="Map" value="trog2.tmx"/>
-    <property name="X" value="10"/>
-    <property name="Y" value="4"/>
-   </properties>
-  </object>
-  <object name="Warp To Forest" type="Warp" x="1492" y="416" width="32" height="32">
+  <object name="Warp To Forest" type="Warp" x="1440" y="416" width="96" height="64">
    <properties>
     <property name="Map" value="trog2.tmx"/>
     <property name="X" value="10"/>
