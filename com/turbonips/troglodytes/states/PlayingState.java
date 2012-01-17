@@ -40,21 +40,11 @@ public class PlayingState extends BaseGameState {
 		systemManager.initializeAll();
 		
 		
-		// TODO: We can add ground and background to the entity system together by editing RenderSystem
-		int speed = 8;
-		Rectangle box = new Rectangle(speed*-15, speed*-12, speed*15, speed*12);
-		TiledMap tiledMap = new TiledMap("resources/maps/trog2.tmx");
-		
-		// TODO: Implement animations
-		Image playerImage = new Image("resources/graphics/player.png");
-		Vector2f slidingStart = new Vector2f((float)playerImage.getWidth()/2, (float)playerImage.getHeight()/2);
-		//Sliding sliding = new Sliding((float)playerImage.getWidth()/2, (float)playerImage.getHeight()/2, speed, box);
-		
-		EntityFactory.createLayer(world, tiledMap, speed, new Vector2f(slidingStart), box, SpatialForm.TYPE_GROUND_LAYER);
-		EntityFactory.createLayer(world, tiledMap, speed,  new Vector2f(slidingStart), box, SpatialForm.TYPE_BACKGROUND_LAYER);
-		EntityFactory.createPlayer(world, speed,  new Vector2f(slidingStart), box, playerImage);
-		EntityFactory.createLayer(world, tiledMap, speed,  new Vector2f(slidingStart), box, SpatialForm.TYPE_FOREGROUND_LAYER);
-		EntityFactory.createLayer(world, tiledMap, speed,  new Vector2f(slidingStart), box, SpatialForm.TYPE_WALL_LAYER);
+		EntityFactory.create(world, EntityFactory.ID_GROUND_LAYER);
+		EntityFactory.create(world, EntityFactory.ID_BG_LAYER);
+		EntityFactory.create(world, EntityFactory.ID_PLAYER);
+		EntityFactory.create(world, EntityFactory.ID_FG_LAYER);
+		EntityFactory.create(world, EntityFactory.ID_WALL_LAYER);
 	}
 
 	@Override
