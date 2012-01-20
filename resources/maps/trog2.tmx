@@ -47,7 +47,7 @@
    H4sIAAAAAAAAC+2XwQ7DMAhDu1/fl087TKqqDnCwCUyzlMuWgh+kSXocOj0f60OVU6UdrJH8zNheLoQT8WfNreivsqfW3Ai3QrvWcMSXKm5HXoUy7251ryvOgy79ZXmYzLviYwKr5zf7/DRe9HzsznrOm/FV2VtWvTLeJvQW8Xs3H3m+Ayvb425WL34XXkYtIjHY62/Xekb3GMvrSt6VcY2zkjMy14qBKsO72nf1vuDF/yVWxIOa9ZOrg6pY0T1KLeU+XVGrbHwma5e1XKEprP/e4rq7m0T5vXO0m1h7eke2O7HehSnMbN7O3AxfqrsAQ2cfLE/K+w9LTD+s+62yPszYWV71GmDXEfmGqV7jinzqb7ZofsuXIt9OZstT1Pe336P/R3gzdfB6Gtk30PHWCzx9j/+AJQAA
   </data>
  </layer>
- <objectgroup name="Attributes" width="60" height="40">
+ <objectgroup name="Objects" width="60" height="40">
   <object name="Warp to Cave" type="Warp" x="1600" y="1184" width="64" height="64">
    <properties>
     <property name="Map" value="trog1.tmx"/>
