@@ -17,6 +17,7 @@ import com.turbonips.troglodytes.EntityFactory;
 import com.turbonips.troglodytes.components.SpatialForm;
 import com.turbonips.troglodytes.systems.CollisionSystem;
 import com.turbonips.troglodytes.systems.ControlSystem;
+import com.turbonips.troglodytes.systems.ObjectSystem;
 import com.turbonips.troglodytes.systems.RenderSystem;
 
 public class PlayingState extends BaseGameState {
@@ -27,6 +28,7 @@ public class PlayingState extends BaseGameState {
 	private EntitySystem controlSystem;
 	private EntitySystem renderSystem;
 	private EntitySystem collisionSystem;
+	private EntitySystem objectSystem;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -37,8 +39,8 @@ public class PlayingState extends BaseGameState {
 		controlSystem = systemManager.setSystem(new ControlSystem(container));
 		renderSystem = systemManager.setSystem(new RenderSystem(container));
 		collisionSystem = systemManager.setSystem(new CollisionSystem(container));
+		objectSystem = systemManager.setSystem(new ObjectSystem(container));
 		systemManager.initializeAll();
-		
 		
 		EntityFactory.create(world, EntityFactory.ID_GROUND_LAYER);
 		EntityFactory.create(world, EntityFactory.ID_BG_LAYER);
@@ -60,6 +62,7 @@ public class PlayingState extends BaseGameState {
 		world.setDelta(delta);
 		controlSystem.process();
 		collisionSystem.process();
+		objectSystem.process();
 	}
 
 	@Override
