@@ -44,7 +44,7 @@
  <objectgroup name="Objects" width="50" height="25">
   <object name="WarpToNext" type="Warp" x="1568" y="0" width="32" height="800">
    <properties>
-    <property name="Map" value="Trog1"/>
+    <property name="Map" value="Trog2.tmx"/>
     <property name="x" value="0"/>
     <property name="y" value="0"/>
    </properties>
