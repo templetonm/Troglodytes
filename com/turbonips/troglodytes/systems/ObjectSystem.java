@@ -116,30 +116,30 @@ public class ObjectSystem extends EntitySystem {
 		// Left
 		topLeftY = (int)(position.getY());
 		bottomLeftY = (int)(position.getY()+sprite.getHeight()-1);
-		topLeftX = (int)(position.getX()-position.getSpeed());
-		bottomLeftX = (int)(position.getX()-position.getSpeed());
+		topLeftX = (int)(position.getX());
+		bottomLeftX = (int)(position.getX());
 		if (objectType == null) objectType = createObjectType(mapLayers,topLeftX, topLeftY);
 		if (objectType == null) objectType = createObjectType(mapLayers, bottomLeftX, bottomLeftY);
 
 		// Right
 		topRightY = (int)(position.getY());
 		bottomRightY = (int)(position.getY()+sprite.getHeight()-1);
-		topRightX = (int)(position.getX()+position.getSpeed()+sprite.getWidth()-1);
-		bottomRightX = (int)(position.getX()+position.getSpeed()+sprite.getWidth()-1);
+		topRightX = (int)(position.getX()+sprite.getWidth()-1);
+		bottomRightX = (int)(position.getX()+sprite.getWidth()-1);
 		if (objectType == null) objectType = createObjectType(mapLayers, topRightX, topRightY);
 		if (objectType == null) objectType = createObjectType(mapLayers, bottomRightX, bottomRightY);
 
 		// Up
-		topLeftY = (int)(position.getY()-position.getSpeed());
-		topRightY = (int)(position.getY()-position.getSpeed());
+		topLeftY = (int)(position.getY());
+		topRightY = (int)(position.getY());
 		topLeftX = (int)(position.getX());
 		topRightX = (int)(position.getX()+sprite.getWidth()-1);
 		if (objectType == null) objectType = createObjectType(mapLayers, topLeftX, topLeftY);
 		if (objectType == null) objectType = createObjectType(mapLayers, topRightX, topRightY);
 		
 		// Down
-		bottomLeftY = (int)(position.getY()+sprite.getHeight()+position.getSpeed()-1);
-		bottomRightY = (int)(position.getY()+sprite.getHeight()+position.getSpeed()-1);
+		bottomLeftY = (int)(position.getY()+sprite.getHeight()-1);
+		bottomRightY = (int)(position.getY()+sprite.getHeight()-1);
 		bottomLeftX = (int)(position.getX());
 		bottomRightX = (int)(position.getX()+sprite.getWidth()-1);
 		if (objectType == null) objectType = createObjectType(mapLayers, bottomLeftX, bottomLeftY);
