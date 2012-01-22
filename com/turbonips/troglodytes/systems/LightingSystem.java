@@ -37,16 +37,18 @@ public class LightingSystem extends EntityProcessingSystem {
 	@Override
 	protected void process(Entity e) {
 		Sliding sliding = slidingMapper.get(e);
-		int lightSize = 5;
+		int lightSize = 10;
 		float invSize = 1f / lightSize;
-		graphics.scale(lightSize, lightSize);
 		graphics.clearAlphaMap();
+		graphics.scale(lightSize, lightSize);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
 		light.drawCentered((container.getWidth()/2 - sliding.getX() + 16) * invSize, (container.getHeight()/2 - sliding.getY() + 16) * invSize);
 		graphics.scale(invSize, invSize);
 		GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_DST_ALPHA);
-		graphics.setColor(new Color(0,0,0,100));
+		graphics.setColor(new Color(0,0,0,0));
 		graphics.fillRect(0, 0, container.getWidth(), container.getHeight());
+		
+		
 		graphics.setDrawMode(Graphics.MODE_NORMAL);
 	}
 
