@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="60" height="40" tilewidth="32" tileheight="32">
  <properties>
-  <property name="Darkness" value="25"/>
+  <property name="Dark" value="false"/>
  </properties>
  <tileset firstgid="1" name="Cave1" tilewidth="32" tileheight="32">
   <image source="../graphics/cave.png" width="512" height="256"/>
