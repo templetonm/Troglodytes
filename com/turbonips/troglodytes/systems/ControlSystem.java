@@ -10,12 +10,14 @@ import com.artemis.EntityProcessingSystem;
 import com.turbonips.troglodytes.components.Collision;
 import com.turbonips.troglodytes.components.Sliding;
 import com.turbonips.troglodytes.components.Transform;
+import com.turbonips.troglodytes.components.AnimationCreature;
 
 public class ControlSystem extends EntityProcessingSystem implements KeyListener {
 	private final GameContainer container;
     private ComponentMapper<Transform> positionMapper;
     private ComponentMapper<Sliding> slidingMapper;
     private ComponentMapper<Collision> collisionMapper;
+	private ComponentMapper<AnimationCreature> animationCreatureMapper;
     
     boolean key_up = false, 
     		key_down = false, 
@@ -32,6 +34,7 @@ public class ControlSystem extends EntityProcessingSystem implements KeyListener
 		positionMapper = new ComponentMapper<Transform>(Transform.class, world);
 		slidingMapper = new ComponentMapper<Sliding>(Sliding.class, world);
 		collisionMapper = new ComponentMapper<Collision>(Collision.class, world);
+		animationCreatureMapper = new ComponentMapper<AnimationCreature>(AnimationCreature.class, world);
 		container.getInput().addKeyListener(this);
 	}
 
@@ -39,6 +42,7 @@ public class ControlSystem extends EntityProcessingSystem implements KeyListener
 	protected void process(Entity e) {
 		Transform position = positionMapper.get(e);
 		Sliding sliding = slidingMapper.get(e);
+		AnimationCreature animationCreature = animationCreatureMapper.get(e);
 		Collision collision = collisionMapper.get(e);
 		
 		boolean collisionUp = false,
@@ -64,6 +68,10 @@ public class ControlSystem extends EntityProcessingSystem implements KeyListener
 					}
 				}
 			}
+			
+			if (animationCreature != null) {
+				animationCreature.setCurrent(animationCreature.getMoveUp());
+			}
 		} else if (key_down) {
 			if (!collisionDown) {
 				position.setPosition(position.getX(), position.getY()+position.getSpeed());
@@ -73,6 +81,10 @@ public class ControlSystem extends EntityProcessingSystem implements KeyListener
 						sliding.setY(sliding.getY() - sliding.getSpeed());
 					}
 				}
+			}
+			
+			if (animationCreature != null) {
+				animationCreature.setCurrent(animationCreature.getMoveDown());
 			}
 		} 
 		if (key_left) {
@@ -85,6 +97,10 @@ public class ControlSystem extends EntityProcessingSystem implements KeyListener
 					}
 				}
 			}
+			
+			if (animationCreature != null) {
+				animationCreature.setCurrent(animationCreature.getMoveLeft());
+			}
 		} else if (key_right) {
 			if (!collisionRight) {
 				position.setPosition(position.getX()+position.getSpeed(), position.getY());
@@ -94,6 +110,18 @@ public class ControlSystem extends EntityProcessingSystem implements KeyListener
 						sliding.setX(sliding.getX() - sliding.getSpeed());
 					}
 				}
+			}
+			
+			if (animationCreature != null) {
+				animationCreature.setCurrent(animationCreature.getMoveRight());
+			}
+		}
+		
+		if (!key_up && !key_down && !key_left && !key_right)
+		{
+			if (animationCreature != null)
+			{
+				animationCreature.setIdle();
 			}
 		}
 	}
@@ -105,7 +133,7 @@ public class ControlSystem extends EntityProcessingSystem implements KeyListener
 				key_up = true;
 				break;
 			case Input.KEY_DOWN:
-				 key_down = true;
+				key_down = true;
 				break;
 			case Input.KEY_LEFT:
 				key_left = true;
