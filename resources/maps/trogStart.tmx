@@ -44,10 +44,10 @@
    H4sIAAAAAAAAC+2WQQrAIAwEhf7/ef6np96MZptJtZCFQrFm1xGL6VdrPfCs5J3v8Rr5WjkUh1pnfVPHSA5yD1acWRz0ufSK4Bi9/4njqY/4fSHlLJ3M8VYUwyms6vqtf65UKpVKOdp1R5K5u+57Kjejd/HWkLl0L+adr2bOPMmeUqlRc2c8ES9qbZFs0msXB70nxXEuxw1pi9CAiBMAAA==
   </data>
  </layer>
- <objectgroup name="Attributes" width="50" height="25">
+ <objectgroup name="Objects" width="50" height="25">
   <object name="WarpToNext" type="Warp" x="1568" y="0" width="32" height="800">
    <properties>
-    <property name="Map" value="Trog1"/>
+    <property name="Map" value="Trog2.tmx"/>
     <property name="x" value="0"/>
     <property name="y" value="0"/>
    </properties>
