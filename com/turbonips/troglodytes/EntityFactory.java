@@ -2,12 +2,14 @@ package com.turbonips.troglodytes;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
 
 import com.artemis.Entity;
 import com.artemis.World;
+import com.turbonips.troglodytes.components.AnimationCreature;
 import com.turbonips.troglodytes.components.Collision;
 import com.turbonips.troglodytes.components.Sliding;
 import com.turbonips.troglodytes.components.SpatialForm;
@@ -23,6 +25,7 @@ public class EntityFactory {
 	
 	public static Entity create(World world, int id) throws SlickException {
 		Image playerImage = new Image("resources/graphics/player.png");
+		SpriteSheet playerSpriteSheet = new SpriteSheet("resources/graphics/demoCharTest.png", 32, 64);
 		TiledMap tiledMap = new TiledMap("resources/maps/trog2.tmx");
 		Vector2f slidingStart = new Vector2f((float)playerImage.getWidth()/2, (float)playerImage.getHeight()/2);
 		int speed = 8;
@@ -36,6 +39,7 @@ public class EntityFactory {
 				player.addComponent(new Transform(startPosition, speed));
 				player.addComponent(new Sliding(slidingStart, speed, box));
 				player.addComponent(new SpatialForm(playerImage, SpatialForm.TYPE_PLAYER));
+				player.addComponent(new AnimationCreature(playerSpriteSheet));
 				player.addComponent(new Collision());
 				player.refresh();
 				return player;
