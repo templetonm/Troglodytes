@@ -55,7 +55,7 @@
    <properties>
     <property name="Map" value="trog1.tmx"/>
     <property name="X" value="46"/>
-    <property name="Y" value="16"/>
+    <property name="Y" value="8"/>
    </properties>
   </object>
  </objectgroup>

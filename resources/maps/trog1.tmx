@@ -39,8 +39,8 @@
   <object name="Warp To Forest" type="Warp" x="1440" y="416" width="96" height="64">
    <properties>
     <property name="Map" value="trog2.tmx"/>
-    <property name="X" value="10"/>
-    <property name="Y" value="4"/>
+    <property name="X" value="50"/>
+    <property name="Y" value="17"/>
    </properties>
   </object>
  </objectgroup>
