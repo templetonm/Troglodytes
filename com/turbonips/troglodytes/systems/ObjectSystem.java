@@ -60,16 +60,19 @@ public class ObjectSystem extends EntitySystem {
 				switch (objectType.getType()) {
 					case ObjectType.WARP_OBJECT:
 						WarpObject warpObject = (WarpObject)objectType;
+						// TODO change to the CreatureAnimationComponent height & width
+						position.setPosition(warpObject.getX()*32, warpObject.getY()*64);
 						try {
 							TiledMap newMap = new TiledMap("resources/maps/" + warpObject.getMapName());
 							for (Entity entity : mapEntities) {
 								int oldType = spatialFormMapper.get(entity).getType();
 								entity.removeComponent(spatialFormMapper.get(entity));
 								entity.addComponent(new SpatialForm(newMap, oldType));
+								Transform layerPosition = positionMapper.get(entity);
+								layerPosition.setPosition(warpObject.getX()*32, warpObject.getY()*64);
 							}
 						
 						} catch (SlickException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						break;
