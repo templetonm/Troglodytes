@@ -15,6 +15,7 @@ import com.artemis.EntityProcessingSystem;
 import com.artemis.EntitySystem;
 import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.EntityFactory;
+import com.turbonips.troglodytes.components.AnimationCreature;
 import com.turbonips.troglodytes.components.Collision;
 import com.turbonips.troglodytes.components.Sliding;
 import com.turbonips.troglodytes.components.SpatialForm;
@@ -26,6 +27,7 @@ public class ObjectSystem extends EntitySystem {
 	private final GameContainer container;
 	private ComponentMapper<Transform> positionMapper;
 	private ComponentMapper<SpatialForm> spatialFormMapper;
+	private ComponentMapper<AnimationCreature> animationCreatureMapper;
 
 	public ObjectSystem(GameContainer container) {
 		super(Transform.class, SpatialForm.class);
@@ -36,6 +38,7 @@ public class ObjectSystem extends EntitySystem {
 	protected void initialize() {
 		positionMapper = new ComponentMapper<Transform>(Transform.class, world);
 		spatialFormMapper = new ComponentMapper<SpatialForm>(SpatialForm.class, world);
+		animationCreatureMapper = new ComponentMapper<AnimationCreature>(AnimationCreature.class, world);
 	}
 
 	@Override
@@ -52,8 +55,8 @@ public class ObjectSystem extends EntitySystem {
 		
 		for (int a=0; a<creatures.size(); a++) {
 			Entity creature = creatures.get(a);
+			Image sprite = animationCreatureMapper.get(creature).getCurrent().getImage(0);
 			Transform position = positionMapper.get(creature);
-			Image sprite = (Image)spatialFormMapper.get(creature).getForm();
 			ObjectType objectType = getObjectType(position, mapLayers, sprite);
 			
 			if (objectType != null) {
@@ -61,7 +64,7 @@ public class ObjectSystem extends EntitySystem {
 					case ObjectType.WARP_OBJECT:
 						WarpObject warpObject = (WarpObject)objectType;
 						// TODO change to the CreatureAnimationComponent height & width
-						position.setPosition(warpObject.getX()*32, warpObject.getY()*64);
+						position.setPosition(warpObject.getX()*sprite.getWidth(), warpObject.getY()*sprite.getHeight());
 						try {
 							TiledMap newMap = new TiledMap("resources/maps/" + warpObject.getMapName());
 							for (Entity entity : mapEntities) {
@@ -69,7 +72,7 @@ public class ObjectSystem extends EntitySystem {
 								entity.removeComponent(spatialFormMapper.get(entity));
 								entity.addComponent(new SpatialForm(newMap, oldType));
 								Transform layerPosition = positionMapper.get(entity);
-								layerPosition.setPosition(warpObject.getX()*32, warpObject.getY()*64);
+								layerPosition.setPosition(warpObject.getX()*sprite.getWidth(), warpObject.getY()*sprite.getHeight());
 							}
 						
 						} catch (SlickException e) {
@@ -117,7 +120,7 @@ public class ObjectSystem extends EntitySystem {
 		// Object checks
 		
 		// Left
-		topLeftY = (int)(position.getY());
+		topLeftY = (int)(position.getY()+sprite.getHeight()/2);
 		bottomLeftY = (int)(position.getY()+sprite.getHeight()-1);
 		topLeftX = (int)(position.getX());
 		bottomLeftX = (int)(position.getX());
@@ -125,7 +128,7 @@ public class ObjectSystem extends EntitySystem {
 		if (objectType == null) objectType = createObjectType(mapLayers, bottomLeftX, bottomLeftY);
 
 		// Right
-		topRightY = (int)(position.getY());
+		topRightY = (int)(position.getY()+sprite.getHeight()/2);
 		bottomRightY = (int)(position.getY()+sprite.getHeight()-1);
 		topRightX = (int)(position.getX()+sprite.getWidth()-1);
 		bottomRightX = (int)(position.getX()+sprite.getWidth()-1);
@@ -133,8 +136,8 @@ public class ObjectSystem extends EntitySystem {
 		if (objectType == null) objectType = createObjectType(mapLayers, bottomRightX, bottomRightY);
 
 		// Up
-		topLeftY = (int)(position.getY());
-		topRightY = (int)(position.getY());
+		topLeftY = (int)(position.getY()+sprite.getHeight()/2);
+		topRightY = (int)(position.getY()+sprite.getHeight()/2);
 		topLeftX = (int)(position.getX());
 		topRightX = (int)(position.getX()+sprite.getWidth()-1);
 		if (objectType == null) objectType = createObjectType(mapLayers, topLeftX, topLeftY);
