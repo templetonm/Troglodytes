@@ -4,16 +4,16 @@
   <property name="Dark" value="true"/>
  </properties>
  <tileset firstgid="1" name="Cave" tilewidth="32" tileheight="32">
-  <image source="../graphics/cave_bilevel.png" width="512" height="512"/>
+  <image source="cave_bilevel.png" width="512" height="512"/>
  </tileset>
  <tileset firstgid="257" name="Cave2" tilewidth="32" tileheight="32">
-  <image source="../graphics/cave.png" width="512" height="256"/>
+  <image source="cave.png" width="512" height="256"/>
  </tileset>
  <tileset firstgid="385" name="Collision" tilewidth="32" tileheight="32">
-  <image source="../graphics/collision.png" width="64" height="32"/>
+  <image source="collision.png" width="64" height="32"/>
  </tileset>
  <tileset firstgid="387" name="Cave3" tilewidth="32" tileheight="32">
-  <image source="../graphics/set_cave.png" width="256" height="256"/>
+  <image source="set_cave.png" width="256" height="256"/>
  </tileset>
  <layer name="Ground" width="95" height="70">
   <data encoding="base64" compression="gzip">

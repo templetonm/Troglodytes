@@ -27,7 +27,7 @@ public class EntityFactory {
 
 	public static Entity create(World world, int id) throws SlickException {
 		Image playerImage = new Image("resources/graphics/player.png");
-		TiledMap tiledMap = new TiledMap("resources/maps/trog1.tmx");
+		TiledMap tiledMap = new TiledMap("resources/maps/trog1.tmx","resources/graphics");
 		SpriteSheet playerSpriteSheet = new SpriteSheet("resources/graphics/demoCharTest.png", 32, 64);
 		Vector2f slidingStart = new Vector2f((float)playerImage.getWidth()/2, (float)playerImage.getHeight()/2);
 		int speed = 8;

@@ -4,31 +4,31 @@
   <property name="Dark" value="false"/>
  </properties>
  <tileset firstgid="1" name="Cave1" tilewidth="32" tileheight="32">
-  <image source="../graphics/cave.png" width="512" height="256"/>
+  <image source="cave.png" width="512" height="256"/>
  </tileset>
  <tileset firstgid="129" name="Cave2" tilewidth="32" tileheight="32">
-  <image source="../graphics/cave_bilevel.png" width="512" height="512"/>
+  <image source="cave_bilevel.png" width="512" height="512"/>
  </tileset>
  <tileset firstgid="385" name="Collision" tilewidth="32" tileheight="32">
-  <image source="../graphics/collision.png" width="64" height="32"/>
+  <image source="collision.png" width="64" height="32"/>
  </tileset>
  <tileset firstgid="387" name="Cave3" tilewidth="32" tileheight="32">
-  <image source="../graphics/set_cave.png" width="256" height="256"/>
+  <image source="set_cave.png" width="256" height="256"/>
  </tileset>
  <tileset firstgid="451" name="Out1" tilewidth="32" tileheight="32">
-  <image source="../graphics/Woodland_ground.png" width="512" height="512"/>
+  <image source="Woodland_ground.png" width="512" height="512"/>
  </tileset>
  <tileset firstgid="707" name="Out2" tilewidth="32" tileheight="32">
-  <image source="../graphics/Woodland_swamp.png" width="512" height="512"/>
+  <image source="Woodland_swamp.png" width="512" height="512"/>
  </tileset>
  <tileset firstgid="963" name="Out3" tilewidth="32" tileheight="32">
-  <image source="../graphics/Woodland_x2.png" width="512" height="128"/>
+  <image source="Woodland_x2.png" width="512" height="128"/>
  </tileset>
  <tileset firstgid="1027" name="Out4" tilewidth="32" tileheight="32">
-  <image source="../graphics/Woodland_x3.png" width="512" height="192"/>
+  <image source="Woodland_x3.png" width="512" height="192"/>
  </tileset>
  <tileset firstgid="1123" name="Out5" tilewidth="32" tileheight="32">
-  <image source="../graphics/Forest_cover.png" width="320" height="320"/>
+  <image source="Forest_cover.png" width="320" height="320"/>
  </tileset>
  <layer name="Ground" width="60" height="40">
   <data encoding="base64" compression="gzip">
