@@ -66,7 +66,7 @@ public class ObjectSystem extends EntitySystem {
 						// TODO change to the CreatureAnimationComponent height & width
 						position.setPosition(warpObject.getX()*sprite.getWidth(), warpObject.getY()*sprite.getHeight());
 						try {
-							TiledMap newMap = new TiledMap("resources/maps/" + warpObject.getMapName());
+							TiledMap newMap = new TiledMap("resources/maps/" + warpObject.getMapName(), "resources/graphics");
 							for (Entity entity : mapEntities) {
 								int oldType = spatialFormMapper.get(entity).getType();
 								entity.removeComponent(spatialFormMapper.get(entity));
