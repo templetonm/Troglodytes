@@ -45,8 +45,10 @@ public class RenderSystem extends EntityProcessingSystem {
 	
 	@Override
 	protected void removed(Entity e) {
-		spatials.remove(e.getId());
+		spatials.set(e.getId(), null);
 	}
+	
+	
 	
 	private Spatial createSpatial(Entity e) {
 		SpatialForm spatialForm = spatialFormMapper.get(e);
@@ -71,8 +73,11 @@ public class RenderSystem extends EntityProcessingSystem {
 
 	@Override
 	protected void process(Entity e) {
-		Spatial spatial = spatials.get(e.getId());
-		spatial.render(graphics);		
+		// Temporary hack to get things to work
+		Spatial spatial = createSpatial(e);
+		spatial.initalize();
+		//SpatialForm form = spatialFormMapper.get(e);
+		if (spatial != null) spatial.render(graphics);		
 	}
 
 }

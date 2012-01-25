@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jnlp codebase="http://turbonips.com/trog/" 
+      href="troglodytes.jnlp">
+    <information>
+        <title>Troglodytes!</title>
+    </information>
+    <resources>
+        <jar href="trog.jar"/>
+        <jar href="log4j-1.2.16.jar"/>
+        <jar href="lwjgl.jar"/>
+        <jar href="slick.jar"/>
+        <jar href="artemis.jar"/>
+        <nativelib href="native/*.dll"/>
+    </resources>
+    <application-desc main-class="com.turbonips.troglodytes.Main"/>
+</jnlp>

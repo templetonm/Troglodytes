@@ -11,6 +11,7 @@ import com.artemis.Entity;
 import com.artemis.EntityProcessingSystem;
 import com.artemis.EntitySystem;
 import com.artemis.utils.ImmutableBag;
+import com.turbonips.troglodytes.components.AnimationCreature;
 import com.turbonips.troglodytes.components.Collision;
 import com.turbonips.troglodytes.components.Sliding;
 import com.turbonips.troglodytes.components.SpatialForm;
@@ -21,6 +22,7 @@ public class CollisionSystem extends EntitySystem {
 	private ComponentMapper<Transform> positionMapper;
 	private ComponentMapper<Collision> collisionMapper;
 	private ComponentMapper<SpatialForm> spatialFormMapper;
+	private ComponentMapper<AnimationCreature> animationCreatureMapper;
 
 	public CollisionSystem(GameContainer container) {
 		super(Transform.class, Collision.class, SpatialForm.class);
@@ -32,6 +34,7 @@ public class CollisionSystem extends EntitySystem {
 		positionMapper = new ComponentMapper<Transform>(Transform.class, world);
 		collisionMapper = new ComponentMapper<Collision>(Collision.class, world);
 		spatialFormMapper = new ComponentMapper<SpatialForm>(SpatialForm.class, world);
+		animationCreatureMapper = new ComponentMapper<AnimationCreature>(AnimationCreature.class, world);
 	}
 
 	@Override
@@ -45,7 +48,7 @@ public class CollisionSystem extends EntitySystem {
 			Entity creature = creatures.get(a);
 			Transform position = positionMapper.get(creature);
 			Collision collision = collisionMapper.get(creature);
-			Image sprite = (Image)spatialFormMapper.get(creature).getForm();
+			Image sprite = (Image)animationCreatureMapper.get(creature).getCurrent().getImage(0);
 			updateCollision(position, collision, tiledMap, sprite);
 			
 			// TODO make this only update for PLAYER groups
@@ -78,7 +81,7 @@ public class CollisionSystem extends EntitySystem {
 		if (position.getX()-position.getSpeed() < 0) { 
 			collision.setCollidingLeft(true);
 		}
-		if (position.getY()-position.getSpeed() < 0) { 
+		if (position.getY()-position.getSpeed()+sprite.getHeight()/2 < 0) { 
 			collision.setCollidingUp(true);
 		}
 		if (position.getX()+position.getSpeed() > tiledMap.getWidth()*tiledMap.getTileWidth()-sprite.getWidth()) {
@@ -88,49 +91,47 @@ public class CollisionSystem extends EntitySystem {
 			collision.setCollidingDown(true);
 		}
 		
-		
+		// 32 (in this case) represents the tile size
 		// Wall checks
 		if (!collision.isCollidingLeft()) {
-			int topLeftY = (int)(position.getY())/sprite.getHeight();
-			int bottomLeftY = (int)(position.getY()+sprite.getHeight()-1)/sprite.getHeight();
-			int topLeftX = (int)(position.getX()-position.getSpeed())/sprite.getWidth();
-			int bottomLeftX = (int)(position.getX()-position.getSpeed())/sprite.getWidth();
+			int topLeftY = (int)(position.getY()+sprite.getHeight()/2)/tiledMap.getTileHeight();
+			int bottomLeftY = (int)(position.getY()+sprite.getHeight()-1)/tiledMap.getTileHeight();
+			int topLeftX = (int)(position.getX()-position.getSpeed())/tiledMap.getTileWidth();
+			int bottomLeftX = (int)(position.getX()-position.getSpeed())/tiledMap.getTileWidth();
 			if ((wallCollision(tiledMap, topLeftX, topLeftY) || wallCollision(tiledMap, bottomLeftX, bottomLeftY))) {
 				collision.setCollidingLeft(true);
 			}
 		}
 		
 		if (!collision.isCollidingRight()) {
-			int topRightY = (int)(position.getY())/sprite.getHeight();
-			int bottomRightY = (int)(position.getY()+sprite.getHeight()-1)/sprite.getHeight();
-			int topRightX = (int)(position.getX()+position.getSpeed()+sprite.getWidth()-1)/sprite.getWidth();
-			int bottomRightX = (int)(position.getX()+position.getSpeed()+sprite.getWidth()-1)/sprite.getWidth();
+			int topRightY = (int)(position.getY()+sprite.getHeight()/2)/tiledMap.getTileHeight();
+			int bottomRightY = (int)(position.getY()+sprite.getHeight()-1)/tiledMap.getTileHeight();
+			int topRightX = (int)(position.getX()+position.getSpeed()+sprite.getWidth()-1)/tiledMap.getTileWidth();
+			int bottomRightX = (int)(position.getX()+position.getSpeed()+sprite.getWidth()-1)/tiledMap.getTileWidth();
 			if ((wallCollision(tiledMap, topRightX, topRightY) || wallCollision(tiledMap, bottomRightX, bottomRightY))) {
 				collision.setCollidingRight(true);
 			}
 		}
 		
 		if (!collision.isCollidingUp()) {
-			int topLeftY = (int)(position.getY()-position.getSpeed())/sprite.getHeight();
-			int topRightY = (int)(position.getY()-position.getSpeed())/sprite.getHeight();
-			int topLeftX = (int)(position.getX())/sprite.getWidth();
-			int topRightX = (int)(position.getX()+sprite.getWidth()-1)/sprite.getWidth();
+			int topLeftY = (int)(position.getY()-position.getSpeed()+sprite.getHeight()/2)/tiledMap.getTileHeight();
+			int topRightY = (int)(position.getY()-position.getSpeed()+sprite.getHeight()/2)/tiledMap.getTileHeight();
+			int topLeftX = (int)(position.getX())/tiledMap.getTileWidth();
+			int topRightX = (int)(position.getX()+sprite.getWidth()-1)/tiledMap.getTileWidth();
 			if ((wallCollision(tiledMap, topLeftX, topLeftY) || wallCollision(tiledMap, topRightX, topRightY))) {
 				collision.setCollidingUp(true);
 			}
 		}
 		
 		if (!collision.isCollidingDown()) {
-			int bottomLeftY = (int)(position.getY()+sprite.getHeight()+position.getSpeed()-1)/sprite.getHeight();
-			int bottomRightY = (int)(position.getY()+sprite.getHeight()+position.getSpeed()-1)/sprite.getHeight();
-			int bottomLeftX = (int)(position.getX())/sprite.getWidth();
-			int bottomRightX = (int)(position.getX()+sprite.getWidth()-1)/sprite.getWidth();
+			int bottomLeftY = (int)(position.getY()+sprite.getHeight()+position.getSpeed()-1)/tiledMap.getTileHeight();
+			int bottomRightY = (int)(position.getY()+sprite.getHeight()+position.getSpeed()-1)/tiledMap.getTileHeight();
+			int bottomLeftX = (int)(position.getX())/tiledMap.getTileWidth();
+			int bottomRightX = (int)(position.getX()+sprite.getWidth()-1)/tiledMap.getTileWidth();
 			if ((wallCollision(tiledMap, bottomLeftX, bottomLeftY) || wallCollision(tiledMap, bottomRightX, bottomRightY))) {
 				collision.setCollidingDown(true);
 			}
 		}
-		
-		//if (position.getX()-position.getSpeed())
 		
 	}
 

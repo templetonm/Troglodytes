@@ -1,5 +1,7 @@
 package com.turbonips.troglodytes;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
@@ -22,16 +24,15 @@ public class EntityFactory {
 	public static final int ID_BG_LAYER = 2;
 	public static final int ID_FG_LAYER = 3;
 	public static final int ID_WALL_LAYER = 4;
-	
+
 	public static Entity create(World world, int id) throws SlickException {
 		Image playerImage = new Image("resources/graphics/player.png");
+		TiledMap tiledMap = new TiledMap("resources/maps/trog1.tmx","resources/graphics");
 		SpriteSheet playerSpriteSheet = new SpriteSheet("resources/graphics/demoCharTest.png", 32, 64);
-		TiledMap tiledMap = new TiledMap("resources/maps/trog2.tmx");
 		Vector2f slidingStart = new Vector2f((float)playerImage.getWidth()/2, (float)playerImage.getHeight()/2);
 		int speed = 8;
 		Rectangle box = new Rectangle(speed*-15, speed*-12, speed*15, speed*12);
-		Vector2f startPosition = new Vector2f(32*10, 32*10);
-
+		Vector2f startPosition = new Vector2f(32*25, 32*18);
 		switch(id) {
 			case ID_PLAYER:
 				Entity player = world.createEntity();
