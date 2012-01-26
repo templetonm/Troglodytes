@@ -4,20 +4,14 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
-import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.EntityProcessingSystem;
 import com.artemis.EntitySystem;
 import com.artemis.utils.ImmutableBag;
-import com.turbonips.troglodytes.EntityFactory;
 import com.turbonips.troglodytes.components.AnimationCreature;
-import com.turbonips.troglodytes.components.Collision;
-import com.turbonips.troglodytes.components.Sliding;
 import com.turbonips.troglodytes.components.SpatialForm;
 import com.turbonips.troglodytes.components.Transform;
 import com.turbonips.troglodytes.objects.ObjectType;

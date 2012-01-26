@@ -1,7 +1,5 @@
 package com.turbonips.troglodytes;
 
-import java.util.ArrayList;
-
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;

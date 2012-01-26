@@ -2,18 +2,13 @@ package com.turbonips.troglodytes.states;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.tiled.TiledMap;
 
 import com.artemis.EntitySystem;
 import com.artemis.SystemManager;
 import com.artemis.World;
 import com.turbonips.troglodytes.EntityFactory;
-import com.turbonips.troglodytes.components.SpatialForm;
 import com.turbonips.troglodytes.systems.CollisionSystem;
 import com.turbonips.troglodytes.systems.ControlSystem;
 import com.turbonips.troglodytes.systems.DebugTextSystem;
