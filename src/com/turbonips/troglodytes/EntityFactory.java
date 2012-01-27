@@ -13,7 +13,7 @@ import com.turbonips.troglodytes.components.AnimationCreature;
 import com.turbonips.troglodytes.components.Collision;
 import com.turbonips.troglodytes.components.Sliding;
 import com.turbonips.troglodytes.components.SpatialForm;
-import com.turbonips.troglodytes.components.Transform;
+import com.turbonips.troglodytes.components.Position;
 
 public class EntityFactory {
 	
@@ -36,7 +36,7 @@ public class EntityFactory {
 			case ID_PLAYER:
 				Entity player = world.createEntity();
 				player.setGroup("CREATURE");
-				player.addComponent(new Transform(startPosition, speed));
+				player.addComponent(new Position(startPosition, speed));
 				player.addComponent(new Sliding(slidingStart, speed, box));
 				player.addComponent(new SpatialForm(playerImage, SpatialForm.TYPE_PLAYER));
 				player.addComponent(new AnimationCreature(playerSpriteSheet));
@@ -46,7 +46,7 @@ public class EntityFactory {
 			case ID_GROUND_LAYER:
 				Entity ground = world.createEntity();
 				ground.setGroup("LAYER");
-				ground.addComponent(new Transform(startPosition, speed));
+				ground.addComponent(new Position(startPosition, speed));
 				ground.addComponent(new Sliding(slidingStart, speed, box));
 				ground.addComponent(new SpatialForm(startMap, SpatialForm.TYPE_GROUND_LAYER));
 				ground.addComponent(new Collision());
@@ -55,7 +55,7 @@ public class EntityFactory {
 			case ID_BG_LAYER:
 				Entity background = world.createEntity();
 				background.setGroup("LAYER");
-				background.addComponent(new Transform(startPosition, speed));
+				background.addComponent(new Position(startPosition, speed));
 				background.addComponent(new Sliding(slidingStart, speed, box));
 				background.addComponent(new SpatialForm(startMap, SpatialForm.TYPE_BACKGROUND_LAYER));
 				background.addComponent(new Collision());
@@ -64,7 +64,7 @@ public class EntityFactory {
 			case ID_FG_LAYER:
 				Entity foreground = world.createEntity();
 				foreground.setGroup("LAYER");
-				foreground.addComponent(new Transform(startPosition, speed));
+				foreground.addComponent(new Position(startPosition, speed));
 				foreground.addComponent(new Sliding(slidingStart, speed, box));
 				foreground.addComponent(new SpatialForm(startMap, SpatialForm.TYPE_FOREGROUND_LAYER));
 				foreground.addComponent(new Collision());
@@ -73,7 +73,7 @@ public class EntityFactory {
 			case ID_WALL_LAYER:
 				Entity wall = world.createEntity();
 				wall.setGroup("LAYER");
-				wall.addComponent(new Transform(startPosition, speed));
+				wall.addComponent(new Position(startPosition, speed));
 				wall.addComponent(new Sliding(slidingStart, speed, box));
 				wall.addComponent(new SpatialForm(startMap, SpatialForm.TYPE_WALL_LAYER));
 				wall.addComponent(new Collision());

@@ -8,11 +8,11 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.turbonips.troglodytes.components.Sliding;
-import com.turbonips.troglodytes.components.Transform;
+import com.turbonips.troglodytes.components.Position;
 
 public class Layer extends Spatial {
 	private Sliding sliding;
-	private Transform position;
+	private Position position;
 	private TiledMap tiledMap;
 	private int layer;
 	private final GameContainer container;
@@ -26,9 +26,9 @@ public class Layer extends Spatial {
 
 	@Override
 	public void initalize() {
-		ComponentMapper<Transform> transformMapper = new ComponentMapper<Transform>(Transform.class, world);
+		ComponentMapper<Position> positionMapper = new ComponentMapper<Position>(Position.class, world);
 		ComponentMapper<Sliding> slidingMapper = new ComponentMapper<Sliding>(Sliding.class, world);
-		position = transformMapper.get(owner);
+		position = positionMapper.get(owner);
 		sliding = slidingMapper.get(owner);
 	}
 

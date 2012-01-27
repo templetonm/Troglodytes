@@ -8,12 +8,12 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.turbonips.troglodytes.components.Collision;
 import com.turbonips.troglodytes.components.Sliding;
-import com.turbonips.troglodytes.components.Transform;
+import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.AnimationCreature;
 
 public class ControlSystem extends BaseEntityProcessingSystem implements KeyListener {
 	private final GameContainer container;
-    private ComponentMapper<Transform> positionMapper;
+    private ComponentMapper<Position> positionMapper;
     private ComponentMapper<Sliding> slidingMapper;
     private ComponentMapper<Collision> collisionMapper;
 	private ComponentMapper<AnimationCreature> animationCreatureMapper;
@@ -25,13 +25,13 @@ public class ControlSystem extends BaseEntityProcessingSystem implements KeyList
     		key_esc = false;
 
 	public ControlSystem(GameContainer container) {
-		super(Transform.class);
+		super(Position.class);
 		this.container = container;
 	}
 	
 	@Override
 	protected void initialize() {
-		positionMapper = new ComponentMapper<Transform>(Transform.class, world);
+		positionMapper = new ComponentMapper<Position>(Position.class, world);
 		slidingMapper = new ComponentMapper<Sliding>(Sliding.class, world);
 		collisionMapper = new ComponentMapper<Collision>(Collision.class, world);
 		animationCreatureMapper = new ComponentMapper<AnimationCreature>(AnimationCreature.class, world);
@@ -40,7 +40,7 @@ public class ControlSystem extends BaseEntityProcessingSystem implements KeyList
 
 	@Override
 	protected void process(Entity e) {
-		Transform position = positionMapper.get(e);
+		Position position = positionMapper.get(e);
 		Sliding sliding = slidingMapper.get(e);
 		AnimationCreature animationCreature = animationCreatureMapper.get(e);
 		Collision collision = collisionMapper.get(e);

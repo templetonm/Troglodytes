@@ -10,23 +10,23 @@ import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.components.AnimationCreature;
 import com.turbonips.troglodytes.components.Collision;
 import com.turbonips.troglodytes.components.SpatialForm;
-import com.turbonips.troglodytes.components.Transform;
+import com.turbonips.troglodytes.components.Position;
 
 public class CollisionSystem extends BaseEntitySystem {
 	private final GameContainer container;
-	private ComponentMapper<Transform> positionMapper;
+	private ComponentMapper<Position> positionMapper;
 	private ComponentMapper<Collision> collisionMapper;
 	private ComponentMapper<SpatialForm> spatialFormMapper;
 	private ComponentMapper<AnimationCreature> animationCreatureMapper;
 
 	public CollisionSystem(GameContainer container) {
-		super(Transform.class, Collision.class, SpatialForm.class);
+		super(Position.class, Collision.class, SpatialForm.class);
 		this.container = container;
 	}
 	
 	@Override
 	protected void initialize() {
-		positionMapper = new ComponentMapper<Transform>(Transform.class, world);
+		positionMapper = new ComponentMapper<Position>(Position.class, world);
 		collisionMapper = new ComponentMapper<Collision>(Collision.class, world);
 		spatialFormMapper = new ComponentMapper<SpatialForm>(SpatialForm.class, world);
 		animationCreatureMapper = new ComponentMapper<AnimationCreature>(AnimationCreature.class, world);
@@ -41,7 +41,7 @@ public class CollisionSystem extends BaseEntitySystem {
 
 		for (int a=0; a<creatures.size(); a++) {
 			Entity creature = creatures.get(a);
-			Transform position = positionMapper.get(creature);
+			Position position = positionMapper.get(creature);
 			Collision collision = collisionMapper.get(creature);
 			Image sprite = (Image)animationCreatureMapper.get(creature).getCurrent().getImage(0);
 			updateCollision(position, collision, tiledMap, sprite);
@@ -69,7 +69,7 @@ public class CollisionSystem extends BaseEntitySystem {
 		return false;
 	}
 	
-	private void updateCollision(Transform position, Collision collision, TiledMap tiledMap, Image sprite) {
+	private void updateCollision(Position position, Collision collision, TiledMap tiledMap, Image sprite) {
 		collision.setColliding(false, false, false, false);
 		
 		// Bounds checks

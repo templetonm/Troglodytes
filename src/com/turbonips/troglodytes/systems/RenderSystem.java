@@ -6,7 +6,7 @@ import org.newdawn.slick.Graphics;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.Bag;
-import com.turbonips.troglodytes.components.Transform;
+import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.SpatialForm;
 import com.turbonips.troglodytes.spatials.Layer;
 import com.turbonips.troglodytes.spatials.Player;
@@ -21,7 +21,7 @@ public class RenderSystem extends BaseEntityProcessingSystem {
 	private ComponentMapper<SpatialForm> spatialFormMapper;
 
 	public RenderSystem(GameContainer container) {
-		super(Transform.class, SpatialForm.class);
+		super(Position.class, SpatialForm.class);
 		this.container = container;
 		this.graphics = container.getGraphics();
 		

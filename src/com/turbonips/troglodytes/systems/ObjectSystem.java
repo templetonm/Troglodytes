@@ -12,24 +12,24 @@ import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.ResourceManager;
 import com.turbonips.troglodytes.components.AnimationCreature;
 import com.turbonips.troglodytes.components.SpatialForm;
-import com.turbonips.troglodytes.components.Transform;
+import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.objects.ObjectType;
 import com.turbonips.troglodytes.objects.WarpObject;
 
 public class ObjectSystem extends BaseEntitySystem {
 	private final GameContainer container;
-	private ComponentMapper<Transform> positionMapper;
+	private ComponentMapper<Position> positionMapper;
 	private ComponentMapper<SpatialForm> spatialFormMapper;
 	private ComponentMapper<AnimationCreature> animationCreatureMapper;
 
 	public ObjectSystem(GameContainer container) {
-		super(Transform.class, SpatialForm.class);
+		super(Position.class, SpatialForm.class);
 		this.container = container;
 	}
 	
 	@Override
 	protected void initialize() {
-		positionMapper = new ComponentMapper<Transform>(Transform.class, world);
+		positionMapper = new ComponentMapper<Position>(Position.class, world);
 		spatialFormMapper = new ComponentMapper<SpatialForm>(SpatialForm.class, world);
 		animationCreatureMapper = new ComponentMapper<AnimationCreature>(AnimationCreature.class, world);
 	}
@@ -50,7 +50,7 @@ public class ObjectSystem extends BaseEntitySystem {
 		for (int a=0; a<creatures.size(); a++) {
 			Entity creature = creatures.get(a);
 			Image sprite = animationCreatureMapper.get(creature).getCurrent().getImage(0);
-			Transform position = positionMapper.get(creature);
+			Position position = positionMapper.get(creature);
 			ObjectType objectType = getObjectType(position, mapLayers, sprite);
 			// TODO: When we use a warp object we'll want to unload the current map & monsters OR
 			// 		 manage memory in some intelligent way
@@ -64,7 +64,7 @@ public class ObjectSystem extends BaseEntitySystem {
 							int oldType = spatialFormMapper.get(entity).getType();
 							entity.removeComponent(spatialFormMapper.get(entity));
 							entity.addComponent(new SpatialForm(newMap, oldType));
-							Transform layerPosition = positionMapper.get(entity);
+							Position layerPosition = positionMapper.get(entity);
 							layerPosition.setPosition(warpObject.getX()*sprite.getWidth(), warpObject.getY()*sprite.getHeight());
 						}
 						break;
@@ -95,7 +95,7 @@ public class ObjectSystem extends BaseEntitySystem {
 		return null;
 	}
 	
-	private ObjectType getObjectType(Transform position, ArrayList<SpatialForm> mapLayers, Image sprite) {
+	private ObjectType getObjectType(Position position, ArrayList<SpatialForm> mapLayers, Image sprite) {
 		int topLeftY;
 		int bottomLeftY;
 		int topLeftX;

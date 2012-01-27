@@ -4,7 +4,7 @@ package com.turbonips.troglodytes.components;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
-public class Sliding extends Transform {
+public class Sliding extends Position {
 	
 	private Rectangle box;
 	
