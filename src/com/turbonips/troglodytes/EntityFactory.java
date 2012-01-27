@@ -31,13 +31,13 @@ public class EntityFactory {
 		Vector2f slidingStart = new Vector2f((float)playerImage.getWidth()/2, (float)playerImage.getHeight()/2);
 		int speed = 8;
 		Rectangle box = new Rectangle(speed*-15, speed*-12, speed*15, speed*12);
-		Vector2f startPosition = new Vector2f(32*25, 32*18);
+		Vector2f startPosition = new Vector2f(32*5, 64*5);
 		switch(id) {
 			case ID_PLAYER:
 				Entity player = world.createEntity();
 				player.setGroup("CREATURE");
 				player.addComponent(new Transform(startPosition, speed));
-				player.addComponent(new Sliding(slidingStart, speed, box));
+				//player.addComponent(new Sliding(slidingStart, speed, box));
 				player.addComponent(new SpatialForm(playerImage, SpatialForm.TYPE_PLAYER));
 				player.addComponent(new AnimationCreature(playerSpriteSheet));
 				player.addComponent(new Collision());
@@ -47,7 +47,7 @@ public class EntityFactory {
 				Entity ground = world.createEntity();
 				ground.setGroup("LAYER");
 				ground.addComponent(new Transform(startPosition, speed));
-				ground.addComponent(new Sliding(slidingStart, speed, box));
+				//ground.addComponent(new Sliding(slidingStart, speed, box));
 				ground.addComponent(new SpatialForm(startMap, SpatialForm.TYPE_GROUND_LAYER));
 				ground.addComponent(new Collision());
 				ground.refresh();
@@ -56,7 +56,7 @@ public class EntityFactory {
 				Entity background = world.createEntity();
 				background.setGroup("LAYER");
 				background.addComponent(new Transform(startPosition, speed));
-				background.addComponent(new Sliding(slidingStart, speed, box));
+				//background.addComponent(new Sliding(slidingStart, speed, box));
 				background.addComponent(new SpatialForm(startMap, SpatialForm.TYPE_BACKGROUND_LAYER));
 				background.addComponent(new Collision());
 				background.refresh();
@@ -65,7 +65,7 @@ public class EntityFactory {
 				Entity foreground = world.createEntity();
 				foreground.setGroup("LAYER");
 				foreground.addComponent(new Transform(startPosition, speed));
-				foreground.addComponent(new Sliding(slidingStart, speed, box));
+				//foreground.addComponent(new Sliding(slidingStart, speed, box));
 				foreground.addComponent(new SpatialForm(startMap, SpatialForm.TYPE_FOREGROUND_LAYER));
 				foreground.addComponent(new Collision());
 				foreground.refresh();
@@ -74,7 +74,7 @@ public class EntityFactory {
 				Entity wall = world.createEntity();
 				wall.setGroup("LAYER");
 				wall.addComponent(new Transform(startPosition, speed));
-				wall.addComponent(new Sliding(slidingStart, speed, box));
+				//wall.addComponent(new Sliding(slidingStart, speed, box));
 				wall.addComponent(new SpatialForm(startMap, SpatialForm.TYPE_WALL_LAYER));
 				wall.addComponent(new Collision());
 				wall.refresh();
