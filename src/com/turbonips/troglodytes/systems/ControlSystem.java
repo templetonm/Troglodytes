@@ -6,13 +6,12 @@ import org.newdawn.slick.KeyListener;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.EntityProcessingSystem;
 import com.turbonips.troglodytes.components.Collision;
 import com.turbonips.troglodytes.components.Sliding;
 import com.turbonips.troglodytes.components.Transform;
 import com.turbonips.troglodytes.components.AnimationCreature;
 
-public class ControlSystem extends EntityProcessingSystem implements KeyListener {
+public class ControlSystem extends BaseEntityProcessingSystem implements KeyListener {
 	private final GameContainer container;
     private ComponentMapper<Transform> positionMapper;
     private ComponentMapper<Sliding> slidingMapper;

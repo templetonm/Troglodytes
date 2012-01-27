@@ -4,12 +4,10 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.EntitySystem;
 import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.ResourceManager;
 import com.turbonips.troglodytes.components.AnimationCreature;
@@ -18,7 +16,7 @@ import com.turbonips.troglodytes.components.Transform;
 import com.turbonips.troglodytes.objects.ObjectType;
 import com.turbonips.troglodytes.objects.WarpObject;
 
-public class ObjectSystem extends EntitySystem {
+public class ObjectSystem extends BaseEntitySystem {
 	private final GameContainer container;
 	private ComponentMapper<Transform> positionMapper;
 	private ComponentMapper<SpatialForm> spatialFormMapper;

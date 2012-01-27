@@ -5,17 +5,16 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.EntitySystem;
 import com.artemis.utils.ImmutableBag;
+import com.turbonips.troglodytes.ResourceManager;
 import com.turbonips.troglodytes.components.Sliding;
 import com.turbonips.troglodytes.components.SpatialForm;
 
-public class LightingSystem extends EntitySystem {
+public class LightingSystem extends BaseEntitySystem {
 	private Image light;
 	private Graphics graphics;
 	private GameContainer container;
@@ -27,11 +26,8 @@ public class LightingSystem extends EntitySystem {
 		super(Sliding.class);
 		this.container = container;
 		graphics = container.getGraphics();
-		try {
-			light = new Image("resources/graphics/light.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		ResourceManager resourceManager = ResourceManager.getInstance();
+		light = (Image)resourceManager.getResource("light").getObject();
 	}
 	
 	@Override

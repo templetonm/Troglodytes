@@ -6,14 +6,13 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.EntitySystem;
 import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.components.AnimationCreature;
 import com.turbonips.troglodytes.components.Collision;
 import com.turbonips.troglodytes.components.SpatialForm;
 import com.turbonips.troglodytes.components.Transform;
 
-public class CollisionSystem extends EntitySystem {
+public class CollisionSystem extends BaseEntitySystem {
 	private final GameContainer container;
 	private ComponentMapper<Transform> positionMapper;
 	private ComponentMapper<Collision> collisionMapper;

@@ -5,7 +5,6 @@ import org.newdawn.slick.Graphics;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.EntityProcessingSystem;
 import com.artemis.utils.Bag;
 import com.turbonips.troglodytes.components.Transform;
 import com.turbonips.troglodytes.components.SpatialForm;
@@ -14,7 +13,7 @@ import com.turbonips.troglodytes.spatials.Player;
 import com.turbonips.troglodytes.spatials.Spatial;
 
 
-public class RenderSystem extends EntityProcessingSystem {
+public class RenderSystem extends BaseEntityProcessingSystem {
 	
 	private final GameContainer container;
 	private final Graphics graphics;

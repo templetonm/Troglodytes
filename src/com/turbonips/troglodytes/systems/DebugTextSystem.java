@@ -11,7 +11,7 @@ import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.components.AnimationCreature;
 import com.turbonips.troglodytes.components.Transform;
 
-public class DebugTextSystem extends EntitySystem {
+public class DebugTextSystem extends BaseEntitySystem {
 	private GameContainer container;
 	private Graphics graphics;
 	private ComponentMapper<Transform> positionMapper;
