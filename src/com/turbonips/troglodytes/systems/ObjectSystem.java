@@ -58,6 +58,7 @@ public class ObjectSystem extends BaseEntitySystem {
 				switch (objectType.getType()) {
 					case ObjectType.WARP_OBJECT:
 						WarpObject warpObject = (WarpObject)objectType;
+						logger.info("Warping to " + warpObject.getMapName() + "," + warpObject.getX()*sprite.getWidth() + "," + + warpObject.getY()*sprite.getHeight());
 						position.setPosition(warpObject.getX()*sprite.getWidth(), warpObject.getY()*sprite.getHeight());
 						TiledMap newMap = (TiledMap)resourceManager.getResource(warpObject.getMapName()).getObject();
 						for (Entity entity : mapEntities) {
