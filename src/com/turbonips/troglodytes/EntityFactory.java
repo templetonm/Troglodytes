@@ -37,7 +37,7 @@ public class EntityFactory {
 				Entity player = world.createEntity();
 				player.setGroup("CREATURE");
 				player.addComponent(new Transform(startPosition, speed));
-				//player.addComponent(new Sliding(slidingStart, speed, box));
+				player.addComponent(new Sliding(slidingStart, speed, box));
 				player.addComponent(new SpatialForm(playerImage, SpatialForm.TYPE_PLAYER));
 				player.addComponent(new AnimationCreature(playerSpriteSheet));
 				player.addComponent(new Collision());
@@ -47,7 +47,7 @@ public class EntityFactory {
 				Entity ground = world.createEntity();
 				ground.setGroup("LAYER");
 				ground.addComponent(new Transform(startPosition, speed));
-				//ground.addComponent(new Sliding(slidingStart, speed, box));
+				ground.addComponent(new Sliding(slidingStart, speed, box));
 				ground.addComponent(new SpatialForm(startMap, SpatialForm.TYPE_GROUND_LAYER));
 				ground.addComponent(new Collision());
 				ground.refresh();
@@ -56,7 +56,7 @@ public class EntityFactory {
 				Entity background = world.createEntity();
 				background.setGroup("LAYER");
 				background.addComponent(new Transform(startPosition, speed));
-				//background.addComponent(new Sliding(slidingStart, speed, box));
+				background.addComponent(new Sliding(slidingStart, speed, box));
 				background.addComponent(new SpatialForm(startMap, SpatialForm.TYPE_BACKGROUND_LAYER));
 				background.addComponent(new Collision());
 				background.refresh();
@@ -65,7 +65,7 @@ public class EntityFactory {
 				Entity foreground = world.createEntity();
 				foreground.setGroup("LAYER");
 				foreground.addComponent(new Transform(startPosition, speed));
-				//foreground.addComponent(new Sliding(slidingStart, speed, box));
+				foreground.addComponent(new Sliding(slidingStart, speed, box));
 				foreground.addComponent(new SpatialForm(startMap, SpatialForm.TYPE_FOREGROUND_LAYER));
 				foreground.addComponent(new Collision());
 				foreground.refresh();
@@ -74,7 +74,7 @@ public class EntityFactory {
 				Entity wall = world.createEntity();
 				wall.setGroup("LAYER");
 				wall.addComponent(new Transform(startPosition, speed));
-				//wall.addComponent(new Sliding(slidingStart, speed, box));
+				wall.addComponent(new Sliding(slidingStart, speed, box));
 				wall.addComponent(new SpatialForm(startMap, SpatialForm.TYPE_WALL_LAYER));
 				wall.addComponent(new Collision());
 				wall.refresh();
