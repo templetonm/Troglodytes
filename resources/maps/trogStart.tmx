@@ -4,25 +4,25 @@
   <property name="Dark" value="false"/>
  </properties>
  <tileset firstgid="1" name="Len_forestground" tilewidth="32" tileheight="32">
-  <image source="Len_forestground.png" trans="ff00ff" width="629" height="679"/>
+  <image source="../graphics/Len_forestground.png" trans="ff00ff" width="629" height="679"/>
  </tileset>
  <tileset firstgid="400" name="Woodland_ground" tilewidth="32" tileheight="32">
-  <image source="Woodland_ground.png" trans="ff00ff" width="512" height="512"/>
+  <image source="../graphics/Woodland_ground.png" trans="ff00ff" width="512" height="512"/>
  </tileset>
  <tileset firstgid="656" name="Woodland_x2" tilewidth="32" tileheight="32">
-  <image source="Woodland_x2.png" trans="ff00ff" width="512" height="128"/>
+  <image source="../graphics/Woodland_x2.png" trans="ff00ff" width="512" height="128"/>
  </tileset>
  <tileset firstgid="720" name="Forest_cover" tilewidth="32" tileheight="32">
-  <image source="Forest_cover.png" trans="ff00ff" width="320" height="320"/>
+  <image source="../graphics/Forest_cover.png" trans="ff00ff" width="320" height="320"/>
  </tileset>
  <tileset firstgid="820" name="Woodland_x3" tilewidth="32" tileheight="32">
-  <image source="Woodland_x3.png" trans="ff00ff" width="512" height="192"/>
+  <image source="../graphics/Woodland_x3.png" trans="ff00ff" width="512" height="192"/>
  </tileset>
  <tileset firstgid="916" name="Woodland_x4" tilewidth="32" tileheight="32">
-  <image source="Woodland_x4.png" trans="ff00ff" width="512" height="128"/>
+  <image source="../graphics/Woodland_x4.png" trans="ff00ff" width="512" height="128"/>
  </tileset>
  <tileset firstgid="980" name="collision" tilewidth="32" tileheight="32">
-  <image source="collision.png" trans="ff00ff" width="64" height="32"/>
+  <image source="../graphics/collision.png" trans="ff00ff" width="64" height="32"/>
  </tileset>
  <layer name="Ground" width="50" height="25">
   <data encoding="base64" compression="gzip">
@@ -47,7 +47,7 @@
  <objectgroup name="Objects" width="50" height="25">
   <object name="WarpToNext" type="Warp" x="1568" y="0" width="32" height="800">
    <properties>
-    <property name="Map" value="Trog2.tmx"/>
+    <property name="Map" value="trog2"/>
     <property name="x" value="0"/>
     <property name="y" value="0"/>
    </properties>
