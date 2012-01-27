@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.beans.XMLEncoder;
 import java.beans.XMLDecoder;
 
-
 public class XMLSerializer {
 	private FileOutputStream fos;
 	private XMLEncoder xmle;
@@ -13,37 +12,34 @@ public class XMLSerializer {
 	private XMLDecoder xmld;
 
 	public XMLSerializer() {
-		
+
 	}
-	
+
 	public void SerializeObject(Object obj, String objName) {
-		try
-		{
-			String objFilepath = objName; // TODO: Organize filepaths for XML files.
+		try {
+			String objFilepath = objName; // TODO: Organize filepaths for XML
+											// files.
 			fos = new FileOutputStream(objFilepath);
 			xmle = new XMLEncoder(fos);
 			xmle.writeObject(obj);
 			xmle.close();
-		} catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public EnemyData DeserializeEnemyData(EnemyData enemyData, String enemyName) {
-		try
-		{
+		try {
 			String objFilepath = enemyName; // See above todo message.
 			fis = new FileInputStream(objFilepath);
 			xmld = new XMLDecoder(fis);
 			enemyData = (EnemyData) xmld.readObject();
 			xmld.close();
-		} catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return enemyData;
 	}
-	
+
 }
