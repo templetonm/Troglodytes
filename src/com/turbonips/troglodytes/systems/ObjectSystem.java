@@ -11,6 +11,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
 import com.artemis.utils.ImmutableBag;
+import com.turbonips.troglodytes.ResourceManager;
 import com.turbonips.troglodytes.components.AnimationCreature;
 import com.turbonips.troglodytes.components.SpatialForm;
 import com.turbonips.troglodytes.components.Transform;
@@ -37,6 +38,7 @@ public class ObjectSystem extends EntitySystem {
 
 	@Override
 	protected void processEntities(ImmutableBag<Entity> entities) {
+		ResourceManager resourceManager = ResourceManager.getInstance();
 		ImmutableBag<Entity> layers = world.getGroupManager().getEntities("LAYER");
 		ImmutableBag<Entity> creatures = world.getGroupManager().getEntities("CREATURE");
 		ArrayList<SpatialForm> mapLayers = new ArrayList<SpatialForm>();
@@ -52,25 +54,20 @@ public class ObjectSystem extends EntitySystem {
 			Image sprite = animationCreatureMapper.get(creature).getCurrent().getImage(0);
 			Transform position = positionMapper.get(creature);
 			ObjectType objectType = getObjectType(position, mapLayers, sprite);
-			
+			// TODO: When we use a warp object we'll want to unload the current map & monsters OR
+			// 		 manage memory in some intelligent way
 			if (objectType != null) {
 				switch (objectType.getType()) {
 					case ObjectType.WARP_OBJECT:
 						WarpObject warpObject = (WarpObject)objectType;
-						// TODO change to the CreatureAnimationComponent height & width
 						position.setPosition(warpObject.getX()*sprite.getWidth(), warpObject.getY()*sprite.getHeight());
-						try {
-							TiledMap newMap = new TiledMap("resources/maps/" + warpObject.getMapName(), "resources/graphics");
-							for (Entity entity : mapEntities) {
-								int oldType = spatialFormMapper.get(entity).getType();
-								entity.removeComponent(spatialFormMapper.get(entity));
-								entity.addComponent(new SpatialForm(newMap, oldType));
-								Transform layerPosition = positionMapper.get(entity);
-								layerPosition.setPosition(warpObject.getX()*sprite.getWidth(), warpObject.getY()*sprite.getHeight());
-							}
-						
-						} catch (SlickException e) {
-							e.printStackTrace();
+						TiledMap newMap = (TiledMap)resourceManager.getResource(warpObject.getMapName()).getObject();
+						for (Entity entity : mapEntities) {
+							int oldType = spatialFormMapper.get(entity).getType();
+							entity.removeComponent(spatialFormMapper.get(entity));
+							entity.addComponent(new SpatialForm(newMap, oldType));
+							Transform layerPosition = positionMapper.get(entity);
+							layerPosition.setPosition(warpObject.getX()*sprite.getWidth(), warpObject.getY()*sprite.getHeight());
 						}
 						break;
 				}

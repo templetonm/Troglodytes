@@ -24,9 +24,10 @@ public class EntityFactory {
 	public static final int ID_WALL_LAYER = 4;
 
 	public static Entity create(World world, int id) throws SlickException {
-		Image playerImage = new Image("resources/graphics/player.png");
-		TiledMap tiledMap = new TiledMap("resources/maps/trog1.tmx","resources/graphics");
-		SpriteSheet playerSpriteSheet = new SpriteSheet("resources/graphics/demoCharTest.png", 32, 64);
+		ResourceManager resourceManager = ResourceManager.getInstance();		
+		Image playerImage = (Image)resourceManager.getResource("testplayerimage").getObject();
+		TiledMap startMap = (TiledMap)resourceManager.getResource("trog0").getObject();
+		SpriteSheet playerSpriteSheet = (SpriteSheet)resourceManager.getResource("testplayersprite").getObject();
 		Vector2f slidingStart = new Vector2f((float)playerImage.getWidth()/2, (float)playerImage.getHeight()/2);
 		int speed = 8;
 		Rectangle box = new Rectangle(speed*-15, speed*-12, speed*15, speed*12);
@@ -47,7 +48,7 @@ public class EntityFactory {
 				ground.setGroup("LAYER");
 				ground.addComponent(new Transform(startPosition, speed));
 				ground.addComponent(new Sliding(slidingStart, speed, box));
-				ground.addComponent(new SpatialForm(tiledMap, SpatialForm.TYPE_GROUND_LAYER));
+				ground.addComponent(new SpatialForm(startMap, SpatialForm.TYPE_GROUND_LAYER));
 				ground.addComponent(new Collision());
 				ground.refresh();
 				return ground;
@@ -56,7 +57,7 @@ public class EntityFactory {
 				background.setGroup("LAYER");
 				background.addComponent(new Transform(startPosition, speed));
 				background.addComponent(new Sliding(slidingStart, speed, box));
-				background.addComponent(new SpatialForm(tiledMap, SpatialForm.TYPE_BACKGROUND_LAYER));
+				background.addComponent(new SpatialForm(startMap, SpatialForm.TYPE_BACKGROUND_LAYER));
 				background.addComponent(new Collision());
 				background.refresh();
 				return background;
@@ -65,7 +66,7 @@ public class EntityFactory {
 				foreground.setGroup("LAYER");
 				foreground.addComponent(new Transform(startPosition, speed));
 				foreground.addComponent(new Sliding(slidingStart, speed, box));
-				foreground.addComponent(new SpatialForm(tiledMap, SpatialForm.TYPE_FOREGROUND_LAYER));
+				foreground.addComponent(new SpatialForm(startMap, SpatialForm.TYPE_FOREGROUND_LAYER));
 				foreground.addComponent(new Collision());
 				foreground.refresh();
 				return foreground;
@@ -74,7 +75,7 @@ public class EntityFactory {
 				wall.setGroup("LAYER");
 				wall.addComponent(new Transform(startPosition, speed));
 				wall.addComponent(new Sliding(slidingStart, speed, box));
-				wall.addComponent(new SpatialForm(tiledMap, SpatialForm.TYPE_WALL_LAYER));
+				wall.addComponent(new SpatialForm(startMap, SpatialForm.TYPE_WALL_LAYER));
 				wall.addComponent(new Collision());
 				wall.refresh();
 				return wall;
