@@ -48,8 +48,8 @@
   <object name="WarpToNext" type="Warp" x="1568" y="0" width="32" height="800">
    <properties>
     <property name="Map" value="trog2"/>
-    <property name="x" value="0"/>
-    <property name="y" value="0"/>
+    <property name="X" value="5"/>
+    <property name="Y" value="0"/>
    </properties>
   </object>
  </objectgroup>

@@ -58,5 +58,12 @@
     <property name="Y" value="8"/>
    </properties>
   </object>
+  <object name="Warp to Ben's map" type="Warp" x="1" y="0" width="33" height="898">
+   <properties>
+    <property name="Map" value="trog0"/>
+    <property name="X" value="47"/>
+    <property name="Y" value="5"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
