@@ -26,7 +26,6 @@ import org.xml.sax.SAXException;
 public class ResourceFactory {
 	private final Logger logger = Logger.getLogger(getClass());
 	private static final ResourceFactory instance = new ResourceFactory();
-	private static final String SEP = "/";
 	private HashMap<String, Element> resourceElements = new HashMap<String, Element>();
 
 	private ResourceFactory() {
@@ -104,7 +103,6 @@ public class ResourceFactory {
 
 			if (resourceNode.getNodeType() == Node.ELEMENT_NODE) {
 				Element resourceElement = (Element) resourceNode;
-				String type = resourceElement.getAttribute("type");
 				String id = resourceElement.getAttribute("id");
 				resourceElements.put(id.toLowerCase(), resourceElement);
 
