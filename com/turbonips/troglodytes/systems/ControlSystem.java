@@ -22,7 +22,8 @@ public class ControlSystem extends EntityProcessingSystem implements KeyListener
     boolean key_up = false, 
     		key_down = false, 
     		key_left = false, 
-    		key_right = false;
+    		key_right = false,
+    		key_esc = false;
 
 	public ControlSystem(GameContainer container) {
 		super(Transform.class);
@@ -49,6 +50,8 @@ public class ControlSystem extends EntityProcessingSystem implements KeyListener
 				collisionDown = false,
 				collisionLeft = false,
 				collisionRight = false;
+		
+		if (key_esc) container.exit();
 		
 		if (collision != null) {
 			collisionUp = collision.isCollidingUp();
@@ -117,10 +120,8 @@ public class ControlSystem extends EntityProcessingSystem implements KeyListener
 			}
 		}
 		
-		if (!key_up && !key_down && !key_left && !key_right)
-		{
-			if (animationCreature != null)
-			{
+		if (!key_up && !key_down && !key_left && !key_right) {
+			if (animationCreature != null) {
 				animationCreature.setIdle();
 			}
 		}
@@ -141,6 +142,9 @@ public class ControlSystem extends EntityProcessingSystem implements KeyListener
 			case Input.KEY_RIGHT:
 				key_right = true;
 				break;
+			case Input.KEY_ESCAPE:
+				key_esc = true;
+				break;
 		}
 	}
 
@@ -158,6 +162,9 @@ public class ControlSystem extends EntityProcessingSystem implements KeyListener
 				break;
 			case Input.KEY_RIGHT:
 				key_right = false;
+				break;
+			case Input.KEY_ESCAPE:
+				key_esc = false;
 				break;
 		}
 	}
