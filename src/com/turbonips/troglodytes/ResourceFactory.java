@@ -23,6 +23,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.turbonips.troglodytes.components.Resource;
+
 public class ResourceFactory {
 	private final Logger logger = Logger.getLogger(getClass());
 	private static final ResourceFactory instance = new ResourceFactory();
@@ -61,6 +63,10 @@ public class ResourceFactory {
 			int width = Integer.valueOf(resourceElement.getAttribute("width"));
 			int height = Integer.valueOf(resourceElement.getAttribute("height"));
 			return new Resource(id, type, path, new SpriteSheet(path, width, height));
+		} else if (type.equals("creatureanimation")) {
+			int width = Integer.valueOf(resourceElement.getAttribute("width"));
+			int height = Integer.valueOf(resourceElement.getAttribute("height"));
+			return new Resource(id, type, path, new CreatureAnimation(path, width, height));
 		}
 		
 		

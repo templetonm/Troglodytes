@@ -7,7 +7,7 @@ import org.newdawn.slick.tiled.TiledMap;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
-import com.turbonips.troglodytes.components.AnimationCreature;
+import com.turbonips.troglodytes.CreatureAnimation;
 import com.turbonips.troglodytes.components.Collision;
 import com.turbonips.troglodytes.components.SpatialForm;
 import com.turbonips.troglodytes.components.Position;
@@ -17,7 +17,7 @@ public class CollisionSystem extends BaseEntitySystem {
 	private ComponentMapper<Position> positionMapper;
 	private ComponentMapper<Collision> collisionMapper;
 	private ComponentMapper<SpatialForm> spatialFormMapper;
-	private ComponentMapper<AnimationCreature> animationCreatureMapper;
+	private ComponentMapper<CreatureAnimation> animationCreatureMapper;
 
 	public CollisionSystem(GameContainer container) {
 		super(Position.class, Collision.class, SpatialForm.class);
@@ -29,7 +29,7 @@ public class CollisionSystem extends BaseEntitySystem {
 		positionMapper = new ComponentMapper<Position>(Position.class, world);
 		collisionMapper = new ComponentMapper<Collision>(Collision.class, world);
 		spatialFormMapper = new ComponentMapper<SpatialForm>(SpatialForm.class, world);
-		animationCreatureMapper = new ComponentMapper<AnimationCreature>(AnimationCreature.class, world);
+		animationCreatureMapper = new ComponentMapper<CreatureAnimation>(CreatureAnimation.class, world);
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class CollisionSystem extends BaseEntitySystem {
 			Collision collision = collisionMapper.get(creature);
 			Image sprite = (Image)animationCreatureMapper.get(creature).getCurrent().getImage(0);
 			updateCollision(position, collision, tiledMap, sprite);
-			
+
 			// TODO make this only update for PLAYER groups
 			for (int i=0; i<layers.size(); i++) {
 				Entity layer = layers.get(i);
@@ -86,7 +86,6 @@ public class CollisionSystem extends BaseEntitySystem {
 			collision.setCollidingDown(true);
 		}
 		
-		// 32 (in this case) represents the tile size
 		// Wall checks
 		if (!collision.isCollidingLeft()) {
 			int topLeftY = (int)(position.getY()+sprite.getHeight()/2)/tiledMap.getTileHeight();

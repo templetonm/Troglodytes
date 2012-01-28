@@ -9,8 +9,8 @@ import org.newdawn.slick.tiled.TiledMap;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
+import com.turbonips.troglodytes.CreatureAnimation;
 import com.turbonips.troglodytes.ResourceManager;
-import com.turbonips.troglodytes.components.AnimationCreature;
 import com.turbonips.troglodytes.components.SpatialForm;
 import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.objects.ObjectType;
@@ -20,7 +20,7 @@ public class ObjectSystem extends BaseEntitySystem {
 	private final GameContainer container;
 	private ComponentMapper<Position> positionMapper;
 	private ComponentMapper<SpatialForm> spatialFormMapper;
-	private ComponentMapper<AnimationCreature> animationCreatureMapper;
+	private ComponentMapper<CreatureAnimation> animationCreatureMapper;
 
 	public ObjectSystem(GameContainer container) {
 		super(Position.class, SpatialForm.class);
@@ -31,7 +31,7 @@ public class ObjectSystem extends BaseEntitySystem {
 	protected void initialize() {
 		positionMapper = new ComponentMapper<Position>(Position.class, world);
 		spatialFormMapper = new ComponentMapper<SpatialForm>(SpatialForm.class, world);
-		animationCreatureMapper = new ComponentMapper<AnimationCreature>(AnimationCreature.class, world);
+		animationCreatureMapper = new ComponentMapper<CreatureAnimation>(CreatureAnimation.class, world);
 	}
 
 	@Override
