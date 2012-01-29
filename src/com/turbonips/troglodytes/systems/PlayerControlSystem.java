@@ -51,16 +51,36 @@ public class PlayerControlSystem extends BaseEntitySystem implements KeyListener
 			for (int i=0; i<players.size(); i++) {
 				Entity player = players.get(i);
 				Movement movement = movementMapper.get(player);
-				movement.clearMovement();
-				if (key_up) {
-					movement.setMoveUp(true);
-				} else if (key_down) {
-					movement.setMoveDown(true);
-				}
-				if (key_left) {
-					movement.setMoveLeft(true);
-				} else if (key_right) {
-					movement.setMoveRight(true);
+				Collision collision = collisionMapper.get(player);
+				
+				if (movement != null) {
+					movement.clearMovement();
+					if (key_up) {
+						if (collision == null) {
+							movement.setMoveUp(true);
+						} else if (!collision.isCollidingUp()) {
+							movement.setMoveUp(true);
+						}
+					} else if (key_down) {
+						if (collision == null) {
+							movement.setMoveDown(true);
+						} else if (!collision.isCollidingDown()) {
+							movement.setMoveDown(true);
+						}
+					}
+					if (key_left) {
+						if (collision == null) {
+							movement.setMoveLeft(true);
+						} else if (!collision.isCollidingLeft()) {
+							movement.setMoveLeft(true);
+						}
+					} else if (key_right) {
+						if (collision == null) {
+							movement.setMoveRight(true);
+						} else if (!collision.isCollidingRight()) {
+							movement.setMoveRight(true);
+						}
+					}
 				}
 				if (key_esc) { container.exit(); }
 			}

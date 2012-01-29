@@ -1,17 +1,18 @@
 package com.turbonips.troglodytes.objects;
 
-import java.util.ArrayList;
 
 import org.newdawn.slick.tiled.TiledMap;
 
-import com.turbonips.troglodytes.components.SpatialForm;
+import com.turbonips.troglodytes.ResourceManager;
+import com.turbonips.troglodytes.components.Resource;
 
 public abstract class ObjectType {
 	
 	public static final int WARP_OBJECT = 0;
 	
-	public static ObjectType create(ArrayList<SpatialForm> mapLayers, int groupID, int objectID) {
-		TiledMap map = (TiledMap)mapLayers.get(0).getForm();
+	public static ObjectType create(String mapId, int groupID, int objectID) {
+		Resource mapResource = ResourceManager.getInstance().getResource(mapId);
+		TiledMap map = (TiledMap)mapResource.getObject();
 		String type = map.getObjectType(groupID, objectID).toLowerCase();
 		
 		if (type.equals("warp")) {

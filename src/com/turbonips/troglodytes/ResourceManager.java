@@ -25,6 +25,7 @@ public class ResourceManager {
 		
 		try {
 			resource = resources.get(id);
+			//resource = resourceFactory.create(id);
 			if (resource == null) {
 				// Create the resource
 				resource = resourceFactory.create(id);

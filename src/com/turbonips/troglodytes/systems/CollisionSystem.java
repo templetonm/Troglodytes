@@ -9,18 +9,18 @@ import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.CreatureAnimation;
 import com.turbonips.troglodytes.components.Collision;
-import com.turbonips.troglodytes.components.SpatialForm;
+import com.turbonips.troglodytes.components.Resource;
 import com.turbonips.troglodytes.components.Position;
+import com.turbonips.troglodytes.components.SubPosition;
 
 public class CollisionSystem extends BaseEntitySystem {
 	private final GameContainer container;
 	private ComponentMapper<Position> positionMapper;
+	private ComponentMapper<SubPosition> subPositionMapper;
 	private ComponentMapper<Collision> collisionMapper;
-	private ComponentMapper<SpatialForm> spatialFormMapper;
-	private ComponentMapper<CreatureAnimation> animationCreatureMapper;
+	private ComponentMapper<Resource> resourceMapper;
 
 	public CollisionSystem(GameContainer container) {
-		super(Position.class, Collision.class, SpatialForm.class);
 		this.container = container;
 	}
 	
@@ -28,28 +28,57 @@ public class CollisionSystem extends BaseEntitySystem {
 	protected void initialize() {
 		positionMapper = new ComponentMapper<Position>(Position.class, world);
 		collisionMapper = new ComponentMapper<Collision>(Collision.class, world);
-		spatialFormMapper = new ComponentMapper<SpatialForm>(SpatialForm.class, world);
-		animationCreatureMapper = new ComponentMapper<CreatureAnimation>(CreatureAnimation.class, world);
+		resourceMapper = new ComponentMapper<Resource>(Resource.class, world);
+		subPositionMapper = new ComponentMapper<SubPosition>(SubPosition.class, world);
 	}
 
 	@Override
 	protected void processEntities(ImmutableBag<Entity> entities) {
 		ImmutableBag<Entity> layers = world.getGroupManager().getEntities("LAYER");
-		ImmutableBag<Entity> creatures = world.getGroupManager().getEntities("CREATURE");
+		ImmutableBag<Entity> players = world.getGroupManager().getEntities("PLAYER");
+		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities("ENEMY");
 		
-		TiledMap tiledMap = (TiledMap)spatialFormMapper.get(layers.get(0)).getForm();
-
-		for (int a=0; a<creatures.size(); a++) {
-			Entity creature = creatures.get(a);
-			Position position = positionMapper.get(creature);
-			Collision collision = collisionMapper.get(creature);
-			Image sprite = (Image)animationCreatureMapper.get(creature).getCurrent().getImage(0);
-			updateCollision(position, collision, tiledMap, sprite);
-
-			// TODO make this only update for PLAYER groups
-			for (int i=0; i<layers.size(); i++) {
-				Entity layer = layers.get(i);
-				collisionMapper.get(layer).setColliding(collision.isCollidingUp(), collision.isCollidingDown(), collision.isCollidingLeft(), collision.isCollidingRight());
+		if (!layers.isEmpty()) {
+			TiledMap tiledMap = (TiledMap)resourceMapper.get(layers.get(0)).getObject();
+	
+			for (int p=0; p<players.size(); p++) {
+				Entity player = players.get(p);
+				Position playerPosition = positionMapper.get(player);
+				Collision playerCollision = collisionMapper.get(player);
+				
+				if (playerCollision != null && playerPosition != null) {
+					Resource playerResource = resourceMapper.get(player);
+					Image sprite = null;
+					if (playerResource.getType().equalsIgnoreCase("creatureanimation")) {
+						sprite = ((CreatureAnimation)playerResource.getObject()).getIdleDown().getCurrentFrame();
+					} else if (playerResource.getType().equalsIgnoreCase("image")) {
+						sprite = (Image)playerResource.getObject();
+					} else {
+						logger.error("player resource type is " + playerResource.getType());
+					}
+					updateCollision(playerPosition, playerCollision, tiledMap, sprite);
+				}
+			}
+			
+			for (int e=0; e<enemies.size(); e++) {
+				Entity enemy = enemies.get(e);
+				Collision enemyCollision = collisionMapper.get(enemy);
+				SubPosition enemyPosition = subPositionMapper.get(enemy);
+				
+				if (enemyCollision != null && enemyPosition != null) {
+					Resource enemyResource = resourceMapper.get(enemy);
+					Image sprite = null;
+					if (enemyResource.getType().equalsIgnoreCase("creatureanimation")) {
+						sprite = ((CreatureAnimation)enemyResource.getObject()).getIdleDown().getCurrentFrame();
+					} else if (enemyResource.getType().equalsIgnoreCase("image")) {
+						sprite = (Image)enemyResource.getObject();
+					} else {
+						logger.error("enemy resource type is " + enemyResource.getType());
+					}
+					updateCollision(enemyPosition, enemyCollision, tiledMap, sprite);
+				}
+				
+				
 			}
 		}
 		

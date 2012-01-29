@@ -17,6 +17,13 @@ public class Collision extends Component {
 		setCollidingLeft(collidingLeft);
 		setCollidingRight(collidingRight);
 	}
+	
+	public void setColliding(Collision collision) {
+		setCollidingUp(collision.isCollidingUp());
+		setCollidingDown(collision.isCollidingDown());
+		setCollidingLeft(collision.isCollidingLeft());
+		setCollidingRight(collision.isCollidingRight());
+	}
 
 	public boolean isCollidingUp() {
 		return collidingUp;

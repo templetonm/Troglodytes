@@ -1,5 +1,6 @@
 package com.turbonips.troglodytes.systems;
 
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -9,6 +10,7 @@ import org.newdawn.slick.tiled.TiledMap;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.turbonips.troglodytes.CreatureAnimation;
+import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.SubPosition;
 import com.turbonips.troglodytes.components.RenderType;
@@ -24,6 +26,7 @@ public class RenderSystem extends BaseEntityProcessingSystem {
 	private ComponentMapper<RenderType> renderTypeMapper;
 	private ComponentMapper<Sliding> slidingMapper;
 	private ComponentMapper<SubPosition> subPositionMapper;
+	private ComponentMapper<Movement> movementMapper;
 
 	public RenderSystem(GameContainer container) {
 		super(Position.class, Resource.class, RenderType.class);
@@ -38,6 +41,7 @@ public class RenderSystem extends BaseEntityProcessingSystem {
 		renderTypeMapper = new ComponentMapper<RenderType>(RenderType.class, world);
 		slidingMapper = new ComponentMapper<Sliding>(Sliding.class, world);
 		subPositionMapper = new ComponentMapper<SubPosition>(SubPosition.class, world);
+		movementMapper = new ComponentMapper<Movement>(Movement.class, world);
 	}
 
 	@Override
@@ -55,8 +59,7 @@ public class RenderSystem extends BaseEntityProcessingSystem {
 		int playerY = container.getHeight()/2;
 		int mapX = (int)position.getX()*-1 + container.getWidth()/2;
 		int mapY = (int)position.getY()*-1 + container.getHeight()/2;
-		int mapEntityX = mapX;
-		int mapEntityY = mapY;
+
 		
 		if (sliding != null) {
 			playerX -= (int)sliding.getX();
@@ -64,6 +67,9 @@ public class RenderSystem extends BaseEntityProcessingSystem {
 			mapX -= (int)sliding.getX();
 			mapY -= (int)sliding.getY();
 		}
+		int mapEntityX = mapX;
+		int mapEntityY = mapY;
+		
 		// Enemys, effects, anything that can move on the map (minus player)
 		if (subPosition != null) {
 			mapEntityX += (int)subPosition.getX();
@@ -105,12 +111,19 @@ public class RenderSystem extends BaseEntityProcessingSystem {
 		 */
 		} else if (resource.getType().equalsIgnoreCase("creatureanimation")) {
 			CreatureAnimation creatureAnimation = (CreatureAnimation)resource.getObject();
+			Animation curAnimation = creatureAnimation.getIdleDown();
+			Movement movement = movementMapper.get(e);
+			if (movement != null) {
+				if (movement.getAnimation() != null) curAnimation = movement.getAnimation();
+			}
+			
+			
 			switch (renderType.getType()) {
 				case RenderType.TYPE_PLAYER:
-					graphics.drawAnimation(creatureAnimation.getCurrent(), playerX, playerY);
+					graphics.drawAnimation(curAnimation, playerX, playerY);
 					break;
 				case RenderType.TYPE_ENEMY:
-					graphics.drawAnimation(creatureAnimation.getCurrent(), mapEntityX, mapEntityY);
+					graphics.drawAnimation(curAnimation, mapEntityX, mapEntityY);
 					break;
 				default:
 					logger.warn("Invalid render type " + renderType.getType() + " for creatureanimation " + resource.getPath());

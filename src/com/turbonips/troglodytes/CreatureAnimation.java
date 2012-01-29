@@ -65,11 +65,10 @@ public class CreatureAnimation extends Component {
 		Image[] idleRightFrames = { this.sheet.getSubImage(0, 3) };
 		Image[] idleDownFrames = { this.sheet.getSubImage(0, 0) };
 		Image[] idleLeftFrames = { this.sheet.getSubImage(0, 1) };
-		this.idleUp = new Animation(idleUpFrames, animationSpeed);
+		this.setIdleUp(new Animation(idleUpFrames, animationSpeed));
 		this.idleRight = new Animation(idleRightFrames, animationSpeed);
 		this.idleDown = new Animation(idleDownFrames, animationSpeed);
 		this.idleLeft = new Animation(idleLeftFrames, animationSpeed);
-
 		this.current = this.idleDown;
 	}
 
@@ -98,11 +97,11 @@ public class CreatureAnimation extends Component {
 	}
 
 	public void setCurrent(Animation current) {
-		this.current = current;
+		//this.current = current;
 	}
 
 	public void setIdle() {
-		if (this.current == this.moveUp) {
+		/*if (this.current == this.moveUp) {
 			this.current = this.idleUp;
 		} else if (this.current == this.moveDown) {
 			this.current = this.idleDown;
@@ -110,6 +109,27 @@ public class CreatureAnimation extends Component {
 			this.current = this.idleRight;
 		} else if (this.current == this.moveLeft) {
 			this.current = this.idleLeft;
-		}
+		}*/
 	}
+
+	public Animation getIdleUp() {
+		return idleUp;
+	}
+
+	public void setIdleUp(Animation idleUp) {
+		this.idleUp = idleUp;
+	}
+
+	public Animation getIdleRight() {
+		return idleRight;
+	}
+	
+	public Animation getIdleLeft() {
+		return idleLeft;
+	}
+
+	public Animation getIdleDown() {
+		return idleDown;
+	}
+
 }

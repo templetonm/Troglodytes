@@ -1,6 +1,9 @@
 package com.turbonips.troglodytes.components;
 
+import org.newdawn.slick.Animation;
+
 import com.artemis.Component;
+import com.turbonips.troglodytes.CreatureAnimation;
 
 
 public class Movement extends Component {
@@ -8,9 +11,14 @@ public class Movement extends Component {
 	private boolean moveDown;
 	private boolean moveLeft;
 	private boolean moveRight;
+	private Animation animation;
 	
 	public Movement() {
 		clearMovement();
+	}
+	public Movement(Animation animation) {
+		clearMovement();
+		setAnimation(animation);
 	}
 	public void clearMovement() {
 		moveUp = false;
@@ -41,5 +49,26 @@ public class Movement extends Component {
 	}
 	public void setMoveRight(boolean moveRight) {
 		this.moveRight = moveRight;
+	}
+	public Animation getAnimation() {
+		return animation;
+	}
+	public void setAnimation(Animation animation) {
+		this.animation = animation;
+	}
+	public void setIdle(CreatureAnimation creatureAnimation) {
+		if (this.animation == creatureAnimation.getMoveUp()) {
+			setAnimation(creatureAnimation.getIdleUp());
+		} else if (this.animation == creatureAnimation.getMoveDown()) {
+			setAnimation(creatureAnimation.getIdleDown());
+		} else if (this.animation == creatureAnimation.getMoveRight()) {
+			setAnimation(creatureAnimation.getIdleRight());
+		} else if (this.animation == creatureAnimation.getMoveLeft()) {
+			setAnimation(creatureAnimation.getIdleLeft());
+
+		}
+	}
+	public boolean isMoving() {
+		return isMoveUp() || isMoveDown() || isMoveLeft() || isMoveRight();
 	}
 }

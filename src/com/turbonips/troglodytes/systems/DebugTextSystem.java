@@ -3,22 +3,22 @@ package com.turbonips.troglodytes.systems;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.EntitySystem;
 import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.CreatureAnimation;
 import com.turbonips.troglodytes.components.Position;
+import com.turbonips.troglodytes.components.Resource;
 
 public class DebugTextSystem extends BaseEntitySystem {
 	private GameContainer container;
 	private Graphics graphics;
 	private ComponentMapper<Position> positionMapper;
-	private ComponentMapper<CreatureAnimation> animationCreatureMapper;
+	private ComponentMapper<Resource> resourceMapper;
 	
 	public DebugTextSystem(GameContainer container) {
-		super(Position.class, CreatureAnimation.class);
 		this.container = container;
 		this.graphics = container.getGraphics();
 	}
@@ -26,19 +26,31 @@ public class DebugTextSystem extends BaseEntitySystem {
 	@Override
 	protected void initialize() {
 		positionMapper = new ComponentMapper<Position>(Position.class, world);
-		animationCreatureMapper = new ComponentMapper<CreatureAnimation>(CreatureAnimation.class, world);
+		resourceMapper = new ComponentMapper<Resource>(Resource.class, world);
 	}
 
 	@Override
 	protected void processEntities(ImmutableBag<Entity> entities) {
-		ImmutableBag<Entity> creatures = world.getGroupManager().getEntities("PLAYER");
-		Position position = positionMapper.get(creatures.get(0));
-		CreatureAnimation animationCreature = animationCreatureMapper.get(creatures.get(0));
-		int tileX = (int)position.getX()/animationCreature.getCurrent().getWidth();
-		int tileY = (int)position.getY()/animationCreature.getCurrent().getHeight();
-		String posText = "(" + tileX + ", " + tileY + ")";
-		graphics.setColor(Color.yellow);
-		graphics.drawString(posText, container.getWidth()-container.getDefaultFont().getWidth(posText)-10, 20);
+		ImmutableBag<Entity> players = world.getGroupManager().getEntities("PLAYER");
+		
+		if (!players.isEmpty()) {
+			Position position = positionMapper.get(players.get(0));
+			Resource playerResource = resourceMapper.get(players.get(0));
+			
+			Image sprite = null;
+			if (playerResource.getType().equalsIgnoreCase("creatureanimation")) {
+				sprite = ((CreatureAnimation)playerResource.getObject()).getIdleDown().getCurrentFrame();
+			} else if (playerResource.getType().equalsIgnoreCase("image")) {
+				sprite = (Image)playerResource.getObject();
+			} else {
+				logger.error("player resource type is " + playerResource.getType());
+			}
+			int tileX = (int)position.getX()/sprite.getWidth();
+			int tileY = (int)position.getY()/sprite.getHeight();
+			String posText = "(" + tileX + ", " + tileY + ")";
+			graphics.setColor(Color.yellow);
+			graphics.drawString(posText, container.getWidth()-container.getDefaultFont().getWidth(posText)-10, 15);
+		}
 	}
 
 	@Override

@@ -51,7 +51,7 @@ public class PlayingState extends BaseGameState {
 		EntityFactory.create(world, EntityFactory.ID_GROUND_LAYER);
 		EntityFactory.create(world, EntityFactory.ID_BG_LAYER);
 		EntityFactory.create(world, EntityFactory.ID_PLAYER);
-		for (int i=0; i<10; i++) EntityFactory.create(world, EntityFactory.ID_ENEMY);
+		for (int i=0; i<5000; i++) EntityFactory.create(world, EntityFactory.ID_ENEMY);
 		EntityFactory.create(world, EntityFactory.ID_FG_LAYER);
 		//EntityFactory.create(world, EntityFactory.ID_WALL_LAYER);
 	}
@@ -61,8 +61,8 @@ public class PlayingState extends BaseGameState {
 			throws SlickException {
 		renderSystem.process();
 		movementSystem.process();
-		//lightingSystem.process();
-		//debugTextSystem.process();
+		lightingSystem.process();
+		debugTextSystem.process();
 	}
 
 	@Override
@@ -70,10 +70,10 @@ public class PlayingState extends BaseGameState {
 			throws SlickException {
 		world.loopStart();
 		world.setDelta(delta);
+		collisionSystem.process();
 		playerControlSystem.process();
 		enemyControlSystem.process();
-		//collisionSystem.process();
-		//objectSystem.process();
+		objectSystem.process();
 		
 	}
 

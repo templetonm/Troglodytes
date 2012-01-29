@@ -5,12 +5,12 @@ import org.newdawn.slick.GameContainer;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
+import com.turbonips.troglodytes.components.Collision;
 import com.turbonips.troglodytes.components.Movement;
-import com.turbonips.troglodytes.components.SubPosition;
 
 public class EnemyControlSystem extends BaseEntitySystem {
-    private ComponentMapper<SubPosition> subPositionMapper;
 	private ComponentMapper<Movement> movementMapper;
+	private ComponentMapper<Collision> collisionMapper;
 	private GameContainer container;
 	
 	public EnemyControlSystem(GameContainer container) {
@@ -21,7 +21,7 @@ public class EnemyControlSystem extends BaseEntitySystem {
 	@Override
 	protected void initialize() {
 		movementMapper = new ComponentMapper<Movement>(Movement.class, world);
-		subPositionMapper = new ComponentMapper<SubPosition>(SubPosition.class, world);
+		collisionMapper = new ComponentMapper<Collision>(Collision.class, world);
 	}
 
 	@Override
@@ -31,10 +31,11 @@ public class EnemyControlSystem extends BaseEntitySystem {
 		for (int i=0; i<enemies.size(); i++) {
 			Entity enemy = enemies.get(i);
 			Movement movement = movementMapper.get(enemy);
+			Collision collision = collisionMapper.get(enemy);
 			
 			if (movement != null) {
 				
-				switch ((int)(Math.random()*20)) {
+				switch ((int)(Math.random()*40)) {
 					case 0:
 						movement.clearMovement();
 						movement.setMoveUp(true);
@@ -51,6 +52,29 @@ public class EnemyControlSystem extends BaseEntitySystem {
 						movement.clearMovement();
 						movement.setMoveRight(true);
 						break;
+				}
+				
+				if (collision != null) {
+					if (movement.isMoveRight()) {
+						if (collision.isCollidingRight()) {
+							movement.setMoveRight(false);
+						}
+					}
+					if (movement.isMoveLeft()) {
+						if (collision.isCollidingLeft()) {
+							movement.setMoveLeft(false);
+						}
+					}
+					if (movement.isMoveUp()) {
+						if (collision.isCollidingUp()) {
+							movement.setMoveUp(false);
+						}
+					}
+					if (movement.isMoveDown()) {
+						if (collision.isCollidingDown()) {
+							movement.setMoveDown(false);
+						}
+					}
 				}
 			}
 		}
