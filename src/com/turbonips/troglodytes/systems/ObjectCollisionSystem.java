@@ -16,12 +16,12 @@ import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.objects.ObjectType;
 import com.turbonips.troglodytes.objects.WarpObject;
 
-public class ObjectSystem extends BaseEntitySystem {
+public class ObjectCollisionSystem extends BaseEntitySystem {
 	private final GameContainer container;
 	private ComponentMapper<Position> positionMapper;
 	private ComponentMapper<Resource> resourceMapper;
 
-	public ObjectSystem(GameContainer container) {
+	public ObjectCollisionSystem(GameContainer container) {
 		this.container = container;
 	}
 	
