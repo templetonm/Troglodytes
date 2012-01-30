@@ -2,6 +2,7 @@ package com.turbonips.troglodytes.states;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Music; //TODO: Probably remove this reference after moving the music starting point. 
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -12,6 +13,7 @@ import com.turbonips.troglodytes.EntityFactory;
 import com.turbonips.troglodytes.systems.CollisionSystem;
 import com.turbonips.troglodytes.systems.EnemyControlSystem;
 import com.turbonips.troglodytes.systems.MovementSystem;
+import com.turbonips.troglodytes.systems.MusicSystem;
 import com.turbonips.troglodytes.systems.PlayerControlSystem;
 import com.turbonips.troglodytes.systems.DebugTextSystem;
 import com.turbonips.troglodytes.systems.LightingSystem;
@@ -31,6 +33,7 @@ public class PlayingState extends BaseGameState {
 	private EntitySystem objectSystem;
 	private EntitySystem debugTextSystem;
 	private EntitySystem enemyControlSystem;
+	private EntitySystem musicSystem;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -46,6 +49,7 @@ public class PlayingState extends BaseGameState {
 		debugTextSystem = systemManager.setSystem(new DebugTextSystem(container));
 		movementSystem = systemManager.setSystem(new MovementSystem(container));
 		enemyControlSystem = systemManager.setSystem(new EnemyControlSystem(container));
+		musicSystem = systemManager.setSystem(new MusicSystem(container));
 		systemManager.initializeAll();
 		
 		EntityFactory.create(world, EntityFactory.ID_GROUND_LAYER);
@@ -54,6 +58,10 @@ public class PlayingState extends BaseGameState {
 		for (int i=0; i<5000; i++) EntityFactory.create(world, EntityFactory.ID_ENEMY);
 		EntityFactory.create(world, EntityFactory.ID_FG_LAYER);
 		//EntityFactory.create(world, EntityFactory.ID_WALL_LAYER);
+		
+		// Create music here for now. TODO: Find proper placement of music creation, loading, and starting.
+		systemManager.getSystem(MusicSystem.class).setMusic(new Music("resources/music/firstSong.ogg"));
+		systemManager.getSystem(MusicSystem.class).startMusic();
 	}
 
 	@Override

@@ -13,6 +13,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.log4j.Logger;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.loading.LoadingList;
@@ -67,6 +68,8 @@ public class ResourceFactory {
 			int width = Integer.valueOf(resourceElement.getAttribute("width"));
 			int height = Integer.valueOf(resourceElement.getAttribute("height"));
 			return new Resource(id, type, path, new CreatureAnimation(path, width, height));
+		} else if (type.equals("music")) {
+			return new Resource(id, type, path, new Music(path));
 		}
 		
 		
