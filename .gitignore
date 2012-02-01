@@ -1,2 +1,3 @@
 *.class
 *.properties
+.DS_Store
