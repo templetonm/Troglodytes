@@ -2,54 +2,59 @@ package com.turbonips.troglodytes.systems;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Music;
+import org.newdawn.slick.tiled.TiledMap;
 
+import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
+import com.turbonips.troglodytes.ResourceManager;
+import com.turbonips.troglodytes.components.Resource;
 
-public class MusicSystem extends BaseEntitySystem
-{
-	private GameContainer container;
+public class MusicSystem extends BaseEntitySystem {
 	private Music music;
-	private boolean shouldBePlayingMusic;
+	private GameContainer container;
+	private ComponentMapper<Resource> resourceMapper;
 	
 	public MusicSystem(GameContainer container)
 	{
 		this.container = container;
-		shouldBePlayingMusic = false;
 	}
 	
-	public void setMusic(Music music)
-	{
-		this.music = music;
+	@Override
+	protected void initialize() {
+		resourceMapper = new ComponentMapper<Resource>(Resource.class, world);
 	}
 	
 	public void startMusic()
 	{
 		this.music.play();
-		this.shouldBePlayingMusic = true;
 	}
 	
 	@Override
 	protected boolean checkProcessing()
 	{
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
-
+	
 	@Override
-	protected void processEntities(ImmutableBag<Entity> entities)
-	{
-		// TODO Auto-generated method stub
-		if (this.music != null)
-		{
-			if (this.shouldBePlayingMusic)
-			{
-				if(!this.music.playing())
-				{
-					this.startMusic();
+	protected void processEntities(ImmutableBag<Entity> entities) {
+		ImmutableBag<Entity> layers = world.getGroupManager().getEntities("LAYER");
+		
+		if (!layers.isEmpty()) {
+			TiledMap tiledMap = (TiledMap)resourceMapper.get(layers.get(0)).getObject();
+			String songTitle = tiledMap.getMapProperty("Music", null);
+			
+			if (songTitle != null) {
+				ResourceManager resourceManager = ResourceManager.getInstance(); 
+				this.music = (Music)resourceManager.getResource(songTitle).getObject();
+			
+				if (this.music != null) {
+					if(!this.music.playing()) {
+						this.startMusic();
+					}
 				}
 			}
 		}
 	}
-
+	
 }

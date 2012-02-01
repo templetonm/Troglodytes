@@ -72,7 +72,6 @@ public class ResourceFactory {
 			return new Resource(id, type, path, new Music(path));
 		}
 		
-		
 		return null;
 	}
 

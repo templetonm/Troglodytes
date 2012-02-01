@@ -58,10 +58,6 @@ public class PlayingState extends BaseGameState {
 		for (int i=0; i<5000; i++) EntityFactory.create(world, EntityFactory.ID_ENEMY);
 		EntityFactory.create(world, EntityFactory.ID_FG_LAYER);
 		//EntityFactory.create(world, EntityFactory.ID_WALL_LAYER);
-		
-		// Create music here for now. TODO: Find proper placement of music creation, loading, and starting.
-		systemManager.getSystem(MusicSystem.class).setMusic(new Music("resources/music/firstSong.ogg"));
-		systemManager.getSystem(MusicSystem.class).startMusic();
 	}
 
 	@Override
@@ -82,7 +78,7 @@ public class PlayingState extends BaseGameState {
 		playerControlSystem.process();
 		enemyControlSystem.process();
 		objectSystem.process();
-		
+		musicSystem.process();
 	}
 
 	@Override
