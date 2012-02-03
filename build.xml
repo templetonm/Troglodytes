@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Troglodytes" default="dist" basedir=".">
+	<description>
+		Troglodytes root build file
+	</description>
+
+	<!-- set global properties for this build -->
+	<property name="src" location="src"/>
+	<property name="build" location="build"/>
+	<property name="dist" location="dist"/>
+	<property name="lib" location="/var/lib/jenkins/libraries"/>
+	<property name="slick-jar" location="${lib}/slick.jar"/>
+	<property name="artemis-jar" location="${lib}/artemis.jar"/>
+	<property name="log4j-jar" location="${lib}/apache-log4j-1.2.16/log4j-1.2.16.jar"/>
+	<property name="lwjgl-jar" location="${lib}/lwjgl-2.8.3/jar/lwjgl.jar"/>
+	<property name="lwjgl-native" location="${lib}/lwjgl-2.8.3/native/windows"/>
+
+	<target name="init">
+		<!-- Create the build directory structure used by compile -->
+		<mkdir dir="${build}"/>
+	</target>
+
+	<target name="compile" depends="init"
+			description="compile the source " >
+		<!-- Compile the java code from ${src} into ${build} -->
+		<javac srcdir="${src}" destdir="${build}" includeantruntime="false">
+			<classpath>
+				<pathelement path="${classpath}"/>
+				<pathelement path="${slick-jar}"/>
+				<pathelement path="${artemis-jar}"/>
+				<pathelement path="${log4j-jar}"/>
+				<pathelement path="${lwjgl-jar}"/>
+				<pathelement path="${lwjgl-native}"/>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="dist" depends="compile"
+			description="generate the distribution" >
+		<!-- Create the distribution directory -->
+		<mkdir dir="${dist}"/>
+
+		<!-- Put everything in ${build} into the troglodytes.jar file -->
+		<jar jarfile="${dist}/troglodytes.jar" basedir="${build}"/>
+		<copy file="${slick-jar}" todir="${dist}"/>
+		<copy file="${artemis-jar}" todir="${dist}"/>
+		<copy file="${log4j-jar}" todir="${dist}"/>
+		<copy file="${lwjgl-jar}" todir="${dist}"/>
+		<copy todir="${dist}/native/windows">
+			<fileset dir="${lwjgl-native}"/>
+		</copy>
+	</target>
+
+	<target name="clean"
+			description="clean up" >
+		<!-- Delete the ${build} and ${dist} directory trees -->
+		<delete dir="${build}"/>
+		<delete dir="${dist}"/>
+	</target>
+</project>

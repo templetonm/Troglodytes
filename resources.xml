@@ -5,6 +5,8 @@
 	<resource id="testplayeranimation" type="creatureanimation" path="graphics/demoCharTest.png" width="32" height="64" />
 	<resource id="testenemyanimation" type="creatureanimation" path="graphics/demoCharTest.png" width="32" height="64" />
 	<resource id="light" type="image" path="graphics/light.png" />
+    
+    <resource id="Into the Dark.ogg" type="music" path="music/Into the Dark.ogg" />
 	
 	<resource id="trog0" type="tiledmap" path="maps/trogStart.tmx" />
 	<resource id="trog1" type="tiledmap" path="maps/trog1.tmx" />
