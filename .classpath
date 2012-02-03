@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/lwjgl-2.8.2/jar/AppleJavaExtensions.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/lwjgl-2.8.2/jar/asm-debug-all.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/lwjgl-2.8.2/jar/jinput.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/lwjgl-2.8.2/jar/lwjgl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/Users/Ben/Libraries/lwjgl-2.8.2/native/windows"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/lwjgl-2.8.2/jar/lwjgl_test.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/lwjgl-2.8.2/jar/lwjgl_util.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/lwjgl-2.8.2/jar/lwjgl_util_applet.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/lwjgl-2.8.2/jar/lwjgl-debug.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/lwjgl-2.8.2/jar/lzma.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/apache-log4j-1.2.16/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/artemis/artemis.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/slick/lib/hiero.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/slick/lib/ibxm.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/slick/lib/jinput.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/slick/lib/jnlp.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/slick/lib/jogg-0.0.7.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/slick/lib/jorbis-0.0.15.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/slick/lib/lwjgl.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/slick/lib/natives-linux.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/slick/lib/natives-mac.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/slick/lib/natives-win32.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/slick/lib/packulike.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/slick/lib/pedigree.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/slick/lib/scalar.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/slick/lib/slick.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/slick/lib/slick-examples.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/slick/lib/slick-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/slick/lib/slick-util.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/slick/lib/slick-util-src.zip"/>
+	<classpathentry kind="lib" path="C:/Users/Ben/Libraries/slick/lib/tinylinepp.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
