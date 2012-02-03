@@ -42,12 +42,11 @@ public class MusicSystem extends BaseEntitySystem {
 		
 		if (!layers.isEmpty()) {
 			TiledMap tiledMap = (TiledMap)resourceMapper.get(layers.get(0)).getObject();
-			String songTitle = tiledMap.getMapProperty("Music", null);
+			final String songTitle = tiledMap.getMapProperty("Music", null);
 			
 			if (songTitle != null) {
-				ResourceManager resourceManager = ResourceManager.getInstance(); 
-				this.music = (Music)resourceManager.getResource(songTitle).getObject();
-			
+				final ResourceManager resourceManager = ResourceManager.getInstance();
+				music = (Music)resourceManager.getResource(songTitle).getObject();						}
 				if (this.music != null) {
 					if(!this.music.playing()) {
 						this.startMusic();
@@ -57,4 +56,3 @@ public class MusicSystem extends BaseEntitySystem {
 		}
 	}
 	
-}
