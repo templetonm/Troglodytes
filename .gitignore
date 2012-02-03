@@ -1,3 +1,5 @@
 *.class
 *.properties
+*.project
+*.classpath
 .DS_Store
