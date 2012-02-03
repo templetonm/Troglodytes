@@ -91,8 +91,7 @@ public class EntityFactory {
 				enemy.addComponent(new Position(playerStartPosition, speed));
 				enemy.addComponent(new Sliding(slidingStart, speed, box));
 				enemy.addComponent(new SubPosition(enemyStartPosition, 4));
-				enemy.addComponent(resourceManager.getResource("testplayeranimation"));
-				//enemy.addComponent(resourceManager.getResource("testenemyimage"));
+				enemy.addComponent(resourceManager.getResource("testenemyanimation"));
 				enemy.addComponent(new RenderType(RenderType.TYPE_ENEMY));
 				enemy.addComponent(new Movement());
 				enemy.addComponent(new Collision());
