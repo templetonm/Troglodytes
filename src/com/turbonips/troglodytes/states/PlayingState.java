@@ -13,11 +13,11 @@ import com.turbonips.troglodytes.EntityFactory;
 import com.turbonips.troglodytes.systems.CollisionSystem;
 import com.turbonips.troglodytes.systems.EnemyControlSystem;
 import com.turbonips.troglodytes.systems.MovementSystem;
+import com.turbonips.troglodytes.systems.ObjectCollisionSystem;
 import com.turbonips.troglodytes.systems.MusicSystem;
 import com.turbonips.troglodytes.systems.PlayerControlSystem;
 import com.turbonips.troglodytes.systems.DebugTextSystem;
 import com.turbonips.troglodytes.systems.LightingSystem;
-import com.turbonips.troglodytes.systems.ObjectSystem;
 import com.turbonips.troglodytes.systems.RenderSystem;
 
 public class PlayingState extends BaseGameState {
@@ -30,7 +30,7 @@ public class PlayingState extends BaseGameState {
 	private EntitySystem renderSystem;
 	private EntitySystem collisionSystem;
 	private EntitySystem lightingSystem;
-	private EntitySystem objectSystem;
+	private EntitySystem objectCollisionSystem;
 	private EntitySystem debugTextSystem;
 	private EntitySystem enemyControlSystem;
 	private EntitySystem musicSystem;
@@ -45,7 +45,7 @@ public class PlayingState extends BaseGameState {
 		renderSystem = systemManager.setSystem(new RenderSystem(container));
 		collisionSystem = systemManager.setSystem(new CollisionSystem(container));
 		lightingSystem = systemManager.setSystem(new LightingSystem(container));
-		objectSystem = systemManager.setSystem(new ObjectSystem(container));
+		objectCollisionSystem = systemManager.setSystem(new ObjectCollisionSystem(container));
 		debugTextSystem = systemManager.setSystem(new DebugTextSystem(container));
 		movementSystem = systemManager.setSystem(new MovementSystem(container));
 		enemyControlSystem = systemManager.setSystem(new EnemyControlSystem(container));
@@ -75,9 +75,9 @@ public class PlayingState extends BaseGameState {
 		world.loopStart();
 		world.setDelta(delta);
 		collisionSystem.process();
+		objectCollisionSystem.process();
 		playerControlSystem.process();
 		enemyControlSystem.process();
-		objectSystem.process();
 		musicSystem.process();
 	}
 
