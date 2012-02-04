@@ -6,6 +6,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.tiled.TiledMap;
 
 import com.artemis.Entity;
 import com.artemis.World;
@@ -104,7 +105,7 @@ public class EntityFactory {
 		return null;
 	}
 	
-	public static void createPlayer(World world, Point position) throws SlickException {
+	public static Entity createPlayer(World world, Point position) throws SlickException {
 		ResourceManager resourceManager = ResourceManager.getInstance();
 		Resource playerAnimationResource = resourceManager.getResource("testplayeranimation");
 		CreatureAnimation playerAnimation = (CreatureAnimation)playerAnimationResource.getObject();
@@ -122,6 +123,8 @@ public class EntityFactory {
 		player.addComponent(new Movement());
 		player.addComponent(new Collision());
 		player.refresh();
+		
+		return player;
 	}
 	
 	public static void createMap(World world, String mapId, Point position) throws SlickException {
@@ -159,6 +162,41 @@ public class EntityFactory {
 		foreground.addComponent(resourceManager.getResource(mapId));
 		foreground.addComponent(new RenderType(RenderType.TYPE_FOREGROUND_LAYER));
 		foreground.refresh();
+		
+		TiledMap tiledMap = (TiledMap)resourceManager.getResource(mapId).getObject();
+		for (int g=0; g<tiledMap.getObjectGroupCount(); g++) {
+			for (int i=0; i<tiledMap.getObjectCount(g); i++) {
+				if (tiledMap.getObjectType(g, i).equalsIgnoreCase("spawn")) {
+					int spawnNum = Integer.valueOf(tiledMap.getObjectProperty(g, i, "Number", "0"));
+					
+					
+					for (int n=0; n<spawnNum; n++) {
+						String enemyId = tiledMap.getObjectProperty(g, i, "Enemy", "");
+						int objectX = tiledMap.getObjectX(g, i);
+						int objectY = tiledMap.getObjectY(g, i);
+						int objectWidth = tiledMap.getObjectWidth(g, i);
+						int objectHeight = tiledMap.getObjectHeight(g, i);
+						Resource enemyResource = resourceManager.getResource(enemyId);
+						
+						Vector2f enemyStartPosition = new Vector2f(objectWidth*32, objectHeight*32);
+						enemyStartPosition = new Vector2f(objectX+(int)(Math.random()*objectWidth), objectY+(int)(Math.random()*objectHeight));
+						
+						
+						Entity enemy = world.createEntity();
+						enemy.setGroup("ENEMY");
+						enemy.addComponent(new Position(new Vector2f(playerFrame.getWidth()*position.x, playerFrame.getHeight()*position.y), speed));
+						enemy.addComponent(new Sliding(new Vector2f(playerFrame.getWidth()/2, playerFrame.getHeight()/2), speed, slidingBox));
+						enemy.addComponent(new SubPosition(enemyStartPosition,4));
+						enemy.addComponent(enemyResource);
+						enemy.addComponent(new RenderType(RenderType.TYPE_ENEMY));
+						enemy.addComponent(new Movement());
+						enemy.addComponent(new Collision());
+						enemy.refresh();
+					}
+				}
+			}
+		}
+		
 	}
 	
 }

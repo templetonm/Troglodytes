@@ -1,22 +1,20 @@
 package com.turbonips.troglodytes.states;
 
-import java.awt.Point;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Music; //TODO: Probably remove this reference after moving the music starting point. 
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import com.artemis.Entity;
 import com.artemis.EntitySystem;
 import com.artemis.SystemManager;
 import com.artemis.World;
-import com.turbonips.troglodytes.EntityFactory;
+import com.turbonips.troglodytes.components.WarpObject;
 import com.turbonips.troglodytes.systems.CollisionSystem;
 import com.turbonips.troglodytes.systems.EnemyControlSystem;
 import com.turbonips.troglodytes.systems.MovementSystem;
 import com.turbonips.troglodytes.systems.ObjectCollisionSystem;
-import com.turbonips.troglodytes.systems.MusicSystem;
 import com.turbonips.troglodytes.systems.PlayerControlSystem;
 import com.turbonips.troglodytes.systems.DebugTextSystem;
 import com.turbonips.troglodytes.systems.LightingSystem;
@@ -64,8 +62,11 @@ public class PlayingState extends BaseGameState {
 		EntityFactory.create(world, EntityFactory.ID_FG_LAYER);*/
 		//EntityFactory.create(world, EntityFactory.ID_WALL_LAYER);
 		
-		EntityFactory.createMap(world, "trog0", new Point(1,5));
-		EntityFactory.createPlayer(world, new Point(1,5));
+		//EntityFactory.createMap(world, "trog0", new Point(1,5));
+		//Entity player = EntityFactory.createPlayer(world, new Point(1,5));
+		Entity player = world.createEntity();
+		player.setGroup("PLAYER");
+		player.addComponent(new WarpObject("trog0",5,5));
 	}
 
 	@Override

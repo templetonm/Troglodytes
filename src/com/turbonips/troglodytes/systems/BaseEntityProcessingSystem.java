@@ -11,7 +11,4 @@ public abstract class BaseEntityProcessingSystem extends EntityProcessingSystem 
 	public BaseEntityProcessingSystem(Class<? extends Component> requiredType, Class<? extends Component>... otherTypes) {
 		super(requiredType, otherTypes);
 	}
-	
-	
-	
 }

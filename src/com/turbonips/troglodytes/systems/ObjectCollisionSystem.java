@@ -1,17 +1,14 @@
 package com.turbonips.troglodytes.systems;
 
-import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.CreatureAnimation;
-import com.turbonips.troglodytes.EntityFactory;
 import com.turbonips.troglodytes.ResourceManager;
 import com.turbonips.troglodytes.components.ObjectType;
 import com.turbonips.troglodytes.components.Resource;
@@ -35,10 +32,8 @@ public class ObjectCollisionSystem extends BaseEntitySystem {
 
 	@Override
 	protected void processEntities(ImmutableBag<Entity> entities) {
-		ResourceManager resourceManager = ResourceManager.getInstance();
 		ImmutableBag<Entity> layers = world.getGroupManager().getEntities("LAYER");
 		ImmutableBag<Entity> players = world.getGroupManager().getEntities("PLAYER");
-		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities("ENEMY");
 		
 		if (!layers.isEmpty()) {
 			Resource resource = resourceMapper.get(layers.get(0));
@@ -64,28 +59,7 @@ public class ObjectCollisionSystem extends BaseEntitySystem {
 						switch (objectType.getType()) {
 							case ObjectType.WARP_OBJECT:
 								WarpObject warpObject = (WarpObject)objectType;
-								logger.info("Warping to " + warpObject.getMapName() + "," + warpObject.getX()*sprite.getWidth() + "," + + warpObject.getY()*sprite.getHeight());
-								//playerPosition.setPosition(warpObject.getX()*sprite.getWidth(), warpObject.getY()*sprite.getHeight());							
-								//String newMapName = warpObject.getMapName();
-								
-								// Unload existing map
-								for (int i=0; i<layers.size(); i++) {
-									Entity layer = layers.get(i);
-									Resource layerResource = resourceMapper.get(layer);
-									if (layerResource != null) {
-										String oldMapName = layerResource.getId();
-										resourceManager.unloadResource(oldMapName);
-										//layer.removeComponent(layerResource);
-										world.deleteEntity(layer);
-										//layer.addComponent(resourceManager.getResource(newMapName));
-										//Position layerPosition = positionMapper.get(layer);
-										//layerPosition.setPosition(warpObject.getX()*sprite.getWidth(), warpObject.getY()*sprite.getHeight());
-									}
-								}
-								for (int i=0; i<enemies.size(); i++) {
-									Entity enemy = enemies.get(i);
-									world.deleteEntity(enemy);
-								}
+								logger.info("Adding warp to player " + warpObject.toString());
 								player.addComponent(warpObject);
 								player.refresh();
 								break;
