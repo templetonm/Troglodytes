@@ -77,85 +77,88 @@ public class RenderSystem extends BaseEntityProcessingSystem {
 		}
 		
 		
-		/*
-		 * Image rendering
-		 */
-		if (resource.getType().equalsIgnoreCase("image")) {
-			Image img = (Image)resource.getObject();
-			switch (renderType.getType()) {
-				case RenderType.TYPE_PLAYER:
-					graphics.drawImage(img, playerX, playerY);
-					break;
-				case RenderType.TYPE_ENEMY:
-					graphics.drawImage(img, mapEntityX, mapEntityY);
-					break;
-				default:
-					logger.warn("Invalid render type " + renderType.getType() + " for image " + resource.getPath());
-					break;
+		
+		if (resource != null) {
+			/*
+			 * Image rendering
+			 */
+			if (resource.getType().equalsIgnoreCase("image")) {
+				Image img = (Image)resource.getObject();
+				switch (renderType.getType()) {
+					case RenderType.TYPE_PLAYER:
+						graphics.drawImage(img, playerX, playerY);
+						break;
+					case RenderType.TYPE_ENEMY:
+						graphics.drawImage(img, mapEntityX, mapEntityY);
+						break;
+					default:
+						logger.warn("Invalid render type " + renderType.getType() + " for image " + resource.getPath());
+						break;
+				}
+				
+			/*
+			 * SpriteSheet rendering
+			 */
+			} else if (resource.getType().equalsIgnoreCase("spritesheet")) {
+				SpriteSheet sheet = (SpriteSheet)resource.getObject();
+				
+				switch (renderType.getType()) {
+					default:
+						logger.warn("Invalid render type " + renderType.getType() + " for spritesheet " + resource.getPath());
+						break;
+				}
+				
+			/*
+			 * CreatureAnimation rendering
+			 */
+			} else if (resource.getType().equalsIgnoreCase("creatureanimation")) {
+				CreatureAnimation creatureAnimation = (CreatureAnimation)resource.getObject();
+				Animation curAnimation = creatureAnimation.getIdleDown();
+				Movement movement = movementMapper.get(e);
+				if (movement != null) {
+					if (movement.getAnimation() != null) curAnimation = movement.getAnimation();
+				}
+				
+				
+				switch (renderType.getType()) {
+					case RenderType.TYPE_PLAYER:
+						graphics.drawAnimation(curAnimation, playerX, playerY);
+						break;
+					case RenderType.TYPE_ENEMY:
+						graphics.drawAnimation(curAnimation, mapEntityX, mapEntityY);
+						break;
+					default:
+						logger.warn("Invalid render type " + renderType.getType() + " for creatureanimation " + resource.getPath());
+						break;
+				}
+				
+			/*
+			 * TiledMap rendering
+			 */
+			} else if (resource.getType().equalsIgnoreCase("tiledmap")) {
+				TiledMap map = (TiledMap)resource.getObject();
+	
+				
+				switch (renderType.getType()) {
+					case RenderType.TYPE_GROUND_LAYER:
+						map.render(mapX, mapY, 0);
+						break;
+					case RenderType.TYPE_BACKGROUND_LAYER:
+						map.render(mapX, mapY, 1);
+						break;
+					case RenderType.TYPE_FOREGROUND_LAYER:
+						map.render(mapX, mapY, 2);
+						break;
+					case RenderType.TYPE_WALL_LAYER:
+						map.render(mapX, mapY, 3);
+						break;
+					default:
+						logger.warn("Invalid render type " + renderType.getType() + " for tiledmap " + resource.getPath());
+						break;
+				}
+			} else {
+				logger.warn("Invalid resource type " + resource.getType() + " " + resource.getPath());
 			}
-			
-		/*
-		 * SpriteSheet rendering
-		 */
-		} else if (resource.getType().equalsIgnoreCase("spritesheet")) {
-			SpriteSheet sheet = (SpriteSheet)resource.getObject();
-			
-			switch (renderType.getType()) {
-				default:
-					logger.warn("Invalid render type " + renderType.getType() + " for spritesheet " + resource.getPath());
-					break;
-			}
-			
-		/*
-		 * CreatureAnimation rendering
-		 */
-		} else if (resource.getType().equalsIgnoreCase("creatureanimation")) {
-			CreatureAnimation creatureAnimation = (CreatureAnimation)resource.getObject();
-			Animation curAnimation = creatureAnimation.getIdleDown();
-			Movement movement = movementMapper.get(e);
-			if (movement != null) {
-				if (movement.getAnimation() != null) curAnimation = movement.getAnimation();
-			}
-			
-			
-			switch (renderType.getType()) {
-				case RenderType.TYPE_PLAYER:
-					graphics.drawAnimation(curAnimation, playerX, playerY);
-					break;
-				case RenderType.TYPE_ENEMY:
-					graphics.drawAnimation(curAnimation, mapEntityX, mapEntityY);
-					break;
-				default:
-					logger.warn("Invalid render type " + renderType.getType() + " for creatureanimation " + resource.getPath());
-					break;
-			}
-			
-		/*
-		 * TiledMap rendering
-		 */
-		} else if (resource.getType().equalsIgnoreCase("tiledmap")) {
-			TiledMap map = (TiledMap)resource.getObject();
-
-			
-			switch (renderType.getType()) {
-				case RenderType.TYPE_GROUND_LAYER:
-					map.render(mapX, mapY, 0);
-					break;
-				case RenderType.TYPE_BACKGROUND_LAYER:
-					map.render(mapX, mapY, 1);
-					break;
-				case RenderType.TYPE_FOREGROUND_LAYER:
-					map.render(mapX, mapY, 2);
-					break;
-				case RenderType.TYPE_WALL_LAYER:
-					map.render(mapX, mapY, 3);
-					break;
-				default:
-					logger.warn("Invalid render type " + renderType.getType() + " for tiledmap " + resource.getPath());
-					break;
-			}
-		} else {
-			logger.warn("Invalid resource type " + resource.getType() + " " + resource.getPath());
 		}
 	}
 

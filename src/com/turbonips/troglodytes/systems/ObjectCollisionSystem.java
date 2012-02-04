@@ -39,46 +39,45 @@ public class ObjectCollisionSystem extends BaseEntitySystem {
 		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities("ENEMY");
 		
 		if (!layers.isEmpty()) {
-			Resource mapResource = resourceMapper.get(layers.get(0));
-			
-			for (int p=0; p<players.size(); p++) {
-				Entity player = players.get(p);
-				Position position = positionMapper.get(player);
-				Resource playerResource = resourceMapper.get(player);
-				Image sprite = null;
-				if (playerResource.getType().equalsIgnoreCase("creatureanimation")) {
-					sprite = ((CreatureAnimation)playerResource.getObject()).getIdleDown().getCurrentFrame();
-				} else if (playerResource.getType().equalsIgnoreCase("image")) {
-					sprite = (Image)playerResource.getObject();
-				} else {
-					logger.error("player resource type is " + playerResource.getType());
-				}
-				
-				
-				
-				ObjectType objectType = getObjectType(position, mapResource.getId(), sprite);
-				if (objectType != null) {
-					switch (objectType.getType()) {
-						case ObjectType.WARP_OBJECT:
-							WarpObject warpObject = (WarpObject)objectType;
-							logger.info("Warping to " + warpObject.getMapName() + "," + warpObject.getX()*sprite.getWidth() + "," + + warpObject.getY()*sprite.getHeight());
-							position.setPosition(warpObject.getX()*sprite.getWidth(), warpObject.getY()*sprite.getHeight());							
-							String newMapName = warpObject.getMapName();
-							for (int i=0; i<layers.size(); i++) {
-								Entity layer = layers.get(i);
-								Resource layerResource = resourceMapper.get(layer);
-								String oldMapName = layerResource.getId();
-								resourceManager.unloadResource(oldMapName);
-								layer.removeComponent(layerResource);
-								layer.addComponent(resourceManager.getResource(newMapName));
-								Position layerPosition = positionMapper.get(layer);
-								layerPosition.setPosition(warpObject.getX()*sprite.getWidth(), warpObject.getY()*sprite.getHeight());
-							}
-							for (int i=0; i<enemies.size(); i++) {
-								Entity enemy = enemies.get(i);
-								world.deleteEntity(enemy);
-							}
-							break;
+			Resource resource = resourceMapper.get(layers.get(0));
+			if (resource != null) {
+				for (int p=0; p<players.size(); p++) {
+					Entity player = players.get(p);
+					Position position = positionMapper.get(player);
+					Resource playerResource = resourceMapper.get(player);
+					Image sprite = null;
+					if (playerResource.getType().equalsIgnoreCase("creatureanimation")) {
+						sprite = ((CreatureAnimation)playerResource.getObject()).getIdleDown().getCurrentFrame();
+					} else if (playerResource.getType().equalsIgnoreCase("image")) {
+						sprite = (Image)playerResource.getObject();
+					} else {
+						logger.error("player resource type is " + playerResource.getType());
+					}
+					
+					ObjectType objectType = getObjectType(position, resource.getId(), sprite);
+					if (objectType != null) {
+						switch (objectType.getType()) {
+							case ObjectType.WARP_OBJECT:
+								WarpObject warpObject = (WarpObject)objectType;
+								logger.info("Warping to " + warpObject.getMapName() + "," + warpObject.getX()*sprite.getWidth() + "," + + warpObject.getY()*sprite.getHeight());
+								position.setPosition(warpObject.getX()*sprite.getWidth(), warpObject.getY()*sprite.getHeight());							
+								String newMapName = warpObject.getMapName();
+								for (int i=0; i<layers.size(); i++) {
+									Entity layer = layers.get(i);
+									Resource layerResource = resourceMapper.get(layer);
+									String oldMapName = layerResource.getId();
+									resourceManager.unloadResource(oldMapName);
+									layer.removeComponent(layerResource);
+									//layer.addComponent(resourceManager.getResource(newMapName));
+									Position layerPosition = positionMapper.get(layer);
+									layerPosition.setPosition(warpObject.getX()*sprite.getWidth(), warpObject.getY()*sprite.getHeight());
+								}
+								for (int i=0; i<enemies.size(); i++) {
+									Entity enemy = enemies.get(i);
+									world.deleteEntity(enemy);
+								}
+								break;
+						}
 					}
 				}
 			}
