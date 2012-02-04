@@ -118,8 +118,6 @@ public class RenderSystem extends BaseEntityProcessingSystem {
 				if (movement != null) {
 					if (movement.getAnimation() != null) curAnimation = movement.getAnimation();
 				}
-				
-				
 				switch (renderType.getType()) {
 					case RenderType.TYPE_PLAYER:
 						graphics.drawAnimation(curAnimation, playerX, playerY);

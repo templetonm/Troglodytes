@@ -14,45 +14,46 @@ public class MusicSystem extends BaseEntitySystem {
 	private Music music;
 	private GameContainer container;
 	private ComponentMapper<Resource> resourceMapper;
-	
-	public MusicSystem(GameContainer container)
-	{
+
+	public MusicSystem(GameContainer container) {
 		this.container = container;
 	}
-	
+
 	@Override
 	protected void initialize() {
 		resourceMapper = new ComponentMapper<Resource>(Resource.class, world);
 	}
-	
-	public void startMusic()
-	{
+
+	public void startMusic() {
 		this.music.play();
 	}
-	
+
 	@Override
-	protected boolean checkProcessing()
-	{
+	protected boolean checkProcessing() {
 		return true;
 	}
-	
+
 	@Override
 	protected void processEntities(ImmutableBag<Entity> entities) {
-		ImmutableBag<Entity> layers = world.getGroupManager().getEntities("LAYER");
-		
+		ImmutableBag<Entity> layers = world.getGroupManager().getEntities(
+				"LAYER");
+
 		if (!layers.isEmpty()) {
-			TiledMap tiledMap = (TiledMap)resourceMapper.get(layers.get(0)).getObject();
+			TiledMap tiledMap = (TiledMap) resourceMapper.get(layers.get(0))
+					.getObject();
 			final String songTitle = tiledMap.getMapProperty("Music", null);
-			
+
 			if (songTitle != null) {
-				final ResourceManager resourceManager = ResourceManager.getInstance();
-				music = (Music)resourceManager.getResource(songTitle).getObject();						}
-				if (this.music != null) {
-					if(!this.music.playing()) {
-						this.startMusic();
-					}
+				final ResourceManager resourceManager = ResourceManager
+						.getInstance();
+				music = (Music) resourceManager.getResource(songTitle)
+						.getObject();
+			}
+			if (this.music != null) {
+				if (!this.music.playing()) {
+					this.startMusic();
 				}
 			}
 		}
 	}
-	
+}

@@ -4,17 +4,19 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.CreatureAnimation;
+import com.turbonips.troglodytes.EntityFactory;
 import com.turbonips.troglodytes.ResourceManager;
+import com.turbonips.troglodytes.components.ObjectType;
 import com.turbonips.troglodytes.components.Resource;
 import com.turbonips.troglodytes.components.Position;
-import com.turbonips.troglodytes.objects.ObjectType;
-import com.turbonips.troglodytes.objects.WarpObject;
+import com.turbonips.troglodytes.components.WarpObject;
 
 public class ObjectCollisionSystem extends BaseEntitySystem {
 	private final GameContainer container;
@@ -43,39 +45,49 @@ public class ObjectCollisionSystem extends BaseEntitySystem {
 			if (resource != null) {
 				for (int p=0; p<players.size(); p++) {
 					Entity player = players.get(p);
-					Position position = positionMapper.get(player);
+					Position playerPosition = positionMapper.get(player);
 					Resource playerResource = resourceMapper.get(player);
 					Image sprite = null;
-					if (playerResource.getType().equalsIgnoreCase("creatureanimation")) {
-						sprite = ((CreatureAnimation)playerResource.getObject()).getIdleDown().getCurrentFrame();
-					} else if (playerResource.getType().equalsIgnoreCase("image")) {
-						sprite = (Image)playerResource.getObject();
-					} else {
-						logger.error("player resource type is " + playerResource.getType());
+					
+					if (playerResource != null) {
+						if (playerResource.getType().equalsIgnoreCase("creatureanimation")) {
+							sprite = ((CreatureAnimation)playerResource.getObject()).getIdleDown().getCurrentFrame();
+						} else if (playerResource.getType().equalsIgnoreCase("image")) {
+							sprite = (Image)playerResource.getObject();
+						} else {
+							logger.error("player resource type is " + playerResource.getType());
+						}
 					}
 					
-					ObjectType objectType = getObjectType(position, resource.getId(), sprite);
+					ObjectType objectType = getObjectType(playerPosition, resource.getId(), sprite);
 					if (objectType != null) {
 						switch (objectType.getType()) {
 							case ObjectType.WARP_OBJECT:
 								WarpObject warpObject = (WarpObject)objectType;
 								logger.info("Warping to " + warpObject.getMapName() + "," + warpObject.getX()*sprite.getWidth() + "," + + warpObject.getY()*sprite.getHeight());
-								position.setPosition(warpObject.getX()*sprite.getWidth(), warpObject.getY()*sprite.getHeight());							
-								String newMapName = warpObject.getMapName();
+								//playerPosition.setPosition(warpObject.getX()*sprite.getWidth(), warpObject.getY()*sprite.getHeight());							
+								//String newMapName = warpObject.getMapName();
+								
+								// Unload existing map
 								for (int i=0; i<layers.size(); i++) {
 									Entity layer = layers.get(i);
 									Resource layerResource = resourceMapper.get(layer);
-									String oldMapName = layerResource.getId();
-									resourceManager.unloadResource(oldMapName);
-									layer.removeComponent(layerResource);
-									//layer.addComponent(resourceManager.getResource(newMapName));
-									Position layerPosition = positionMapper.get(layer);
-									layerPosition.setPosition(warpObject.getX()*sprite.getWidth(), warpObject.getY()*sprite.getHeight());
+									if (layerResource != null) {
+										String oldMapName = layerResource.getId();
+										resourceManager.unloadResource(oldMapName);
+										//layer.removeComponent(layerResource);
+										world.deleteEntity(layer);
+										//layer.addComponent(resourceManager.getResource(newMapName));
+										//Position layerPosition = positionMapper.get(layer);
+										//layerPosition.setPosition(warpObject.getX()*sprite.getWidth(), warpObject.getY()*sprite.getHeight());
+									}
 								}
 								for (int i=0; i<enemies.size(); i++) {
 									Entity enemy = enemies.get(i);
 									world.deleteEntity(enemy);
 								}
+								player.addComponent(warpObject);
+								player.refresh();
 								break;
 						}
 					}

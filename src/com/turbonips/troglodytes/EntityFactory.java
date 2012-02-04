@@ -1,5 +1,7 @@
 package com.turbonips.troglodytes;
 
+import java.awt.Point;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
@@ -9,6 +11,7 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.turbonips.troglodytes.components.Collision;
 import com.turbonips.troglodytes.components.Movement;
+import com.turbonips.troglodytes.components.Resource;
 import com.turbonips.troglodytes.components.Sliding;
 import com.turbonips.troglodytes.components.SubPosition;
 import com.turbonips.troglodytes.components.RenderType;
@@ -99,7 +102,63 @@ public class EntityFactory {
 				break;
 		}
 		return null;
+	}
+	
+	public static void createPlayer(World world, Point position) throws SlickException {
+		ResourceManager resourceManager = ResourceManager.getInstance();
+		Resource playerAnimationResource = resourceManager.getResource("testplayeranimation");
+		CreatureAnimation playerAnimation = (CreatureAnimation)playerAnimationResource.getObject();
+		Image playerFrame = playerAnimation.getCurrent().getCurrentFrame();
+		int speed = 8;
+		Rectangle slidingBox = new Rectangle(speed*-15, speed*-12, speed*15, speed*12);
 		
+		// Create the player
+		Entity player = world.createEntity();
+		player.setGroup("PLAYER");
+		player.addComponent(new Position(new Vector2f(playerFrame.getWidth()*position.x, playerFrame.getHeight()*position.y), speed));
+		player.addComponent(new Sliding(new Vector2f(playerFrame.getWidth()/2, playerFrame.getHeight()/2), speed, slidingBox));
+		player.addComponent(playerAnimationResource);
+		player.addComponent(new RenderType(RenderType.TYPE_PLAYER));
+		player.addComponent(new Movement());
+		player.addComponent(new Collision());
+		player.refresh();
+	}
+	
+	public static void createMap(World world, String mapId, Point position) throws SlickException {
+		ResourceManager resourceManager = ResourceManager.getInstance();
+		Resource playerAnimationResource = resourceManager.getResource("testplayeranimation");
+		CreatureAnimation playerAnimation = (CreatureAnimation)playerAnimationResource.getObject();
+		Image playerFrame = playerAnimation.getCurrent().getCurrentFrame();
+		int speed = 8;
+		Rectangle slidingBox = new Rectangle(speed*-15, speed*-12, speed*15, speed*12);
+		
+		// Create the ground
+		Entity ground = world.createEntity();
+		ground.setGroup("LAYER");
+		ground.addComponent(new Position(new Vector2f(playerFrame.getWidth()*position.x, playerFrame.getHeight()*position.y), speed));
+		ground.addComponent(new Sliding(new Vector2f(playerFrame.getWidth()/2, playerFrame.getHeight()/2), speed, slidingBox));
+		ground.addComponent(resourceManager.getResource(mapId));
+		ground.addComponent(new RenderType(RenderType.TYPE_GROUND_LAYER));
+		ground.refresh();
+		
+		// Create the background
+		Entity background = world.createEntity();
+		background.setGroup("LAYER");
+		background.addComponent(new Position(new Vector2f(playerFrame.getWidth()*position.x, playerFrame.getHeight()*position.y), speed));
+		background.addComponent(new Sliding(new Vector2f(playerFrame.getWidth()/2, playerFrame.getHeight()/2), speed, slidingBox));
+		background.addComponent(resourceManager.getResource(mapId));
+		background.addComponent(new RenderType(RenderType.TYPE_BACKGROUND_LAYER));
+		background.refresh();
+
+		
+		// Create the foreground
+		Entity foreground = world.createEntity();
+		foreground.setGroup("LAYER");
+		foreground.addComponent(new Position(new Vector2f(playerFrame.getWidth()*position.x, playerFrame.getHeight()*position.y), speed));
+		foreground.addComponent(new Sliding(new Vector2f(playerFrame.getWidth()/2, playerFrame.getHeight()/2), speed, slidingBox));
+		foreground.addComponent(resourceManager.getResource(mapId));
+		foreground.addComponent(new RenderType(RenderType.TYPE_FOREGROUND_LAYER));
+		foreground.refresh();
 	}
 	
 }

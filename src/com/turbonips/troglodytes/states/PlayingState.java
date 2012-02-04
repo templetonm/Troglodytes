@@ -1,5 +1,7 @@
 package com.turbonips.troglodytes.states;
 
+import java.awt.Point;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Music; //TODO: Probably remove this reference after moving the music starting point. 
@@ -19,6 +21,7 @@ import com.turbonips.troglodytes.systems.PlayerControlSystem;
 import com.turbonips.troglodytes.systems.DebugTextSystem;
 import com.turbonips.troglodytes.systems.LightingSystem;
 import com.turbonips.troglodytes.systems.RenderSystem;
+import com.turbonips.troglodytes.systems.WarpSystem;
 
 public class PlayingState extends BaseGameState {
 	public static final int ID = 3;
@@ -34,6 +37,7 @@ public class PlayingState extends BaseGameState {
 	private EntitySystem debugTextSystem;
 	private EntitySystem enemyControlSystem;
 	private EntitySystem musicSystem;
+	private EntitySystem warpSystem;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -49,15 +53,19 @@ public class PlayingState extends BaseGameState {
 		debugTextSystem = systemManager.setSystem(new DebugTextSystem(container));
 		movementSystem = systemManager.setSystem(new MovementSystem(container));
 		enemyControlSystem = systemManager.setSystem(new EnemyControlSystem(container));
-		musicSystem = systemManager.setSystem(new MusicSystem(container));
+		warpSystem = systemManager.setSystem(new WarpSystem());
+		//musicSystem = systemManager.setSystem(new MusicSystem(container));
 		systemManager.initializeAll();
 		
-		EntityFactory.create(world, EntityFactory.ID_GROUND_LAYER);
+		/*EntityFactory.create(world, EntityFactory.ID_GROUND_LAYER);
 		EntityFactory.create(world, EntityFactory.ID_BG_LAYER);
 		EntityFactory.create(world, EntityFactory.ID_PLAYER);
-		for (int i=0; i<5000; i++) EntityFactory.create(world, EntityFactory.ID_ENEMY);
-		EntityFactory.create(world, EntityFactory.ID_FG_LAYER);
+		for (int i=0; i<50; i++) EntityFactory.create(world, EntityFactory.ID_ENEMY);
+		EntityFactory.create(world, EntityFactory.ID_FG_LAYER);*/
 		//EntityFactory.create(world, EntityFactory.ID_WALL_LAYER);
+		
+		EntityFactory.createMap(world, "trog0", new Point(1,5));
+		EntityFactory.createPlayer(world, new Point(1,5));
 	}
 
 	@Override
@@ -67,6 +75,7 @@ public class PlayingState extends BaseGameState {
 		movementSystem.process();
 		lightingSystem.process();
 		debugTextSystem.process();
+		
 	}
 
 	@Override
@@ -76,9 +85,10 @@ public class PlayingState extends BaseGameState {
 		world.setDelta(delta);
 		collisionSystem.process();
 		objectCollisionSystem.process();
+		warpSystem.process();
 		playerControlSystem.process();
 		enemyControlSystem.process();
-		musicSystem.process();
+		//musicSystem.process();
 	}
 
 	@Override
