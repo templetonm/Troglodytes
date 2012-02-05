@@ -25,12 +25,12 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.turbonips.troglodytes.components.Resource;
+import com.turbonips.troglodytes.components.Resource.ResourceType;
 
 public class ResourceFactory {
 	private final Logger logger = Logger.getLogger(getClass());
 	private static final ResourceFactory instance = new ResourceFactory();
 	private HashMap<String, Element> resourceElements = new HashMap<String, Element>();
-	private enum ResourceType { IMAGE, TILED_MAP, SPRITE_SHEET, CREATURE_ANIMATION, MUSIC };
 
 	private ResourceFactory() {
 		try {
@@ -58,19 +58,19 @@ public class ResourceFactory {
 		}
 		
 		if (type.equals("image")) {
-			return new Resource(id, type, path, new Image(path));
+			return new Resource(id, ResourceType.IMAGE, path, new Image(path));
 		} else if (type.equals("tiledmap")) {
-			return new Resource(id, type, path, new TiledMap(path));
+			return new Resource(id, ResourceType.TILED_MAP, path, new TiledMap(path));
 		} else if (type.equals("spritesheet")) {
 			int width = Integer.valueOf(resourceElement.getAttribute("width"));
 			int height = Integer.valueOf(resourceElement.getAttribute("height"));
-			return new Resource(id, type, path, new SpriteSheet(path, width, height));
+			return new Resource(id, ResourceType.SPRITE_SHEET, path, new SpriteSheet(path, width, height));
 		} else if (type.equals("creatureanimation")) {
 			int width = Integer.valueOf(resourceElement.getAttribute("width"));
 			int height = Integer.valueOf(resourceElement.getAttribute("height"));
-			return new Resource(id, type, path, new CreatureAnimation(path, width, height));
+			return new Resource(id, ResourceType.CREATURE_ANIMATION, path, new CreatureAnimation(path, width, height));
 		} else if (type.equals("music")) {
-			return new Resource(id, type, path, new Music(path));
+			return new Resource(id, ResourceType.MUSIC, path, new Music(path));
 		}
 		
 		return null;
