@@ -45,12 +45,16 @@ public class ObjectCollisionSystem extends BaseEntitySystem {
 					Image sprite = null;
 					
 					if (playerResource != null) {
-						if (playerResource.getType().equalsIgnoreCase("creatureanimation")) {
-							sprite = ((CreatureAnimation)playerResource.getObject()).getIdleDown().getCurrentFrame();
-						} else if (playerResource.getType().equalsIgnoreCase("image")) {
-							sprite = (Image)playerResource.getObject();
-						} else {
-							logger.error("player resource type is " + playerResource.getType());
+						switch (playerResource.getType()) {
+							case CREATURE_ANIMATION:
+								sprite = ((CreatureAnimation)playerResource.getObject()).getIdleDown().getCurrentFrame();
+								break;
+							case IMAGE:
+								sprite = (Image)playerResource.getObject();
+								break;
+							default:
+								logger.error("player resource type is " + playerResource.getType());
+								break;
 						}
 					}
 					

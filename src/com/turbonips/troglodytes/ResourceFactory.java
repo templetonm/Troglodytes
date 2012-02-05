@@ -30,6 +30,7 @@ public class ResourceFactory {
 	private final Logger logger = Logger.getLogger(getClass());
 	private static final ResourceFactory instance = new ResourceFactory();
 	private HashMap<String, Element> resourceElements = new HashMap<String, Element>();
+	private enum ResourceType { IMAGE, TILED_MAP, SPRITE_SHEET, CREATURE_ANIMATION, MUSIC };
 
 	private ResourceFactory() {
 		try {

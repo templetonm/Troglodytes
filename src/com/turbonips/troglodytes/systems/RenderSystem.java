@@ -19,6 +19,7 @@ import com.turbonips.troglodytes.components.SubPosition;
 import com.turbonips.troglodytes.components.RenderType;
 import com.turbonips.troglodytes.components.Resource;
 import com.turbonips.troglodytes.components.Sliding;
+import com.turbonips.troglodytes.components.Resource.ResourceType;
 
 
 public class RenderSystem extends BaseEntitySystem {
@@ -82,7 +83,7 @@ public class RenderSystem extends BaseEntitySystem {
 			/*
 			 * Image rendering
 			 */
-			if (resource.getType().equalsIgnoreCase("image")) {
+			if (resource.getType() == ResourceType.IMAGE) {
 				Image img = (Image)resource.getObject();
 				switch (renderType.getType()) {
 					case RenderType.TYPE_PLAYER:
@@ -99,7 +100,7 @@ public class RenderSystem extends BaseEntitySystem {
 			/*
 			 * SpriteSheet rendering
 			 */
-			} else if (resource.getType().equalsIgnoreCase("spritesheet")) {
+			} else if (resource.getType() == ResourceType.SPRITE_SHEET) {
 				SpriteSheet sheet = (SpriteSheet)resource.getObject();
 	
 				switch (renderType.getType()) {
@@ -111,7 +112,7 @@ public class RenderSystem extends BaseEntitySystem {
 			/*
 			 * CreatureAnimation rendering
 			 */
-			} else if (resource.getType().equalsIgnoreCase("creatureanimation")) {
+			} else if (resource.getType() == ResourceType.CREATURE_ANIMATION) {
 				CreatureAnimation creatureAnimation = (CreatureAnimation)resource.getObject();
 				Animation curAnimation = creatureAnimation.getIdleDown();
 				Movement movement = movementMapper.get(e);
@@ -135,7 +136,7 @@ public class RenderSystem extends BaseEntitySystem {
 			/*
 			 * TiledMap rendering
 			 */
-			} else if (resource.getType().equalsIgnoreCase("tiledmap")) {
+			} else if (resource.getType() == ResourceType.TILED_MAP) {
 				TiledMap map = (TiledMap)resource.getObject();
 	
 	

@@ -51,12 +51,16 @@ public class CollisionSystem extends BaseEntitySystem {
 					if (playerCollision != null && playerPosition != null) {
 						Resource playerResource = resourceMapper.get(player);
 						Image sprite = null;
-						if (playerResource.getType().equalsIgnoreCase("creatureanimation")) {
-							sprite = ((CreatureAnimation)playerResource.getObject()).getIdleDown().getCurrentFrame();
-						} else if (playerResource.getType().equalsIgnoreCase("image")) {
-							sprite = (Image)playerResource.getObject();
-						} else {
-							logger.error("player resource type is " + playerResource.getType());
+						switch (playerResource.getType()) {
+							case CREATURE_ANIMATION:
+								sprite = ((CreatureAnimation)playerResource.getObject()).getIdleDown().getCurrentFrame();
+								break;
+							case IMAGE:
+								sprite = (Image)playerResource.getObject();
+								break;
+							default:
+								logger.error("player resource type is " + playerResource.getType());
+								break;
 						}
 						updateCollision(playerPosition, playerCollision, tiledMap, sprite);
 					}
@@ -70,12 +74,16 @@ public class CollisionSystem extends BaseEntitySystem {
 					if (enemyCollision != null && enemyPosition != null) {
 						Resource enemyResource = resourceMapper.get(enemy);
 						Image sprite = null;
-						if (enemyResource.getType().equalsIgnoreCase("creatureanimation")) {
-							sprite = ((CreatureAnimation)enemyResource.getObject()).getIdleDown().getCurrentFrame();
-						} else if (enemyResource.getType().equalsIgnoreCase("image")) {
-							sprite = (Image)enemyResource.getObject();
-						} else {
-							logger.error("enemy resource type is " + enemyResource.getType());
+						switch (enemyResource.getType()) {
+							case CREATURE_ANIMATION:
+								sprite = ((CreatureAnimation)enemyResource.getObject()).getIdleDown().getCurrentFrame();
+								break;
+							case IMAGE:
+								sprite = (Image)enemyResource.getObject();
+								break;
+							default:
+								logger.error("enemy resource type is " + enemyResource.getType());
+								break;
 						}
 						updateCollision(enemyPosition, enemyCollision, tiledMap, sprite);
 					}
