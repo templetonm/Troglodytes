@@ -14,6 +14,7 @@ import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.CreatureAnimation;
 import com.turbonips.troglodytes.components.Movement;
+import com.turbonips.troglodytes.components.ParticleComponent;
 import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.SubPosition;
 import com.turbonips.troglodytes.components.RenderType;
@@ -171,6 +172,7 @@ public class RenderSystem extends BaseEntitySystem {
 	protected void processEntities(ImmutableBag<Entity> entites) {
 		ImmutableBag<Entity> players = world.getGroupManager().getEntities("PLAYER");
 		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities("ENEMY");
+		ImmutableBag<Entity> mapParticleSystems = world.getGroupManager().getEntities("MAPPARTICLESYSTEM");
 		ImmutableBag<Entity> layers = world.getGroupManager().getEntities("LAYER");
 		ArrayList<Entity> backgroundLayers = new ArrayList<Entity>();
 		ArrayList<Entity> groundLayers = new ArrayList<Entity>();
@@ -213,6 +215,16 @@ public class RenderSystem extends BaseEntitySystem {
 		for (int i=0; i<enemies.size(); i++) {
 			Entity enemy = enemies.get(i);
 			processEntity(enemy);
+		}
+		
+		if (mapParticleSystems.size() == 0)
+		{
+			graphics.drawString("U MAD BRO?", 100, 100);
+		}
+		
+		for (int i=0; i<mapParticleSystems.size(); i++){
+			mapParticleSystems.get(i).getComponent(ParticleComponent.class).renderParticleSystem();
+			
 		}
 		
 		for (Entity layer : foregroundLayers) {

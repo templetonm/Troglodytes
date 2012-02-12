@@ -13,6 +13,7 @@ import com.artemis.World;
 import com.turbonips.troglodytes.components.WarpObject;
 import com.turbonips.troglodytes.systems.CollisionSystem;
 import com.turbonips.troglodytes.systems.EnemyControlSystem;
+import com.turbonips.troglodytes.systems.MapParticleSystem;
 import com.turbonips.troglodytes.systems.MovementSystem;
 import com.turbonips.troglodytes.systems.ObjectCollisionSystem;
 import com.turbonips.troglodytes.systems.PlayerControlSystem;
@@ -35,6 +36,7 @@ public class PlayingState extends BaseGameState {
 	private EntitySystem debugTextSystem;
 	private EntitySystem enemyControlSystem;
 	private EntitySystem musicSystem;
+	private EntitySystem mapParticleSystem;
 	private EntitySystem warpSystem;
 
 	@Override
@@ -53,6 +55,7 @@ public class PlayingState extends BaseGameState {
 		enemyControlSystem = systemManager.setSystem(new EnemyControlSystem(container));
 		warpSystem = systemManager.setSystem(new WarpSystem());
 		//musicSystem = systemManager.setSystem(new MusicSystem(container));
+		mapParticleSystem = systemManager.setSystem(new MapParticleSystem(container));
 		systemManager.initializeAll();
 		
 		/*EntityFactory.create(world, EntityFactory.ID_GROUND_LAYER);
@@ -90,6 +93,8 @@ public class PlayingState extends BaseGameState {
 		playerControlSystem.process();
 		enemyControlSystem.process();
 		//musicSystem.process();
+		mapParticleSystem.process();
+
 	}
 
 	@Override

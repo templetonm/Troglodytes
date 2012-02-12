@@ -6,12 +6,14 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.particles.ParticleSystem;
 import org.newdawn.slick.tiled.TiledMap;
 
 import com.artemis.Entity;
 import com.artemis.World;
 import com.turbonips.troglodytes.components.Collision;
 import com.turbonips.troglodytes.components.Movement;
+import com.turbonips.troglodytes.components.ParticleComponent;
 import com.turbonips.troglodytes.components.Resource;
 import com.turbonips.troglodytes.components.Sliding;
 import com.turbonips.troglodytes.components.SubPosition;
@@ -193,6 +195,26 @@ public class EntityFactory {
 						enemy.addComponent(new Collision());
 						enemy.refresh();
 					}
+				}
+				else if(tiledMap.getObjectType(g, i).equalsIgnoreCase("particleSpawn")) {
+					int spawnNum = Integer.valueOf(tiledMap.getObjectProperty(g, i, "Number", "0"));
+
+					String particletype = tiledMap.getObjectProperty(g, i, "type", "");
+					int objectX = tiledMap.getObjectX(g, i);
+					int objectY = tiledMap.getObjectY(g, i);
+
+					Image particleImage = (Image)resourceManager.getResource(particletype).getObject();
+					Vector2f particleSpawnPoint = new Vector2f(objectX, objectY);
+
+					ParticleSystem particleSys = new ParticleSystem(particleImage);
+					Emitter pem = new Emitter(100,100);
+					pem.setEnabled(true);
+					particleSys.addEmitter(pem);
+
+					Entity particleSystem = world.createEntity();
+					particleSystem.setGroup("MAPPARTICLESYSTEM");
+					particleSystem.addComponent(new ParticleComponent(particleSys));
+					particleSystem.refresh();
 				}
 			}
 		}
