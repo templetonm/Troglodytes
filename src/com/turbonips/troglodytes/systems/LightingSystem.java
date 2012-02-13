@@ -56,7 +56,9 @@ public class LightingSystem extends BaseEntitySystem {
 						//graphics.fillRect(0, 0, container.getWidth(), container.getHeight());
 						graphics.scale(lightSize, lightSize);
 						GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-						light.drawCentered((container.getWidth()/2 - sliding.getX() + 16) * invSize, (container.getHeight()/2 - sliding.getY() + 16) * invSize);
+						if (sliding != null) {
+							light.drawCentered((container.getWidth()/2 - sliding.getX() + 16) * invSize, (container.getHeight()/2 - sliding.getY() + 16) * invSize);
+						}
 						graphics.scale(invSize, invSize);
 						GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_DST_ALPHA);
 						graphics.setColor(new Color(0,0,0,255));
