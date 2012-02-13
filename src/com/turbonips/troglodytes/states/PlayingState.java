@@ -52,7 +52,7 @@ public class PlayingState extends BaseGameState {
 		movementSystem = systemManager.setSystem(new MovementSystem(container));
 		enemyControlSystem = systemManager.setSystem(new EnemyControlSystem(container));
 		warpSystem = systemManager.setSystem(new WarpSystem());
-		//musicSystem = systemManager.setSystem(new MusicSystem(container));
+		musicSystem = systemManager.setSystem(new MusicSystem(container));
 		systemManager.initializeAll();
 		
 		/*EntityFactory.create(world, EntityFactory.ID_GROUND_LAYER);
@@ -66,7 +66,7 @@ public class PlayingState extends BaseGameState {
 		//Entity player = EntityFactory.createPlayer(world, new Point(1,5));
 		Entity player = world.createEntity();
 		player.setGroup("PLAYER");
-		player.addComponent(new WarpObject("trog0",5,5));
+		player.addComponent(new WarpObject("trog1",15,15));
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public class PlayingState extends BaseGameState {
 		warpSystem.process();
 		playerControlSystem.process();
 		enemyControlSystem.process();
-		//musicSystem.process();
+		musicSystem.process();
 	}
 
 	@Override
