@@ -14,6 +14,7 @@ import com.turbonips.troglodytes.components.WarpObject;
 import com.turbonips.troglodytes.systems.CollisionSystem;
 import com.turbonips.troglodytes.systems.EnemyControlSystem;
 import com.turbonips.troglodytes.systems.MovementSystem;
+import com.turbonips.troglodytes.systems.MusicSystem;
 import com.turbonips.troglodytes.systems.ObjectCollisionSystem;
 import com.turbonips.troglodytes.systems.PlayerControlSystem;
 import com.turbonips.troglodytes.systems.DebugTextSystem;
