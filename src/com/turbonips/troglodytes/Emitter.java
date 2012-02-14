@@ -12,7 +12,7 @@ public class Emitter implements ParticleEmitter
     /** The y coordinate of the center of the fire effect */
     private float y;
     /** The particle emission rate */
-    private int interval = 1000;
+    private int interval = 800;
     /** Time til the next particle */
     private int timer;
     /** The size of the initial particles */
@@ -20,7 +20,7 @@ public class Emitter implements ParticleEmitter
     /** The radius of the ring */
     private int radius = 30;
     /** Max number of particles */
-    private int maxParticles = 3;
+    private int maxParticles = 1;
 
     private boolean enabled = false;
     

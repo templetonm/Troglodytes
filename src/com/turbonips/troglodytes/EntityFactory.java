@@ -213,6 +213,9 @@ public class EntityFactory {
 
 					Entity particleSystem = world.createEntity();
 					particleSystem.setGroup("MAPPARTICLESYSTEM");
+					particleSystem.addComponent(new Position(new Vector2f(objectX, objectY), 0));
+					particleSystem.addComponent(new Sliding(new Vector2f(playerFrame.getWidth()/2, playerFrame.getHeight()/2), 0, slidingBox));
+					particleSystem.addComponent(new SubPosition(particleSpawnPoint,0));
 					particleSystem.addComponent(new ParticleComponent(particleSys));
 					particleSystem.refresh();
 				}

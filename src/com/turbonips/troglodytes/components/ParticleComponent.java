@@ -12,11 +12,13 @@ public class ParticleComponent extends Component
 		this.particleSystem = particleSystem;
 	}
 	
-	public void updateParticleSystem(int delta){
+	public void updateParticleSystem(int delta){//, float x, float y){
+		//particleSystem.setPosition(x, y);
 		particleSystem.update(delta);
 	}
 	
-	public void renderParticleSystem(){
+	public void renderParticleSystem(float x, float y){
+		particleSystem.setPosition(x, y);
 		particleSystem.render();
 	}
 }

@@ -5,6 +5,8 @@ import org.newdawn.slick.GameContainer;
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.components.ParticleComponent;
+import com.turbonips.troglodytes.components.Position;
+import com.turbonips.troglodytes.components.Sliding;
 
 public class MapParticleSystem extends BaseEntitySystem
 {
@@ -28,8 +30,11 @@ public class MapParticleSystem extends BaseEntitySystem
 		for (int i = 0; i < psys.size(); i++)
 		{
 			Entity entity = psys.get(i);
-			ParticleComponent pc = entity.getComponent(ParticleComponent.class);
-			pc.updateParticleSystem(world.getDelta());
+			ParticleComponent particlecomponent = entity.getComponent(ParticleComponent.class);
+			//Position position = entity.getComponent(Position.class);
+			//Sliding sliding = entity.getComponent(Sliding.class);
+			
+			particlecomponent.updateParticleSystem(world.getDelta());//, position.getX(), position.getY());
 		}
 	}
 

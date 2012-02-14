@@ -83,7 +83,11 @@ public class RenderSystem extends BaseEntitySystem {
 			/*
 			 * Image rendering
 			 */
-			if (resource.getType().equalsIgnoreCase("image")) {
+			if (resource == null){ // MPS
+				graphics.drawString("BRO!", 10, 200);
+				e.getComponent(ParticleComponent.class).renderParticleSystem(mapEntityX, mapEntityY);
+			}
+			else if (resource.getType().equalsIgnoreCase("image")) {
 				Image img = (Image)resource.getObject();
 				switch (renderType.getType()) {
 					case RenderType.TYPE_PLAYER:
@@ -219,12 +223,11 @@ public class RenderSystem extends BaseEntitySystem {
 		
 		if (mapParticleSystems.size() == 0)
 		{
-			graphics.drawString("U MAD BRO?", 100, 100);
+			graphics.drawString("NO MPS; U MAD BRO?", 10, 100);
 		}
-		
 		for (int i=0; i<mapParticleSystems.size(); i++){
-			mapParticleSystems.get(i).getComponent(ParticleComponent.class).renderParticleSystem();
-			
+			Entity mps = mapParticleSystems.get(i);
+			processEntity(mps);
 		}
 		
 		for (Entity layer : foregroundLayers) {
