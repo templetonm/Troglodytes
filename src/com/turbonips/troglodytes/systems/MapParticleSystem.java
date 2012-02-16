@@ -31,10 +31,7 @@ public class MapParticleSystem extends BaseEntitySystem
 		{
 			Entity entity = psys.get(i);
 			ParticleComponent particlecomponent = entity.getComponent(ParticleComponent.class);
-			//Position position = entity.getComponent(Position.class);
-			//Sliding sliding = entity.getComponent(Sliding.class);
-			
-			particlecomponent.updateParticleSystem(world.getDelta());//, position.getX(), position.getY());
+			particlecomponent.updateParticleSystem(world.getDelta());
 		}
 	}
 
