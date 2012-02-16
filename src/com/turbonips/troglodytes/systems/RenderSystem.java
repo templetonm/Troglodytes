@@ -80,7 +80,10 @@ public class RenderSystem extends BaseEntitySystem {
 			}
 	
 
-			if (resource == null && renderType.getType() == RenderType.TYPE_MAPPARTICLESYSTEM){ // MPS ; deal with null resource somehow.
+			/*
+			 * Map Particle System Rendering
+			 */
+			if (resource == null && renderType.getType() == RenderType.TYPE_MAPPARTICLESYSTEM){
 				e.getComponent(ParticleComponent.class).renderParticleSystem(mapEntityX, mapEntityY);
 				
 			/*

@@ -7,28 +7,25 @@ import org.newdawn.slick.particles.ParticleSystem;
 
 public class Emitter implements ParticleEmitter
 {
-    /** The x coordinate of the center of the fire effect */
     private float x;
-    /** The y coordinate of the center of the fire effect */
     private float y;
-    /** The particle emission rate */
-    private int interval = 800;
-    /** Time til the next particle */
+    private int interval = 1000;
     private int timer;
-    /** The size of the initial particles */
     private float size = 10;
-    /** The radius of the ring */
-    private int radius = 30;
-    /** Max number of particles */
+    private int maxParticleLifespan = 1000;
     private int maxParticles = 1;
-
+    private float velocityX = 0;
+    private float velocityY = 0;
+    private float spawnOffsetX = 0;
+    private float spawnOffsetY = 0;
+    
     private boolean enabled = false;
     
 	public Emitter(int x, int y)//, float size)
 	{
         this.x = x;
         this.y = y;
-        this.size = 10;//size;
+        this.size = 10;
         this.timer = this.interval;
 	}
 	
@@ -81,24 +78,22 @@ public class Emitter implements ParticleEmitter
 			timer = interval;
 			for (int i = 0; i < maxParticles; i++)
 			{
-				float parX = 0;
-				float parY = -5;
+				velocityX = 0;
+				velocityY = -5;
 				
-				float randXOffset = 10*(float)Math.random();
+				spawnOffsetX = 10*(float)Math.random();
 				if (i%2 == 0)
 				{
-					randXOffset = -randXOffset;
+					spawnOffsetX = -spawnOffsetX;
 				}
 				
-				Particle p = system.getNewParticle(this, 1000);
+				Particle p = system.getNewParticle(this, maxParticleLifespan);
                 p.setColor(1, 1, 1, 0.5f);
-                p.setPosition(x + randXOffset, y);
+                p.setPosition(x + spawnOffsetX, y + spawnOffsetY);
                 p.setSize(size);
-                p.setVelocity(parX, parY, 0.005f);
+                p.setVelocity(velocityX, velocityY, 0.005f);
 			}
 		}
-
-
 	}
 
 	@Override
