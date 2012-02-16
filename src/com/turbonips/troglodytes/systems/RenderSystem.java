@@ -81,12 +81,11 @@ public class RenderSystem extends BaseEntitySystem {
 	
 
 			if (resource == null && renderType.getType() == RenderType.TYPE_MAPPARTICLESYSTEM){ // MPS ; deal with null resource somehow.
-				graphics.drawString("BRO!", 10, 200);
 				e.getComponent(ParticleComponent.class).renderParticleSystem(mapEntityX, mapEntityY);
 				
-				/*
-				 * Image rendering
-				 */
+			/*
+			 * Image rendering
+			 */
 			} else if (resource.getType().equalsIgnoreCase("image")) {
 				Image img = (Image)resource.getObject();
 				switch (renderType.getType()) {
