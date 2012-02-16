@@ -202,10 +202,11 @@ public class EntityFactory {
 					String particletype = tiledMap.getObjectProperty(g, i, "type", "");
 					int objectX = tiledMap.getObjectX(g, i);
 					int objectY = tiledMap.getObjectY(g, i);
-
+					int objectWidth = tiledMap.getObjectWidth(g, i);
+					int objectHeight = tiledMap.getObjectHeight(g, i);
+					Vector2f particleSpawnPoint = new Vector2f(objectX, objectY);// + objectWidth*32, objectY + objectHeight*32);
+					
 					Image particleImage = (Image)resourceManager.getResource(particletype).getObject();
-					Vector2f particleSpawnPoint = new Vector2f(objectX, objectY);
-
 					ParticleSystem particleSys = new ParticleSystem(particleImage);
 					Emitter pem = new Emitter(100,100);
 					pem.setEnabled(true);
@@ -213,10 +214,11 @@ public class EntityFactory {
 
 					Entity particleSystem = world.createEntity();
 					particleSystem.setGroup("MAPPARTICLESYSTEM");
-					particleSystem.addComponent(new Position(new Vector2f(objectX, objectY), 0));
-					particleSystem.addComponent(new Sliding(new Vector2f(playerFrame.getWidth()/2, playerFrame.getHeight()/2), 0, slidingBox));
+					particleSystem.addComponent(new Position(new Vector2f(playerFrame.getWidth()*position.x, playerFrame.getHeight()*position.y), speed));
+					particleSystem.addComponent(new Sliding(new Vector2f(playerFrame.getWidth()/2, playerFrame.getHeight()/2), speed, slidingBox));
 					particleSystem.addComponent(new SubPosition(particleSpawnPoint,0));
 					particleSystem.addComponent(new ParticleComponent(particleSys));
+					particleSystem.addComponent(new RenderType(RenderType.TYPE_MAPPARTICLESYSTEM));
 					particleSystem.refresh();
 				}
 			}

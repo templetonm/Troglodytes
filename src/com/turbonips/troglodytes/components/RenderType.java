@@ -9,6 +9,7 @@ public class RenderType extends Component {
 	public static final int TYPE_FOREGROUND_LAYER = 3;
 	public static final int TYPE_WALL_LAYER = 4;
 	public static final int TYPE_ENEMY = 5;
+	public static final int TYPE_MAPPARTICLESYSTEM = 6;
 	
 	private int type;
 	
