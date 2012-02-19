@@ -1,7 +1,5 @@
 package com.turbonips.troglodytes.systems;
 
-import org.newdawn.slick.GameContainer;
-
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
@@ -11,10 +9,8 @@ import com.turbonips.troglodytes.components.Movement;
 public class EnemyControlSystem extends BaseEntitySystem {
 	private ComponentMapper<Movement> movementMapper;
 	private ComponentMapper<Collision> collisionMapper;
-	private GameContainer container;
 	
-	public EnemyControlSystem(GameContainer container) {
-		this.container = container;
+	public EnemyControlSystem() {
 	}
 	
 	

@@ -47,15 +47,15 @@ public class PlayingState extends BaseGameState {
 	    systemManager = world.getSystemManager();
 	    playerControlSystem = systemManager.setSystem(new PlayerControlSystem(container));
 		renderSystem = systemManager.setSystem(new RenderSystem(container));
-		collisionSystem = systemManager.setSystem(new CollisionSystem(container));
+		collisionSystem = systemManager.setSystem(new CollisionSystem());
 		lightingSystem = systemManager.setSystem(new LightingSystem(container));
-		objectCollisionSystem = systemManager.setSystem(new ObjectCollisionSystem(container));
+		objectCollisionSystem = systemManager.setSystem(new ObjectCollisionSystem());
 		debugTextSystem = systemManager.setSystem(new DebugTextSystem(container));
-		movementSystem = systemManager.setSystem(new MovementSystem(container));
-		enemyControlSystem = systemManager.setSystem(new EnemyControlSystem(container));
+		movementSystem = systemManager.setSystem(new MovementSystem());
+		enemyControlSystem = systemManager.setSystem(new EnemyControlSystem());
 		warpSystem = systemManager.setSystem(new WarpSystem());
 		musicSystem = systemManager.setSystem(new MusicSystem(container));
-		mapParticleSystem = systemManager.setSystem(new MapParticleSystem(container));
+		mapParticleSystem = systemManager.setSystem(new MapParticleSystem());
 		systemManager.initializeAll();
 		
 		Entity player = world.createEntity();

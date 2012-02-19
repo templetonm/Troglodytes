@@ -1,19 +1,13 @@
 package com.turbonips.troglodytes.systems;
 
-import org.newdawn.slick.GameContainer;
-
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.components.ParticleComponent;
-import com.turbonips.troglodytes.components.Position;
-import com.turbonips.troglodytes.components.Sliding;
 
 public class MapParticleSystem extends BaseEntitySystem
 {
-	private GameContainer container;
 	
-	public MapParticleSystem(GameContainer container){
-		this.container = container;
+	public MapParticleSystem(){
 	}
 
 	@Override

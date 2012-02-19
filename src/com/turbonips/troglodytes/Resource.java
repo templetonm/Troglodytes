@@ -1,13 +1,17 @@
-package com.turbonips.troglodytes.components;
+package com.turbonips.troglodytes;
 
-import com.artemis.Component;
-
-public class Resource extends Component {
+public class Resource {
 	
 	private final String path;
 	private final String id;
 	private final Object object;
-	public enum ResourceType { IMAGE, TILED_MAP, SPRITE_SHEET, CREATURE_ANIMATION, MUSIC };
+	public enum ResourceType { 
+		IMAGE, 
+		TILED_MAP,
+		SPRITE_SHEET, 
+		CREATURE_ANIMATION, 
+		MUSIC
+	}
 	private final ResourceType type;
 	
 	public Resource(String id, ResourceType type, String path, Object object) {

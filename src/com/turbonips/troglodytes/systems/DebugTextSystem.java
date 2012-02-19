@@ -9,14 +9,15 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.CreatureAnimation;
+import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.components.Position;
-import com.turbonips.troglodytes.components.Resource;
+import com.turbonips.troglodytes.components.Renderable;
 
 public class DebugTextSystem extends BaseEntitySystem {
 	private GameContainer container;
 	private Graphics graphics;
 	private ComponentMapper<Position> positionMapper;
-	private ComponentMapper<Resource> resourceMapper;
+	private ComponentMapper<Renderable> renderableMapper;
 	
 	public DebugTextSystem(GameContainer container) {
 		this.container = container;
@@ -26,7 +27,7 @@ public class DebugTextSystem extends BaseEntitySystem {
 	@Override
 	protected void initialize() {
 		positionMapper = new ComponentMapper<Position>(Position.class, world);
-		resourceMapper = new ComponentMapper<Resource>(Resource.class, world);
+		renderableMapper = new ComponentMapper<Renderable>(Renderable.class, world);
 	}
 
 	@Override
@@ -35,26 +36,29 @@ public class DebugTextSystem extends BaseEntitySystem {
 		
 		if (!players.isEmpty()) {
 			Position position = positionMapper.get(players.get(0));
-			Resource playerResource = resourceMapper.get(players.get(0));
+			Renderable playerRenderable = renderableMapper.get(players.get(0));
 			
-			Image sprite = null;
-			if (playerResource != null) {
-				switch (playerResource.getType()) {
-					case CREATURE_ANIMATION:
-						sprite = ((CreatureAnimation)playerResource.getObject()).getIdleDown().getCurrentFrame();
-						break;
-					case IMAGE:
-						sprite = (Image)playerResource.getObject();
-						break;
-					default:
-						logger.error("player resource type is " + playerResource.getType());
-						break;
+			if (playerRenderable != null) {
+				Resource playerResource = playerRenderable.getResource();
+				Image sprite = null;
+				if (playerResource != null) {
+					switch (playerResource.getType()) {
+						case CREATURE_ANIMATION:
+							sprite = ((CreatureAnimation)playerResource.getObject()).getIdleDown().getCurrentFrame();
+							break;
+						case IMAGE:
+							sprite = (Image)playerResource.getObject();
+							break;
+						default:
+							logger.error("player resource type is " + playerResource.getType());
+							break;
+					}
+					int tileX = (int)position.getX()/sprite.getWidth();
+					int tileY = (int)position.getY()/sprite.getHeight();
+					String posText = "(" + tileX + ", " + tileY + ")";
+					graphics.setColor(Color.yellow);
+					graphics.drawString(posText, container.getWidth()-container.getDefaultFont().getWidth(posText)-10, 15);
 				}
-				int tileX = (int)position.getX()/sprite.getWidth();
-				int tileY = (int)position.getY()/sprite.getHeight();
-				String posText = "(" + tileX + ", " + tileY + ")";
-				graphics.setColor(Color.yellow);
-				graphics.drawString(posText, container.getWidth()-container.getDefaultFont().getWidth(posText)-10, 15);
 			}
 		}
 	}

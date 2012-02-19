@@ -6,8 +6,8 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.EntityFactory;
+import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.components.Position;
-import com.turbonips.troglodytes.components.Resource;
 import com.turbonips.troglodytes.components.WarpObject;
 
 public class WarpSystem extends BaseEntitySystem {
