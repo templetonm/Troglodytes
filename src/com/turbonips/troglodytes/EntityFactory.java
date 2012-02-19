@@ -2,16 +2,19 @@ package com.turbonips.troglodytes;
 
 import java.awt.Point;
 
+import org.apache.log4j.Logger;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.particles.ParticleSystem;
 import org.newdawn.slick.tiled.TiledMap;
 
 import com.artemis.Entity;
 import com.artemis.World;
 import com.turbonips.troglodytes.components.Collision;
 import com.turbonips.troglodytes.components.Movement;
+import com.turbonips.troglodytes.components.ParticleComponent;
 import com.turbonips.troglodytes.components.Resource;
 import com.turbonips.troglodytes.components.Sliding;
 import com.turbonips.troglodytes.components.SubPosition;
@@ -26,6 +29,8 @@ public class EntityFactory {
 	public static final int ID_FG_LAYER = 3;
 	public static final int ID_WALL_LAYER = 4;
 	public static final int ID_ENEMY = 5;
+	
+	private static final Logger logger = Logger.getLogger(EntityFactory.class);
 
 	public static Entity create(World world, int id) throws SlickException {
 		ResourceManager resourceManager = ResourceManager.getInstance();		
@@ -193,6 +198,31 @@ public class EntityFactory {
 						enemy.addComponent(new Collision());
 						enemy.refresh();
 					}
+				}
+				else if(tiledMap.getObjectType(g, i).equalsIgnoreCase("particleSpawn")) {
+					int spawnNum = Integer.valueOf(tiledMap.getObjectProperty(g, i, "Number", "0"));
+
+					String particletype = tiledMap.getObjectProperty(g, i, "type", "");
+					int objectX = tiledMap.getObjectX(g, i);
+					int objectY = tiledMap.getObjectY(g, i);
+					int objectWidth = tiledMap.getObjectWidth(g, i);
+					int objectHeight = tiledMap.getObjectHeight(g, i);
+					Vector2f particleSpawnPoint = new Vector2f(objectX, objectY);// + objectWidth*32, objectY + objectHeight*32);
+					
+					Image particleImage = (Image)resourceManager.getResource(particletype).getObject();
+					ParticleSystem particleSys = new ParticleSystem(particleImage);
+					Emitter pem = new Emitter(100,100);
+					pem.setEnabled(true);
+					particleSys.addEmitter(pem);
+
+					Entity particleSystem = world.createEntity();
+					particleSystem.setGroup("MAPPARTICLESYSTEM");
+					particleSystem.addComponent(new Position(new Vector2f(playerFrame.getWidth()*position.x, playerFrame.getHeight()*position.y), speed));
+					particleSystem.addComponent(new Sliding(new Vector2f(playerFrame.getWidth()/2, playerFrame.getHeight()/2), speed, slidingBox));
+					particleSystem.addComponent(new SubPosition(particleSpawnPoint,0));
+					particleSystem.addComponent(new ParticleComponent(particleSys));
+					particleSystem.addComponent(new RenderType(RenderType.TYPE_MAPPARTICLESYSTEM));
+					particleSystem.refresh();
 				}
 			}
 		}

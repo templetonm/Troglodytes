@@ -2,7 +2,6 @@ package com.turbonips.troglodytes.states;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Music; //TODO: Probably remove this reference after moving the music starting point. 
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -13,6 +12,7 @@ import com.artemis.World;
 import com.turbonips.troglodytes.components.WarpObject;
 import com.turbonips.troglodytes.systems.CollisionSystem;
 import com.turbonips.troglodytes.systems.EnemyControlSystem;
+import com.turbonips.troglodytes.systems.MapParticleSystem;
 import com.turbonips.troglodytes.systems.MovementSystem;
 import com.turbonips.troglodytes.systems.MusicSystem;
 import com.turbonips.troglodytes.systems.ObjectCollisionSystem;
@@ -36,6 +36,7 @@ public class PlayingState extends BaseGameState {
 	private EntitySystem debugTextSystem;
 	private EntitySystem enemyControlSystem;
 	private EntitySystem musicSystem;
+	private EntitySystem mapParticleSystem;
 	private EntitySystem warpSystem;
 
 	@Override
@@ -54,17 +55,9 @@ public class PlayingState extends BaseGameState {
 		enemyControlSystem = systemManager.setSystem(new EnemyControlSystem(container));
 		warpSystem = systemManager.setSystem(new WarpSystem());
 		musicSystem = systemManager.setSystem(new MusicSystem(container));
+		mapParticleSystem = systemManager.setSystem(new MapParticleSystem(container));
 		systemManager.initializeAll();
 		
-		/*EntityFactory.create(world, EntityFactory.ID_GROUND_LAYER);
-		EntityFactory.create(world, EntityFactory.ID_BG_LAYER);
-		EntityFactory.create(world, EntityFactory.ID_PLAYER);
-		for (int i=0; i<50; i++) EntityFactory.create(world, EntityFactory.ID_ENEMY);
-		EntityFactory.create(world, EntityFactory.ID_FG_LAYER);*/
-		//EntityFactory.create(world, EntityFactory.ID_WALL_LAYER);
-		
-		//EntityFactory.createMap(world, "trog0", new Point(1,5));
-		//Entity player = EntityFactory.createPlayer(world, new Point(1,5));
 		Entity player = world.createEntity();
 		player.setGroup("PLAYER");
 		player.addComponent(new WarpObject("trog1",15,15));
@@ -85,12 +78,14 @@ public class PlayingState extends BaseGameState {
 			throws SlickException {
 		world.loopStart();
 		world.setDelta(delta);
+		warpSystem.process();
 		collisionSystem.process();
 		objectCollisionSystem.process();
 		warpSystem.process();
 		playerControlSystem.process();
 		enemyControlSystem.process();
 		musicSystem.process();
+		mapParticleSystem.process();
 	}
 
 	@Override

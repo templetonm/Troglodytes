@@ -30,6 +30,7 @@ public class WarpSystem extends BaseEntitySystem {
 		ImmutableBag<Entity> players = world.getGroupManager().getEntities("PLAYER");
 		ImmutableBag<Entity> layers = world.getGroupManager().getEntities("LAYER");
 		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities("ENEMY");
+		ImmutableBag<Entity> mapParticleSystems = world.getGroupManager().getEntities("MAPPARTICLESYSTEM");
 		
 		if (!players.isEmpty()) {
 			WarpObject warp = warpMapper.get(players.get(0));
@@ -49,6 +50,11 @@ public class WarpSystem extends BaseEntitySystem {
 				for (int i=0; i<enemies.size(); i++) {
 					Entity enemy = enemies.get(i);
 					enemy.delete();
+				}
+				
+				for (int i=0; i<mapParticleSystems.size(); i++) {
+					Entity mapParticleSystem = mapParticleSystems.get(i);
+					mapParticleSystem.delete();
 				}
 	
 				try {

@@ -110,36 +110,39 @@ public class ObjectCollisionSystem extends BaseEntitySystem {
 		// Object checks
 		
 		// Left
-		topLeftY = (int)(position.getY()+sprite.getHeight()/2);
-		bottomLeftY = (int)(position.getY()+sprite.getHeight()-1);
-		topLeftX = (int)(position.getX());
-		bottomLeftX = (int)(position.getX());
-		if (objectType == null) objectType = createObjectType(mapId,topLeftX, topLeftY);
-		if (objectType == null) objectType = createObjectType(mapId, bottomLeftX, bottomLeftY);
-
-		// Right
-		topRightY = (int)(position.getY()+sprite.getHeight()/2);
-		bottomRightY = (int)(position.getY()+sprite.getHeight()-1);
-		topRightX = (int)(position.getX()+sprite.getWidth()-1);
-		bottomRightX = (int)(position.getX()+sprite.getWidth()-1);
-		if (objectType == null) objectType = createObjectType(mapId, topRightX, topRightY);
-		if (objectType == null) objectType = createObjectType(mapId, bottomRightX, bottomRightY);
-
-		// Up
-		topLeftY = (int)(position.getY()+sprite.getHeight()/2);
-		topRightY = (int)(position.getY()+sprite.getHeight()/2);
-		topLeftX = (int)(position.getX());
-		topRightX = (int)(position.getX()+sprite.getWidth()-1);
-		if (objectType == null) objectType = createObjectType(mapId, topLeftX, topLeftY);
-		if (objectType == null) objectType = createObjectType(mapId, topRightX, topRightY);
 		
-		// Down
-		bottomLeftY = (int)(position.getY()+sprite.getHeight()-1);
-		bottomRightY = (int)(position.getY()+sprite.getHeight()-1);
-		bottomLeftX = (int)(position.getX());
-		bottomRightX = (int)(position.getX()+sprite.getWidth()-1);
-		if (objectType == null) objectType = createObjectType(mapId, bottomLeftX, bottomLeftY);
-		if (objectType == null) objectType = createObjectType(mapId, bottomRightX, bottomRightY);
+		if (sprite != null && position != null) {
+			topLeftY = (int)(position.getY()+sprite.getHeight()/2);
+			bottomLeftY = (int)(position.getY()+sprite.getHeight()-1);
+			topLeftX = (int)(position.getX());
+			bottomLeftX = (int)(position.getX());
+			if (objectType == null) objectType = createObjectType(mapId,topLeftX, topLeftY);
+			if (objectType == null) objectType = createObjectType(mapId, bottomLeftX, bottomLeftY);
+	
+			// Right
+			topRightY = (int)(position.getY()+sprite.getHeight()/2);
+			bottomRightY = (int)(position.getY()+sprite.getHeight()-1);
+			topRightX = (int)(position.getX()+sprite.getWidth()-1);
+			bottomRightX = (int)(position.getX()+sprite.getWidth()-1);
+			if (objectType == null) objectType = createObjectType(mapId, topRightX, topRightY);
+			if (objectType == null) objectType = createObjectType(mapId, bottomRightX, bottomRightY);
+	
+			// Up
+			topLeftY = (int)(position.getY()+sprite.getHeight()/2);
+			topRightY = (int)(position.getY()+sprite.getHeight()/2);
+			topLeftX = (int)(position.getX());
+			topRightX = (int)(position.getX()+sprite.getWidth()-1);
+			if (objectType == null) objectType = createObjectType(mapId, topLeftX, topLeftY);
+			if (objectType == null) objectType = createObjectType(mapId, topRightX, topRightY);
+			
+			// Down
+			bottomLeftY = (int)(position.getY()+sprite.getHeight()-1);
+			bottomRightY = (int)(position.getY()+sprite.getHeight()-1);
+			bottomLeftX = (int)(position.getX());
+			bottomRightX = (int)(position.getX()+sprite.getWidth()-1);
+			if (objectType == null) objectType = createObjectType(mapId, bottomLeftX, bottomLeftY);
+			if (objectType == null) objectType = createObjectType(mapId, bottomRightX, bottomRightY);
+		}
 		
 		return objectType;
 	}
