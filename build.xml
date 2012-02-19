@@ -9,7 +9,9 @@
 	<property name="build" location="build"/>
 	<property name="dist" location="dist"/>
 	<property name="lib" location="/var/lib/jenkins/libraries"/>
-	<property name="slick-jar" location="${lib}/slick.jar"/>
+	<property name="slick-jar" location="${lib}/slick/lib/slick.jar"/>
+	<property name="jogg-jar" location="${lib}/slick/lib/jogg-0.0.7.jar"/>
+	<property name="jorbis-jar" location="${lib}/slick/lib/jorbis-0.0.15.jar"/>
 	<property name="artemis-jar" location="${lib}/artemis.jar"/>
 	<property name="log4j-jar" location="${lib}/apache-log4j-1.2.16/log4j-1.2.16.jar"/>
 	<property name="lwjgl-jar" location="${lib}/lwjgl-2.8.3/jar/lwjgl.jar"/>
@@ -27,6 +29,8 @@
 			<classpath>
 				<pathelement path="${classpath}"/>
 				<pathelement path="${slick-jar}"/>
+				<pathelement path="${jogg-jar}"/>
+				<pathelement path="${jorbis-jar}"/>
 				<pathelement path="${artemis-jar}"/>
 				<pathelement path="${log4j-jar}"/>
 				<pathelement path="${lwjgl-jar}"/>
@@ -43,7 +47,9 @@
 		<!-- Put everything in ${build} into the troglodytes.jar file -->
 		<jar jarfile="${dist}/troglodytes.jar" basedir="${build}"/>
 		<copy file="${slick-jar}" todir="${dist}"/>
-		<copy file="${artemis-jar}" todir="${dist}"/>
+		<copy file="${jogg-jar}" todir="${dist}"/>
+		<copy file="${slick-jar}" todir="${dist}"/>
+		<copy file="${jorbis-jar}" todir="${dist}"/>
 		<copy file="${log4j-jar}" todir="${dist}"/>
 		<copy file="${lwjgl-jar}" todir="${dist}"/>
 		<copy todir="${dist}/native/windows">
