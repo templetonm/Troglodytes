@@ -7,9 +7,10 @@ public class Resource extends Component {
 	private final String path;
 	private final String id;
 	private final Object object;
-	private final String type;
+	public enum ResourceType { IMAGE, TILED_MAP, SPRITE_SHEET, CREATURE_ANIMATION, MUSIC };
+	private final ResourceType type;
 	
-	public Resource(String id, String type, String path, Object object) {
+	public Resource(String id, ResourceType type, String path, Object object) {
 		this.path = path;
 		this.id = id;
 		this.type = type;
@@ -24,7 +25,7 @@ public class Resource extends Component {
 		return id;
 	}
 
-	public String getType() {
+	public ResourceType getType() {
 		return type;
 	}
 

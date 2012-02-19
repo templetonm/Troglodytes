@@ -39,7 +39,7 @@ public class ResourceManager {
 	}
 	
 	public void unloadResource(String id) {
-		resources.put(id, null);
+		resources.remove(id);
 	}
 
 }

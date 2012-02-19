@@ -1,12 +1,12 @@
-package com.turbonips.troglodytes.objects;
+package com.turbonips.troglodytes.components;
 
 
 import org.newdawn.slick.tiled.TiledMap;
 
+import com.artemis.Component;
 import com.turbonips.troglodytes.ResourceManager;
-import com.turbonips.troglodytes.components.Resource;
 
-public abstract class ObjectType {
+public abstract class ObjectType extends Component {
 	
 	public static final int WARP_OBJECT = 0;
 	
@@ -24,8 +24,6 @@ public abstract class ObjectType {
 		
 		return null;
 	}
-	
-	public abstract void process();
 	public abstract int getType();
 
 }

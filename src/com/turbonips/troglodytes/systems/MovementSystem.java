@@ -10,6 +10,7 @@ import com.turbonips.troglodytes.components.Collision;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.Resource;
+import com.turbonips.troglodytes.components.Resource.ResourceType;
 import com.turbonips.troglodytes.components.Sliding;
 import com.turbonips.troglodytes.components.SubPosition;
 
@@ -49,7 +50,7 @@ public class MovementSystem extends BaseEntitySystem {
 			// Update the player animation
 			if (playerMovement != null) {
 				if (playerResource != null) {
-					if (playerResource.getType().equalsIgnoreCase("creatureanimation")) {
+					if (playerResource.getType() == ResourceType.CREATURE_ANIMATION) {
 						CreatureAnimation creatureAnimation = (CreatureAnimation)playerResource.getObject();
 						if (playerMovement.isMoveUp()) {
 							playerMovement.setAnimation(creatureAnimation.getMoveUp());
@@ -118,7 +119,7 @@ public class MovementSystem extends BaseEntitySystem {
 			if (enemyMovement != null && enemyPosition != null) {
 				Resource enemyResource = resourceMapper.get(enemy);
 				CreatureAnimation enemyAnimation = null;
-				if (enemyResource.getType().equalsIgnoreCase("creatureanimation")) {
+				if (enemyResource.getType() == ResourceType.CREATURE_ANIMATION) {
 					enemyAnimation = (CreatureAnimation)enemyResource.getObject();
 				}
 				if (enemyMovement.isMoveUp()) {

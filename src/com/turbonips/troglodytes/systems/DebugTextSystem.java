@@ -38,18 +38,24 @@ public class DebugTextSystem extends BaseEntitySystem {
 			Resource playerResource = resourceMapper.get(players.get(0));
 			
 			Image sprite = null;
-			if (playerResource.getType().equalsIgnoreCase("creatureanimation")) {
-				sprite = ((CreatureAnimation)playerResource.getObject()).getIdleDown().getCurrentFrame();
-			} else if (playerResource.getType().equalsIgnoreCase("image")) {
-				sprite = (Image)playerResource.getObject();
-			} else {
-				logger.error("player resource type is " + playerResource.getType());
+			if (playerResource != null) {
+				switch (playerResource.getType()) {
+					case CREATURE_ANIMATION:
+						sprite = ((CreatureAnimation)playerResource.getObject()).getIdleDown().getCurrentFrame();
+						break;
+					case IMAGE:
+						sprite = (Image)playerResource.getObject();
+						break;
+					default:
+						logger.error("player resource type is " + playerResource.getType());
+						break;
+				}
+				int tileX = (int)position.getX()/sprite.getWidth();
+				int tileY = (int)position.getY()/sprite.getHeight();
+				String posText = "(" + tileX + ", " + tileY + ")";
+				graphics.setColor(Color.yellow);
+				graphics.drawString(posText, container.getWidth()-container.getDefaultFont().getWidth(posText)-10, 15);
 			}
-			int tileX = (int)position.getX()/sprite.getWidth();
-			int tileY = (int)position.getY()/sprite.getHeight();
-			String posText = "(" + tileX + ", " + tileY + ")";
-			graphics.setColor(Color.yellow);
-			graphics.drawString(posText, container.getWidth()-container.getDefaultFont().getWidth(posText)-10, 15);
 		}
 	}
 
