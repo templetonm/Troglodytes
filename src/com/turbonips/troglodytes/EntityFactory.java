@@ -91,10 +91,11 @@ public class EntityFactory {
 						int objectY = tiledMap.getObjectY(g, i);
 						int objectWidth = tiledMap.getObjectWidth(g, i);
 						int objectHeight = tiledMap.getObjectHeight(g, i);
+						Vector2f enemyStartPosition = new Vector2f(objectX+(int)(Math.random()*objectWidth), objectY+(int)(Math.random()*objectHeight));
 						Resource enemyResource = resourceManager.getResource(enemyId);
 						Entity enemy = world.createEntity();
 						enemy.setGroup("ENEMY");
-						enemy.addComponent(new Position(new Vector2f(objectWidth*32, objectHeight*32), 4));
+						enemy.addComponent(new Position(enemyStartPosition, 4));
 						enemy.addComponent(new Renderable(enemyResource, RenderType.ENEMY));
 						enemy.addComponent(new Movement());
 						enemy.addComponent(new Collision());
