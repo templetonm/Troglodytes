@@ -58,8 +58,13 @@ public class MenuState extends BaseGameState {
 			throws SlickException {
 		// TODO Auto-generated method stub
 		
-		backgroundImage.draw();
+		backgroundImage.draw(0,0,container.getWidth(), container.getHeight());
 		//logoImage.drawCentered(325, 375);
+		playGameButton.setX(container.getWidth()/2-playGameButton.getWidth()/2);
+		playGameButton.setY(container.getHeight()/2-playGameButton.getHeight()/2);
+		quitGameButton.setX(container.getWidth()/2-quitGameButton.getWidth()/2);
+		quitGameButton.setY(container.getHeight()/2-quitGameButton.getHeight()/2+playGameButton.getHeight()+20);
+		
 		
 		playGameButton.render(container, g);
 		quitGameButton.render(container, g);
