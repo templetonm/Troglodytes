@@ -37,11 +37,12 @@ public class EntityFactory {
 		Image playerFrame = playerAnimation.getCurrent().getCurrentFrame();
 		int speed = 8;
 		Rectangle slidingBox = new Rectangle(speed*-15, speed*-12, speed*15, speed*12);
+		Vector2f playerStart = new Vector2f(playerFrame.getWidth()*position.x, playerFrame.getHeight()*position.y);
 		
 		// Create the player
 		Entity player = world.createEntity();
 		player.setGroup("PLAYER");
-		player.addComponent(new Position(new Vector2f(playerFrame.getWidth()*position.x, playerFrame.getHeight()*position.y), speed));
+		player.addComponent(new Position(playerStart, speed));
 		player.addComponent(new Sliding(new Vector2f(playerFrame.getWidth()/2, playerFrame.getHeight()/2), speed, slidingBox));
 		player.addComponent(new Renderable(resourceManager.getResource("testplayeranimation"), RenderType.PLAYER));
 		player.addComponent(new Movement());
@@ -51,13 +52,14 @@ public class EntityFactory {
 		return player;
 	}
 	
+	
+	// TODO: Position shouldn't have a speed. Movement should have a speed.
 	public static void createMap(World world, String mapId, Point position) throws SlickException {
 		ResourceManager resourceManager = ResourceManager.getInstance();
 		Resource playerAnimationResource = resourceManager.getResource("testplayeranimation");
 		CreatureAnimation playerAnimation = (CreatureAnimation)playerAnimationResource.getObject();
 		Image playerFrame = playerAnimation.getCurrent().getCurrentFrame();
 		int speed = 8;
-		Rectangle slidingBox = new Rectangle(speed*-15, speed*-12, speed*15, speed*12);
 		
 		// Create the ground
 		Entity ground = world.createEntity();
@@ -83,8 +85,6 @@ public class EntityFactory {
 			for (int i=0; i<tiledMap.getObjectCount(g); i++) {
 				if (tiledMap.getObjectType(g, i).equalsIgnoreCase("spawn")) {
 					int spawnNum = Integer.valueOf(tiledMap.getObjectProperty(g, i, "Number", "0"));
-					
-					
 					for (int n=0; n<spawnNum; n++) {
 						String enemyId = tiledMap.getObjectProperty(g, i, "Enemy", "");
 						int objectX = tiledMap.getObjectX(g, i);
@@ -92,14 +92,9 @@ public class EntityFactory {
 						int objectWidth = tiledMap.getObjectWidth(g, i);
 						int objectHeight = tiledMap.getObjectHeight(g, i);
 						Resource enemyResource = resourceManager.getResource(enemyId);
-						
-						Vector2f enemyStartPosition = new Vector2f(objectWidth*32, objectHeight*32);
-						enemyStartPosition = new Vector2f(objectX+(int)(Math.random()*objectWidth), objectY+(int)(Math.random()*objectHeight));
-						
-						
 						Entity enemy = world.createEntity();
 						enemy.setGroup("ENEMY");
-						enemy.addComponent(new Position(enemyStartPosition, 4));
+						enemy.addComponent(new Position(new Vector2f(objectWidth*32, objectHeight*32), 4));
 						enemy.addComponent(new Renderable(enemyResource, RenderType.ENEMY));
 						enemy.addComponent(new Movement());
 						enemy.addComponent(new Collision());
@@ -114,7 +109,6 @@ public class EntityFactory {
 					int objectY = tiledMap.getObjectY(g, i);
 					int objectWidth = tiledMap.getObjectWidth(g, i);
 					int objectHeight = tiledMap.getObjectHeight(g, i);
-					Vector2f particleSpawnPoint = new Vector2f(objectX, objectY);// + objectWidth*32, objectY + objectHeight*32);
 					
 					Image particleImage = (Image)resourceManager.getResource(particletype).getObject();
 					ParticleSystem particleSys = new ParticleSystem(particleImage);
@@ -124,8 +118,7 @@ public class EntityFactory {
 
 					Entity particleSystem = world.createEntity();
 					particleSystem.setGroup("MAPPARTICLESYSTEM");
-					particleSystem.addComponent(new Position(new Vector2f(playerFrame.getWidth()*position.x, playerFrame.getHeight()*position.y), speed));
-					particleSystem.addComponent(new Sliding(new Vector2f(playerFrame.getWidth()/2, playerFrame.getHeight()/2), speed, slidingBox));
+					particleSystem.addComponent(new Position(new Vector2f(objectX, objectY), 0));
 					particleSystem.addComponent(new ParticleComponent(particleSys));
 					particleSystem.refresh();
 				}
