@@ -19,7 +19,6 @@ import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.ParticleComponent;
 import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.Renderable;
-import com.turbonips.troglodytes.components.SubPosition;
 import com.turbonips.troglodytes.components.Renderable.RenderType;
 import com.turbonips.troglodytes.components.Sliding;
 
@@ -29,7 +28,6 @@ public class RenderSystem extends BaseEntitySystem {
 	private ComponentMapper<Position> positionMapper;
 	private ComponentMapper<Renderable> renderableMapper;
 	private ComponentMapper<Sliding> slidingMapper;
-	private ComponentMapper<SubPosition> subPositionMapper;
 	private ComponentMapper<Movement> movementMapper;
 
 	public RenderSystem(GameContainer container) {
@@ -42,41 +40,38 @@ public class RenderSystem extends BaseEntitySystem {
 		positionMapper = new ComponentMapper<Position>(Position.class, world);
 		renderableMapper = new ComponentMapper<Renderable>(Renderable.class,world);
 		slidingMapper = new ComponentMapper<Sliding>(Sliding.class, world);
-		subPositionMapper = new ComponentMapper<SubPosition>(SubPosition.class,world);
 		movementMapper = new ComponentMapper<Movement>(Movement.class, world);
 	}
 
-	private void processEntity(Entity e) {
+	private void processEntity(Entity e, Position playerPosition, Sliding playerSliding) {
 		Renderable renderable = renderableMapper.get(e);
 		if (renderable != null) {
 			Resource resource = renderable.getResource();
 			RenderType renderType = renderable.getRenderType();
-			Position position = positionMapper.get(e);
-			Sliding sliding = slidingMapper.get(e);
-			SubPosition subPosition = subPositionMapper.get(e);
+			Position entityPosition = positionMapper.get(e);
 	
-			if (position != null) {
+			if (playerPosition != null) {
 				/*
 				 * Get player and map drawing positions
 				 */
 				int playerX = container.getWidth() / 2;
 				int playerY = container.getHeight() / 2;
-				int mapX = (int) position.getX() * -1 + container.getWidth() / 2;
-				int mapY = (int) position.getY() * -1 + container.getHeight() / 2;
+				int mapX = (int) playerPosition.getX() * -1 + container.getWidth() / 2;
+				int mapY = (int) playerPosition.getY() * -1 + container.getHeight() / 2;
 	
-				if (sliding != null) {
-					playerX -= (int) sliding.getX();
-					playerY -= (int) sliding.getY();
-					mapX -= (int) sliding.getX();
-					mapY -= (int) sliding.getY();
+				if (playerSliding != null) {
+					playerX -= (int) playerSliding.getX();
+					playerY -= (int) playerSliding.getY();
+					mapX -= (int) playerSliding.getX();
+					mapY -= (int) playerSliding.getY();
 				}
 				int mapEntityX = mapX;
 				int mapEntityY = mapY;
 	
 				// Enemys, effects, anything that can move on the map (minus player)
-				if (subPosition != null) {
-					mapEntityX += (int) subPosition.getX();
-					mapEntityY += (int) subPosition.getY();
+				if (entityPosition != null) {
+					mapEntityX += (int) entityPosition.getX();
+					mapEntityY += (int) entityPosition.getY();
 				}
 	
 				/*
@@ -182,14 +177,10 @@ public class RenderSystem extends BaseEntitySystem {
 
 	@Override
 	protected void processEntities(ImmutableBag<Entity> entites) {
-		ImmutableBag<Entity> players = world.getGroupManager().getEntities(
-				"PLAYER");
-		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities(
-				"ENEMY");
-		ImmutableBag<Entity> mapParticleSystems = world.getGroupManager()
-				.getEntities("MAPPARTICLESYSTEM");
-		ImmutableBag<Entity> layers = world.getGroupManager().getEntities(
-				"LAYER");
+		ImmutableBag<Entity> players = world.getGroupManager().getEntities("PLAYER");
+		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities("ENEMY");
+		ImmutableBag<Entity> mapParticleSystems = world.getGroupManager().getEntities("MAPPARTICLESYSTEM");
+		ImmutableBag<Entity> layers = world.getGroupManager().getEntities("LAYER");
 		ArrayList<Entity> backgroundLayers = new ArrayList<Entity>();
 		ArrayList<Entity> groundLayers = new ArrayList<Entity>();
 		ArrayList<Entity> foregroundLayers = new ArrayList<Entity>();
@@ -217,37 +208,41 @@ public class RenderSystem extends BaseEntitySystem {
 				}
 			}
 		}
-
-		for (Entity layer : groundLayers) {
-			processEntity(layer);
-		}
-
-		for (Entity layer : backgroundLayers) {
-			processEntity(layer);
-		}
-
-		for (int i = 0; i < players.size(); i++) {
-			Entity player = players.get(i);
-			processEntity(player);
-		}
-
-		for (int i = 0; i < enemies.size(); i++) {
-			Entity enemy = enemies.get(i);
-			processEntity(enemy);
-		}
-
-		for (int i = 0; i < mapParticleSystems.size(); i++) {
-			Entity mps = mapParticleSystems.get(i);
-			processEntity(mps);
-		}
-
-		for (Entity layer : foregroundLayers) {
-			processEntity(layer);
-		}
-
-		for (Entity layer : wallLayers) {
-			processEntity(layer);
-		}
+		
+	    if (players.get(0) != null) {
+	    	Position playerPosition = positionMapper.get(players.get(0));
+	    	Sliding playerSliding = slidingMapper.get(players.get(0));
+			for (Entity layer : groundLayers) {
+				processEntity(layer, playerPosition, playerSliding);
+			}
+	
+			for (Entity layer : backgroundLayers) {
+				processEntity(layer, playerPosition, playerSliding);
+			}
+	
+			for (int i = 0; i < players.size(); i++) {
+				Entity player = players.get(i);
+				processEntity(player, playerPosition, playerSliding);
+			}
+	
+			for (int i = 0; i < enemies.size(); i++) {
+				Entity enemy = enemies.get(i);
+				processEntity(enemy, playerPosition, playerSliding);
+			}
+	
+			for (int i = 0; i < mapParticleSystems.size(); i++) {
+				Entity mps = mapParticleSystems.get(i);
+				processEntity(mps, playerPosition, playerSliding);
+			}
+	
+			for (Entity layer : foregroundLayers) {
+				processEntity(layer, playerPosition, playerSliding);
+			}
+	
+			for (Entity layer : wallLayers) {
+				processEntity(layer, playerPosition, playerSliding);
+			}
+	    }
 
 	}
 

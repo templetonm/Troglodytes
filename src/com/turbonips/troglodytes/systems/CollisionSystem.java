@@ -11,11 +11,9 @@ import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.components.Collision;
 import com.turbonips.troglodytes.components.Renderable;
 import com.turbonips.troglodytes.components.Position;
-import com.turbonips.troglodytes.components.SubPosition;
 
 public class CollisionSystem extends BaseEntitySystem {
 	private ComponentMapper<Position> positionMapper;
-	private ComponentMapper<SubPosition> subPositionMapper;
 	private ComponentMapper<Collision> collisionMapper;
 	private ComponentMapper<Renderable> renderableMapper;
 
@@ -27,7 +25,6 @@ public class CollisionSystem extends BaseEntitySystem {
 		positionMapper = new ComponentMapper<Position>(Position.class, world);
 		collisionMapper = new ComponentMapper<Collision>(Collision.class, world);
 		renderableMapper = new ComponentMapper<Renderable>(Renderable.class, world);
-		subPositionMapper = new ComponentMapper<SubPosition>(SubPosition.class, world);
 	}
 
 	@Override
@@ -67,7 +64,7 @@ public class CollisionSystem extends BaseEntitySystem {
 				for (int e=0; e<enemies.size(); e++) {
 					Entity enemy = enemies.get(e);
 					Collision enemyCollision = collisionMapper.get(enemy);
-					SubPosition enemyPosition = subPositionMapper.get(enemy);
+					Position enemyPosition = positionMapper.get(enemy);
 					
 					if (enemyCollision != null && enemyPosition != null) {
 						Resource enemyResource = renderableMapper.get(enemy).getResource();

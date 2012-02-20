@@ -10,14 +10,12 @@ import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.Renderable;
 import com.turbonips.troglodytes.components.Sliding;
-import com.turbonips.troglodytes.components.SubPosition;
 
 public class MovementSystem extends BaseEntitySystem {
     private ComponentMapper<Position> positionMapper;
     private ComponentMapper<Sliding> slidingMapper;
 	private ComponentMapper<Renderable> renderableMapper;
 	private ComponentMapper<Movement> movementMapper;
-	private ComponentMapper<SubPosition> subPositionMapper;
 	
 	public MovementSystem() {
 		super(Position.class);
@@ -26,7 +24,6 @@ public class MovementSystem extends BaseEntitySystem {
 	@Override
 	protected void initialize() {
 		positionMapper = new ComponentMapper<Position>(Position.class, world);
-		subPositionMapper = new ComponentMapper<SubPosition>(SubPosition.class, world);
 		slidingMapper = new ComponentMapper<Sliding>(Sliding.class, world);
 		renderableMapper = new ComponentMapper<Renderable>(Renderable.class, world);
 		movementMapper = new ComponentMapper<Movement>(Movement.class, world);
@@ -70,10 +67,10 @@ public class MovementSystem extends BaseEntitySystem {
 					}
 				}
 				
-				// Transform all entities for player movement
+				// Transform all player entities for player movement
 				if (playerMovement != null && entities != null) {
-					for (int i = 0; i < entities.size(); i++) {
-						Entity entity = entities.get(i);
+					for (int i = 0; i < players.size(); i++) {
+						Entity entity = players.get(i);
 						Position entityPosition = positionMapper.get(entity);
 						Sliding entitySliding = slidingMapper.get(entity);
 						if (playerMovement.isMoveUp()) {
@@ -115,7 +112,7 @@ public class MovementSystem extends BaseEntitySystem {
 		for (int i=0; i<enemies.size(); i++) {
 			Entity enemy = enemies.get(i);
 			Movement enemyMovement = movementMapper.get(enemy);
-			SubPosition enemyPosition = subPositionMapper.get(enemy);
+			Position enemyPosition = positionMapper.get(enemy);
 			if (enemyMovement != null && enemyPosition != null) {
 				Resource enemyResource = renderableMapper.get(enemy).getResource();
 				CreatureAnimation enemyAnimation = null;

@@ -17,7 +17,6 @@ import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.ParticleComponent;
 import com.turbonips.troglodytes.components.Renderable;
 import com.turbonips.troglodytes.components.Sliding;
-import com.turbonips.troglodytes.components.SubPosition;
 import com.turbonips.troglodytes.components.Renderable.RenderType;
 import com.turbonips.troglodytes.components.Position;
 
@@ -63,16 +62,12 @@ public class EntityFactory {
 		// Create the ground
 		Entity ground = world.createEntity();
 		ground.setGroup("LAYER");
-		ground.addComponent(new Position(new Vector2f(playerFrame.getWidth()*position.x, playerFrame.getHeight()*position.y), speed));
-		ground.addComponent(new Sliding(new Vector2f(playerFrame.getWidth()/2, playerFrame.getHeight()/2), speed, slidingBox));
 		ground.addComponent(new Renderable(resourceManager.getResource(mapId), RenderType.GROUND_LAYER));
 		ground.refresh();
 		
 		// Create the background
 		Entity background = world.createEntity();
 		background.setGroup("LAYER");
-		background.addComponent(new Position(new Vector2f(playerFrame.getWidth()*position.x, playerFrame.getHeight()*position.y), speed));
-		background.addComponent(new Sliding(new Vector2f(playerFrame.getWidth()/2, playerFrame.getHeight()/2), speed, slidingBox));
 		background.addComponent(new Renderable(resourceManager.getResource(mapId), RenderType.BACKGROUND_LAYER));
 		background.refresh();
 
@@ -80,8 +75,6 @@ public class EntityFactory {
 		// Create the foreground
 		Entity foreground = world.createEntity();
 		foreground.setGroup("LAYER");
-		foreground.addComponent(new Position(new Vector2f(playerFrame.getWidth()*position.x, playerFrame.getHeight()*position.y), speed));
-		foreground.addComponent(new Sliding(new Vector2f(playerFrame.getWidth()/2, playerFrame.getHeight()/2), speed, slidingBox));
 		foreground.addComponent(new Renderable(resourceManager.getResource(mapId), RenderType.FOREGROUND_LAYER));
 		foreground.refresh();
 		
@@ -106,9 +99,7 @@ public class EntityFactory {
 						
 						Entity enemy = world.createEntity();
 						enemy.setGroup("ENEMY");
-						enemy.addComponent(new Position(new Vector2f(playerFrame.getWidth()*position.x, playerFrame.getHeight()*position.y), speed));
-						enemy.addComponent(new Sliding(new Vector2f(playerFrame.getWidth()/2, playerFrame.getHeight()/2), speed, slidingBox));
-						enemy.addComponent(new SubPosition(enemyStartPosition,4));
+						enemy.addComponent(new Position(enemyStartPosition, 4));
 						enemy.addComponent(new Renderable(enemyResource, RenderType.ENEMY));
 						enemy.addComponent(new Movement());
 						enemy.addComponent(new Collision());
@@ -135,9 +126,7 @@ public class EntityFactory {
 					particleSystem.setGroup("MAPPARTICLESYSTEM");
 					particleSystem.addComponent(new Position(new Vector2f(playerFrame.getWidth()*position.x, playerFrame.getHeight()*position.y), speed));
 					particleSystem.addComponent(new Sliding(new Vector2f(playerFrame.getWidth()/2, playerFrame.getHeight()/2), speed, slidingBox));
-					particleSystem.addComponent(new SubPosition(particleSpawnPoint,0));
 					particleSystem.addComponent(new ParticleComponent(particleSys));
-					//particleSystem.addComponent(new RenderType(RenderType.TYPE_MAPPARTICLESYSTEM));
 					particleSystem.refresh();
 				}
 			}
