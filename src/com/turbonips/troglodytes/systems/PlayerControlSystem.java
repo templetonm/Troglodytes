@@ -9,16 +9,10 @@ import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.components.Collision;
 import com.turbonips.troglodytes.components.Movement;
-import com.turbonips.troglodytes.components.Resource;
-import com.turbonips.troglodytes.components.Sliding;
-import com.turbonips.troglodytes.components.Position;
 
 public class PlayerControlSystem extends BaseEntitySystem implements KeyListener {
 	private final GameContainer container;
-    private ComponentMapper<Position> positionMapper;
-    private ComponentMapper<Sliding> slidingMapper;
     private ComponentMapper<Collision> collisionMapper;
-	private ComponentMapper<Resource> resourceMapper;
 	private ComponentMapper<Movement> movementMapper;
     
     boolean key_up = false, 
@@ -28,22 +22,16 @@ public class PlayerControlSystem extends BaseEntitySystem implements KeyListener
     		key_esc = false;
 
 	public PlayerControlSystem(GameContainer container) {
-		super(Position.class, Movement.class);
 		this.container = container;
 	}
 	
 	@Override
 	protected void initialize() {
-		positionMapper = new ComponentMapper<Position>(Position.class, world);
-		slidingMapper = new ComponentMapper<Sliding>(Sliding.class, world);
 		collisionMapper = new ComponentMapper<Collision>(Collision.class, world);
-		resourceMapper = new ComponentMapper<Resource>(Resource.class, world);
 		movementMapper = new ComponentMapper<Movement>(Movement.class, world);
 		container.getInput().addKeyListener(this);
 	}
 	
-	
-	// Adding a player component may be better then getting all player groups
 	@Override
 	protected void processEntities(ImmutableBag<Entity> entities) {
 		ImmutableBag<Entity> players = world.getGroupManager().getEntities("PLAYER");

@@ -24,8 +24,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.turbonips.troglodytes.components.Resource;
-import com.turbonips.troglodytes.components.Resource.ResourceType;
+import com.turbonips.troglodytes.Resource.ResourceType;
 
 public class ResourceFactory {
 	private final Logger logger = Logger.getLogger(getClass());

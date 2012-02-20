@@ -10,8 +10,9 @@ import org.newdawn.slick.tiled.TiledMap;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
+import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.ResourceManager;
-import com.turbonips.troglodytes.components.Resource;
+import com.turbonips.troglodytes.components.Renderable;
 import com.turbonips.troglodytes.components.Sliding;
 
 public class LightingSystem extends BaseEntitySystem {
@@ -19,7 +20,7 @@ public class LightingSystem extends BaseEntitySystem {
 	private Graphics graphics;
 	private GameContainer container;
 	private ComponentMapper<Sliding> slidingMapper;
-	private ComponentMapper<Resource> resourceMapper;
+	private ComponentMapper<Renderable> renderableMapper;
 
 	public LightingSystem(GameContainer container) {
 		// TODO For map based lights we could also use Transform.class
@@ -32,7 +33,7 @@ public class LightingSystem extends BaseEntitySystem {
 	@Override
 	protected void initialize() {
 		slidingMapper = new ComponentMapper<Sliding>(Sliding.class, world);
-		resourceMapper = new ComponentMapper<Resource>(Resource.class, world);
+		renderableMapper = new ComponentMapper<Renderable>(Renderable.class, world);
 	}
 
 	@Override
@@ -41,9 +42,9 @@ public class LightingSystem extends BaseEntitySystem {
 		ImmutableBag<Entity> layers = world.getGroupManager().getEntities("LAYER");
 		
 		if (!layers.isEmpty()) {
-			Resource resource = resourceMapper.get(layers.get(0));
+			Resource resource = renderableMapper.get(layers.get(0)).getResource();
 			if (resource != null) {
-				TiledMap tiledMap = (TiledMap)resourceMapper.get(layers.get(0)).getObject();
+				TiledMap tiledMap = (TiledMap)resource.getObject();
 				boolean isDark = Boolean.parseBoolean(tiledMap.getMapProperty("Dark", "false"));
 				if (isDark) {
 					for (int i=0; i<creatures.size(); i++) {

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import org.apache.log4j.Logger;
 import org.newdawn.slick.SlickException;
 
-import com.turbonips.troglodytes.components.Resource;
 
 public class ResourceManager {
 	private static final ResourceManager instance = new ResourceManager();

@@ -1,6 +1,5 @@
 package com.turbonips.troglodytes.systems;
 
-import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.tiled.TiledMap;
 
@@ -8,28 +7,24 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.CreatureAnimation;
+import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.components.Collision;
-import com.turbonips.troglodytes.components.Resource;
+import com.turbonips.troglodytes.components.Renderable;
 import com.turbonips.troglodytes.components.Position;
-import com.turbonips.troglodytes.components.SubPosition;
 
 public class CollisionSystem extends BaseEntitySystem {
-	private final GameContainer container;
 	private ComponentMapper<Position> positionMapper;
-	private ComponentMapper<SubPosition> subPositionMapper;
 	private ComponentMapper<Collision> collisionMapper;
-	private ComponentMapper<Resource> resourceMapper;
+	private ComponentMapper<Renderable> renderableMapper;
 
-	public CollisionSystem(GameContainer container) {
-		this.container = container;
+	public CollisionSystem() {
 	}
 	
 	@Override
 	protected void initialize() {
 		positionMapper = new ComponentMapper<Position>(Position.class, world);
 		collisionMapper = new ComponentMapper<Collision>(Collision.class, world);
-		resourceMapper = new ComponentMapper<Resource>(Resource.class, world);
-		subPositionMapper = new ComponentMapper<SubPosition>(SubPosition.class, world);
+		renderableMapper = new ComponentMapper<Renderable>(Renderable.class, world);
 	}
 
 	@Override
@@ -39,7 +34,7 @@ public class CollisionSystem extends BaseEntitySystem {
 		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities("ENEMY");
 		
 		if (!layers.isEmpty()) {
-			Resource resource = resourceMapper.get(layers.get(0));
+			Resource resource = renderableMapper.get(layers.get(0)).getResource();
 			if (resource != null) {
 				TiledMap tiledMap = (TiledMap)resource.getObject();
 		
@@ -49,7 +44,7 @@ public class CollisionSystem extends BaseEntitySystem {
 					Collision playerCollision = collisionMapper.get(player);
 					
 					if (playerCollision != null && playerPosition != null) {
-						Resource playerResource = resourceMapper.get(player);
+						Resource playerResource = renderableMapper.get(player).getResource();
 						Image sprite = null;
 						switch (playerResource.getType()) {
 							case CREATURE_ANIMATION:
@@ -69,10 +64,10 @@ public class CollisionSystem extends BaseEntitySystem {
 				for (int e=0; e<enemies.size(); e++) {
 					Entity enemy = enemies.get(e);
 					Collision enemyCollision = collisionMapper.get(enemy);
-					SubPosition enemyPosition = subPositionMapper.get(enemy);
+					Position enemyPosition = positionMapper.get(enemy);
 					
 					if (enemyCollision != null && enemyPosition != null) {
-						Resource enemyResource = resourceMapper.get(enemy);
+						Resource enemyResource = renderableMapper.get(enemy).getResource();
 						Image sprite = null;
 						switch (enemyResource.getType()) {
 							case CREATURE_ANIMATION:

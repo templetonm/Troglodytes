@@ -1,5 +1,6 @@
 package com.turbonips.troglodytes.systems;
 
+// TODO: We might want to pass in a tiled map ID to this instead of using the renerable mapper
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.tiled.TiledMap;
@@ -8,20 +9,18 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.ResourceManager;
-import com.turbonips.troglodytes.components.Resource;
+import com.turbonips.troglodytes.components.Renderable;
 
 public class MusicSystem extends BaseEntitySystem {
 	private Music music;
-	private GameContainer container;
-	private ComponentMapper<Resource> resourceMapper;
+	private ComponentMapper<Renderable> renderableMapper;
 
 	public MusicSystem(GameContainer container) {
-		this.container = container;
 	}
 
 	@Override
 	protected void initialize() {
-		resourceMapper = new ComponentMapper<Resource>(Resource.class, world);
+		renderableMapper = new ComponentMapper<Renderable>(Renderable.class, world);
 	}
 
 	public void startMusic() {
@@ -39,8 +38,7 @@ public class MusicSystem extends BaseEntitySystem {
 				"LAYER");
 
 		if (!layers.isEmpty()) {
-			TiledMap tiledMap = (TiledMap) resourceMapper.get(layers.get(0))
-					.getObject();
+			TiledMap tiledMap = (TiledMap) renderableMapper.get(layers.get(0)).getResource().getObject();
 			final String songTitle = tiledMap.getMapProperty("Music", null);
 
 			if (songTitle != null) {
