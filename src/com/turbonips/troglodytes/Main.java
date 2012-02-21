@@ -19,6 +19,7 @@ public class Main extends StateBasedGame {
 	public void initStatesList(GameContainer container) throws SlickException {
 		logger.debug("Setting up game states");
 		addState(new MenuState());
+		addState(new LoadingState());
 		addState(new OptionState());
 		addState(new CreditState());
 		addState(new PlayingState());

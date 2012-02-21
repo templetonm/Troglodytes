@@ -37,6 +37,14 @@ public class ResourceManager {
 		return resource;
 	}
 	
+	public boolean loadMusicResources() {
+		ResourceFactory resourceFactory = ResourceFactory.getInstance();
+		for (String resourceId : resourceFactory.getMusicResourceIds()) {
+			getResource(resourceId);
+		}
+		return true;
+	}
+	
 	public void unloadResource(String id) {
 		resources.remove(id);
 	}

@@ -39,7 +39,7 @@ public class MenuState extends BaseGameState {
 		playGameButton.addListener(new ComponentListener() {
 			
 			public void componentActivated (AbstractComponent arg0) {
-				game.enterState(PlayingState.ID);
+				game.enterState(LoadingState.ID);
 			}
 		});
 		
