@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0+" href="troglodytes.jnlp">
+	<information>
+		<title>Troglodytes</title>
+		<vendor>Team Nips</vendor>
+		<description>Troglodytes Game</description>
+	</information>
+	<offline-allowed/>
+	<security>
+		<all-permissions/>
+	</security>
+	<resources>
+		<j2se version="1.5+"/>
+		<jar href="artemis.jar"/>
+		<jar href="troglodytes.jar"/>
+		<jar href="jogg-0.0.7.jar"/>
+		<jar href="jorbis-0.0.15.jar"/>
+		<jar href="lwjgl.jar"/>
+		<jar href="log4j-1.2.16.jar"/>
+		<jar href="slick.jar"/>
+		<nativelib href="lwjgl-native.jar"/>
+	</resources>
+	<application-desc main-class="com.turbonips.troglodytes.Main"/>
+</jnlp>
