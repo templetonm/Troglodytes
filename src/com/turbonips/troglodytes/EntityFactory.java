@@ -12,6 +12,7 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import com.artemis.Entity;
 import com.artemis.World;
+import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.Collision;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.ParticleComponent;
@@ -46,6 +47,7 @@ public class EntityFactory {
 		player.addComponent(new Sliding(new Vector2f(playerFrame.getWidth()/2, playerFrame.getHeight()/2), speed, slidingBox));
 		player.addComponent(new Renderable(resourceManager.getResource("testplayeranimation"), RenderType.PLAYER));
 		player.addComponent(new Movement());
+		player.addComponent(new Attack());
 		player.addComponent(new Collision());
 		player.refresh();
 		

@@ -73,33 +73,36 @@ public class MovementSystem extends BaseEntitySystem {
 						Entity entity = players.get(i);
 						Position entityPosition = positionMapper.get(entity);
 						Sliding entitySliding = slidingMapper.get(entity);
-						if (playerMovement.isMoveUp()) {
-							entityPosition.setY(entityPosition.getY()-entityPosition.getSpeed());
-							if (entitySliding != null) {
-								if (entitySliding.getY() < entitySliding.getBox().getHeight()) {
-									entitySliding.setY(entitySliding.getY() + entitySliding.getSpeed());
+						
+						if (entityPosition != null) {
+							if (playerMovement.isMoveUp()) {
+								entityPosition.setY(entityPosition.getY()-entityPosition.getSpeed());
+								if (entitySliding != null) {
+									if (entitySliding.getY() < entitySliding.getBox().getHeight()) {
+										entitySliding.setY(entitySliding.getY() + entitySliding.getSpeed());
+									}
+								}
+							} else if (playerMovement.isMoveDown()) {
+								entityPosition.setY(entityPosition.getY()+entityPosition.getSpeed());
+								if (entitySliding != null) {
+									if (entitySliding.getY() > entitySliding.getBox().getY()) {
+										entitySliding.setY(entitySliding.getY() - entitySliding.getSpeed());
+									}
 								}
 							}
-						} else if (playerMovement.isMoveDown()) {
-							entityPosition.setY(entityPosition.getY()+entityPosition.getSpeed());
-							if (entitySliding != null) {
-								if (entitySliding.getY() > entitySliding.getBox().getY()) {
-									entitySliding.setY(entitySliding.getY() - entitySliding.getSpeed());
+							if (playerMovement.isMoveLeft()) {
+								entityPosition.setX(entityPosition.getX()-entityPosition.getSpeed());
+								if (entitySliding != null) {
+									if (entitySliding.getX() < entitySliding.getBox().getHeight()) {
+										entitySliding.setX(entitySliding.getX() + entitySliding.getSpeed());
+									}
 								}
-							}
-						}
-						if (playerMovement.isMoveLeft()) {
-							entityPosition.setX(entityPosition.getX()-entityPosition.getSpeed());
-							if (entitySliding != null) {
-								if (entitySliding.getX() < entitySliding.getBox().getHeight()) {
-									entitySliding.setX(entitySliding.getX() + entitySliding.getSpeed());
-								}
-							}
-						} else if (playerMovement.isMoveRight()) {
-							entityPosition.setX(entityPosition.getX()+entityPosition.getSpeed());
-							if (entitySliding != null) {
-								if (entitySliding.getX() > entitySliding.getBox().getX()) {
-									entitySliding.setX(entitySliding.getX() - entitySliding.getSpeed());
+							} else if (playerMovement.isMoveRight()) {
+								entityPosition.setX(entityPosition.getX()+entityPosition.getSpeed());
+								if (entitySliding != null) {
+									if (entitySliding.getX() > entitySliding.getBox().getX()) {
+										entitySliding.setX(entitySliding.getX() - entitySliding.getSpeed());
+									}
 								}
 							}
 						}
