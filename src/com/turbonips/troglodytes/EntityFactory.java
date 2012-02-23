@@ -121,6 +121,7 @@ public class EntityFactory {
 					particleSystem.setGroup("MAPPARTICLESYSTEM");
 					particleSystem.addComponent(new Position(new Vector2f(objectX, objectY), 0));
 					particleSystem.addComponent(new ParticleComponent(particleSys));
+					particleSystem.addComponent(new Renderable(null, RenderType.PARTICLE_SYSTEM));
 					particleSystem.refresh();
 				}
 			}
