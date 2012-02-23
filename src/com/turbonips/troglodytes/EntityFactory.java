@@ -111,6 +111,9 @@ public class EntityFactory {
 					int objectWidth = tiledMap.getObjectWidth(g, i);
 					int objectHeight = tiledMap.getObjectHeight(g, i);
 					
+					float tileSize = 32;
+					
+					Vector2f particleSystemPosition = new Vector2f(objectX - 3*tileSize, objectY - 3*tileSize);
 					Image particleImage = (Image)resourceManager.getResource(particletype).getObject();
 					ParticleSystem particleSys = new ParticleSystem(particleImage);
 					Emitter pem = new Emitter(100,100);
@@ -119,7 +122,7 @@ public class EntityFactory {
 
 					Entity particleSystem = world.createEntity();
 					particleSystem.setGroup("MAPPARTICLESYSTEM");
-					particleSystem.addComponent(new Position(new Vector2f(objectX, objectY), 0));
+					particleSystem.addComponent(new Position(particleSystemPosition, 0));
 					particleSystem.addComponent(new ParticleComponent(particleSys));
 					particleSystem.addComponent(new Renderable(null, RenderType.PARTICLE_SYSTEM));
 					particleSystem.refresh();
