@@ -9,10 +9,12 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.particles.ParticleSystem;
 import org.newdawn.slick.tiled.TiledMap;
+import org.newdawn.slick.Sound;
 
 import com.artemis.Entity;
 import com.artemis.World;
 import com.turbonips.troglodytes.components.Collision;
+import com.turbonips.troglodytes.components.CreatureSound;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.ParticleComponent;
 import com.turbonips.troglodytes.components.Renderable;
@@ -47,6 +49,7 @@ public class EntityFactory {
 		player.addComponent(new Renderable(resourceManager.getResource("testplayeranimation"), RenderType.PLAYER));
 		player.addComponent(new Movement());
 		player.addComponent(new Collision());
+		player.addComponent(new CreatureSound((Sound) resourceManager.getResource("stepsound").getObject()));
 		player.refresh();
 		
 		return player;

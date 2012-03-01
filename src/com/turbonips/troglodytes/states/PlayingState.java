@@ -21,6 +21,7 @@ import com.turbonips.troglodytes.systems.DebugTextSystem;
 import com.turbonips.troglodytes.systems.LightingSystem;
 import com.turbonips.troglodytes.systems.RenderSystem;
 import com.turbonips.troglodytes.systems.WarpSystem;
+import com.turbonips.troglodytes.systems.SoundSystem;
 
 public class PlayingState extends BaseGameState {
 	public static final int ID = 3;
@@ -38,6 +39,7 @@ public class PlayingState extends BaseGameState {
 	private EntitySystem musicSystem;
 	private EntitySystem mapParticleSystem;
 	private EntitySystem warpSystem;
+	private EntitySystem soundSystem;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -56,6 +58,7 @@ public class PlayingState extends BaseGameState {
 		warpSystem = systemManager.setSystem(new WarpSystem());
 		musicSystem = systemManager.setSystem(new MusicSystem(container));
 		mapParticleSystem = systemManager.setSystem(new MapParticleSystem());
+		soundSystem = systemManager.setSystem(new SoundSystem());
 		systemManager.initializeAll();
 		
 		Entity player = world.createEntity();
@@ -84,7 +87,8 @@ public class PlayingState extends BaseGameState {
 		warpSystem.process();
 		playerControlSystem.process();
 		enemyControlSystem.process();
-		musicSystem.process();
+		soundSystem.process();
+		//musicSystem.process();
 		mapParticleSystem.process();
 	}
 

@@ -8,6 +8,8 @@
 
 	<resource id="swampbubble" type="image" path="graphics/testBubble.png" />
 
+	<resource id="stepsound" type="sound" path="sounds/step.ogg" />
+
 	<resource id="Into the Dark.ogg" type="music" path="music/Into the Dark.ogg" />
 	
 	<resource id="trog0" type="tiledmap" path="maps/trogStart.tmx" />

@@ -10,7 +10,8 @@ public class Resource {
 		TILED_MAP,
 		SPRITE_SHEET, 
 		CREATURE_ANIMATION, 
-		MUSIC
+		MUSIC,
+		SOUND
 	}
 	private final ResourceType type;
 	

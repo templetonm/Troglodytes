@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.loading.LoadingList;
 import org.newdawn.slick.tiled.TiledMap;
@@ -71,6 +72,8 @@ public class ResourceFactory {
 			return new Resource(id, ResourceType.CREATURE_ANIMATION, path, new CreatureAnimation(path, width, height));
 		} else if (type.equals("music")) {
 			return new Resource(id, ResourceType.MUSIC, path, new Music(path));
+		} else if (type.equals("sound")) {
+			return new Resource(id, ResourceType.SOUND, path, new Sound(path));
 		}
 		
 		return null;
