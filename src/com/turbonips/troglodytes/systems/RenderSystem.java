@@ -29,6 +29,7 @@ public class RenderSystem extends BaseEntitySystem {
 	private ComponentMapper<Renderable> renderableMapper;
 	private ComponentMapper<Sliding> slidingMapper;
 	private ComponentMapper<Movement> movementMapper;
+	private ComponentMapper<ParticleComponent> particleComponentMapper;
 
 	public RenderSystem(GameContainer container) {
 		this.container = container;
@@ -41,6 +42,7 @@ public class RenderSystem extends BaseEntitySystem {
 		renderableMapper = new ComponentMapper<Renderable>(Renderable.class,world);
 		slidingMapper = new ComponentMapper<Sliding>(Sliding.class, world);
 		movementMapper = new ComponentMapper<Movement>(Movement.class, world);
+		particleComponentMapper =new ComponentMapper<ParticleComponent>(ParticleComponent.class, world);
 	}
 
 	private void processEntity(Entity e, Position playerPosition, Sliding playerSliding) {
@@ -77,14 +79,14 @@ public class RenderSystem extends BaseEntitySystem {
 				/*
 				 * Map Particle System Rendering
 				 */
-				if (resource == null && renderType == RenderType.PARTICLE_SYSTEM)
-					e.getComponent(ParticleComponent.class).renderParticleSystem(
-							mapEntityX, mapEntityY);
+				if (resource == null && renderType == RenderType.PARTICLE_SYSTEM) {
+					ParticleComponent particleComponent = particleComponentMapper.get(e);
+					particleComponent.renderParticleSystem(mapEntityX, mapEntityY);
 	
 				/*
 				 * Image rendering
 				 */
-				if (resource.getType() == ResourceType.IMAGE) {
+				} else if (resource.getType() == ResourceType.IMAGE) {
 					Image img = (Image) resource.getObject();
 					switch (renderType) {
 						case PLAYER:
