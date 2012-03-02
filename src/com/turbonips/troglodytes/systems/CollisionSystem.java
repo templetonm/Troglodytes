@@ -95,7 +95,6 @@ public class CollisionSystem extends BaseEntitySystem {
 		if (y >= map.getHeight() || y < 0) {
 			return true;
 		}
-		
 		if(map.getTileId(x, y, 3) > 0) {
 			return true;
 		}
