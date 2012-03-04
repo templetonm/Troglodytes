@@ -52,8 +52,8 @@
   </object>
   <object name="TestSpawn" type="Spawn" x="705" y="967" width="308" height="391">
    <properties>
-    <property name="Enemy" value="testplayeranimation"/>
-    <property name="Number" value="10"/>
+    <property name="Enemy" value="testenemyimage"/>
+    <property name="Number" value="1000"/>
    </properties>
   </object>
  </objectgroup>

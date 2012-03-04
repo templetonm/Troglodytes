@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -75,7 +76,7 @@ public class ResourceFactory {
 		return null;
 	}
 
-	public void loadResources(InputStream is, boolean deferred)
+	private void loadResources(InputStream is, boolean deferred)
 			throws SlickException {
 		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory
 				.newInstance();
@@ -113,10 +114,24 @@ public class ResourceFactory {
 				Element resourceElement = (Element) resourceNode;
 				String id = resourceElement.getAttribute("id");
 				resourceElements.put(id.toLowerCase(), resourceElement);
-
 			}
 		}
 
+	}
+
+	public ArrayList<String> getMusicResourceIds() {
+		ArrayList<String> musicResourceIds = new ArrayList<String>();
+		
+		for (Element resourceElement : resourceElements.values()) {
+			String type = resourceElement.getAttribute("type").toLowerCase();
+			
+			if (type.equals("music")) {
+				String id = resourceElement.getAttribute("id").toLowerCase();
+				musicResourceIds.add(id);
+			}
+		}
+		
+		return musicResourceIds;
 	}
 
 }

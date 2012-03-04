@@ -31,22 +31,27 @@ public class EnemyControlSystem extends BaseEntitySystem {
 			
 			if (movement != null) {
 				
-				switch ((int)(Math.random()*40)) {
+				switch ((int)(Math.random()*30)) {
 					case 0:
-						movement.clearMovement();
-						movement.setMoveUp(true);
-						break;
-					case 1:
-						movement.clearMovement();
-						movement.setMoveDown(true);
-						break;
-					case 2:
 						movement.clearMovement();
 						movement.setMoveLeft(true);
 						break;
-					case 3:
+					case 1:
 						movement.clearMovement();
 						movement.setMoveRight(true);
+						break;
+					case 2:
+						movement.clearMovement();
+						break;
+				}
+				switch ((int)(Math.random()*30)) {
+					case 0:
+						movement.setMoveUp(true);
+						break;
+					case 1:
+						movement.setMoveDown(true);
+						break;
+					case 2:
 						break;
 				}
 				

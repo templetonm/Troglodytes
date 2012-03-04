@@ -47,6 +47,7 @@ public class MusicSystem extends BaseEntitySystem {
 				music = (Music) resourceManager.getResource(songTitle)
 						.getObject();
 			}
+			
 			if (this.music != null) {
 				if (!this.music.playing()) {
 					this.startMusic();

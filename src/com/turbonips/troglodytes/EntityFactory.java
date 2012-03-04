@@ -12,6 +12,7 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import com.artemis.Entity;
 import com.artemis.World;
+import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.Collision;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.ParticleComponent;
@@ -46,6 +47,7 @@ public class EntityFactory {
 		player.addComponent(new Sliding(new Vector2f(playerFrame.getWidth()/2, playerFrame.getHeight()/2), speed, slidingBox));
 		player.addComponent(new Renderable(resourceManager.getResource("testplayeranimation"), RenderType.PLAYER));
 		player.addComponent(new Movement());
+		player.addComponent(new Attack());
 		player.addComponent(new Collision());
 		player.refresh();
 		
@@ -110,17 +112,19 @@ public class EntityFactory {
 					int objectY = tiledMap.getObjectY(g, i);
 					int objectWidth = tiledMap.getObjectWidth(g, i);
 					int objectHeight = tiledMap.getObjectHeight(g, i);
-					
+					int tileWidthOffset = -3*tiledMap.getTileWidth();
+					int tileHeightOffset = -3*tiledMap.getTileHeight();
+					Vector2f particleSystemPosition = new Vector2f(objectX + tileWidthOffset, objectY + tileHeightOffset);
 					Image particleImage = (Image)resourceManager.getResource(particletype).getObject();
 					ParticleSystem particleSys = new ParticleSystem(particleImage);
 					Emitter pem = new Emitter(100,100);
 					pem.setEnabled(true);
 					particleSys.addEmitter(pem);
-
 					Entity particleSystem = world.createEntity();
 					particleSystem.setGroup("MAPPARTICLESYSTEM");
-					particleSystem.addComponent(new Position(new Vector2f(objectX, objectY), 0));
+					particleSystem.addComponent(new Position(particleSystemPosition, 0));
 					particleSystem.addComponent(new ParticleComponent(particleSys));
+					particleSystem.addComponent(new Renderable(null, RenderType.PARTICLE_SYSTEM));
 					particleSystem.refresh();
 				}
 			}

@@ -7,6 +7,7 @@ import org.newdawn.slick.KeyListener;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
+import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.Collision;
 import com.turbonips.troglodytes.components.Movement;
 
@@ -14,12 +15,14 @@ public class PlayerControlSystem extends BaseEntitySystem implements KeyListener
 	private final GameContainer container;
     private ComponentMapper<Collision> collisionMapper;
 	private ComponentMapper<Movement> movementMapper;
+	private ComponentMapper<Attack> attackMapper;
     
     boolean key_up = false, 
     		key_down = false, 
     		key_left = false, 
     		key_right = false,
-    		key_esc = false;
+    		key_esc = false,
+    		key_ctrl = false;
 
 	public PlayerControlSystem(GameContainer container) {
 		this.container = container;
@@ -29,6 +32,7 @@ public class PlayerControlSystem extends BaseEntitySystem implements KeyListener
 	protected void initialize() {
 		collisionMapper = new ComponentMapper<Collision>(Collision.class, world);
 		movementMapper = new ComponentMapper<Movement>(Movement.class, world);
+		attackMapper = new ComponentMapper<Attack>(Attack.class, world);
 		container.getInput().addKeyListener(this);
 	}
 	
@@ -40,6 +44,7 @@ public class PlayerControlSystem extends BaseEntitySystem implements KeyListener
 				Entity player = players.get(i);
 				Movement movement = movementMapper.get(player);
 				Collision collision = collisionMapper.get(player);
+				Attack attack = attackMapper.get(player);
 				
 				if (movement != null) {
 					movement.clearMovement();
@@ -70,6 +75,12 @@ public class PlayerControlSystem extends BaseEntitySystem implements KeyListener
 						}
 					}
 				}
+				
+				if (attack != null) {
+					attack.setAttacking(key_ctrl);
+					key_ctrl = false;
+				}
+				
 				if (key_esc) { container.exit(); }
 			}
 		} else {
@@ -102,6 +113,10 @@ public class PlayerControlSystem extends BaseEntitySystem implements KeyListener
 			case Input.KEY_ESCAPE:
 				key_esc = true;
 				break;
+			case Input.KEY_RCONTROL:
+			case Input.KEY_LCONTROL:
+				key_ctrl = true;
+				break;
 		}
 	}
 
@@ -122,6 +137,10 @@ public class PlayerControlSystem extends BaseEntitySystem implements KeyListener
 				break;
 			case Input.KEY_ESCAPE:
 				key_esc = false;
+				break;
+			case Input.KEY_RCONTROL:
+			case Input.KEY_LCONTROL:
+				key_ctrl = false;
 				break;
 		}
 	}
