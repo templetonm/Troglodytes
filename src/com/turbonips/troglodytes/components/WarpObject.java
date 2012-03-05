@@ -4,7 +4,7 @@ import java.awt.Point;
 
 import com.artemis.Component;
 
-public class WarpObject extends Component {
+public class WarpObject extends ObjectType {
 	
 	private final String mapName;
 	private final int x;
@@ -41,6 +41,11 @@ public class WarpObject extends Component {
 	public String toString() {
 		return "WarpObject: " + mapName + "," + x + "," + y;
 		
+	}
+
+	@Override
+	public int getType() {
+		return WARP_OBJECT;
 	}
 
 }

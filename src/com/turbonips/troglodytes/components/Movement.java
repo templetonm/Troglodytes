@@ -65,10 +65,21 @@ public class Movement extends Component {
 			setAnimation(creatureAnimation.getIdleRight());
 		} else if (this.animation == creatureAnimation.getMoveLeft()) {
 			setAnimation(creatureAnimation.getIdleLeft());
-
 		}
 	}
 	public boolean isMoving() {
 		return isMoveUp() || isMoveDown() || isMoveLeft() || isMoveRight();
+	}
+	public boolean isIdleUp(CreatureAnimation creatureAnimation) {
+		return this.animation == creatureAnimation.getIdleUp();
+	}
+	public boolean isIdleDown(CreatureAnimation creatureAnimation) {
+		return this.animation == creatureAnimation.getIdleDown();
+	}
+	public boolean isIdleLeft(CreatureAnimation creatureAnimation) {
+		return this.animation == creatureAnimation.getIdleLeft();
+	}
+	public boolean isIdleRight(CreatureAnimation creatureAnimation) {
+		return this.animation == creatureAnimation.getIdleRight();
 	}
 }

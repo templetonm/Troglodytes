@@ -10,6 +10,7 @@ import com.turbonips.troglodytes.CreatureAnimation;
 import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.ResourceManager;
 import com.turbonips.troglodytes.components.Collision;
+import com.turbonips.troglodytes.components.ObjectType;
 import com.turbonips.troglodytes.components.Renderable;
 import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.WarpObject;
@@ -36,21 +37,14 @@ public class ObjectCollisionSystem extends BaseEntitySystem {
 		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities("ENEMY");
 		
 		if (!layers.isEmpty()) {
-			Resource resource = renderableMapper.get(layers.get(0)).getResource();
-			if (resource != null) {
+			Resource mapResource = renderableMapper.get(layers.get(0)).getResource();
+			if (mapResource != null) {
 				for (int p = 0; p < players.size(); p++) {
 					Entity player = players.get(p);
 					Position playerPosition = positionMapper.get(player);
+					
 					if (renderableMapper.get(player) != null) {
-
-						for (int e=0; e<enemies.size(); e++) {
-							Entity enemy = enemies.get(e);
-							if (renderableMapper.get(enemy) != null) {
-								updateCollidingWithEnemy(player, enemy);
-							}
-						}
-
-						/*
+						ObjectType objectType = getObjectType(player, mapResource.getId());
 						if (objectType != null) {
 							switch (objectType.getType()) {
 								case ObjectType.WARP_OBJECT:
@@ -60,7 +54,7 @@ public class ObjectCollisionSystem extends BaseEntitySystem {
 									player.refresh();
 									break;
 							}
-						}*/
+						}
 					}
 				}
 			}
@@ -68,9 +62,9 @@ public class ObjectCollisionSystem extends BaseEntitySystem {
 
 	}
 
-	/*
 	ObjectType createObjectType(String mapId, int x, int y) {
-		TiledMap map = (TiledMap) ResourceManager.getInstance().getResource(mapId).getObject();
+		TiledMap map = (TiledMap) ResourceManager.getInstance()
+				.getResource(mapId).getObject();
 
 		for (int groupID = 0; groupID < map.getObjectGroupCount(); groupID++) {
 			for (int objectID = 0; objectID < map.getObjectCount(groupID); objectID++) {
@@ -88,142 +82,9 @@ public class ObjectCollisionSystem extends BaseEntitySystem {
 		}
 
 		return null;
-	}*/
-	
-	// Player position is the upper left of image
-	private void updateCollidingWithEnemy(Entity player, Entity enemy) {
-		Position playerPosition = positionMapper.get(player);
-		Position enemyPosition = positionMapper.get(enemy);
-		Image playerImage = getSprite(player);
-		Image enemyImage = getSprite(enemy);
-		Collision playerCollision = collisionMapper.get(player);
-		int pTopLeftY;
-		int pBottomLeftY;
-		int pTopLeftX;
-		int pBottomLeftX;
-		int pTopRightY;
-		int pBottomRightY;
-		int pTopRightX;
-		int pBottomRightX;
-		int eTopLeftY;
-		int eBottomLeftY;
-		int eTopLeftX;
-		int eBottomLeftX;
-		int eTopRightY;
-		int eBottomRightY;
-		int eTopRightX;
-		int eBottomRightX;
-		int pLeft;
-		int eLeft;
-		int pRight;
-		int eRight;
-		int pTop;
-		int eTop;
-		int pBottom;
-		int eBottom;
-		int pSpeed;
-		
-		if (playerImage != null && enemyImage != null) {
-			
-			// Player going left
-			pTop = (int) (playerPosition.getY());
-			eTop = (int) (enemyPosition.getY());
-			// Adding the player image size to the position is 1 pixel greater than
-			// the actual height since the actual position value IS counted in the size
-			pBottom = (int) (playerPosition.getY() + playerImage.getHeight()-1);
-			eBottom = (int) (enemyPosition.getY() + enemyImage.getHeight()-1);
-			pLeft = (int) (playerPosition.getX());
-			eRight = (int) (enemyPosition.getX() + enemyImage.getWidth()-1);
-			pRight = (int) (playerPosition.getX() + playerImage.getWidth()-1);
-			eLeft = (int) (enemyPosition.getX());
-			pSpeed = (int) (playerPosition.getSpeed());
-			
-
-			
-			if (pTop <= eBottom && pBottom >= eTop)
-			{
-				if (pLeft - pSpeed <= eRight && !(pRight < eLeft)) {
-					playerCollision.setCollidingLeft(true);
-				}
-				if (pRight + pSpeed >= eLeft && !(pLeft > eRight)) {
-					playerCollision.setCollidingRight(true);
-				}
-			}
-			
-			if (pLeft <= eRight && pRight >= eLeft)
-			{
-				if (pTop - pSpeed <= eBottom && !(pBottom < eTop)) {
-					playerCollision.setCollidingUp(true);
-				}
-				if (pBottom + pSpeed >= eTop && !(pTop > eBottom)) {
-					playerCollision.setCollidingDown(true);
-				}
-			}
-			// Player going right
-			/*if (pTopY <= eBottomY && pBottomY >= eTopY && pRightX+pSpeed >= eLeftX && !(pLeftX-pSpeed <= eRightX))
-			{
-				playerCollision.setCollidingRight(true);
-			}
-			
-			// Player going down
-			if (pRightX >= eLeftX && pLeftX <= eRightX && pBottomY+pSpeed >= eTopY && !(pTopY-pSpeed <= eBottomY))
-			{
-				playerCollision.setCollidingDown(true);
-			}
-			
-			// Player going up
-			if (pRightX >= eLeftX && pLeftX <= eRightX && pTopY-pSpeed <= eBottomY && !(pBottomY+pSpeed >= eTopY))
-			{
-				playerCollision.setCollidingUp(true);
-			}*/
-		}
-		
-		/*
-		if (sprite != null && position != null) {
-			topLeftY = (int) (position.getY() + sprite.getHeight() / 2);
-			bottomLeftY = (int) (position.getY() + sprite.getHeight() - 1);
-			topLeftX = (int) (position.getX());
-			bottomLeftX = (int) (position.getX());
-			if (objectType == null)
-				objectType = createObjectType(mapId, topLeftX, topLeftY);
-			if (objectType == null)
-				objectType = createObjectType(mapId, bottomLeftX, bottomLeftY);
-
-			// Right
-			topRightY = (int) (position.getY() + sprite.getHeight() / 2);
-			bottomRightY = (int) (position.getY() + sprite.getHeight() - 1);
-			topRightX = (int) (position.getX() + sprite.getWidth() - 1);
-			bottomRightX = (int) (position.getX() + sprite.getWidth() - 1);
-			if (objectType == null)
-				objectType = createObjectType(mapId, topRightX, topRightY);
-			if (objectType == null)
-				objectType = createObjectType(mapId, bottomRightX, bottomRightY);
-
-			// Up
-			topLeftY = (int) (position.getY() + sprite.getHeight() / 2);
-			topRightY = (int) (position.getY() + sprite.getHeight() / 2);
-			topLeftX = (int) (position.getX());
-			topRightX = (int) (position.getX() + sprite.getWidth() - 1);
-			if (objectType == null)
-				objectType = createObjectType(mapId, topLeftX, topLeftY);
-			if (objectType == null)
-				objectType = createObjectType(mapId, topRightX, topRightY);
-
-			// Down
-			bottomLeftY = (int) (position.getY() + sprite.getHeight() - 1);
-			bottomRightY = (int) (position.getY() + sprite.getHeight() - 1);
-			bottomLeftX = (int) (position.getX());
-			bottomRightX = (int) (position.getX() + sprite.getWidth() - 1);
-			if (objectType == null)
-				objectType = createObjectType(mapId, bottomLeftX, bottomLeftY);
-			if (objectType == null)
-				objectType = createObjectType(mapId, bottomRightX, bottomRightY);
-		}*/
 	}
 
-	private boolean isCollidingWithWarp(String mapId, Entity player) {
-		boolean colliding = false;
-		
+	private ObjectType getObjectType(Entity player, String mapId) {
 		int topLeftY;
 		int bottomLeftY;
 		int topLeftX;
@@ -233,61 +94,59 @@ public class ObjectCollisionSystem extends BaseEntitySystem {
 		int topRightX;
 		int bottomRightX;
 		
-		
-		return colliding;
-		
-		/*
-		TiledMap map = (TiledMap) ResourceManager.getInstance().getResource(mapId).getObject();
+		Image playerImage = getImage(player);
+		Position playerPosition = positionMapper.get(player);
+
 		ObjectType objectType = null;
 		// Object checks
 
 		// Left
 
-		if (sprite != null && position != null) {
-			topLeftY = (int) (position.getY() + sprite.getHeight() / 2);
-			bottomLeftY = (int) (position.getY() + sprite.getHeight() - 1);
-			topLeftX = (int) (position.getX());
-			bottomLeftX = (int) (position.getX());
+		if (playerImage != null && playerPosition != null) {
+			topLeftY = (int) (playerPosition.getY() + playerImage.getHeight() / 2);
+			bottomLeftY = (int) (playerPosition.getY() + playerImage.getHeight() - 1);
+			topLeftX = (int) (playerPosition.getX());
+			bottomLeftX = (int) (playerPosition.getX());
 			if (objectType == null)
 				objectType = createObjectType(mapId, topLeftX, topLeftY);
 			if (objectType == null)
 				objectType = createObjectType(mapId, bottomLeftX, bottomLeftY);
 
 			// Right
-			topRightY = (int) (position.getY() + sprite.getHeight() / 2);
-			bottomRightY = (int) (position.getY() + sprite.getHeight() - 1);
-			topRightX = (int) (position.getX() + sprite.getWidth() - 1);
-			bottomRightX = (int) (position.getX() + sprite.getWidth() - 1);
+			topRightY = (int) (playerPosition.getY() + playerImage.getHeight() / 2);
+			bottomRightY = (int) (playerPosition.getY() + playerImage.getHeight() - 1);
+			topRightX = (int) (playerPosition.getX() + playerImage.getWidth() - 1);
+			bottomRightX = (int) (playerPosition.getX() + playerImage.getWidth() - 1);
 			if (objectType == null)
 				objectType = createObjectType(mapId, topRightX, topRightY);
 			if (objectType == null)
 				objectType = createObjectType(mapId, bottomRightX, bottomRightY);
 
 			// Up
-			topLeftY = (int) (position.getY() + sprite.getHeight() / 2);
-			topRightY = (int) (position.getY() + sprite.getHeight() / 2);
-			topLeftX = (int) (position.getX());
-			topRightX = (int) (position.getX() + sprite.getWidth() - 1);
+			topLeftY = (int) (playerPosition.getY() + playerImage.getHeight() / 2);
+			topRightY = (int) (playerPosition.getY() + playerImage.getHeight() / 2);
+			topLeftX = (int) (playerPosition.getX());
+			topRightX = (int) (playerPosition.getX() + playerImage.getWidth() - 1);
 			if (objectType == null)
 				objectType = createObjectType(mapId, topLeftX, topLeftY);
 			if (objectType == null)
 				objectType = createObjectType(mapId, topRightX, topRightY);
 
 			// Down
-			bottomLeftY = (int) (position.getY() + sprite.getHeight() - 1);
-			bottomRightY = (int) (position.getY() + sprite.getHeight() - 1);
-			bottomLeftX = (int) (position.getX());
-			bottomRightX = (int) (position.getX() + sprite.getWidth() - 1);
+			bottomLeftY = (int) (playerPosition.getY() + playerImage.getHeight() - 1);
+			bottomRightY = (int) (playerPosition.getY() + playerImage.getHeight() - 1);
+			bottomLeftX = (int) (playerPosition.getX());
+			bottomRightX = (int) (playerPosition.getX() + playerImage.getWidth() - 1);
 			if (objectType == null)
 				objectType = createObjectType(mapId, bottomLeftX, bottomLeftY);
 			if (objectType == null)
 				objectType = createObjectType(mapId, bottomRightX, bottomRightY);
 		}
 
-		return objectType;*/
+		return objectType;
 	}
 	
-	private Image getSprite(Entity entity) {
+	private Image getImage(Entity entity) {
 		Resource resource = renderableMapper.get(entity).getResource();
 		Image sprite = null;
 

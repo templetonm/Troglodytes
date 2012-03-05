@@ -10,7 +10,9 @@ import com.artemis.EntitySystem;
 import com.artemis.SystemManager;
 import com.artemis.World;
 import com.turbonips.troglodytes.components.WarpObject;
-import com.turbonips.troglodytes.systems.CollisionSystem;
+import com.turbonips.troglodytes.systems.EnemyCollisionSystem;
+import com.turbonips.troglodytes.systems.PlayerCollisionSystem;
+import com.turbonips.troglodytes.systems.WallCollisionSystem;
 import com.turbonips.troglodytes.systems.EnemyControlSystem;
 import com.turbonips.troglodytes.systems.MapParticleSystem;
 import com.turbonips.troglodytes.systems.MovementSystem;
@@ -31,7 +33,9 @@ public class PlayingState extends BaseGameState {
 	private EntitySystem playerControlSystem;
 	private EntitySystem movementSystem;
 	private EntitySystem renderSystem;
-	private EntitySystem collisionSystem;
+	private EntitySystem wallCollisionSystem;
+	private EntitySystem enemyCollisionSystem;
+	private EntitySystem playerCollisionSystem;
 	private EntitySystem lightingSystem;
 	private EntitySystem objectCollisionSystem;
 	private EntitySystem debugTextSystem;
@@ -49,7 +53,7 @@ public class PlayingState extends BaseGameState {
 	    systemManager = world.getSystemManager();
 	    playerControlSystem = systemManager.setSystem(new PlayerControlSystem(container));
 		renderSystem = systemManager.setSystem(new RenderSystem(container));
-		collisionSystem = systemManager.setSystem(new CollisionSystem());
+		wallCollisionSystem = systemManager.setSystem(new WallCollisionSystem());
 		lightingSystem = systemManager.setSystem(new LightingSystem(container));
 		objectCollisionSystem = systemManager.setSystem(new ObjectCollisionSystem());
 		debugTextSystem = systemManager.setSystem(new DebugTextSystem(container));
@@ -59,6 +63,8 @@ public class PlayingState extends BaseGameState {
 		musicSystem = systemManager.setSystem(new MusicSystem(container));
 		mapParticleSystem = systemManager.setSystem(new MapParticleSystem());
 		attackSystem = systemManager.setSystem(new AttackSystem());
+		enemyCollisionSystem = systemManager.setSystem(new EnemyCollisionSystem());
+		playerCollisionSystem = systemManager.setSystem(new PlayerCollisionSystem());
 		systemManager.initializeAll();
 		
 		Entity player = world.createEntity();
@@ -81,10 +87,11 @@ public class PlayingState extends BaseGameState {
 		world.loopStart();
 		world.setDelta(delta);
 		warpSystem.process();
-		collisionSystem.process();
+		wallCollisionSystem.process();
 		objectCollisionSystem.process();
-		warpSystem.process();
+		playerCollisionSystem.process();
 		playerControlSystem.process();
+		enemyCollisionSystem.process();
 		enemyControlSystem.process();
 		//musicSystem.process();
 		mapParticleSystem.process();

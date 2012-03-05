@@ -58,10 +58,10 @@
     <property name="Y" value="8"/>
    </properties>
   </object>
-  <object name="EnemySpawn" type="Spawn" x="1092" y="1232" width="38" height="38">
+  <object name="EnemySpawn" type="Spawn" x="1092" y="1232" width="185" height="161">
    <properties>
-    <property name="Enemy" value="testenemyanimation"/>
-    <property name="Number" value="100"/>
+    <property name="Enemy" value="testenemyimage"/>
+    <property name="Number" value="2"/>
    </properties>
   </object>
  </objectgroup>
