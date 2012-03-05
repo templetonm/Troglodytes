@@ -12,12 +12,12 @@ import com.turbonips.troglodytes.components.Collision;
 import com.turbonips.troglodytes.components.Renderable;
 import com.turbonips.troglodytes.components.Position;
 
-public class CollisionSystem extends BaseEntitySystem {
+public class WallCollisionSystem extends BaseEntitySystem {
 	private ComponentMapper<Position> positionMapper;
 	private ComponentMapper<Collision> collisionMapper;
 	private ComponentMapper<Renderable> renderableMapper;
 
-	public CollisionSystem() {
+	public WallCollisionSystem() {
 	}
 	
 	@Override

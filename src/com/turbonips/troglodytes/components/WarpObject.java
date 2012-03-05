@@ -2,6 +2,8 @@ package com.turbonips.troglodytes.components;
 
 import java.awt.Point;
 
+import com.artemis.Component;
+
 public class WarpObject extends ObjectType {
 	
 	private final String mapName;
@@ -16,18 +18,10 @@ public class WarpObject extends ObjectType {
 		this.y = y;
 		this.position = new Point(x,y);
 	}
-	
-	
-	@Override
-	public int getType() {
-		return WARP_OBJECT;
-	}
-
 
 	public int getX() {
 		return x;
 	}
-
 
 	public int getY() {
 		return y;
@@ -47,6 +41,11 @@ public class WarpObject extends ObjectType {
 	public String toString() {
 		return "WarpObject: " + mapName + "," + x + "," + y;
 		
+	}
+
+	@Override
+	public int getType() {
+		return WARP_OBJECT;
 	}
 
 }
