@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.6.0_29" class="java.beans.XMLDecoder"> 
+ <object class="com.turbonips.troglodytes.ParticleData"> 
+  <void property="colorA"> 
+   <float>1.0</float> 
+  </void> 
+  <void property="colorChangeG"> 
+   <float>-0.015</float> 
+  </void> 
+  <void property="colorG"> 
+   <float>1.0</float> 
+  </void> 
+  <void property="colorR"> 
+   <float>1.0</float> 
+  </void> 
+  <void property="interval"> 
+   <int>100</int> 
+  </void> 
+  <void property="maxParticleLifespan"> 
+   <int>1000</int> 
+  </void> 
+  <void property="maxParticles"> 
+   <int>5</int> 
+  </void> 
+  <void property="size"> 
+   <float>10.0</float> 
+  </void> 
+  <void property="spawnOffsetPercentNegative"> 
+   <float>1.0</float> 
+  </void> 
+  <void property="spawnOffsetRandom"> 
+   <boolean>true</boolean> 
+  </void> 
+  <void property="spawnOffsetX"> 
+   <float>0.5</float> 
+  </void> 
+  <void property="type"> 
+   <string>smallfire</string> 
+  </void> 
+  <void property="velocityPercentNegative"> 
+   <float>0.75</float> 
+  </void> 
+  <void property="velocitySpeed"> 
+   <float>0.0050</float> 
+  </void> 
+  <void property="velocityX"> 
+   <float>5.0</float> 
+  </void> 
+  <void property="velocityXRandom"> 
+   <boolean>true</boolean> 
+  </void> 
+  <void property="velocityY"> 
+   <float>-5.0</float> 
+  </void> 
+ </object> 
+</java> 
