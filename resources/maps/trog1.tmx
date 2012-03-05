@@ -40,8 +40,8 @@
   <object name="Warp To Forest" type="Warp" x="1440" y="416" width="96" height="64">
    <properties>
     <property name="Map" value="trog2"/>
-    <property name="X" value="50"/>
-    <property name="Y" value="17"/>
+    <property name="X" value="62"/>
+    <property name="Y" value="23"/>
    </properties>
   </object>
   <object name="TestSpawn" type="Spawn" x="2175" y="400" width="263" height="282">

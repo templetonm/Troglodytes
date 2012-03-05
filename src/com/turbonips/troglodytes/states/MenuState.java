@@ -11,10 +11,17 @@ public class MenuState extends BaseGameState {
 	public static final int ID = 1;
 	
 	private Image backgroundImage;
+//	private Font font;
+	
+	private Image logoImage;
+	
 	private MouseOverArea playGameButton;
-	//private Image logoImage;
 	private Image playGameButtonImage;
 	private Image playGameButtonClicked;
+	
+//	private MouseOverArea options;
+//	private Image optionsImage;
+//	private Image optionsClicked;
 	
 	private MouseOverArea quitGameButton;
 	private Image quitGameButtonImage;
@@ -26,7 +33,9 @@ public class MenuState extends BaseGameState {
 		super.init(container, game);
 		
 		backgroundImage = new Image ("resources/graphics/menuBackground.png");
-		//logoImage = new Image ("resources/graphics/TROGS.png");
+//		font = new UnicodeFont("resources/fonts/C64_Elite_Mono_v1.0-STYLE.ttf", 28, true, false);
+		
+		logoImage = new Image ("resources/graphics/TROGS.png");
 		
 		playGameButtonImage = new Image ("resources/graphics/newGameButton.png");
 		playGameButtonClicked = new Image ("resources/graphics/newGameButton-Clicked.png");
@@ -34,7 +43,7 @@ public class MenuState extends BaseGameState {
 		quitGameButtonImage = new Image ("resources/graphics/quitButton.png");
 		quitGameButtonClicked = new Image ("resources/graphics/quitButton-Clicked.png");
 		
-		playGameButton = new MouseOverArea (container, playGameButtonImage, 325, 400, 150, 50);
+		playGameButton = new MouseOverArea (container, playGameButtonImage, (container.getWidth() / 2) - 100, (container.getHeight() / 2));
 		playGameButton.setMouseOverImage(playGameButtonClicked);
 		playGameButton.addListener(new ComponentListener() {
 			
@@ -43,7 +52,7 @@ public class MenuState extends BaseGameState {
 			}
 		});
 		
-		quitGameButton = new MouseOverArea (container, quitGameButtonImage, 325, 475, 150, 50);
+		quitGameButton = new MouseOverArea (container, quitGameButtonImage, (container.getWidth() / 2) - 50, (container.getHeight() / 2) + 50);
 		quitGameButton.setMouseOverImage(quitGameButtonClicked);
 		quitGameButton.addListener(new ComponentListener() {
 			
@@ -59,7 +68,8 @@ public class MenuState extends BaseGameState {
 		// TODO Auto-generated method stub
 		
 		backgroundImage.draw();
-		//logoImage.drawCentered(325, 375);
+		
+		logoImage.draw(container.getWidth() / 5, container.getHeight() / 5);
 		
 		playGameButton.render(container, g);
 		quitGameButton.render(container, g);

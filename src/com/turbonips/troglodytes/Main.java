@@ -24,7 +24,7 @@ public class Main extends StateBasedGame {
 		addState(new PlayingState());
 		
 		// It auto enters the first added state so this is just temporary
-		enterState(PlayingState.ID);
+		enterState(MenuState.ID);
 	}
 
 	/**

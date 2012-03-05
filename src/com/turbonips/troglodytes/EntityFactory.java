@@ -36,7 +36,7 @@ public class EntityFactory {
 		ResourceManager resourceManager = ResourceManager.getInstance();		
 		Image playerImage = (Image)resourceManager.getResource("testplayerimage").getObject();
 		Image enemyImage = (Image)resourceManager.getResource("testenemyimage").getObject();
-		String startMap = "trog1";
+		String startMap = "trog2";
 		
 		Vector2f playerStartPosition = new Vector2f(playerImage.getWidth()*20, playerImage.getHeight()*20);
 		Vector2f enemyStartPosition = new Vector2f(enemyImage.getWidth()*40, enemyImage.getHeight()*20);
