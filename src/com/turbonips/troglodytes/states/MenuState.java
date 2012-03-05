@@ -1,18 +1,23 @@
 package com.turbonips.troglodytes.states;
 
+import org.newdawn.slick.AngelCodeFont;
+import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.gui.*;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.Color;
 
 public class MenuState extends BaseGameState {
 	public static final int ID = 1;
 	
 	private Image backgroundImage;
+	private AngelCodeFont font;
+	
 	private MouseOverArea playGameButton;
-	//private Image logoImage;
 	private Image playGameButtonImage;
 	private Image playGameButtonClicked;
 	
@@ -26,7 +31,7 @@ public class MenuState extends BaseGameState {
 		super.init(container, game);
 		
 		backgroundImage = new Image ("resources/graphics/menuBackground.png");
-		//logoImage = new Image ("resources/graphics/TROGS.png");
+		font = new AngelCodeFont ("resources/fonts/c64.fnt", "resources/fonts/c64_0.png");
 		
 		playGameButtonImage = new Image ("resources/graphics/newGameButton.png");
 		playGameButtonClicked = new Image ("resources/graphics/newGameButton-Clicked.png");
@@ -58,16 +63,17 @@ public class MenuState extends BaseGameState {
 			throws SlickException {
 		// TODO Auto-generated method stub
 		
-		backgroundImage.draw(0,0,container.getWidth(), container.getHeight());
-		//logoImage.drawCentered(325, 375);
-		playGameButton.setX(container.getWidth()/2-playGameButton.getWidth()/2);
-		playGameButton.setY(container.getHeight()/2-playGameButton.getHeight()/2);
-		quitGameButton.setX(container.getWidth()/2-quitGameButton.getWidth()/2);
-		quitGameButton.setY(container.getHeight()/2-quitGameButton.getHeight()/2+playGameButton.getHeight()+20);
+//		backgroundImage.draw(0,0,container.getWidth(), container.getHeight());
+		g.setFont(font);
+		font.drawString(container.getWidth()/2, container.getHeight()/2, "Troglodytes", Color.orange);
 		
-		
-		playGameButton.render(container, g);
-		quitGameButton.render(container, g);
+//		playGameButton.setX(container.getWidth()/2-playGameButton.getWidth()/2);
+//		playGameButton.setY(container.getHeight()/2-playGameButton.getHeight()/2);
+//		quitGameButton.setX(container.getWidth()/2-quitGameButton.getWidth()/2);
+//		quitGameButton.setY(container.getHeight()/2-quitGameButton.getHeight()/2+playGameButton.getHeight()+20);
+//		
+//		playGameButton.render(container, g);
+//		quitGameButton.render(container, g);
 		
 	}
 
