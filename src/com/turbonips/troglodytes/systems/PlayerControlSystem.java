@@ -10,13 +10,15 @@ import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.Collision;
 import com.turbonips.troglodytes.components.Movement;
+import com.turbonips.troglodytes.components.CreatureSound;
 
 public class PlayerControlSystem extends BaseEntitySystem implements KeyListener {
 	private final GameContainer container;
     private ComponentMapper<Collision> collisionMapper;
 	private ComponentMapper<Movement> movementMapper;
 	private ComponentMapper<Attack> attackMapper;
-    
+    private ComponentMapper<CreatureSound> creatureSoundMapper;
+
     boolean key_up = false, 
     		key_down = false, 
     		key_left = false, 
@@ -33,6 +35,7 @@ public class PlayerControlSystem extends BaseEntitySystem implements KeyListener
 		collisionMapper = new ComponentMapper<Collision>(Collision.class, world);
 		movementMapper = new ComponentMapper<Movement>(Movement.class, world);
 		attackMapper = new ComponentMapper<Attack>(Attack.class, world);
+		creatureSoundMapper = new ComponentMapper<CreatureSound>(CreatureSound.class, world);
 		container.getInput().addKeyListener(this);
 	}
 	
@@ -45,6 +48,7 @@ public class PlayerControlSystem extends BaseEntitySystem implements KeyListener
 				Movement movement = movementMapper.get(player);
 				Collision collision = collisionMapper.get(player);
 				Attack attack = attackMapper.get(player);
+				CreatureSound creatureSound = creatureSoundMapper.get(player);
 				
 				if (movement != null) {
 					movement.clearMovement();
@@ -53,12 +57,26 @@ public class PlayerControlSystem extends BaseEntitySystem implements KeyListener
 							movement.setMoveUp(true);
 						} else if (!collision.isCollidingUp()) {
 							movement.setMoveUp(true);
+							if (creatureSound != null){
+								creatureSound.setCurrent(creatureSound.getMovementSound());
+							}
+						} else {
+							if (creatureSound != null){
+								creatureSound.unsetCurrent();
+							}
 						}
 					} else if (key_down) {
 						if (collision == null) {
 							movement.setMoveDown(true);
 						} else if (!collision.isCollidingDown()) {
 							movement.setMoveDown(true);
+							if (creatureSound != null){
+								creatureSound.setCurrent(creatureSound.getMovementSound());
+							}
+						} else {
+							if (creatureSound != null){
+								creatureSound.unsetCurrent();
+							}
 						}
 					}
 					if (key_left) {
@@ -66,12 +84,33 @@ public class PlayerControlSystem extends BaseEntitySystem implements KeyListener
 							movement.setMoveLeft(true);
 						} else if (!collision.isCollidingLeft()) {
 							movement.setMoveLeft(true);
+							if (creatureSound != null){
+								creatureSound.setCurrent(creatureSound.getMovementSound());
+							}
+						} else {
+							if (creatureSound != null){
+								creatureSound.unsetCurrent();
+							}
 						}
 					} else if (key_right) {
 						if (collision == null) {
 							movement.setMoveRight(true);
 						} else if (!collision.isCollidingRight()) {
 							movement.setMoveRight(true);
+							if (creatureSound != null){
+								creatureSound.setCurrent(creatureSound.getMovementSound());
+							}
+						} else {
+							if (creatureSound != null){
+								creatureSound.unsetCurrent();
+							}
+						}
+					}
+					
+					if (!key_up && !key_down && !key_right && !key_left)
+					{
+						if (creatureSound != null){
+							creatureSound.unsetCurrent();
 						}
 					}
 				}
