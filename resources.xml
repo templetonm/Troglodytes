@@ -8,6 +8,7 @@
 
 	<resource id="swampbubble" type="image" path="graphics/testBubble.png" />
 	<resource id="smallfire" type="image" path="graphics/blankParticleW.png" />
+	<resource id="smallsmoke" type="image" path="graphics/blankParticleW.png" />
 
 	<resource id="Into the Dark.ogg" type="music" path="music/Into the Dark.ogg" />
 	

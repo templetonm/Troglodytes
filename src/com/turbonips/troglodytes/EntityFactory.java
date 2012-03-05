@@ -113,7 +113,7 @@ public class EntityFactory {
 					int objectY = tiledMap.getObjectY(g, i);
 					Vector2f particleSystemPosition = new Vector2f(objectX, objectY);
 					Image particleImage = (Image)resourceManager.getResource(particletype).getObject();
-					ParticleSystem particleSys = new ParticleSystem(particleImage);
+					ParticleSystem particleSys = new ParticleSystem(particleImage,10000);
 
 					Emitter pem = new Emitter(particleData);
 					pem.setEnabled(true);

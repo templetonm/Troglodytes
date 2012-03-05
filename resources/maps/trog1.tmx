@@ -56,9 +56,14 @@
     <property name="Number" value="10"/>
    </properties>
   </object>
-  <object name="psTest" type="particleSpawn" x="1152" y="1248" width="64" height="64">
+  <object name="psTest" type="particleSpawn" x="912" y="911" width="64" height="64">
    <properties>
-    <property name="type" value="swampbubble"/>
+    <property name="type" value="smallfire"/>
+   </properties>
+  </object>
+  <object name="psTest2" type="particleSpawn" x="913" y="886" width="42" height="43">
+   <properties>
+    <property name="type" value="smallsmoke"/>
    </properties>
   </object>
  </objectgroup>

@@ -154,9 +154,9 @@ public class Emitter implements ParticleEmitter
 					float ThresholdPosOffset = 1f - spawnOffsetPercentNegative/2;
 					if (randomCheck > ThresholdNegOffset) {
 						if (randomCheck > ThresholdPosOffset) {
-							oX = 5*(float)Math.random();
+							oX = spawnOffsetX*(float)Math.random();
 						} else {
-							oX = -5*(float)Math.random();
+							oX = -spawnOffsetX*(float)Math.random();
 						}
 					}
 					randomCheck = (float)Math.random();
