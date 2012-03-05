@@ -96,7 +96,7 @@ public class PlayingState extends BaseGameState {
 		playerControlSystem.process();
 		enemyCollisionSystem.process();
 		enemyControlSystem.process();
-		//musicSystem.process();
+		musicSystem.process();
 		mapParticleSystem.process();
 		attackSystem.process();
 		pushSystem.process();

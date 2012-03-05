@@ -48,7 +48,7 @@ public class LoadingState extends BaseGameState implements Runnable {
 	@Override
 	public void run() {
 		ResourceManager resourceManager = ResourceManager.getInstance();
-		//resourceManager.loadMusicResources();
+		resourceManager.loadMusicResources();
 		finished = true;
 	}
 
