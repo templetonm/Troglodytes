@@ -11,6 +11,7 @@ import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Position;
+import com.turbonips.troglodytes.components.PushVelocity;
 import com.turbonips.troglodytes.components.Renderable;
 
 public class AttackSystem extends BaseEntitySystem {
@@ -72,23 +73,27 @@ public class AttackSystem extends BaseEntitySystem {
 										if (playerMovement.isMoveLeft() || playerMovement.isIdleLeft(playerAnimation)) {
 											if (deltaPosition.x >= (playerImage.getWidth()+enemyImage.getWidth())/2) {
 												logger.info("ATTACKING LEFT");
-												enemyPosition.setX(enemyPosition.getX()-100);
+												Vector2f pushVelocity = new Vector2f(-1*enemyPosition.getSpeed()*4, 0);
+												enemy.addComponent(new PushVelocity(pushVelocity));
 											}
 										} else if (playerMovement.isMoveRight() || playerMovement.isIdleRight(playerAnimation)) {
 											if (deltaPosition.x <= (playerImage.getWidth()+enemyImage.getWidth())/-2) {
 												logger.info("ATTACKING RIGHT");
-												enemyPosition.setX(enemyPosition.getX()+100);
+												Vector2f pushVelocity = new Vector2f(enemyPosition.getSpeed()*4, 0);
+												enemy.addComponent(new PushVelocity(pushVelocity));
 											}
 										} else if (playerMovement.isMoveUp() || playerMovement.isIdleUp(playerAnimation)) {
 											logger.info(deltaPosition.y + " >= " + (playerImage.getHeight()+enemyImage.getHeight())/2);
 											if (deltaPosition.y >= (playerImage.getHeight()+enemyImage.getHeight())/2) {
 												logger.info("ATTACKING UP");
-												enemyPosition.setY(enemyPosition.getY()-100);
+												Vector2f pushVelocity = new Vector2f(0, -1*enemyPosition.getSpeed()*4);
+												enemy.addComponent(new PushVelocity(pushVelocity));
 											}
 										} else if (playerMovement.isMoveDown() || playerMovement.isIdleDown(playerAnimation)) {
 											if (deltaPosition.y <= (playerImage.getHeight()+enemyImage.getHeight())/-2) {
 												logger.info("ATTACKING DOWN");
-												enemyPosition.setY(enemyPosition.getY()+100);
+												Vector2f pushVelocity = new Vector2f(0, enemyPosition.getSpeed()*4);
+												enemy.addComponent(new PushVelocity(pushVelocity));
 											}
 										}
 										attack.setAttacking(false);

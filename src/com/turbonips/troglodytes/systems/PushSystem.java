@@ -42,15 +42,29 @@ public class PushSystem extends BaseEntitySystem {
 	@Override
 	protected void processEntities(ImmutableBag<Entity> entities) {
 		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities("ENEMY");
-		
 		for (int e=0; e<enemies.size(); e++) {
 			Entity enemy = enemies.get(e);
+			Position enemyPosition = positionMapper.get(enemy);
 			PushVelocity pushVelocity = pushVelocityMapper.get(enemy);
-			
 			if (pushVelocity != null) {
 				if (pushVelocity.getVelocity().x == 0 &&
 					pushVelocity.getVelocity().y == 0) {
 					enemy.removeComponent(pushVelocity);
+				} else {
+					enemyPosition.setX(enemyPosition.getX() + pushVelocity.getVelocity().x);
+					enemyPosition.setY(enemyPosition.getY() + pushVelocity.getVelocity().y);
+					
+					if (pushVelocity.getVelocity().x > 0) {
+						pushVelocity.setVelocity(new Vector2f(pushVelocity.getVelocity().x - 1, pushVelocity.getVelocity().y));
+					} else if (pushVelocity.getVelocity().x < 0) {
+						pushVelocity.setVelocity(new Vector2f(pushVelocity.getVelocity().x + 1, pushVelocity.getVelocity().y));
+					}
+					
+					if (pushVelocity.getVelocity().y > 0) {
+						pushVelocity.setVelocity(new Vector2f(pushVelocity.getVelocity().x, pushVelocity.getVelocity().y - 1));
+					} else if (pushVelocity.getVelocity().y < 0) {
+						pushVelocity.setVelocity(new Vector2f(pushVelocity.getVelocity().x, pushVelocity.getVelocity().y + 1));
+					}
 				}
 			}
 			
