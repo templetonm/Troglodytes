@@ -63,7 +63,7 @@ public class PlayingState extends BaseGameState {
 		
 		Entity player = world.createEntity();
 		player.setGroup("PLAYER");
-		player.addComponent(new WarpObject("trog1",15,15));
+		player.addComponent(new WarpObject("trog2",15,15));
 	}
 
 	@Override
@@ -86,7 +86,7 @@ public class PlayingState extends BaseGameState {
 		warpSystem.process();
 		playerControlSystem.process();
 		enemyControlSystem.process();
-		musicSystem.process();
+		//musicSystem.process();
 		mapParticleSystem.process();
 		attackSystem.process();
 	}

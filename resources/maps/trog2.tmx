@@ -58,5 +58,11 @@
     <property name="Y" value="8"/>
    </properties>
   </object>
+  <object name="EnemySpawn" type="Spawn" x="1092" y="1232" width="38" height="38">
+   <properties>
+    <property name="Enemy" value="testenemyanimation"/>
+    <property name="Number" value="100"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
