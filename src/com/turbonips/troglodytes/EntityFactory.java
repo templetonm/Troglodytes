@@ -24,7 +24,7 @@ import com.turbonips.troglodytes.components.Renderable.RenderType;
 import com.turbonips.troglodytes.components.Position;
 
 public class EntityFactory {
-	
+
 	public static final int ID_PLAYER = 0;
 	public static final int ID_GROUND_LAYER = 1;
 	public static final int ID_BG_LAYER = 2;
@@ -32,7 +32,7 @@ public class EntityFactory {
 	public static final int ID_WALL_LAYER = 4;
 	public static final int ID_ENEMY = 5;
 	private static final Logger logger = Logger.getLogger(EntityFactory.class);
-	
+
 	public static Entity createPlayer(World world, Point position) throws SlickException {
 		ResourceManager resourceManager = ResourceManager.getInstance();
 		Resource playerAnimationResource = resourceManager.getResource("testplayeranimation");
@@ -41,7 +41,7 @@ public class EntityFactory {
 		int speed = 8;
 		Rectangle slidingBox = new Rectangle(speed*-15, speed*-12, speed*15, speed*12);
 		Vector2f playerStart = new Vector2f(playerFrame.getWidth()*position.x, playerFrame.getHeight()*position.y);
-		
+
 		// Create the player
 		Entity player = world.createEntity();
 		player.setGroup("PLAYER");
@@ -53,11 +53,11 @@ public class EntityFactory {
 		player.addComponent(new Collision());
 		player.addComponent(new CreatureSound((Sound) resourceManager.getResource("stepsound").getObject()));
 		player.refresh();
-		
+
 		return player;
 	}
-	
-	
+
+
 	// TODO: Position shouldn't have a speed. Movement should have a speed.
 	public static void createMap(World world, String mapId, Point position) throws SlickException {
 		ResourceManager resourceManager = ResourceManager.getInstance();
@@ -70,19 +70,19 @@ public class EntityFactory {
 		ground.setGroup("LAYER");
 		ground.addComponent(new Renderable(resourceManager.getResource(mapId), RenderType.GROUND_LAYER));
 		ground.refresh();
-		
+
 		// Create the background
 		Entity background = world.createEntity();
 		background.setGroup("LAYER");
 		background.addComponent(new Renderable(resourceManager.getResource(mapId), RenderType.BACKGROUND_LAYER));
 		background.refresh();
-		
+
 		// Create the foreground
 		Entity foreground = world.createEntity();
 		foreground.setGroup("LAYER");
 		foreground.addComponent(new Renderable(resourceManager.getResource(mapId), RenderType.FOREGROUND_LAYER));
 		foreground.refresh();
-		
+
 		TiledMap tiledMap = (TiledMap)resourceManager.getResource(mapId).getObject();
 		for (int g=0; g<tiledMap.getObjectGroupCount(); g++) {
 			for (int i=0; i<tiledMap.getObjectCount(g); i++) {
@@ -111,7 +111,7 @@ public class EntityFactory {
 					ParticleData particleData = new ParticleData();
 					String particletype = tiledMap.getObjectProperty(g, i, "type", "");
 					particleData = xmls.DeserializeParticleData(particleData, particletype);
-					
+
 					int objectX = tiledMap.getObjectX(g, i);
 					int objectY = tiledMap.getObjectY(g, i);
 					Vector2f particleSystemPosition = new Vector2f(objectX, objectY);
@@ -131,7 +131,7 @@ public class EntityFactory {
 				}
 			}
 		}
-		
+
 	}
-	
+
 }
