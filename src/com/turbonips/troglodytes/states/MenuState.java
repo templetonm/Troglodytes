@@ -63,17 +63,17 @@ public class MenuState extends BaseGameState {
 			throws SlickException {
 		// TODO Auto-generated method stub
 		
-//		backgroundImage.draw(0,0,container.getWidth(), container.getHeight());
-		g.setFont(font);
-		font.drawString(container.getWidth()/2, container.getHeight()/2, "Troglodytes", Color.orange);
+		backgroundImage.draw(0,0,container.getWidth(), container.getHeight());
+//		g.setFont(font);
+//		font.drawString(container.getWidth()/2, container.getHeight()/2, "Troglodytes", Color.orange);
 		
-//		playGameButton.setX(container.getWidth()/2-playGameButton.getWidth()/2);
-//		playGameButton.setY(container.getHeight()/2-playGameButton.getHeight()/2);
-//		quitGameButton.setX(container.getWidth()/2-quitGameButton.getWidth()/2);
-//		quitGameButton.setY(container.getHeight()/2-quitGameButton.getHeight()/2+playGameButton.getHeight()+20);
-//		
-//		playGameButton.render(container, g);
-//		quitGameButton.render(container, g);
+		playGameButton.setX(container.getWidth()/2-playGameButton.getWidth()/2);
+		playGameButton.setY(container.getHeight()/2-playGameButton.getHeight()/2);
+		quitGameButton.setX(container.getWidth()/2-quitGameButton.getWidth()/2);
+		quitGameButton.setY(container.getHeight()/2-quitGameButton.getHeight()/2+playGameButton.getHeight()+20);
+		
+		playGameButton.render(container, g);
+		quitGameButton.render(container, g);
 		
 	}
 

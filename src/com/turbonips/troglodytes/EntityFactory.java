@@ -62,7 +62,6 @@ public class EntityFactory {
 		CreatureAnimation playerAnimation = (CreatureAnimation)playerAnimationResource.getObject();
 		Image playerFrame = playerAnimation.getCurrent().getCurrentFrame();
 		int speed = 8;
-		
 		// Create the ground
 		Entity ground = world.createEntity();
 		ground.setGroup("LAYER");
@@ -74,7 +73,6 @@ public class EntityFactory {
 		background.setGroup("LAYER");
 		background.addComponent(new Renderable(resourceManager.getResource(mapId), RenderType.BACKGROUND_LAYER));
 		background.refresh();
-
 		
 		// Create the foreground
 		Entity foreground = world.createEntity();

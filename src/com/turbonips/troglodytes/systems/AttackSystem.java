@@ -73,26 +73,22 @@ public class AttackSystem extends BaseEntitySystem {
 											if (deltaPosition.x >= (playerImage.getWidth()+enemyImage.getWidth())/2) {
 												logger.info("ATTACKING LEFT");
 												enemyPosition.setX(enemyPosition.getX()-100);
-												//enemy.delete();
 											}
 										} else if (playerMovement.isMoveRight() || playerMovement.isIdleRight(playerAnimation)) {
 											if (deltaPosition.x <= (playerImage.getWidth()+enemyImage.getWidth())/-2) {
 												logger.info("ATTACKING RIGHT");
 												enemyPosition.setX(enemyPosition.getX()+100);
-												//enemy.delete();
 											}
 										} else if (playerMovement.isMoveUp() || playerMovement.isIdleUp(playerAnimation)) {
 											logger.info(deltaPosition.y + " >= " + (playerImage.getHeight()+enemyImage.getHeight())/2);
 											if (deltaPosition.y >= (playerImage.getHeight()+enemyImage.getHeight())/2) {
 												logger.info("ATTACKING UP");
 												enemyPosition.setY(enemyPosition.getY()-100);
-												//enemy.delete();
 											}
 										} else if (playerMovement.isMoveDown() || playerMovement.isIdleDown(playerAnimation)) {
 											if (deltaPosition.y <= (playerImage.getHeight()+enemyImage.getHeight())/-2) {
 												logger.info("ATTACKING DOWN");
 												enemyPosition.setY(enemyPosition.getY()+100);
-												//enemy.delete();
 											}
 										}
 										attack.setAttacking(false);
