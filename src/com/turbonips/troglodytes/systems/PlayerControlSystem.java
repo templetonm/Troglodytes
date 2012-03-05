@@ -52,20 +52,26 @@ public class PlayerControlSystem extends BaseEntitySystem implements KeyListener
 							movement.setMoveUp(true);
 						} else if (!collision.isCollidingUp()) {
 							movement.setMoveUp(true);
-						}
-						
-						if (creatureSound != null){
-							creatureSound.setCurrent(creatureSound.getMovementSound());
+							if (creatureSound != null){
+								creatureSound.setCurrent(creatureSound.getMovementSound());
+							}
+						} else {
+							if (creatureSound != null){
+								creatureSound.unsetCurrent();
+							}
 						}
 					} else if (key_down) {
 						if (collision == null) {
 							movement.setMoveDown(true);
 						} else if (!collision.isCollidingDown()) {
 							movement.setMoveDown(true);
-						}
-						
-						if (creatureSound != null){
-							creatureSound.setCurrent(creatureSound.getMovementSound());
+							if (creatureSound != null){
+								creatureSound.setCurrent(creatureSound.getMovementSound());
+							}
+						} else {
+							if (creatureSound != null){
+								creatureSound.unsetCurrent();
+							}
 						}
 					}
 					if (key_left) {
@@ -73,20 +79,26 @@ public class PlayerControlSystem extends BaseEntitySystem implements KeyListener
 							movement.setMoveLeft(true);
 						} else if (!collision.isCollidingLeft()) {
 							movement.setMoveLeft(true);
-						}
-						
-						if (creatureSound != null){
-							creatureSound.setCurrent(creatureSound.getMovementSound());
+							if (creatureSound != null){
+								creatureSound.setCurrent(creatureSound.getMovementSound());
+							}
+						} else {
+							if (creatureSound != null){
+								creatureSound.unsetCurrent();
+							}
 						}
 					} else if (key_right) {
 						if (collision == null) {
 							movement.setMoveRight(true);
 						} else if (!collision.isCollidingRight()) {
 							movement.setMoveRight(true);
-						}
-						
-						if (creatureSound != null){
-							creatureSound.setCurrent(creatureSound.getMovementSound());
+							if (creatureSound != null){
+								creatureSound.setCurrent(creatureSound.getMovementSound());
+							}
+						} else {
+							if (creatureSound != null){
+								creatureSound.unsetCurrent();
+							}
 						}
 					}
 					

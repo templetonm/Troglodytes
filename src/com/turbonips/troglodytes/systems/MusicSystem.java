@@ -24,7 +24,7 @@ public class MusicSystem extends BaseEntitySystem {
 	}
 
 	public void startMusic() {
-		this.music.play();
+		this.music.play(1f, .08f);
 	}
 
 	@Override
