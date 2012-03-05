@@ -32,6 +32,7 @@ public class Emitter implements ParticleEmitter
     private float colorChangeB;
     private float colorChangeA;
     private float velocitySpeed;
+    private boolean intervalRandom;
     
     private boolean enabled = false;
     
@@ -59,6 +60,7 @@ public class Emitter implements ParticleEmitter
 		colorChangeB = particleData.getColorChangeB();
 		colorChangeA = particleData.getColorChangeA();
 		velocitySpeed = particleData.getVelocitySpeed();
+		intervalRandom = particleData.getIntervalRandom();
 		
 		this.timer = this.interval;
 	}
@@ -103,10 +105,15 @@ public class Emitter implements ParticleEmitter
 	@Override
 	public void update(ParticleSystem system, int delta)
 	{
-		timer -= delta;
+		timer -= delta;		
 		if (timer <= 0)
 		{
-			timer = interval;
+			if (intervalRandom) {
+				float intervalOffset = (float)interval*(float)Math.random();
+				timer = interval + (int)intervalOffset;
+			} else {
+				timer = interval;
+			}
 			for (int i = 0; i < maxParticles; i++)
 			{
 				float vX = 0, vY = 0, oX = 0, oY = 0;

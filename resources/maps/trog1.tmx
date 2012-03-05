@@ -56,5 +56,10 @@
     <property name="Number" value="10"/>
    </properties>
   </object>
+  <object name="psTest" type="particleSpawn" x="1152" y="1248" width="64" height="64">
+   <properties>
+    <property name="type" value="swampbubble"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
