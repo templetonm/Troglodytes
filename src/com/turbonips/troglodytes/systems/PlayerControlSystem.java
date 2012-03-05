@@ -47,6 +47,9 @@ public class PlayerControlSystem extends BaseEntitySystem implements KeyListener
 				
 				if (movement != null) {
 					movement.clearMovement();
+					if (creatureSound != null){
+						creatureSound.unsetCurrent();
+					}
 					if (key_up) {
 						if (collision == null) {
 							movement.setMoveUp(true);

@@ -10,8 +10,8 @@ public class CreatureSound extends Component
 	private Sound attackSound;
 	private Sound deathSound;
 	private Sound current;
-	private int movementInterval = 100;
-	private int movementIntervalCurrent;
+	private int movementInterval = 10;
+	private int movementIntervalCurrent = 1;
 	// private int attackLength;
 	
 	public CreatureSound(Sound movementSound)
@@ -31,7 +31,7 @@ public class CreatureSound extends Component
 			this.current = current;
 			if (current == movementSound)
 			{
-				movementIntervalCurrent = movementInterval;
+				//movementIntervalCurrent = movementInterval;
 			}
 		}
 	}
