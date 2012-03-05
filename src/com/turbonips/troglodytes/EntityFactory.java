@@ -62,7 +62,6 @@ public class EntityFactory {
 		CreatureAnimation playerAnimation = (CreatureAnimation)playerAnimationResource.getObject();
 		Image playerFrame = playerAnimation.getCurrent().getCurrentFrame();
 		int speed = 8;
-		
 		// Create the ground
 		Entity ground = world.createEntity();
 		ground.setGroup("LAYER");
@@ -74,7 +73,6 @@ public class EntityFactory {
 		background.setGroup("LAYER");
 		background.addComponent(new Renderable(resourceManager.getResource(mapId), RenderType.BACKGROUND_LAYER));
 		background.refresh();
-
 		
 		// Create the foreground
 		Entity foreground = world.createEntity();
@@ -106,20 +104,21 @@ public class EntityFactory {
 				}
 				else if(tiledMap.getObjectType(g, i).equalsIgnoreCase("particleSpawn")) {
 					int spawnNum = Integer.valueOf(tiledMap.getObjectProperty(g, i, "Number", "0"));
-
+					XMLSerializer xmls = new XMLSerializer();
+					ParticleData particleData = new ParticleData();
 					String particletype = tiledMap.getObjectProperty(g, i, "type", "");
+					particleData = xmls.DeserializeParticleData(particleData, particletype);
+					
 					int objectX = tiledMap.getObjectX(g, i);
 					int objectY = tiledMap.getObjectY(g, i);
-					int objectWidth = tiledMap.getObjectWidth(g, i);
-					int objectHeight = tiledMap.getObjectHeight(g, i);
-					int tileWidthOffset = -3*tiledMap.getTileWidth();
-					int tileHeightOffset = -3*tiledMap.getTileHeight();
-					Vector2f particleSystemPosition = new Vector2f(objectX + tileWidthOffset, objectY + tileHeightOffset);
+					Vector2f particleSystemPosition = new Vector2f(objectX, objectY);
 					Image particleImage = (Image)resourceManager.getResource(particletype).getObject();
-					ParticleSystem particleSys = new ParticleSystem(particleImage);
-					Emitter pem = new Emitter(100,100);
+					ParticleSystem particleSys = new ParticleSystem(particleImage,10000);
+
+					Emitter pem = new Emitter(particleData);
 					pem.setEnabled(true);
 					particleSys.addEmitter(pem);
+
 					Entity particleSystem = world.createEntity();
 					particleSystem.setGroup("MAPPARTICLESYSTEM");
 					particleSystem.addComponent(new Position(particleSystemPosition, 0));

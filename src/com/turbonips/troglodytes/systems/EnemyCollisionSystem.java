@@ -32,13 +32,9 @@ public class EnemyCollisionSystem extends BaseEntitySystem {
 
 	@Override
 	protected void processEntities(ImmutableBag<Entity> entities) {
-		ImmutableBag<Entity> layers = world.getGroupManager().getEntities("LAYER");
 		ImmutableBag<Entity> players = world.getGroupManager().getEntities("PLAYER");
 		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities("ENEMY");
 		
-		if (!layers.isEmpty()) {
-			Resource mapResource = renderableMapper.get(layers.get(0)).getResource();
-			if (mapResource != null) {
 				for (int p = 0; p < players.size(); p++) {
 					Entity player = players.get(p);
 					Position playerPosition = positionMapper.get(player);
@@ -51,9 +47,7 @@ public class EnemyCollisionSystem extends BaseEntitySystem {
 							}
 						}
 					}
-				}
 			}
-		}
 
 	}
 	
