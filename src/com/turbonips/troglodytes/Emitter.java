@@ -7,39 +7,71 @@ import org.newdawn.slick.particles.ParticleSystem;
 
 public class Emitter implements ParticleEmitter
 {
-    private float x;
-    private float y;
-    private int interval = 1000;
+    private float x = 0;
+    private float y = 0;
+    private int interval;
     private int timer;
-    private float size = 10;
-    private int maxParticleLifespan = 1000;
-    private int maxParticles = 1;
-    private float velocityX = 0;
-    private float velocityY = 0;
-    private float spawnOffsetX = 0;
-    private float spawnOffsetY = 0;
+    private float size;
+    private int maxParticleLifespan;
+    private int maxParticles;
+    private float velocityX;
+    private float velocityY;
+    private float spawnOffsetX;
+    private float spawnOffsetY;
+    private boolean spawnOffsetRandom;
+    private float spawnOffsetPercentNegative;
+    private boolean velocityXRandom;
+    private boolean velocityYRandom;
+    private float velocityPercentNegative;
+    private float colorR;
+    private float colorG;
+    private float colorB;
+    private float colorA;
+    private float colorChangeR;
+    private float colorChangeG;
+    private float colorChangeB;
+    private float colorChangeA;
+    private float velocitySpeed;
     
     private boolean enabled = false;
     
-	public Emitter(int x, int y)//, float size)
+	public Emitter(ParticleData particleData)
 	{
-        this.x = x;
-        this.y = y;
-        this.size = 10;
-        this.timer = this.interval;
+		interval = particleData.getInterval();
+		size = particleData.getSize();
+		maxParticleLifespan = particleData.getMaxParticleLifespan();
+		maxParticles = particleData.getMaxParticles();
+		velocityX = particleData.getVelocityX();
+		velocityY = particleData.getVelocityY();
+		spawnOffsetX = particleData.getSpawnOffsetX();
+		spawnOffsetY = particleData.getSpawnOffsetY();
+		spawnOffsetRandom = particleData.getSpawnOffsetRandom();
+		spawnOffsetPercentNegative = particleData.getSpawnOffsetPercentNegative();
+		velocityXRandom = particleData.getVelocityXRandom();
+		velocityYRandom = particleData.getVelocityYRandom();
+		velocityPercentNegative = particleData.getVelocityPercentNegative();
+		colorR = particleData.getColorR();
+		colorG = particleData.getColorG();
+		colorB = particleData.getColorB();
+		colorA = particleData.getColorA();
+		colorChangeR = particleData.getColorChangeR();
+		colorChangeG = particleData.getColorChangeG();
+		colorChangeB = particleData.getColorChangeB();
+		colorChangeA = particleData.getColorChangeA();
+		velocitySpeed = particleData.getVelocitySpeed();
+		
+		this.timer = this.interval;
 	}
 	
 	@Override
 	public boolean completed()
 	{
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public Image getImage()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -60,7 +92,6 @@ public class Emitter implements ParticleEmitter
 	public void resetState()
 	{
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -78,20 +109,67 @@ public class Emitter implements ParticleEmitter
 			timer = interval;
 			for (int i = 0; i < maxParticles; i++)
 			{
-				velocityX = 0;
-				velocityY = -5;
+				float vX = 0, vY = 0, oX = 0, oY = 0;
 				
-				spawnOffsetX = 10*(float)Math.random();
-				if (i%2 == 0)
-				{
-					spawnOffsetX = -spawnOffsetX;
+				if (velocityXRandom) {
+					float randomCheck = (float)Math.random();
+					float ThresholdNeg = 1f - velocityPercentNegative;
+					float ThresholdPos = 1f - velocityPercentNegative/2;
+					if (randomCheck > ThresholdNeg) {
+						if (randomCheck > ThresholdPos) {
+							vX = velocityX*(float)Math.random();
+						} else {
+							vX = -velocityX*(float)Math.random();
+						}
+					}
+				} else {
+					vX = velocityX;
+				}
+				
+				if (velocityYRandom) {
+					float randomCheck = (float)Math.random();
+					float ThresholdNeg = 1f - velocityPercentNegative;
+					float ThresholdPos = 1f - velocityPercentNegative/2;
+					if (randomCheck > ThresholdNeg) {
+						if (randomCheck > ThresholdPos) {
+							vY = velocityY*(float)Math.random();
+						} else {
+							vY = -velocityY*(float)Math.random();
+						}
+					}
+				} else {
+					vY = velocityY;
+				}
+				
+				if (spawnOffsetRandom) {
+					float randomCheck = (float)Math.random();
+					float ThresholdNegOffset = 1f - spawnOffsetPercentNegative;
+					float ThresholdPosOffset = 1f - spawnOffsetPercentNegative/2;
+					if (randomCheck > ThresholdNegOffset) {
+						if (randomCheck > ThresholdPosOffset) {
+							oX = 5*(float)Math.random();
+						} else {
+							oX = -5*(float)Math.random();
+						}
+					}
+					randomCheck = (float)Math.random();
+					if (randomCheck > ThresholdNegOffset) {
+						if (randomCheck > ThresholdPosOffset) {
+							oY = spawnOffsetY*(float)Math.random();
+						} else {
+							oY = -spawnOffsetY*(float)Math.random();
+						}
+					}
+				} else {
+					oX = spawnOffsetX;
+					oY = spawnOffsetY;
 				}
 				
 				Particle p = system.getNewParticle(this, maxParticleLifespan);
-                p.setColor(1, 1, 1, 0.5f);
-                p.setPosition(x + spawnOffsetX, y + spawnOffsetY);
+                p.setColor(colorR, colorG, colorB, colorA);
+                p.setPosition(x + oX, y + oY);
                 p.setSize(size);
-                p.setVelocity(velocityX, velocityY, 0.005f);
+                p.setVelocity(vX, vY, velocitySpeed);
 			}
 		}
 	}
@@ -99,9 +177,7 @@ public class Emitter implements ParticleEmitter
 	@Override
 	public void updateParticle(Particle particle, int delta)
 	{
-		// TODO: Add 'changes in particle behavior' section (so they don't fly in straight path, change size, etc);
-        float c = 0.002f * delta;
-        particle.adjustColor(c, c, c, -c / 10); 
+        particle.adjustColor(colorChangeR, colorChangeG, colorChangeB, colorChangeA); 
 	}
 
 	@Override
@@ -121,8 +197,7 @@ public class Emitter implements ParticleEmitter
 	@Override
 	public void wrapUp()
 	{
-		// TODO Auto-generated method stub
-
+		// TODO Is this stub needed (do we have emitters on the map that die off ever)?
 	}
 
     public void moveEmitter(float newX, float newY) {

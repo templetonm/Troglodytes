@@ -17,7 +17,7 @@ public class XMLSerializer {
 
 	public void SerializeObject(Object obj, String objName) {
 		try {
-			String objFilepath = objName; // TODO: Organize filepaths for XML files.
+			String objFilepath = objName;
 			fos = new FileOutputStream(objFilepath);
 			xmle = new XMLEncoder(fos);
 			xmle.writeObject(obj);
@@ -29,7 +29,7 @@ public class XMLSerializer {
 
 	public EnemyData DeserializeEnemyData(EnemyData enemyData, String enemyName) {
 		try {
-			String objFilepath = enemyName; // See above todo message.
+			String objFilepath = enemyName;
 			fis = new FileInputStream(objFilepath);
 			xmld = new XMLDecoder(fis);
 			enemyData = (EnemyData) xmld.readObject();
@@ -43,7 +43,7 @@ public class XMLSerializer {
 
 	public ParticleData DeserializeParticleData(ParticleData particleData, String particleType) {
 		try {
-			String objFilepath = particleType; // see top todo message
+			String objFilepath = "resources/particleXMLs/" + particleType;
 			fis = new FileInputStream(objFilepath);
 			xmld = new XMLDecoder(fis);
 			particleData = (ParticleData) xmld.readObject();
@@ -51,7 +51,7 @@ public class XMLSerializer {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return particleData;
 	}
 }
