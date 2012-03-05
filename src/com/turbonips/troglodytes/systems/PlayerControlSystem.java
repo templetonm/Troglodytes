@@ -47,9 +47,6 @@ public class PlayerControlSystem extends BaseEntitySystem implements KeyListener
 				
 				if (movement != null) {
 					movement.clearMovement();
-					if (creatureSound != null){
-						creatureSound.unsetCurrent();
-					}
 					if (key_up) {
 						if (collision == null) {
 							movement.setMoveUp(true);
@@ -90,6 +87,13 @@ public class PlayerControlSystem extends BaseEntitySystem implements KeyListener
 						
 						if (creatureSound != null){
 							creatureSound.setCurrent(creatureSound.getMovementSound());
+						}
+					}
+					
+					if (!key_up && !key_down && !key_right && !key_left)
+					{
+						if (creatureSound != null){
+							creatureSound.unsetCurrent();
 						}
 					}
 				}

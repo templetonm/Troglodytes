@@ -21,6 +21,10 @@ public class CreatureSound extends Component
 	
 	public void unsetCurrent()
 	{
+		if (current == movementSound)
+		{
+			movementIntervalCurrent = 1;
+		}
 		current = null;
 	}
 	
@@ -29,10 +33,6 @@ public class CreatureSound extends Component
 		if (this.current != current)
 		{
 			this.current = current;
-			if (current == movementSound)
-			{
-				//movementIntervalCurrent = movementInterval;
-			}
 		}
 	}
 	
