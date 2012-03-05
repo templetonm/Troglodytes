@@ -51,8 +51,6 @@ public class AttackSystem extends BaseEntitySystem {
 										Movement playerMovement = movementMapper.get(player);
 										Vector2f deltaPosition = new Vector2f(playerPosition.getX() - enemyPosition.getX(), 
 																			  playerPosition.getY() - enemyPosition.getY());
-										logger.info(deltaPosition);
-
 										if (playerMovement.isMoveLeft()) {
 											if (deltaPosition.x > 0) {
 												logger.info("ATTACKING LEFT");
