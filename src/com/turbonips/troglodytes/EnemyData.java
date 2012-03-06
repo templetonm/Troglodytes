@@ -8,7 +8,6 @@ public class EnemyData {
 	
 	// Enemy data fields, Getters, and Setters; required for XML serialization.
 	private String name;
-	private int size;
 	private boolean elite;
 	private int glow;
 	private int group;
@@ -23,10 +22,9 @@ public class EnemyData {
 	private int x;
 	private int y;
 	private int speed;
-	private Image image;
+	private String sprite;
 
 	public String getName () {return name;}
-	public int getSize() {return size;}
 	public boolean getElite() {return elite;}
 	public int getGlow() {return glow;}
 	public int getGroup() {return group;}
@@ -38,13 +36,11 @@ public class EnemyData {
 	public int getMspd() {return mspd;}
 	public boolean getFlier() {return flier;}
 	public int getLoot() {return loot;}
-	public Image getImage() {return image;}
 	public int getX() {return x;}
 	public int getY() {return y;}
 	public int getSpeed() {return speed;}
 	
 	public void setName (String newName) { name = newName; }
-	public void setSize (int newSize) { size = newSize; }
 	public void setElite (boolean newElite) { elite = newElite; }
 	public void setGlow (int newGlow) { glow = newGlow; }
 	public void setGroup (int newGroup) { group = newGroup; }
@@ -56,8 +52,9 @@ public class EnemyData {
 	public void setMspd (int newMspd) { mspd = newMspd; }
 	public void setFlier (boolean newFlier) { flier = newFlier; }
 	public void setLoot (int newLoot) { loot = newLoot; }
-	public void setImage(Image image) { this.image = image; }
 	public void setX(int x) { this.x = x; }
 	public void setY(int y) { this.y = y; }
 	public void setSpeed(int speed) { this.speed = speed; }
+	public String getSprite() { return sprite; }
+	public void setSprite(String sprite) { this.sprite = sprite; }
 }

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.6.0_29" class="java.beans.XMLDecoder"> 
+ <object class="com.turbonips.troglodytes.EnemyData"> 
+  <void property="name"> 
+   <string>Small Dino</float> 
+  </void> 
+  <void property="elite"> 
+   <boolean>false</booelan>
+  </void> 
+  <void property="glow"> 
+   <int>0</int>
+  </void> 
+  <void property="group"> 
+   <int>0</int>
+  </void>
+  <void property="health"> 
+   <int>100</int>
+  </void> 
+  <void property="damage"> 
+   <int>1</int>
+  </void> 
+  <void property="aspd"> 
+   <int>0</int>
+  </void>
+  <void property="range"> 
+   <int>0</int>
+  </void>
+  <void property="sight"> 
+   <int>10</int>
+  </void>
+  <void property="mspd"> 
+   <int>0</int>
+  </void>
+  <void property="flier"> 
+   <boolean>false</boolean>
+  </void>
+  <void property="loot"> 
+   <int>0</int>
+  </void>
+  <void property="x"> 
+   <int>0</int>
+  </void>
+  <void property="y"> 
+   <int>0</int>
+  </void>
+  <void property="speed"> 
+   <int>10</int>
+  </void>
+  <void property="sprite"> 
+   <string>smalldinoanimation</string>
+  </void>
+ </object> 
+</java> 
