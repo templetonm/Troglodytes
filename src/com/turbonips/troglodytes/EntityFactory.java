@@ -110,7 +110,7 @@ public class EntityFactory {
 					XMLSerializer xmls = XMLSerializer.getInstance();
 					ParticleData particleData = new ParticleData();
 					String particletype = tiledMap.getObjectProperty(g, i, "type", "");
-					particleData = xmls.DeserializeParticleData(particleData, particletype);
+					particleData = xmls.DeserializeParticleData(particletype);
 					
 					int objectX = tiledMap.getObjectX(g, i);
 					int objectY = tiledMap.getObjectY(g, i);

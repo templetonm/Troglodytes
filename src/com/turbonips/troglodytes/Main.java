@@ -24,6 +24,7 @@ public class Main extends StateBasedGame {
 		addState(new CreditState());
 		addState(new PlayingState());
 		
+		XMLSerializer xmls = XMLSerializer.getInstance();
 		// It auto enters the first added state so this is just temporary
 		//enterState(PlayingState.ID);
 	}

@@ -27,9 +27,11 @@ public class XMLSerializer {
 		}
 	}
 
-	public EnemyData DeserializeEnemyData(EnemyData enemyData, String enemyName) {
+	public EnemyData DeserializeEnemyData(String enemyName) {
+		EnemyData enemyData = null;
 		try {
-			String objFilepath = enemyName;
+			enemyData = new EnemyData();
+			String objFilepath = "resources/enemyXMLs/" + enemyName;
 			fis = new FileInputStream(objFilepath);
 			xmld = new XMLDecoder(fis);
 			enemyData = (EnemyData) xmld.readObject();
@@ -41,8 +43,10 @@ public class XMLSerializer {
 		return enemyData;
 	}
 
-	public ParticleData DeserializeParticleData(ParticleData particleData, String particleType) {
+	public ParticleData DeserializeParticleData(String particleType) {
+		ParticleData particleData = null;
 		try {
+			particleData = new ParticleData();
 			String objFilepath = "resources/particleXMLs/" + particleType;
 			fis = new FileInputStream(objFilepath);
 			xmld = new XMLDecoder(fis);
