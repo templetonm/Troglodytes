@@ -82,6 +82,7 @@ public class EntityFactory {
 		foreground.setGroup("LAYER");
 		foreground.addComponent(new Renderable(resourceManager.getResource(mapId), RenderType.FOREGROUND_LAYER));
 		foreground.refresh();
+		XMLSerializer xmls = XMLSerializer.getInstance();
 		
 		TiledMap tiledMap = (TiledMap)resourceManager.getResource(mapId).getObject();
 		for (int g=0; g<tiledMap.getObjectGroupCount(); g++) {
@@ -95,7 +96,8 @@ public class EntityFactory {
 						int objectWidth = tiledMap.getObjectWidth(g, i);
 						int objectHeight = tiledMap.getObjectHeight(g, i);
 						Vector2f enemyStartPosition = new Vector2f(objectX+(int)(Math.random()*objectWidth), objectY+(int)(Math.random()*objectHeight));
-						Resource enemyResource = resourceManager.getResource(enemyId);
+						EnemyData enemyData = xmls.DeserializeEnemyData(enemyId);
+						Resource enemyResource = resourceManager.getResource(enemyData.getSprite());
 						Entity enemy = world.createEntity();
 						enemy.setGroup("ENEMY");
 						enemy.addComponent(new Position(enemyStartPosition, 4));
@@ -107,7 +109,7 @@ public class EntityFactory {
 				}
 				else if(tiledMap.getObjectType(g, i).equalsIgnoreCase("particleSpawn")) {
 					int spawnNum = Integer.valueOf(tiledMap.getObjectProperty(g, i, "Number", "0"));
-					XMLSerializer xmls = XMLSerializer.getInstance();
+					
 					ParticleData particleData = new ParticleData();
 					String particletype = tiledMap.getObjectProperty(g, i, "type", "");
 					particleData = xmls.DeserializeParticleData(particletype);

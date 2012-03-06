@@ -23,8 +23,7 @@ public class Main extends StateBasedGame {
 		addState(new OptionState());
 		addState(new CreditState());
 		addState(new PlayingState());
-		
-		XMLSerializer xmls = XMLSerializer.getInstance();
+
 		// It auto enters the first added state so this is just temporary
 		//enterState(PlayingState.ID);
 	}
@@ -38,7 +37,7 @@ public class Main extends StateBasedGame {
 		try {
 			AppGameContainer container = new AppGameContainer(new Main());
 			//container.setDisplayMode(800, 600, false);
-			container.setDisplayMode(1024, 768, true);
+			container.setDisplayMode(1024, 768, false);
 			container.start();
 		} catch (SlickException ex) {
 			logger.fatal(ex);

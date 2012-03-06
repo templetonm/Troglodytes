@@ -2,10 +2,10 @@
 <java version="1.6.0_29" class="java.beans.XMLDecoder"> 
  <object class="com.turbonips.troglodytes.EnemyData"> 
   <void property="name"> 
-   <string>Small Dino</float> 
+   <string>Small Dino</string> 
   </void> 
   <void property="elite"> 
-   <boolean>false</booelan>
+   <boolean>false</boolean>
   </void> 
   <void property="glow"> 
    <int>0</int>
