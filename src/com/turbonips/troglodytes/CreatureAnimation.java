@@ -7,7 +7,7 @@ import org.newdawn.slick.SpriteSheet;
 
 import com.artemis.Component;
 
-public class CreatureAnimation extends Component {
+public class CreatureAnimation {
 	private SpriteSheet sheet;
 	private Animation moveUp;
 	private Animation moveRight;

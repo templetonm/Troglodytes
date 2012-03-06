@@ -7,10 +7,13 @@ import org.newdawn.slick.KeyListener;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
+import com.turbonips.troglodytes.CreatureAnimation;
+import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.Collision;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.CreatureSound;
+import com.turbonips.troglodytes.components.Renderable;
 
 public class PlayerControlSystem extends BaseEntitySystem implements KeyListener {
 	private final GameContainer container;
@@ -18,6 +21,7 @@ public class PlayerControlSystem extends BaseEntitySystem implements KeyListener
 	private ComponentMapper<Movement> movementMapper;
 	private ComponentMapper<Attack> attackMapper;
     private ComponentMapper<CreatureSound> creatureSoundMapper;
+    private ComponentMapper<Renderable> renderableMapper;
 
     boolean key_up = false, 
     		key_down = false, 
@@ -36,6 +40,7 @@ public class PlayerControlSystem extends BaseEntitySystem implements KeyListener
 		movementMapper = new ComponentMapper<Movement>(Movement.class, world);
 		attackMapper = new ComponentMapper<Attack>(Attack.class, world);
 		creatureSoundMapper = new ComponentMapper<CreatureSound>(CreatureSound.class, world);
+		renderableMapper = new ComponentMapper<Renderable>(Renderable.class, world);
 		container.getInput().addKeyListener(this);
 	}
 	
@@ -49,82 +54,99 @@ public class PlayerControlSystem extends BaseEntitySystem implements KeyListener
 				Collision collision = collisionMapper.get(player);
 				Attack attack = attackMapper.get(player);
 				CreatureSound creatureSound = creatureSoundMapper.get(player);
-				
-				if (movement != null) {
-					movement.clearMovement();
-					if (key_up) {
-						if (collision == null) {
-							movement.setMoveUp(true);
-						} else if (!collision.isCollidingUp()) {
-							movement.setMoveUp(true);
-							if (creatureSound != null){
-								creatureSound.setCurrent(creatureSound.getMovementSound());
+				if (renderableMapper.get(player) != null) {
+					CreatureAnimation playerCreatureAnimation = (CreatureAnimation)renderableMapper.get(player).getResource().getObject();
+					
+					if (movement != null) {
+						movement.clearMovement();
+						if (key_up) {
+							if (collision == null) {
+								movement.setMoveUp(true);
+							} else if (!collision.isCollidingUp()) {
+								movement.setMoveUp(true);
+								if (creatureSound != null){
+									creatureSound.setCurrent(creatureSound.getMovementSound());
+								}
+							} else {
+								if (creatureSound != null){
+									creatureSound.unsetCurrent();
+								}
+								if (playerCreatureAnimation != null) {
+									movement.setAnimation(playerCreatureAnimation.getIdleUp());
+								}
 							}
-						} else {
-							if (creatureSound != null){
-								creatureSound.unsetCurrent();
-							}
-						}
-					} else if (key_down) {
-						if (collision == null) {
-							movement.setMoveDown(true);
-						} else if (!collision.isCollidingDown()) {
-							movement.setMoveDown(true);
-							if (creatureSound != null){
-								creatureSound.setCurrent(creatureSound.getMovementSound());
-							}
-						} else {
-							if (creatureSound != null){
-								creatureSound.unsetCurrent();
-							}
-						}
-					}
-					if (key_left) {
-						if (collision == null) {
-							movement.setMoveLeft(true);
-						} else if (!collision.isCollidingLeft()) {
-							movement.setMoveLeft(true);
-							if (creatureSound != null){
-								creatureSound.setCurrent(creatureSound.getMovementSound());
-							}
-						} else {
-							if (creatureSound != null){
-								creatureSound.unsetCurrent();
+						} else if (key_down) {
+							if (collision == null) {
+								movement.setMoveDown(true);
+							} else if (!collision.isCollidingDown()) {
+								movement.setMoveDown(true);
+								if (creatureSound != null){
+									creatureSound.setCurrent(creatureSound.getMovementSound());
+								}
+							} else {
+								if (creatureSound != null){
+									creatureSound.unsetCurrent();
+								}
+								if (playerCreatureAnimation != null) {
+									movement.setAnimation(playerCreatureAnimation.getIdleDown());
+								}
 							}
 						}
-					} else if (key_right) {
-						if (collision == null) {
-							movement.setMoveRight(true);
-						} else if (!collision.isCollidingRight()) {
-							movement.setMoveRight(true);
-							if (creatureSound != null){
-								creatureSound.setCurrent(creatureSound.getMovementSound());
+						if (key_left) {
+							if (collision == null) {
+								movement.setMoveLeft(true);
+							} else if (!collision.isCollidingLeft()) {
+								movement.setMoveLeft(true);
+								if (creatureSound != null){
+									creatureSound.setCurrent(creatureSound.getMovementSound());
+								}
+							} else {
+								if (creatureSound != null){
+									creatureSound.unsetCurrent();
+								}
+								if (playerCreatureAnimation != null) {
+									movement.setAnimation(playerCreatureAnimation.getIdleLeft());
+								}
 							}
-						} else {
+						} else if (key_right) {
+							if (collision == null) {
+								movement.setMoveRight(true);
+							} else if (!collision.isCollidingRight()) {
+								movement.setMoveRight(true);
+								if (creatureSound != null){
+									creatureSound.setCurrent(creatureSound.getMovementSound());
+								}
+							} else {
+								if (creatureSound != null){
+									creatureSound.unsetCurrent();
+								}
+								logger.info("HERE");
+								if (playerCreatureAnimation != null) {
+									movement.setAnimation(playerCreatureAnimation.getIdleRight());
+									
+								}
+							}
+						}
+						
+						if (!key_up && !key_down && !key_right && !key_left)
+						{
 							if (creatureSound != null){
 								creatureSound.unsetCurrent();
 							}
 						}
 					}
 					
-					if (!key_up && !key_down && !key_right && !key_left)
-					{
-						if (creatureSound != null){
-							creatureSound.unsetCurrent();
-						}
+					if (attack != null) {
+						attack.setAttacking(key_ctrl);
+						key_ctrl = false;
 					}
+					
+					if (key_esc) { container.exit(); }
 				}
-				
-				if (attack != null) {
-					attack.setAttacking(key_ctrl);
-					key_ctrl = false;
-				}
-				
-				if (key_esc) { container.exit(); }
 			}
-		} else {
-			logger.warn("There are no player entities");
-		}
+			} else {
+				logger.warn("There are no player entities");
+			}
 		
 		
 	}

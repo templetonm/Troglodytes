@@ -2,8 +2,6 @@ package com.turbonips.troglodytes.components;
 
 import java.awt.Point;
 
-import com.artemis.Component;
-
 public class WarpObject extends ObjectType {
 	
 	private final String mapName;

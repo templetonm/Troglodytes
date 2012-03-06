@@ -35,19 +35,19 @@ public class PlayerCollisionSystem extends BaseEntitySystem {
 		ImmutableBag<Entity> players = world.getGroupManager().getEntities("PLAYER");
 		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities("ENEMY");
 		
-				for (int p = 0; p < players.size(); p++) {
-					Entity player = players.get(p);
-					Position playerPosition = positionMapper.get(player);
-					
-					if (renderableMapper.get(player) != null) {
-						for (int e=0; e<enemies.size(); e++) {
-							Entity enemy = enemies.get(e);
-							if (renderableMapper.get(enemy) != null) {
-								updateCollidingWithEnemy(player, enemy);
-							}
-						}
+		for (int p = 0; p < players.size(); p++) {
+			Entity player = players.get(p);
+			Position playerPosition = positionMapper.get(player);
+			
+			if (renderableMapper.get(player) != null) {
+				for (int e=0; e<enemies.size(); e++) {
+					Entity enemy = enemies.get(e);
+					if (renderableMapper.get(enemy) != null) {
+						updateCollidingWithEnemy(player, enemy);
 					}
 				}
+			}
+		}
 	}
 	
 	// Player position is the upper left of image
@@ -85,26 +85,24 @@ public class PlayerCollisionSystem extends BaseEntitySystem {
 			eSpeed = (int) (enemyPosition.getSpeed());
 			
 			// Moving left or right
-			if (pTop <= eBottom && pBottom >= eTop)
-			{
+			if (pTop <= eBottom && pBottom >= eTop) {
 				// Player left
-				if (pLeft - pSpeed <= eRight && !(pRight < eLeft)) {
+				if (pLeft - pSpeed <= eRight && !(pRight - pSpeed < eLeft)) {
 					playerCollision.setCollidingLeft(true);
 				}
 				// Player right
-				if (pRight + pSpeed >= eLeft && !(pLeft > eRight)) {
+				if (pRight + pSpeed >= eLeft && !(pLeft + pSpeed > eRight)) {
 					playerCollision.setCollidingRight(true);
 				}
 			}
 			// Moving up or down
-			if (pLeft <= eRight && pRight >= eLeft)
-			{
+			if (pLeft <= eRight && pRight >= eLeft) {
 				// Player up
-				if (pTop - pSpeed <= eBottom && !(pBottom < eTop)) {
+				if (pTop - pSpeed <= eBottom && !(pBottom - pSpeed < eTop)) {
 					playerCollision.setCollidingUp(true);
 				}
 				// Player down
-				else if (pBottom + pSpeed >= eTop && !(pTop > eBottom)) {
+				if (pBottom + pSpeed >= eTop && !(pTop + pSpeed > eBottom)) {
 					playerCollision.setCollidingDown(true);
 				}
 			}

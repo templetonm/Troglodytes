@@ -35,19 +35,19 @@ public class EnemyCollisionSystem extends BaseEntitySystem {
 		ImmutableBag<Entity> players = world.getGroupManager().getEntities("PLAYER");
 		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities("ENEMY");
 		
-				for (int p = 0; p < players.size(); p++) {
-					Entity player = players.get(p);
-					Position playerPosition = positionMapper.get(player);
-					
-					if (renderableMapper.get(player) != null) {
-						for (int e=0; e<enemies.size(); e++) {
-							Entity enemy = enemies.get(e);
-							if (renderableMapper.get(enemy) != null) {
-								updateCollidingWithEnemy(player, enemy);
-							}
-						}
+		for (int p = 0; p < players.size(); p++) {
+			Entity player = players.get(p);
+			Position playerPosition = positionMapper.get(player);
+			
+			if (renderableMapper.get(player) != null) {
+				for (int e=0; e<enemies.size(); e++) {
+					Entity enemy = enemies.get(e);
+					if (renderableMapper.get(enemy) != null) {
+						updateCollidingWithEnemy(player, enemy);
 					}
+				}
 			}
+		}
 
 	}
 	
@@ -85,26 +85,24 @@ public class EnemyCollisionSystem extends BaseEntitySystem {
 			eSpeed = (int) (enemyPosition.getSpeed());
 			
 			// Moving left or right
-			if (pTop <= eBottom && pBottom >= eTop)
-			{
+			if (eBottom >= pTop && eTop <= pBottom) {
 				// Enemy left
-				if (eLeft - eSpeed <= pRight && !(eRight < pLeft)) {
+				if (eLeft - eSpeed <= pRight && !(eRight - eSpeed < pLeft)) {
 					enemyCollision.setCollidingLeft(true);
 				}
 				// Enemy right
-				if (eRight + eSpeed >= pLeft && !(eLeft > pRight)) {
+				if (eRight + eSpeed >= pLeft && !(eLeft + eSpeed > pRight)) {
 					enemyCollision.setCollidingRight(true);
 				}
 			}
 			// Moving up or down
-			else if (pLeft <= eRight && pRight >= eLeft)
-			{
+			if (eLeft <= pRight && eRight >= pLeft) {
 				// Enemy up
-				if (eTop - eSpeed <= pBottom && !(eBottom < pTop)) {
+				if (eTop - eSpeed <= pBottom && !(eBottom - eSpeed < pTop)) {
 					enemyCollision.setCollidingUp(true);
 				}
 				// Enemy down
-				if (eBottom + eSpeed >= pTop && !(eTop > pBottom)) {
+				if (eBottom + eSpeed >= pTop && !(eTop + eSpeed > pBottom)) {
 					enemyCollision.setCollidingDown(true);
 				}
 			}

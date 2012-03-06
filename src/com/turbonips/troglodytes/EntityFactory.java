@@ -35,18 +35,15 @@ public class EntityFactory {
 	
 	public static Entity createPlayer(World world, Point position) throws SlickException {
 		ResourceManager resourceManager = ResourceManager.getInstance();
-		Resource playerAnimationResource = resourceManager.getResource("testplayeranimation");
-		CreatureAnimation playerAnimation = (CreatureAnimation)playerAnimationResource.getObject();
-		Image playerFrame = playerAnimation.getCurrent().getCurrentFrame();
 		int speed = 8;
 		Rectangle slidingBox = new Rectangle(speed*-15, speed*-12, speed*15, speed*12);
-		Vector2f playerStart = new Vector2f(playerFrame.getWidth()*position.x, playerFrame.getHeight()*position.y);
+		Vector2f playerStart = new Vector2f(32*position.x, 64*position.y);
 		
 		// Create the player
 		Entity player = world.createEntity();
 		player.setGroup("PLAYER");
 		player.addComponent(new Position(playerStart, speed));
-		player.addComponent(new Sliding(new Vector2f(playerFrame.getWidth()/2, playerFrame.getHeight()/2), speed, slidingBox));
+		player.addComponent(new Sliding(new Vector2f(16, 32), speed, slidingBox));
 		player.addComponent(new Renderable(resourceManager.getResource("testplayeranimation"), RenderType.PLAYER));
 		player.addComponent(new Movement());
 		player.addComponent(new Attack());
@@ -61,10 +58,6 @@ public class EntityFactory {
 	// TODO: Position shouldn't have a speed. Movement should have a speed.
 	public static void createMap(World world, String mapId, Point position) throws SlickException {
 		ResourceManager resourceManager = ResourceManager.getInstance();
-		Resource playerAnimationResource = resourceManager.getResource("testplayeranimation");
-		CreatureAnimation playerAnimation = (CreatureAnimation)playerAnimationResource.getObject();
-		Image playerFrame = playerAnimation.getCurrent().getCurrentFrame();
-		int speed = 8;
 		// Create the ground
 		Entity ground = world.createEntity();
 		ground.setGroup("LAYER");
