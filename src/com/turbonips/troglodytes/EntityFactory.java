@@ -107,7 +107,7 @@ public class EntityFactory {
 				}
 				else if(tiledMap.getObjectType(g, i).equalsIgnoreCase("particleSpawn")) {
 					int spawnNum = Integer.valueOf(tiledMap.getObjectProperty(g, i, "Number", "0"));
-					XMLSerializer xmls = new XMLSerializer();
+					XMLSerializer xmls = XMLSerializer.getInstance();
 					ParticleData particleData = new ParticleData();
 					String particletype = tiledMap.getObjectProperty(g, i, "type", "");
 					particleData = xmls.DeserializeParticleData(particleData, particletype);

@@ -10,9 +10,9 @@ public class XMLSerializer {
 	private XMLEncoder xmle;
 	private FileInputStream fis;
 	private XMLDecoder xmld;
+	private static final XMLSerializer instance = new XMLSerializer();
 
-	public XMLSerializer() {
-
+	private XMLSerializer() {
 	}
 
 	public void SerializeObject(Object obj, String objName) {
@@ -54,4 +54,9 @@ public class XMLSerializer {
 
 		return particleData;
 	}
+
+	public static XMLSerializer getInstance() {
+		return instance;
+	}
+
 }
