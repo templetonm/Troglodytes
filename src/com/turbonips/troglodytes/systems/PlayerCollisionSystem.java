@@ -96,7 +96,7 @@ public class PlayerCollisionSystem extends BaseEntitySystem {
 				}
 			}
 			// Moving up or down
-			if (pLeft <= eRight && pRight >= eLeft) {
+			else if (pLeft <= eRight && pRight >= eLeft) {
 				// Player up
 				if (pTop - pSpeed <= eBottom && !(pBottom - pSpeed < eTop)) {
 					playerCollision.setCollidingUp(true);

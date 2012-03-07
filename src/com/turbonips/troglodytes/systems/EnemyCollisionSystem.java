@@ -96,7 +96,7 @@ public class EnemyCollisionSystem extends BaseEntitySystem {
 				}
 			}
 			// Moving up or down
-			if (eLeft <= pRight && eRight >= pLeft) {
+			else if (eLeft <= pRight && eRight >= pLeft) {
 				// Enemy up
 				if (eTop - eSpeed <= pBottom && !(eBottom - eSpeed < pTop)) {
 					enemyCollision.setCollidingUp(true);
