@@ -57,8 +57,20 @@ public class PlayerControlSystem extends BaseEntitySystem implements KeyListener
 				if (renderableMapper.get(player) != null) {
 					CreatureAnimation playerCreatureAnimation = (CreatureAnimation)renderableMapper.get(player).getResource().getObject();
 					
-					if (movement != null) {
-						movement.clearMovement();
+					if (movement != null) {						
+						if (!key_up) {
+							movement.setMoveUp(false);
+						}
+						if (!key_down) {
+							movement.setMoveDown(false);
+						}
+						if (!key_left) {
+							movement.setMoveLeft(false);
+						}
+						if (!key_right) {
+							movement.setMoveRight(false);
+						}
+						
 						if (key_up) {
 							if (collision == null) {
 								movement.setMoveUp(true);
@@ -68,9 +80,7 @@ public class PlayerControlSystem extends BaseEntitySystem implements KeyListener
 									creatureSound.setCurrent(creatureSound.getMovementSound());
 								}
 							} else {
-								if (creatureSound != null){
-									creatureSound.unsetCurrent();
-								}
+								movement.setMoveUp(false);
 								if (playerCreatureAnimation != null) {
 									movement.setAnimation(playerCreatureAnimation.getIdleUp());
 								}
@@ -84,9 +94,7 @@ public class PlayerControlSystem extends BaseEntitySystem implements KeyListener
 									creatureSound.setCurrent(creatureSound.getMovementSound());
 								}
 							} else {
-								if (creatureSound != null){
-									creatureSound.unsetCurrent();
-								}
+								movement.setMoveDown(false);
 								if (playerCreatureAnimation != null) {
 									movement.setAnimation(playerCreatureAnimation.getIdleDown());
 								}
@@ -101,9 +109,7 @@ public class PlayerControlSystem extends BaseEntitySystem implements KeyListener
 									creatureSound.setCurrent(creatureSound.getMovementSound());
 								}
 							} else {
-								if (creatureSound != null){
-									creatureSound.unsetCurrent();
-								}
+								movement.setMoveLeft(false);
 								if (playerCreatureAnimation != null) {
 									movement.setAnimation(playerCreatureAnimation.getIdleLeft());
 								}
@@ -117,10 +123,7 @@ public class PlayerControlSystem extends BaseEntitySystem implements KeyListener
 									creatureSound.setCurrent(creatureSound.getMovementSound());
 								}
 							} else {
-								if (creatureSound != null){
-									creatureSound.unsetCurrent();
-								}
-								logger.info("HERE");
+								movement.setMoveRight(false);
 								if (playerCreatureAnimation != null) {
 									movement.setAnimation(playerCreatureAnimation.getIdleRight());
 									
@@ -128,7 +131,7 @@ public class PlayerControlSystem extends BaseEntitySystem implements KeyListener
 							}
 						}
 						
-						if (!key_up && !key_down && !key_right && !key_left)
+						if (!movement.isMoving())
 						{
 							if (creatureSound != null){
 								creatureSound.unsetCurrent();
