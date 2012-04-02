@@ -96,6 +96,7 @@ public class PlayingState extends BaseGameState {
 		wallCollisionSystem.process();
 		objectCollisionSystem.process();
 		playerCollisionSystem.process();
+		pushSystem.process();
 		playerControlSystem.process();
 		enemyCollisionSystem.process();
 		enemyControlSystem.process();
@@ -103,7 +104,7 @@ public class PlayingState extends BaseGameState {
 		musicSystem.process();
 		mapParticleSystem.process();
 		attackSystem.process();
-		pushSystem.process();
+		
 	}
 
 	@Override

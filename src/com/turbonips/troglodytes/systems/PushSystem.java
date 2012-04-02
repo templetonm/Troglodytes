@@ -9,17 +9,17 @@ import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.CreatureAnimation;
 import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.components.Attack;
+import com.turbonips.troglodytes.components.Collision;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.PushVelocity;
 import com.turbonips.troglodytes.components.Renderable;
 
 public class PushSystem extends BaseEntitySystem {
-	private ComponentMapper<Attack> attackMapper;
 	private ComponentMapper<Position> positionMapper;
-	private ComponentMapper<Movement> movementMapper;
 	private ComponentMapper<PushVelocity> pushVelocityMapper;
 	private ComponentMapper<Renderable> renderableMapper;
+	private ComponentMapper<Collision> collisionMapper;
 
 	public PushSystem() {
 	}
@@ -27,11 +27,10 @@ public class PushSystem extends BaseEntitySystem {
 	@Override
 	protected void initialize() {
 		super.initialize();
-		attackMapper = new ComponentMapper<Attack>(Attack.class, world);
-		movementMapper = new ComponentMapper<Movement>(Movement.class, world);
 		positionMapper = new ComponentMapper<Position>(Position.class, world);
 		renderableMapper = new ComponentMapper<Renderable>(Renderable.class, world);
 		pushVelocityMapper = new ComponentMapper<PushVelocity>(PushVelocity.class, world);
+		collisionMapper = new ComponentMapper<Collision>(Collision.class, world);
 	}
 
 	@Override
@@ -46,13 +45,21 @@ public class PushSystem extends BaseEntitySystem {
 			Entity enemy = enemies.get(e);
 			Position enemyPosition = positionMapper.get(enemy);
 			PushVelocity pushVelocity = pushVelocityMapper.get(enemy);
+			Collision collision = collisionMapper.get(enemy);
 			if (pushVelocity != null) {
 				if (pushVelocity.getVelocity().x == 0 &&
 					pushVelocity.getVelocity().y == 0) {
 					enemy.removeComponent(pushVelocity);
 				} else {
-					enemyPosition.setX(enemyPosition.getX() + pushVelocity.getVelocity().x);
-					enemyPosition.setY(enemyPosition.getY() + pushVelocity.getVelocity().y);
+					if (!collision.isCollidingLeft() && pushVelocity.getVelocity().x < 0 ||
+						!collision.isCollidingRight() && pushVelocity.getVelocity().x > 0) {
+						enemyPosition.setX(enemyPosition.getX() + pushVelocity.getVelocity().x);
+					}
+
+					if (!collision.isCollidingUp() && pushVelocity.getVelocity().y < 0 ||
+						!collision.isCollidingDown() && pushVelocity.getVelocity().y > 0) {
+						enemyPosition.setY(enemyPosition.getY() + pushVelocity.getVelocity().y);
+					}
 					
 					if (pushVelocity.getVelocity().x > 0) {
 						pushVelocity.setVelocity(new Vector2f(pushVelocity.getVelocity().x - 1, pushVelocity.getVelocity().y));

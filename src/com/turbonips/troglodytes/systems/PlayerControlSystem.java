@@ -120,7 +120,6 @@ public class PlayerControlSystem extends BaseEntitySystem implements KeyListener
 								if (creatureSound != null){
 									creatureSound.unsetCurrent();
 								}
-								logger.info("HERE");
 								if (playerCreatureAnimation != null) {
 									movement.setAnimation(playerCreatureAnimation.getIdleRight());
 									
