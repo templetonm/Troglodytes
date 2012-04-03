@@ -7,6 +7,7 @@ import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.ResourceManager;
 import com.turbonips.troglodytes.components.Movement;
+import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.ResourceRef;
 import com.turbonips.troglodytes.components.Warp;
 
@@ -57,7 +58,8 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 		Entity player = world.createEntity();
 		player.setGroup("PLAYER");
 		player.addComponent(new ResourceRef("testplayerimage"));
-		player.addComponent(new Movement(20, new Vector2f(2,2), new Vector2f(2,2)));
+		player.addComponent(new Movement(15, new Vector2f(2,2), new Vector2f(2,2)));
+		player.addComponent(new Position(new Vector2f(warp.getPosition())));
 		player.refresh();
 		
 		Entity ground = world.createEntity();

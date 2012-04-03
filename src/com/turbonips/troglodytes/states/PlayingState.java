@@ -11,9 +11,11 @@ import com.artemis.EntitySystem;
 import com.artemis.SystemManager;
 import com.artemis.World;
 import com.turbonips.troglodytes.components.Movement;
+import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.ResourceRef;
 import com.turbonips.troglodytes.components.Warp;
 import com.turbonips.troglodytes.systems.InputSystem;
+import com.turbonips.troglodytes.systems.PlayerBehaviorSystem;
 import com.turbonips.troglodytes.systems.RenderSystem;
 import com.turbonips.troglodytes.systems.WarpSystem;
 
@@ -23,6 +25,7 @@ public class PlayingState extends BaseGameState {
 	private SystemManager systemManager;
 	private EntitySystem renderSystem;
 	private EntitySystem inputSystem;
+	private EntitySystem playerBehaviorSystem;
 	private EntitySystem warpSystem;
 
 	@Override
@@ -34,14 +37,16 @@ public class PlayingState extends BaseGameState {
 	    warpSystem = systemManager.setSystem(new WarpSystem());
 	    renderSystem = systemManager.setSystem(new RenderSystem(container));
 	    inputSystem = systemManager.setSystem(new InputSystem(container));
-		systemManager.initializeAll();
+	    playerBehaviorSystem = systemManager.setSystem(new PlayerBehaviorSystem());		
+	    systemManager.initializeAll();
 		
 		// Setup the initial map
 		Entity player = world.createEntity();
 		player.setGroup("PLAYER");
-		player.addComponent(new Warp("trog0", new Vector2f(500,500)));
+		player.addComponent(new Warp("trog0", new Vector2f(0,0)));
 		player.addComponent(new ResourceRef("testplayerimage"));
 		player.addComponent(new Movement(20, new Vector2f(2,2), new Vector2f(2,2)));
+		player.addComponent(new Position(new Vector2f(0,0)));
 		player.refresh();
 	}
 
@@ -57,7 +62,9 @@ public class PlayingState extends BaseGameState {
 		world.loopStart();
 		world.setDelta(delta);
 		inputSystem.process();
+		playerBehaviorSystem.process();
 		warpSystem.process();
+		
 	}
 
 	@Override
