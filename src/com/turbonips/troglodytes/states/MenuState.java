@@ -1,7 +1,5 @@
 package com.turbonips.troglodytes.states;
 
-import org.newdawn.slick.AngelCodeFont;
-import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -10,7 +8,6 @@ import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.gui.*;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.Color;
 
 public class MenuState extends BaseGameState {
 	public static final int ID = 1;
@@ -57,7 +54,7 @@ public class MenuState extends BaseGameState {
 		playGameButton.addListener(new ComponentListener() {
 
 			public void componentActivated (AbstractComponent arg0) {
-				game.enterState(LoadingState.ID);
+				game.enterState(PlayingState.ID);
 			}
 		});
 

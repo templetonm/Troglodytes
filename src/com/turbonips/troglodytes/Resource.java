@@ -1,5 +1,7 @@
 package com.turbonips.troglodytes;
 
+import com.artemis.Component;
+
 public class Resource {
 	
 	private final String path;
@@ -16,9 +18,9 @@ public class Resource {
 	private final ResourceType type;
 	
 	public Resource(String id, ResourceType type, String path, Object object) {
-		this.path = path;
 		this.id = id;
 		this.type = type;
+		this.path = path;
 		this.object = object;
 	}
 

@@ -3,51 +3,27 @@ package com.turbonips.troglodytes.states;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
 import com.artemis.SystemManager;
 import com.artemis.World;
-import com.turbonips.troglodytes.components.WarpObject;
-import com.turbonips.troglodytes.systems.EnemyCollisionSystem;
-import com.turbonips.troglodytes.systems.PlayerCollisionSystem;
-import com.turbonips.troglodytes.systems.PushSystem;
-import com.turbonips.troglodytes.systems.WallCollisionSystem;
-import com.turbonips.troglodytes.systems.EnemyControlSystem;
-import com.turbonips.troglodytes.systems.MapParticleSystem;
-import com.turbonips.troglodytes.systems.MovementSystem;
-import com.turbonips.troglodytes.systems.MusicSystem;
-import com.turbonips.troglodytes.systems.ObjectCollisionSystem;
-import com.turbonips.troglodytes.systems.AttackSystem;
-import com.turbonips.troglodytes.systems.PlayerControlSystem;
-import com.turbonips.troglodytes.systems.DebugTextSystem;
-import com.turbonips.troglodytes.systems.LightingSystem;
+import com.turbonips.troglodytes.components.Movement;
+import com.turbonips.troglodytes.components.ResourceRef;
+import com.turbonips.troglodytes.components.Warp;
+import com.turbonips.troglodytes.systems.InputSystem;
 import com.turbonips.troglodytes.systems.RenderSystem;
 import com.turbonips.troglodytes.systems.WarpSystem;
-import com.turbonips.troglodytes.systems.SoundSystem;
 
 public class PlayingState extends BaseGameState {
 	public static final int ID = 3;
-	
 	private World world;
 	private SystemManager systemManager;
-	private EntitySystem playerControlSystem;
-	private EntitySystem movementSystem;
 	private EntitySystem renderSystem;
-	private EntitySystem wallCollisionSystem;
-	private EntitySystem enemyCollisionSystem;
-	private EntitySystem playerCollisionSystem;
-	private EntitySystem lightingSystem;
-	private EntitySystem objectCollisionSystem;
-	private EntitySystem debugTextSystem;
-	private EntitySystem enemyControlSystem;
-	private EntitySystem musicSystem;
-	private EntitySystem mapParticleSystem;
+	private EntitySystem inputSystem;
 	private EntitySystem warpSystem;
-	private EntitySystem attackSystem;
-	private EntitySystem pushSystem;
-	private EntitySystem soundSystem;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -55,36 +31,24 @@ public class PlayingState extends BaseGameState {
 		super.init(container, game);
 		world = new World();
 	    systemManager = world.getSystemManager();
-	    playerControlSystem = systemManager.setSystem(new PlayerControlSystem(container));
-		renderSystem = systemManager.setSystem(new RenderSystem(container));
-		wallCollisionSystem = systemManager.setSystem(new WallCollisionSystem());
-		lightingSystem = systemManager.setSystem(new LightingSystem(container));
-		objectCollisionSystem = systemManager.setSystem(new ObjectCollisionSystem());
-		debugTextSystem = systemManager.setSystem(new DebugTextSystem(container));
-		movementSystem = systemManager.setSystem(new MovementSystem());
-		enemyControlSystem = systemManager.setSystem(new EnemyControlSystem());
-		warpSystem = systemManager.setSystem(new WarpSystem());
-		musicSystem = systemManager.setSystem(new MusicSystem(container));
-		mapParticleSystem = systemManager.setSystem(new MapParticleSystem());
-		attackSystem = systemManager.setSystem(new AttackSystem());
-		enemyCollisionSystem = systemManager.setSystem(new EnemyCollisionSystem());
-		playerCollisionSystem = systemManager.setSystem(new PlayerCollisionSystem());
-		pushSystem = systemManager.setSystem(new PushSystem());
-		soundSystem = systemManager.setSystem(new SoundSystem());
+	    warpSystem = systemManager.setSystem(new WarpSystem());
+	    renderSystem = systemManager.setSystem(new RenderSystem(container));
+	    inputSystem = systemManager.setSystem(new InputSystem(container));
 		systemManager.initializeAll();
 		
+		// Setup the initial map
 		Entity player = world.createEntity();
 		player.setGroup("PLAYER");
-		player.addComponent(new WarpObject("trog1",15,15));
+		player.addComponent(new Warp("trog0", new Vector2f(500,500)));
+		player.addComponent(new ResourceRef("testplayerimage"));
+		player.addComponent(new Movement(20, new Vector2f(2,2), new Vector2f(2,2)));
+		player.refresh();
 	}
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
 		renderSystem.process();
-		movementSystem.process();
-		lightingSystem.process();
-		debugTextSystem.process();
 	}
 
 	@Override
@@ -92,19 +56,8 @@ public class PlayingState extends BaseGameState {
 			throws SlickException {
 		world.loopStart();
 		world.setDelta(delta);
+		inputSystem.process();
 		warpSystem.process();
-		wallCollisionSystem.process();
-		objectCollisionSystem.process();
-		playerCollisionSystem.process();
-		pushSystem.process();
-		playerControlSystem.process();
-		enemyCollisionSystem.process();
-		enemyControlSystem.process();
-		soundSystem.process();
-		musicSystem.process();
-		mapParticleSystem.process();
-		attackSystem.process();
-		
 	}
 
 	@Override
