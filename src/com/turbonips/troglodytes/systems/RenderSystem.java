@@ -82,19 +82,18 @@ public class RenderSystem extends BaseEntitySystem {
 					// Animate in the x direction
 					if (Math.abs(velocity.x) > Math.abs(velocity.y)) {
 						if (velocity.x < 0) {
-							playerAnim.setCurrent(playerAnim.getMoveLeft());
+							playerAnim.setCurrent(playerAnim.getMoveLeft(), movement.getCurrentSpeed()/10);
 						} else {
-							playerAnim.setCurrent(playerAnim.getMoveRight());
+							playerAnim.setCurrent(playerAnim.getMoveRight(), movement.getCurrentSpeed()/10);
 						}
 					// Animate in the y direction
 					} else {
 						if (velocity.y < 0) {
-							playerAnim.setCurrent(playerAnim.getMoveUp());
+							playerAnim.setCurrent(playerAnim.getMoveUp(), movement.getCurrentSpeed()/10);
 						} else {
-							playerAnim.setCurrent(playerAnim.getMoveDown());
+							playerAnim.setCurrent(playerAnim.getMoveDown(), movement.getCurrentSpeed()/10);
 						}
 					}
-					playerAnim.setCurrent(playerAnim.getCurrent());
 				}
 				g.drawAnimation(playerAnim.getCurrent(), playerCenterX, playerCenterY);
 				break;

@@ -45,7 +45,7 @@ public class PlayingState extends BaseGameState {
 		player.setGroup("PLAYER");
 		player.addComponent(new Warp("trog2", new Vector2f(0,0)));
 		player.addComponent(new ResourceRef("testplayeranimation"));
-		player.addComponent(new Movement(10, new Vector2f(2,2), new Vector2f(2,2)));
+		player.addComponent(new Movement(10, new Vector2f(2,2), new Vector2f(0.1f,0.1f)));
 		// This position is overwritten when the player is warped
 		player.addComponent(new Position(new Vector2f(0,0)));
 		player.refresh();

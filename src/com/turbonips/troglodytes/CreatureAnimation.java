@@ -94,7 +94,8 @@ public class CreatureAnimation {
 		return this.current;
 	}
 
-	public void setCurrent(Animation current) {
+	public void setCurrent(Animation current, float speed) {
+		current.setSpeed(speed);
 		this.current = current;
 	}
 
