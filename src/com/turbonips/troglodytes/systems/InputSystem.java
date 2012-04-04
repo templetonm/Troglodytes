@@ -1,5 +1,7 @@
 package com.turbonips.troglodytes.systems;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.KeyListener;
@@ -8,10 +10,13 @@ import org.newdawn.slick.geom.Vector2f;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
+import com.turbonips.troglodytes.components.Direction;
+import com.turbonips.troglodytes.components.Direction.Dir;
 import com.turbonips.troglodytes.components.Movement;
 
 public class InputSystem extends BaseEntitySystem implements KeyListener {
 	private ComponentMapper<Movement> movementMapper;
+	private ComponentMapper<Direction> directionMapper;
 	private GameContainer container;
 
 	boolean key_up = false, 
@@ -28,21 +33,23 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 	@Override
 	protected void initialize() {
 		movementMapper = new ComponentMapper<Movement>(Movement.class, world);
+		directionMapper = new ComponentMapper<Direction>(Direction.class, world);
 		container.getInput().addKeyListener(this);
 	}
 
 	@Override
 	protected void processEntities(ImmutableBag<Entity> entities) {
 		ImmutableBag<Entity> players = world.getGroupManager().getEntities("PLAYER");
+		
 		for (int i = 0; i < players.size(); i++) {
 			Entity player = players.get(i);
+
 			Movement movement = movementMapper.get(player);
 			if (movement != null) {
 				Vector2f velocity = movement.getVelocity();
 				Vector2f acceleration = movement.getAcceleration();
 				Vector2f deceleration = movement.getDeceleration();
 				Vector2f tmpVelocity = new Vector2f(velocity);
-				
 				if (key_up) {
 					tmpVelocity.y -= acceleration.y;
 				} else if (key_down) {
@@ -88,7 +95,22 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 				}
 				velocity.x = tmpVelocity.x;
 				velocity.y = tmpVelocity.y;
-				if (movement.getCurrentSpeed() > 0) logger.info(movement.getCurrentSpeed());
+				
+				Direction direction = directionMapper.get(player);
+				ArrayList<Dir> directions = direction.getDirections();
+				if (movement.getCurrentSpeed() != 0) {
+					directions.clear();
+					if (velocity.x > 0) {
+						directions.add(Dir.RIGHT);
+					} else if (velocity.x < 0) {
+						directions.add(Dir.LEFT);
+					}
+					if (velocity.y > 0) {
+						directions.add(Dir.DOWN);
+					} else if (velocity.y < 0) {
+						directions.add(Dir.UP);
+					}
+				}
 			}
 		}
 		if (key_esc) {

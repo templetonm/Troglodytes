@@ -5,6 +5,7 @@ import com.artemis.Component;
 
 public class Movement extends Component {
 	private Vector2f velocity;
+	private Vector2f nonZeroVelocity;
 	private float maximumSpeed;
 	private Vector2f acceleration;
 	private Vector2f deceleration;
@@ -57,5 +58,13 @@ public class Movement extends Component {
 
 	public void setDeceleration(Vector2f deceleration) {
 		this.deceleration = deceleration;
+	}
+
+	public Vector2f getNonZeroVelocity() {
+		return nonZeroVelocity;
+	}
+
+	public void setNonZeroVelocity(Vector2f nonZeroVelocity) {
+		this.nonZeroVelocity = nonZeroVelocity;
 	}
 }
