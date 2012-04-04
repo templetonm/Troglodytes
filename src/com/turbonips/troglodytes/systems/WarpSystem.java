@@ -13,6 +13,7 @@ import com.turbonips.troglodytes.components.Warp;
 
 public class WarpSystem extends BaseEntityProcessingSystem {
 	private ComponentMapper<Warp> warpMapper;
+	private ComponentMapper<Position> positionMapper;
 
 	public WarpSystem() {
 		super(Warp.class);
@@ -21,6 +22,7 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 	@Override
 	protected void initialize() {
 		warpMapper = new ComponentMapper<Warp>(Warp.class, world);
+		positionMapper = new ComponentMapper<Position>(Position.class, world);
 	}
 
 	@Override
@@ -36,7 +38,9 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 
 		for (int i=0; i<players.size(); i++) {
 			Entity player = players.get(i);
-			player.delete();
+			Position pos = positionMapper.get(player);
+			Vector2f position = pos.getPosition();
+			position.set(warp.getPosition());
 		}
 		for (int i=0; i<enemies.size(); i++) {
 			Entity enemy = enemies.get(i);
@@ -54,13 +58,6 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 			Entity foregound = foregrounds.get(i);
 			foregound.delete();
 		}
-		
-		Entity player = world.createEntity();
-		player.setGroup("PLAYER");
-		player.addComponent(new ResourceRef("testplayerimage"));
-		player.addComponent(new Movement(15, new Vector2f(2,2), new Vector2f(2,2)));
-		player.addComponent(new Position(new Vector2f(warp.getPosition())));
-		player.refresh();
 		
 		Entity ground = world.createEntity();
 		ground.setGroup("GROUND");

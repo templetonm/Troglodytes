@@ -37,15 +37,16 @@ public class PlayingState extends BaseGameState {
 	    warpSystem = systemManager.setSystem(new WarpSystem());
 	    renderSystem = systemManager.setSystem(new RenderSystem(container));
 	    inputSystem = systemManager.setSystem(new InputSystem(container));
-	    playerBehaviorSystem = systemManager.setSystem(new PlayerBehaviorSystem());		
+	    playerBehaviorSystem = systemManager.setSystem(new PlayerBehaviorSystem());
 	    systemManager.initializeAll();
 		
-		// Setup the initial map
+		// Setup the initial player
 		Entity player = world.createEntity();
 		player.setGroup("PLAYER");
-		player.addComponent(new Warp("trog0", new Vector2f(0,0)));
-		player.addComponent(new ResourceRef("testplayerimage"));
-		player.addComponent(new Movement(20, new Vector2f(2,2), new Vector2f(2,2)));
+		player.addComponent(new Warp("trog2", new Vector2f(0,0)));
+		player.addComponent(new ResourceRef("testplayeranimation"));
+		player.addComponent(new Movement(10, new Vector2f(2,2), new Vector2f(2,2)));
+		// This position is overwritten when the player is warped
 		player.addComponent(new Position(new Vector2f(0,0)));
 		player.refresh();
 	}

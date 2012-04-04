@@ -1,7 +1,5 @@
 package com.turbonips.troglodytes;
 
-import com.artemis.Component;
-
 public class Resource {
 	
 	private final String path;
