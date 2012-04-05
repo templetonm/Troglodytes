@@ -134,7 +134,8 @@ public class RenderSystem extends BaseEntitySystem {
 			Resource mapRes = manager.getResource(mapResName);
 			TiledMap map = (TiledMap)mapRes.getObject();
 			map.render((int)position.x*-1 + container.getWidth()/2 - playerFrame.getWidth()/2, (int)position.y*-1 + container.getHeight()/2 - playerFrame.getHeight()/2, 2);
-		}			
+			map.render((int)position.x*-1 + container.getWidth()/2 - playerFrame.getWidth()/2, (int)position.y*-1 + container.getHeight()/2 - playerFrame.getHeight()/2, 3);
+		}
 	}
 	
 	@Override
