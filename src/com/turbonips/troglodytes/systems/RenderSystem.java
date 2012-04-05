@@ -1,5 +1,8 @@
 package com.turbonips.troglodytes.systems;
 
+import java.util.ArrayList;
+
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -12,15 +15,18 @@ import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.CreatureAnimation;
 import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.ResourceManager;
+import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.ResourceRef;
+import com.turbonips.troglodytes.components.Direction.Dir;
 
 public class RenderSystem extends BaseEntitySystem {
 	private ComponentMapper<ResourceRef> resourceMapper;
 	ComponentMapper<Position> positionMapper;
 	private GameContainer container;
 	private ComponentMapper<Movement> movementMapper;
+	private ComponentMapper<Direction> directionMapper;
 	
 	public RenderSystem(GameContainer container) {
 		this.container = container;
@@ -31,6 +37,7 @@ public class RenderSystem extends BaseEntitySystem {
 		resourceMapper = new ComponentMapper<ResourceRef>(ResourceRef.class, world);
 		positionMapper = new ComponentMapper<Position>(Position.class, world);
 		movementMapper = new ComponentMapper<Movement>(Movement.class, world);
+		directionMapper = new ComponentMapper<Direction>(Direction.class, world);
 	}
 
 
@@ -76,26 +83,44 @@ public class RenderSystem extends BaseEntitySystem {
 				Movement movement = movementMapper.get(player);
 				Vector2f velocity = movement.getVelocity();
 				CreatureAnimation playerAnim = (CreatureAnimation)playerRes.getObject();
-				if (movement.getCurrentSpeed() == 0) {
-					playerAnim.setIdle();
-				} else {
-					// Animate in the x direction
-					if (Math.abs(velocity.x) > Math.abs(velocity.y)) {
-						if (velocity.x < 0) {
-							playerAnim.setCurrent(playerAnim.getMoveLeft(), movement.getCurrentSpeed()/10);
-						} else {
-							playerAnim.setCurrent(playerAnim.getMoveRight(), movement.getCurrentSpeed()/10);
-						}
-					// Animate in the y direction
-					} else {
-						if (velocity.y < 0) {
-							playerAnim.setCurrent(playerAnim.getMoveUp(), movement.getCurrentSpeed()/10);
-						} else {
-							playerAnim.setCurrent(playerAnim.getMoveDown(), movement.getCurrentSpeed()/10);
-						}
+				Direction direction = directionMapper.get(player);
+				ArrayList<Dir> directions = direction.getDirections();
+				float speed = movement.getCurrentSpeed()/10;
+				playerAnim.setIdle();
+				Animation animation = null;
+				for (Dir dir : directions) {
+					switch (dir) {
+						case UP:
+							if (movement.getCurrentSpeed() != 0) {
+								animation = playerAnim.getMoveUp(speed);
+							} else {
+								animation = playerAnim.getIdleUp();
+							}
+							break;
+						case DOWN:
+							if (movement.getCurrentSpeed() != 0) {
+								animation = playerAnim.getMoveDown(speed);
+							} else {
+								animation = playerAnim.getIdleDown();
+							}
+							break;
+						case LEFT:
+							if (movement.getCurrentSpeed() != 0) {
+								animation = playerAnim.getMoveLeft(speed);
+							} else {
+								animation = playerAnim.getIdleLeft();
+							}
+							break;
+						case RIGHT:
+							if (movement.getCurrentSpeed() != 0) {
+								animation = playerAnim.getMoveRight(speed);
+							} else {
+								animation = playerAnim.getIdleRight();
+							}
+							break;
 					}
 				}
-				g.drawAnimation(playerAnim.getCurrent(), playerCenterX, playerCenterY);
+				g.drawAnimation(animation, playerCenterX, playerCenterY);
 				break;
 			case IMAGE:
 				g.drawImage(playerFrame, playerCenterX, playerCenterY);
@@ -109,7 +134,8 @@ public class RenderSystem extends BaseEntitySystem {
 			Resource mapRes = manager.getResource(mapResName);
 			TiledMap map = (TiledMap)mapRes.getObject();
 			map.render((int)position.x*-1 + container.getWidth()/2 - playerFrame.getWidth()/2, (int)position.y*-1 + container.getHeight()/2 - playerFrame.getHeight()/2, 2);
-		}			
+			map.render((int)position.x*-1 + container.getWidth()/2 - playerFrame.getWidth()/2, (int)position.y*-1 + container.getHeight()/2 - playerFrame.getHeight()/2, 3);
+		}
 	}
 	
 	@Override
