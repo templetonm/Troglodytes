@@ -1,15 +1,21 @@
 package com.turbonips.troglodytes.systems;
 
 import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.tiled.TiledMap;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
+import com.turbonips.troglodytes.EnemyData;
+import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.ResourceManager;
+import com.turbonips.troglodytes.XMLSerializer;
+import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.ResourceRef;
 import com.turbonips.troglodytes.components.Warp;
+import com.turbonips.troglodytes.components.Direction.Dir;
 
 public class WarpSystem extends BaseEntityProcessingSystem {
 	private ComponentMapper<Warp> warpMapper;
@@ -33,8 +39,10 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 		ImmutableBag<Entity> grounds = world.getGroupManager().getEntities("GROUND");
 		ImmutableBag<Entity> backgrounds = world.getGroupManager().getEntities("BACKGROUND");
 		ImmutableBag<Entity> foregrounds = world.getGroupManager().getEntities("FOREGROUND");
-
 		Warp warp = warpMapper.get(e);
+		Resource mapRes = manager.getResource(warp.getMapName());
+		TiledMap map = (TiledMap)mapRes.getObject();
+		XMLSerializer xmls = XMLSerializer.getInstance();
 
 		for (int i=0; i<players.size(); i++) {
 			Entity player = players.get(i);
@@ -73,6 +81,46 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 		foreground.setGroup("FOREGROUND");
 		foreground.addComponent(new ResourceRef(warp.getMapName()));
 		foreground.refresh();
+		
+		// Spawn enemies and particles
+		for (int groupID=0; groupID<map.getObjectGroupCount(); groupID++) {
+			for (int objectID=0; objectID<map.getObjectCount(groupID); objectID++) {
+				int objectX = map.getObjectX(groupID, objectID);
+				int objectY = map.getObjectY(groupID, objectID);
+				int objectWidth = map.getObjectWidth(groupID, objectID);
+				int objectHeight = map.getObjectHeight(groupID, objectID);
+				String type = map.getObjectType(groupID, objectID).toLowerCase();
+				
+				if (type.equals("spawn")) {
+					int spawnNum = Integer.valueOf(map.getObjectProperty(groupID, objectID, "Number", "0"));
+					String enemyId = map.getObjectProperty(groupID, objectID, "Enemy", "");
+					logger.info(enemyId);
+					EnemyData enemyData = xmls.deserializeEnemyData(enemyId);
+					String enemyResourceRef = enemyData.getResourceRef();
+					int enemyMaxSpeed = enemyData.getMaxSpeed();
+					int enemyAcc = enemyData.getAcceleration();
+					int enemyDec = enemyData.getDeceleration();
+					enemyData.setAcceleration(4);
+							
+					for (int i=0; i<spawnNum; i++) {
+						Vector2f startPosition = new Vector2f(objectX+(int)(Math.random()*objectWidth), 
+															  objectY+(int)(Math.random()*objectHeight));
+						Entity enemy = world.createEntity();
+						enemy.setGroup("ENEMY");
+						enemy.addComponent(new ResourceRef(warp.getMapName()));
+						enemy.addComponent(new ResourceRef(enemyResourceRef));
+						enemy.addComponent(new Movement(enemyMaxSpeed, new Vector2f(enemyAcc,enemyAcc), new Vector2f(enemyDec,enemyDec)));
+						enemy.addComponent(new Direction(Dir.DOWN));
+						enemy.addComponent(new Position(startPosition));
+						enemy.refresh();
+					}
+				}
+
+				
+				
+			}
+		}
+		
 		
 		e.removeComponent(warp);
 		e.refresh();

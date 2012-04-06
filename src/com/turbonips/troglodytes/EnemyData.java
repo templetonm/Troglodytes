@@ -1,7 +1,5 @@
 package com.turbonips.troglodytes;
 
-import org.newdawn.slick.Image;
-
 // This is a support class for Enemy.
 public class EnemyData {
 	// Just using default constructor; this class is just a bucket for XML serialization of enemy entities.
@@ -21,8 +19,10 @@ public class EnemyData {
 	private int loot;
 	private int x;
 	private int y;
-	private int speed;
-	private String sprite;
+	private int maxSpeed;
+	private String resourceRef;
+	private int acceleration;
+	private int deceleration;
 
 	public String getName () {return name;}
 	public boolean getElite() {return elite;}
@@ -38,7 +38,10 @@ public class EnemyData {
 	public int getLoot() {return loot;}
 	public int getX() {return x;}
 	public int getY() {return y;}
-	public int getSpeed() {return speed;}
+	public int getMaxSpeed() {return maxSpeed;}
+	public String getResourceRef() { return resourceRef; }
+	public int getAcceleration() { return acceleration; }
+	public int getDeceleration() { return deceleration; }
 	
 	public void setName (String newName) { name = newName; }
 	public void setElite (boolean newElite) { elite = newElite; }
@@ -54,7 +57,8 @@ public class EnemyData {
 	public void setLoot (int newLoot) { loot = newLoot; }
 	public void setX(int x) { this.x = x; }
 	public void setY(int y) { this.y = y; }
-	public void setSpeed(int speed) { this.speed = speed; }
-	public String getSprite() { return sprite; }
-	public void setSprite(String sprite) { this.sprite = sprite; }
+	public void setMaxSpeed(int maxSpeed) { this.maxSpeed = maxSpeed; }
+	public void setResourceRef(String resourceRef) { this.resourceRef = resourceRef; }
+	public void setAcceleration(int acceleration) { this.acceleration = acceleration; }
+	public void setDeceleration(int deceleration) { this.deceleration = deceleration; }
 }

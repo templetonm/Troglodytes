@@ -43,11 +43,17 @@
   <void property="y"> 
    <int>0</int>
   </void>
-  <void property="speed"> 
+  <void property="maxSpeed"> 
    <int>10</int>
   </void>
-  <void property="sprite"> 
+  <void property="resourceRef"> 
    <string>testenemyanimation</string>
+  </void>
+  <void property="acceleration"> 
+   <int>2</int>
+  </void>
+  <void property="deceleration"> 
+   <int>2</int>
   </void>
  </object> 
 </java> 
