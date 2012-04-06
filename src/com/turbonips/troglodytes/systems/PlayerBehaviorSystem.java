@@ -49,87 +49,118 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 			Vector2f tmpPosition = new Vector2f(position);
 			tmpPosition.add(velocity);
 			
-			Vector2f upperLeft = new Vector2f(tmpPosition.x, tmpPosition.y);
-			Vector2f upperRight = new Vector2f(tmpPosition.x+32, tmpPosition.y);
-			Vector2f lowerLeft = new Vector2f(tmpPosition.x, tmpPosition.y+64);
-			Vector2f lowerRight = new Vector2f(tmpPosition.x+32, tmpPosition.y+64);
-					
-			// Upper left hand corner
-			if (map.getTileId((int)upperLeft.x/32, (int)upperLeft.y/32, 3) > 0) {
-				// Wall position in pickles intersected corner (lower right)
-				Vector2f wallPosition = new Vector2f((int)upperLeft.x/32 * 32.0f + 32, (int)upperLeft.y/32 * 32.0f + 32);
-				Vector2f vectorChange = new Vector2f(Math.abs(wallPosition.x-tmpPosition.x), Math.abs(wallPosition.y-tmpPosition.y));
-				logger.info(vectorChange);
-				if (velocity.x > 0) {
-					tmpPosition.x -= vectorChange.x;
-				} else if (velocity.x < 0) {
-					tmpPosition.x += vectorChange.x;
-				}
-				if (velocity.y > 0) {
-					tmpPosition.y -= vectorChange.y;
-				} else if (velocity.y < 0) {
-					tmpPosition.y += vectorChange.y;
+			Vector2f[] character = new Vector2f[6];
+			character[0] = new Vector2f(tmpPosition.x, tmpPosition.y);
+			character[1] = new Vector2f(tmpPosition.x+32, tmpPosition.y);
+			character[2] = new Vector2f(tmpPosition.x, tmpPosition.y+32);
+			character[3] = new Vector2f(tmpPosition.x+32, tmpPosition.y+32);
+			character[4] = new Vector2f(tmpPosition.x, tmpPosition.y+64);
+			character[5] = new Vector2f(tmpPosition.x+32, tmpPosition.y+64);
+
+			for (int x=0; x<=5; x++) {
+				if (map.getTileId((int)character[x].x/32, (int)character[x].y/32, 3) > 0) {
+					// Our position is inside of a tile
+					// Now lets figure out which direction we are coming from
+					Vector2f vectorChange = new Vector2f(0,0);
+					Vector2f wallPosition = new Vector2f((int)character[x].x/32 * 32.0f, (int)character[x].y/32 * 32.0f);
+					if (velocity.x > 0) {
+						if (velocity.y > 0) {
+							// Character going right and down
+							// x+,y+ wall-bottom-left
+							vectorChange.set(Math.abs(wallPosition.x-character[x].x),Math.abs(wallPosition.y-character[x].y));
+							if (velocity.x > velocity.y) {
+								// Modify y
+								tmpPosition.y -= vectorChange.y;
+							} else if (velocity.x < velocity.y){
+								// Modify x
+								tmpPosition.x -= vectorChange.x;
+							} else {
+								tmpPosition.x -= vectorChange.x;
+								tmpPosition.y -= vectorChange.y;
+							}
+						} else if (velocity.y < 0) {
+							// Character going right and up
+							// x+,y- wall-top-left
+							vectorChange.set(Math.abs(wallPosition.x-character[x].x),Math.abs(wallPosition.y-character[x].y+32));
+							if (velocity.x > velocity.y) {
+								// Modify y
+								tmpPosition.y += vectorChange.y;
+							} else if (velocity.x < velocity.y){
+								// Modify x
+								tmpPosition.x -= vectorChange.x;
+							} else {
+								tmpPosition.x -= vectorChange.x;
+								tmpPosition.y += vectorChange.y;
+							}
+						} else {
+							// Character going right
+							// x+,0
+							vectorChange.set(Math.abs(wallPosition.x-character[x].x),0);
+							tmpPosition.x -= vectorChange.x;
+						}
+					} else if (velocity.x < 0) {
+						if (velocity.y > 0) {
+							// Character going left and down
+							// x-,y+ wall-bottom-right
+							vectorChange.set(Math.abs(wallPosition.x-character[x].x),Math.abs(wallPosition.y-character[x].y));
+							if (velocity.x > velocity.y) {
+								// Modify y
+								tmpPosition.y -= vectorChange.y;
+							} else if (velocity.x < velocity.y){
+								// Modify x
+								tmpPosition.x += vectorChange.x;
+							} else {
+								tmpPosition.x += vectorChange.x;
+								tmpPosition.y -= vectorChange.y;
+							}
+						} else if (velocity.y < 0) {
+							// Character going left and up
+							// x-,y- wall-top-right
+							vectorChange.set(Math.abs(wallPosition.x-character[x].x),Math.abs(wallPosition.y-character[x].y+32));
+							if (velocity.x > velocity.y) {
+								// Modify y
+								tmpPosition.y += vectorChange.y;
+							} else if (velocity.x < velocity.y){
+								// Modify x
+								tmpPosition.x += vectorChange.x;
+							} else {
+								tmpPosition.x += vectorChange.x;
+								tmpPosition.y += vectorChange.y;
+							}
+						} else {
+							// Character going left
+							// x-,0
+							vectorChange.set(Math.abs(wallPosition.x-character[x].x+32),0);
+							tmpPosition.x += vectorChange.x;
+						}
+					} else {
+						if (velocity.y > 0) {
+							// Character going down... fuck the coordinates being in the upper left!
+							// 0,y+
+							vectorChange.set(0,Math.abs(wallPosition.y-character[x].y));
+							tmpPosition.y -= vectorChange.y;
+						} else if (velocity.y < 0) {
+							// Character going up
+							// 0+,y-
+							vectorChange.set(0,Math.abs(wallPosition.y-character[x].y+32));
+							tmpPosition.y += vectorChange.y;
+						} else {
+							// 0,0
+							// I don't think it's possible to collide with zero velocity...
+						}
+					}
+					if (vectorChange.x != 0 | vectorChange.y != 0) {
+						// Does this break out of the for loop like it should or just the inner if statement...
+						logger.info(velocity);
+						logger.info(vectorChange);
+						break;
+					}
 				}
 			}
-			// Upper right hand corner
-			else if (map.getTileId((int)upperRight.x/32, (int)upperRight.y/32, 3) > 0) {
-				// Wall position in pickles intersected corner (lower left)
-				Vector2f wallPosition = new Vector2f((int)upperRight.x/32 * 32.0f, (int)upperRight.y/32 * 32.0f + 32);
-				Vector2f vectorChange = new Vector2f(Math.abs(wallPosition.x-tmpPosition.x-32-1), Math.abs(wallPosition.y-tmpPosition.y));
-				logger.info(vectorChange);
-				if (velocity.x > 0) {
-					tmpPosition.x -= vectorChange.x;
-				} else if (velocity.x < 0) {
-					tmpPosition.x += vectorChange.x;
-				}
-				if (velocity.y > 0) {
-					tmpPosition.y -= vectorChange.y;
-				} else if (velocity.y < 0) {
-					tmpPosition.y += vectorChange.y;
-				}
-			}
-			// Lower left hand corner
-			else if (map.getTileId((int)lowerLeft.x/32, (int)lowerLeft.y/32, 3) > 0) {
-				// Wall position in pickles intersected corner (upper right)
-				Vector2f wallPosition = new Vector2f((int)lowerLeft.x/32 * 32.0f + 32, (int)lowerLeft.y/32 * 32.0f);
-				Vector2f vectorChange = new Vector2f(Math.abs(wallPosition.x-tmpPosition.x), Math.abs(wallPosition.y-tmpPosition.y-64-1));
-				logger.info(vectorChange);
-				if (velocity.x > 0) {
-					tmpPosition.x -= vectorChange.x;
-				} else if (velocity.x < 0) {
-					tmpPosition.x += vectorChange.x;
-				}
-				if (velocity.y > 0) {
-					tmpPosition.y -= vectorChange.y;
-				} else if (velocity.y < 0) {
-					tmpPosition.y += vectorChange.y;
-				}
-			}
-			// Lower right hand corner
-			else if (map.getTileId((int)lowerRight.x/32, (int)lowerRight.y/32, 3) > 0) {
-				// Wall position in pickles intersected corner (upper left)
-				Vector2f wallPosition = new Vector2f((int)lowerRight.x/32 * 32.0f, (int)lowerRight.y/32 * 32.0f);
-				Vector2f vectorChange = new Vector2f(Math.abs(wallPosition.x-tmpPosition.x-32-1), Math.abs(wallPosition.y-tmpPosition.y-64-1));
-				logger.info(vectorChange);
-				if (velocity.x > 0) {
-					tmpPosition.x -= vectorChange.x;
-				} else if (velocity.x < 0) {
-					tmpPosition.x += vectorChange.x;
-				}
-				if (velocity.y > 0) {
-					tmpPosition.y -= vectorChange.y;
-				} else if (velocity.y < 0) {
-					tmpPosition.y += vectorChange.y;
-				}
-			}
-			//if (tmpPosition.x < 0) velocity.x = 0;
-			//if (tmpPosition.y < 0) velocity.y = 0;
-			//map.getTileId(x, y, layerIndex)
+
 			position.x = tmpPosition.x;
 			position.y = tmpPosition.y;
 		}
-		
-
 	}
 
 	@Override
