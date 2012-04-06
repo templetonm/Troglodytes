@@ -46,120 +46,136 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 			TiledMap map = (TiledMap)groundRes.getObject();
 			
 			// Figure out where the new player position will be
-			Vector2f tmpPosition = new Vector2f(position);
-			tmpPosition.add(velocity);
-			
+			Vector2f bestPosition = new Vector2f(position);
+			bestPosition.add(velocity);
 			Vector2f[] character = new Vector2f[6];
-			character[0] = new Vector2f(tmpPosition.x, tmpPosition.y);
-			character[1] = new Vector2f(tmpPosition.x+32, tmpPosition.y);
-			character[2] = new Vector2f(tmpPosition.x, tmpPosition.y+32);
-			character[3] = new Vector2f(tmpPosition.x+32, tmpPosition.y+32);
-			character[4] = new Vector2f(tmpPosition.x, tmpPosition.y+64);
-			character[5] = new Vector2f(tmpPosition.x+32, tmpPosition.y+64);
+			character[0] = new Vector2f(bestPosition.x, bestPosition.y);
+			character[1] = new Vector2f(bestPosition.x+32, bestPosition.y);
+			character[2] = new Vector2f(bestPosition.x, bestPosition.y+32);
+			character[3] = new Vector2f(bestPosition.x+32, bestPosition.y+32);
+//			character[4] = new Vector2f(tmpPosition.x, tmpPosition.y+64);
+//			character[5] = new Vector2f(tmpPosition.x+32, tmpPosition.y+64);
 
-			for (int x=0; x<=5; x++) {
-				if (map.getTileId((int)character[x].x/32, (int)character[x].y/32, 3) > 0) {
+			// Don't forget +1 for the vector change going right or down
+			// Keep track of the shortest distance if there are multiple collision spots
+			for (int i=0; i<=3; i++) {
+				Vector2f tmpPosition = new Vector2f(position);
+				tmpPosition.add(velocity);
+
+				if (map.getTileId((int)character[i].x/32, (int)character[i].y/32, 3) > 0) {
 					// Our position is inside of a tile
 					// Now lets figure out which direction we are coming from
 					Vector2f vectorChange = new Vector2f(0,0);
-					Vector2f wallPosition = new Vector2f((int)character[x].x/32 * 32.0f, (int)character[x].y/32 * 32.0f);
+					Vector2f wallPosition = new Vector2f((int)character[i].x/32 * 32.0f, (int)character[i].y/32 * 32.0f);
 					if (velocity.x > 0) {
 						if (velocity.y > 0) {
 							// Character going right and down
 							// x+,y+ wall-bottom-left
-							vectorChange.set(Math.abs(wallPosition.x-character[x].x),Math.abs(wallPosition.y-character[x].y));
-							if (velocity.x > velocity.y) {
-								// Modify y
-								tmpPosition.y -= vectorChange.y;
-							} else if (velocity.x < velocity.y){
-								// Modify x
+							// First we get vector change
+							logger.info("Right-Down");
+							vectorChange.set(Math.abs(wallPosition.x-character[i].x),Math.abs(wallPosition.y-character[i].y));
+							// Next we see if we can move entirely in the x or the y otherwise use the vector change
+							if (map.getTileId((int)(character[i].x-vectorChange.x-1)/32, (int)character[i].y/32, 3) == 0) {
+								// Running into right wall
 								tmpPosition.x -= vectorChange.x;
+							} else if (map.getTileId((int)(character[i].x)/32, (int)(character[i].y-vectorChange.y-1)/32, 3) == 0) {
+								// Running into lower wall
+								tmpPosition.y -= vectorChange.y;
 							} else {
-								tmpPosition.x -= vectorChange.x;
-								tmpPosition.y -= vectorChange.y;
+								// Running into lower right corner
+								tmpPosition.x -= vectorChange.x+1;
+								tmpPosition.y -= vectorChange.y+1;
 							}
 						} else if (velocity.y < 0) {
 							// Character going right and up
-							// x+,y- wall-top-left
-							vectorChange.set(Math.abs(wallPosition.x-character[x].x),Math.abs(wallPosition.y-character[x].y+32));
-							if (velocity.x > velocity.y) {
-								// Modify y
-								tmpPosition.y += vectorChange.y;
-							} else if (velocity.x < velocity.y){
-								// Modify x
+							// x+,y- wall-bottom-left
+							logger.info("Right-Up");
+							vectorChange.set(Math.abs(wallPosition.x-character[i].x),Math.abs(wallPosition.y-character[i].y+32));
+							if (map.getTileId((int)(character[i].x-vectorChange.x-1)/32, (int)character[i].y/32, 3) == 0) {
+								// Running into right wall
 								tmpPosition.x -= vectorChange.x;
+							} else if (map.getTileId((int)(character[i].x)/32, (int)(character[i].y+vectorChange.y)/32, 3) == 0) {
+								// Running into upper wall
+								tmpPosition.y += vectorChange.y;
 							} else {
+								// Running into upper right corner
 								tmpPosition.x -= vectorChange.x;
 								tmpPosition.y += vectorChange.y;
 							}
 						} else {
 							// Character going right
 							// x+,0
-							vectorChange.set(Math.abs(wallPosition.x-character[x].x),0);
+							vectorChange.set(Math.abs(wallPosition.x-character[i].x),0);
 							tmpPosition.x -= vectorChange.x;
 						}
 					} else if (velocity.x < 0) {
 						if (velocity.y > 0) {
 							// Character going left and down
-							// x-,y+ wall-bottom-right
-							vectorChange.set(Math.abs(wallPosition.x-character[x].x),Math.abs(wallPosition.y-character[x].y));
-							if (velocity.x > velocity.y) {
-								// Modify y
-								tmpPosition.y -= vectorChange.y;
-							} else if (velocity.x < velocity.y){
-								// Modify x
+							// x-,y+ wall-top-right
+							logger.info("Left-Down");
+							vectorChange.set(Math.abs(wallPosition.x+32-character[i].x),Math.abs(wallPosition.y-character[i].y));
+							if (map.getTileId((int)(character[i].x+vectorChange.x)/32, (int)character[i].y/32, 3) == 0) {
+								// Running into left wall
 								tmpPosition.x += vectorChange.x;
+							} else if (map.getTileId((int)(character[i].x)/32, (int)(character[i].y-vectorChange.y-1)/32, 3) == 0) {
+								// Running into lower wall
+								tmpPosition.y -= vectorChange.y;
 							} else {
+								// Running into lower left corner
 								tmpPosition.x += vectorChange.x;
-								tmpPosition.y -= vectorChange.y;
+								tmpPosition.y -= vectorChange.y+1;
 							}
 						} else if (velocity.y < 0) {
 							// Character going left and up
-							// x-,y- wall-top-right
-							vectorChange.set(Math.abs(wallPosition.x-character[x].x),Math.abs(wallPosition.y-character[x].y+32));
-							if (velocity.x > velocity.y) {
-								// Modify y
-								tmpPosition.y += vectorChange.y;
-							} else if (velocity.x < velocity.y){
-								// Modify x
+							// x-,y- wall-bottom-right
+							logger.info("Left-Up");
+							vectorChange.set(Math.abs(wallPosition.x+32-character[i].x),Math.abs(wallPosition.y+32-character[i].y));
+							if (map.getTileId((int)(character[i].x+vectorChange.x)/32, (int)character[i].y/32, 3) == 0) {
+								// Running into left wall
 								tmpPosition.x += vectorChange.x;
+							} else if (map.getTileId((int)(character[i].x)/32, (int)(character[i].y+vectorChange.y)/32, 3) == 0) {
+								// Running into upper wall
+								tmpPosition.y += vectorChange.y;
 							} else {
+								// Running into upper left corner
 								tmpPosition.x += vectorChange.x;
 								tmpPosition.y += vectorChange.y;
+								
 							}
 						} else {
 							// Character going left
 							// x-,0
-							vectorChange.set(Math.abs(wallPosition.x-character[x].x+32),0);
+							vectorChange.set(Math.abs(wallPosition.x-character[i].x+32),0);
 							tmpPosition.x += vectorChange.x;
 						}
 					} else {
 						if (velocity.y > 0) {
-							// Character going down... fuck the coordinates being in the upper left!
+							// Character going down
 							// 0,y+
-							vectorChange.set(0,Math.abs(wallPosition.y-character[x].y));
-							tmpPosition.y -= vectorChange.y;
+							vectorChange.set(0,Math.abs(wallPosition.y-character[i].y));
+							tmpPosition.y -= vectorChange.y+1;
 						} else if (velocity.y < 0) {
 							// Character going up
 							// 0+,y-
-							vectorChange.set(0,Math.abs(wallPosition.y-character[x].y+32));
+							vectorChange.set(0,Math.abs(wallPosition.y-character[i].y+32));
 							tmpPosition.y += vectorChange.y;
 						} else {
 							// 0,0
-							// I don't think it's possible to collide with zero velocity...
+							// I don't think it's possible to collide with zero velocity and I doubt we'll get here anyway
 						}
 					}
-					if (vectorChange.x != 0 | vectorChange.y != 0) {
-						// Does this break out of the for loop like it should or just the inner if statement...
-						logger.info(velocity);
-						logger.info(vectorChange);
-						break;
+					//logger.info(i + " " + tmpPosition);
+					if (Math.abs(tmpPosition.x-position.x) < Math.abs(bestPosition.x-position.x)) {
+						bestPosition.x = tmpPosition.x;
+					}
+					if (Math.abs(tmpPosition.y-position.y) < Math.abs(bestPosition.y-position.y)) {
+						bestPosition.y = tmpPosition.y;
 					}
 				}
 			}
-
-			position.x = tmpPosition.x;
-			position.y = tmpPosition.y;
+			
+			
+			position.set(bestPosition);
 		}
 	}
 
