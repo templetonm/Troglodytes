@@ -40,7 +40,6 @@ public class RenderSystem extends BaseEntitySystem {
 		directionMapper = new ComponentMapper<Direction>(Direction.class, world);
 	}
 
-
 	@Override
 	protected void processEntities(ImmutableBag<Entity> entities) {
 		Graphics g = container.getGraphics();
@@ -51,11 +50,13 @@ public class RenderSystem extends BaseEntitySystem {
 		ImmutableBag<Entity> backgrounds = world.getGroupManager().getEntities("BACKGROUND");
 		ImmutableBag<Entity> foregrounds = world.getGroupManager().getEntities("FOREGROUND");
 		Entity player = players.get(0);
-		Position pos = positionMapper.get(player);
-		Vector2f position = pos.getPosition();
+		Position playerPos = positionMapper.get(player);
+		Vector2f playerPosition = playerPos.getPosition();
 		String playerResName = resourceMapper.get(player).getResourceName();
 		Resource playerRes = manager.getResource(playerResName);
-		Image playerFrame = getPlayerFrame(playerRes);
+		Image playerFrame = getFrame(playerRes);
+		int mapX = (int)playerPosition.x*-1 + container.getWidth()/2 - playerFrame.getWidth()/2;
+		int mapY = (int)playerPosition.y*-1 + container.getHeight()/2 - playerFrame.getHeight()/2;
 		
 		// Draw the ground
 		for (int i=0; i<grounds.size(); i++) {
@@ -63,7 +64,7 @@ public class RenderSystem extends BaseEntitySystem {
 			String mapResName = resourceMapper.get(ground).getResourceName();
 			Resource mapRes = manager.getResource(mapResName);
 			TiledMap map = (TiledMap)mapRes.getObject();
-			map.render((int)position.x*-1 + container.getWidth()/2 - playerFrame.getWidth()/2, (int)position.y*-1 + container.getHeight()/2 - playerFrame.getHeight()/2, 0);
+			map.render(mapX, mapY, 0);
 		}
 		
 		// Draw the background
@@ -72,59 +73,22 @@ public class RenderSystem extends BaseEntitySystem {
 			String mapResName = resourceMapper.get(background).getResourceName();
 			Resource mapRes = manager.getResource(mapResName);
 			TiledMap map = (TiledMap)mapRes.getObject();
-			map.render((int)position.x*-1 + container.getWidth()/2 - playerFrame.getWidth()/2, (int)position.y*-1 + container.getHeight()/2 - playerFrame.getHeight()/2, 1);
+			map.render(mapX, mapY, 1);
 		}
 		
 		// Draw the player
 		int playerCenterX = container.getWidth()/2 - playerFrame.getWidth()/2;
 		int playerCenterY = container.getHeight()/2 - playerFrame.getHeight()/2;
-		switch (playerRes.getType()) {
-			case CREATURE_ANIMATION:
-				Movement movement = movementMapper.get(player);
-				Vector2f velocity = movement.getVelocity();
-				CreatureAnimation playerAnim = (CreatureAnimation)playerRes.getObject();
-				Direction direction = directionMapper.get(player);
-				ArrayList<Dir> directions = direction.getDirections();
-				float speed = movement.getCurrentSpeed()/10;
-				playerAnim.setIdle();
-				Animation animation = null;
-				for (Dir dir : directions) {
-					switch (dir) {
-						case UP:
-							if (movement.getCurrentSpeed() != 0) {
-								animation = playerAnim.getMoveUp(speed);
-							} else {
-								animation = playerAnim.getIdleUp();
-							}
-							break;
-						case DOWN:
-							if (movement.getCurrentSpeed() != 0) {
-								animation = playerAnim.getMoveDown(speed);
-							} else {
-								animation = playerAnim.getIdleDown();
-							}
-							break;
-						case LEFT:
-							if (movement.getCurrentSpeed() != 0) {
-								animation = playerAnim.getMoveLeft(speed);
-							} else {
-								animation = playerAnim.getIdleLeft();
-							}
-							break;
-						case RIGHT:
-							if (movement.getCurrentSpeed() != 0) {
-								animation = playerAnim.getMoveRight(speed);
-							} else {
-								animation = playerAnim.getIdleRight();
-							}
-							break;
-					}
-				}
-				g.drawAnimation(animation, playerCenterX, playerCenterY);
-				break;
-			case IMAGE:
-				g.drawImage(playerFrame, playerCenterX, playerCenterY);
-				break;
+		drawCreatureEntity(player, playerCenterX, playerCenterY);
+		
+		// Draw enemies
+		for (int i=0; i<enemies.size(); i++) {
+			Entity enemy = enemies.get(i);
+			Position enemyPos = positionMapper.get(enemy);
+			Vector2f enemyPosition = enemyPos.getPosition();
+			int enemyX = mapX + (int)enemyPosition.x;
+			int enemyY = mapY + (int)enemyPosition.y;
+			drawCreatureEntity(enemy, enemyX, enemyY);
 		}
 		
 		// Draw the foreground
@@ -133,8 +97,8 @@ public class RenderSystem extends BaseEntitySystem {
 			String mapResName = resourceMapper.get(foreground).getResourceName();
 			Resource mapRes = manager.getResource(mapResName);
 			TiledMap map = (TiledMap)mapRes.getObject();
-			map.render((int)position.x*-1 + container.getWidth()/2 - playerFrame.getWidth()/2, (int)position.y*-1 + container.getHeight()/2 - playerFrame.getHeight()/2, 2);
-			map.render((int)position.x*-1 + container.getWidth()/2 - playerFrame.getWidth()/2, (int)position.y*-1 + container.getHeight()/2 - playerFrame.getHeight()/2, 3);
+			map.render(mapX, mapY, 2);
+			map.render(mapX, mapY, 3);
 		}
 	}
 	
@@ -143,12 +107,68 @@ public class RenderSystem extends BaseEntitySystem {
 		return true;
 	}
 	
-	private Image getPlayerFrame(Resource playerResource) {
-		switch (playerResource.getType()) {
+	private void drawCreatureEntity(Entity entity, int x, int y) {
+		Graphics g = container.getGraphics();
+		ResourceManager manager = ResourceManager.getInstance();
+		Movement movement = movementMapper.get(entity);
+		String resName = resourceMapper.get(entity).getResourceName();
+		Resource res = manager.getResource(resName);
+		
+		switch (res.getType()) {
 			case CREATURE_ANIMATION:
-				return ((CreatureAnimation)playerResource.getObject()).getCurrent().getCurrentFrame();
+				CreatureAnimation entityAnim = (CreatureAnimation)res.getObject();
+				Direction direction = directionMapper.get(entity);
+				ArrayList<Dir> directions = direction.getDirections();
+				float speed = movement.getCurrentSpeed()/10;
+				entityAnim.setIdle();
+				Animation animation = null;
+				for (Dir dir : directions) {
+					switch (dir) {
+						case UP:
+							if (movement.getCurrentSpeed() != 0) {
+								animation = entityAnim.getMoveUp(speed);
+							} else {
+								animation = entityAnim.getIdleUp();
+							}
+							break;
+						case DOWN:
+							if (movement.getCurrentSpeed() != 0) {
+								animation = entityAnim.getMoveDown(speed);
+							} else {
+								animation = entityAnim.getIdleDown();
+							}
+							break;
+						case LEFT:
+							if (movement.getCurrentSpeed() != 0) {
+								animation = entityAnim.getMoveLeft(speed);
+							} else {
+								animation = entityAnim.getIdleLeft();
+							}
+							break;
+						case RIGHT:
+							if (movement.getCurrentSpeed() != 0) {
+								animation = entityAnim.getMoveRight(speed);
+							} else {
+								animation = entityAnim.getIdleRight();
+							}
+							break;
+						}
+					}
+					g.drawAnimation(animation, x, y);
+					break;
 			case IMAGE:
-				return (Image)playerResource.getObject();
+				Image entityImg = (Image)res.getObject();
+				g.drawImage(entityImg, x, y);
+				break;
+		}
+	}
+	
+	private Image getFrame(Resource resource) {
+		switch (resource.getType()) {
+			case CREATURE_ANIMATION:
+				return ((CreatureAnimation)resource.getObject()).getCurrent().getCurrentFrame();
+			case IMAGE:
+				return (Image)resource.getObject();
 			default:
 				return null;
 		}
