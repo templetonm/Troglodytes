@@ -1,5 +1,7 @@
 package com.turbonips.troglodytes.states;
 
+import java.util.HashMap;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -12,6 +14,8 @@ import com.artemis.SystemManager;
 import com.artemis.World;
 import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.Direction.Dir;
+import com.turbonips.troglodytes.components.Stats;
+import com.turbonips.troglodytes.components.Stats.StatType;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.ResourceRef;
@@ -46,9 +50,15 @@ public class PlayingState extends BaseGameState {
 		Entity player = world.createEntity();
 		player.setGroup("PLAYER");
 		player.addComponent(new Warp("trog1", new Vector2f(700,700)));
-		player.addComponent(new ResourceRef("testplayerimage"));
+		player.addComponent(new ResourceRef("testplayeranimation"));
 		player.addComponent(new Movement(10, new Vector2f(2,2), new Vector2f(2,2)));
 		player.addComponent(new Direction(Dir.DOWN));
+		
+		HashMap<StatType, Integer> stats = new HashMap<StatType, Integer> ();
+		stats.put(StatType.HEALTH, 75);
+		stats.put(StatType.MAX_HEALTH, 100);
+		stats.put(StatType.ARMOR, 0);
+		player.addComponent(new Stats(stats));
 		// This position is overwritten when the player is warped
 		player.addComponent(new Position(new Vector2f(0,0)));
 		player.refresh();

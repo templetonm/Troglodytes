@@ -16,7 +16,7 @@ public abstract class BaseGameState extends BasicGameState {
 		logger.debug("Init");
 		//container.setAlwaysRender(true);
 		container.setVSync(true);
-		container.setShowFPS(true);
+		container.setShowFPS(false);
 	}
 	
 	@Override

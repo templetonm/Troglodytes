@@ -1,8 +1,12 @@
 package com.turbonips.troglodytes.systems;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import org.newdawn.slick.AngelCodeFont;
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -20,6 +24,8 @@ import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.ResourceRef;
 import com.turbonips.troglodytes.components.Direction.Dir;
+import com.turbonips.troglodytes.components.Stats.StatType;
+import com.turbonips.troglodytes.components.Stats;
 
 public class RenderSystem extends BaseEntitySystem {
 	private ComponentMapper<ResourceRef> resourceMapper;
@@ -27,6 +33,7 @@ public class RenderSystem extends BaseEntitySystem {
 	private GameContainer container;
 	private ComponentMapper<Movement> movementMapper;
 	private ComponentMapper<Direction> directionMapper;
+	private ComponentMapper<Stats> statsMapper;
 	
 	public RenderSystem(GameContainer container) {
 		this.container = container;
@@ -38,6 +45,7 @@ public class RenderSystem extends BaseEntitySystem {
 		positionMapper = new ComponentMapper<Position>(Position.class, world);
 		movementMapper = new ComponentMapper<Movement>(Movement.class, world);
 		directionMapper = new ComponentMapper<Direction>(Direction.class, world);
+		statsMapper = new ComponentMapper<Stats>(Stats.class, world);
 	}
 
 	@Override
@@ -98,8 +106,37 @@ public class RenderSystem extends BaseEntitySystem {
 			Resource mapRes = manager.getResource(mapResName);
 			TiledMap map = (TiledMap)mapRes.getObject();
 			map.render(mapX, mapY, 2);
-			map.render(mapX, mapY, 3);
+			// map.render(mapX, mapY, 3);
 		}
+		
+		// Draw UI
+		Stats stats = statsMapper.get(player);
+		HashMap<StatType, Integer> playerStats = stats.getStats();
+		int health = playerStats.get(StatType.HEALTH);
+		int maxHealth = playerStats.get(StatType.MAX_HEALTH);
+		int armor = playerStats.get(StatType.ARMOR);
+		
+		Image healthIconImage = (Image) manager.getResource("healthicon").getObject();
+		g.drawImage(healthIconImage, 3, 3);
+		
+		Image armorIconImage = (Image) manager.getResource("armoricon").getObject();
+		g.drawImage(armorIconImage, 3, healthIconImage.getHeight() + 3);
+		
+		g.setColor(Color.white);
+		g.drawString(health + "/" + maxHealth, healthIconImage.getWidth() + 5, 3);
+		g.drawString(String.valueOf(armor), armorIconImage.getWidth() + 5, healthIconImage.getHeight() + 3);
+		
+		// Player Health Bar
+		float barWidth = 50;
+		float per = (float)health / (float)maxHealth;
+		g.setColor(Color.black);
+		g.fillRect(container.getWidth()/2 - 16 - 10, container.getHeight()/2 + 32, barWidth, 3);
+		g.setColor(Color.red);
+		g.fillRect(container.getWidth()/2 - 16 - 10, container.getHeight()/2 + 32, barWidth*per, 3);
+		
+		/*
+		 * 
+		 */
 	}
 	
 	@Override

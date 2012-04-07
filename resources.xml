@@ -5,6 +5,10 @@
 	<resource id="testplayeranimation" type="creatureanimation" path="graphics/demoCharTest.png" width="32" height="64" />
 	<resource id="testenemyanimation" type="creatureanimation" path="graphics/demoMobTest.png" width="64" height="48" />
 	
+	<resource id="healthicon" type="image" path="graphics/heart.png" />
+	<resource id="armoricon" type="image" path="graphics/shield.png" />
+	
+	<resource id="defaultFont" type="font" path="fonts/C64.ttf" />
 	
 	<resource id="smalldinoanimation" type="creatureanimation" path="graphics/demoMobTest.png" width="64" height="48" />
 	<resource id="light" type="image" path="graphics/light.png" />

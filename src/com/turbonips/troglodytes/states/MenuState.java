@@ -11,8 +11,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class MenuState extends BaseGameState {
 	public static final int ID = 1;
-
-	private Image backgroundImage;
+	
 	private UnicodeFont unicodeFont;
 
 	private String title = "Troglodytes";
@@ -34,9 +33,7 @@ public class MenuState extends BaseGameState {
 			throws SlickException {
 		super.init(container, game);
 
-		backgroundImage = new Image ("resources/graphics/menuBackground.png");
-
-		unicodeFont = new UnicodeFont ("resources/fonts/C64.ttf", 84, true, false);
+		unicodeFont = new UnicodeFont ("resources/fonts/C64.ttf", 70, true, false);
 		unicodeFont.getEffects().add(new ColorEffect(java.awt.Color.white));
 
 		playGameButtonImage = new Image ("resources/graphics/newGameButton.png");
@@ -83,8 +80,6 @@ public class MenuState extends BaseGameState {
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
 		// TODO Auto-generated method stub
-
-		backgroundImage.draw(0,0,container.getWidth(), container.getHeight());
 
 		unicodeFont.drawString(container.getWidth()/2-(unicodeFont.getWidth(title)/2), 
 				container.getHeight()/4-unicodeFont.getYOffset(title), 
