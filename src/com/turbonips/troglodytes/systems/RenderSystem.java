@@ -106,7 +106,7 @@ public class RenderSystem extends BaseEntitySystem {
 			Resource mapRes = manager.getResource(mapResName);
 			TiledMap map = (TiledMap)mapRes.getObject();
 			map.render(mapX, mapY, 2);
-			// map.render(mapX, mapY, 3);
+			map.render(mapX, mapY, 3);
 		}
 		
 		// Draw UI
@@ -127,12 +127,12 @@ public class RenderSystem extends BaseEntitySystem {
 		g.drawString(String.valueOf(armor), armorIconImage.getWidth() + 5, healthIconImage.getHeight() + 3);
 		
 		// Player Health Bar
-		float barWidth = 50;
+		float barWidth = playerFrame.getWidth() * 1.5f;
 		float per = (float)health / (float)maxHealth;
 		g.setColor(Color.black);
-		g.fillRect(container.getWidth()/2 - 16 - 10, container.getHeight()/2 + 32, barWidth, 3);
+		g.fillRect(container.getWidth()/2 - barWidth/2, container.getHeight()/2 + 32, barWidth, 3);
 		g.setColor(Color.red);
-		g.fillRect(container.getWidth()/2 - 16 - 10, container.getHeight()/2 + 32, barWidth*per, 3);
+		g.fillRect(container.getWidth()/2 - barWidth/2, container.getHeight()/2 + 32, barWidth*per, 3);
 		
 		/*
 		 * 
