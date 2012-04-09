@@ -112,6 +112,7 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 					}
 				}
 			}
+		
 		}
 		if (key_esc) {
 			container.exit();
