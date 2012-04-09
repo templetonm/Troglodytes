@@ -89,6 +89,19 @@ public class RenderSystem extends BaseEntitySystem {
 		int playerCenterY = container.getHeight()/2 - playerFrame.getHeight()/2;
 		drawCreatureEntity(player, playerCenterX, playerCenterY);
 		
+		// Player Health Bar
+		Stats stats = statsMapper.get(player);
+		HashMap<StatType, Integer> playerStats = stats.getStats();
+		int health = playerStats.get(StatType.HEALTH);
+		int maxHealth = playerStats.get(StatType.MAX_HEALTH);
+		int armor = playerStats.get(StatType.ARMOR);
+		float barWidth = playerFrame.getWidth() * 1.5f;
+		float per = (float)health / (float)maxHealth;
+		g.setColor(Color.black);
+		g.fillRect(container.getWidth()/2 - barWidth/2, container.getHeight()/2 + 32, barWidth, 3);
+		g.setColor(Color.red);
+		g.fillRect(container.getWidth()/2 - barWidth/2, container.getHeight()/2 + 32, barWidth*per, 3);
+		
 		// Draw enemies
 		for (int i=0; i<enemies.size(); i++) {
 			Entity enemy = enemies.get(i);
@@ -106,16 +119,10 @@ public class RenderSystem extends BaseEntitySystem {
 			Resource mapRes = manager.getResource(mapResName);
 			TiledMap map = (TiledMap)mapRes.getObject();
 			map.render(mapX, mapY, 2);
-			map.render(mapX, mapY, 3);
+			//map.render(mapX, mapY, 3);
 		}
 		
 		// Draw UI
-		Stats stats = statsMapper.get(player);
-		HashMap<StatType, Integer> playerStats = stats.getStats();
-		int health = playerStats.get(StatType.HEALTH);
-		int maxHealth = playerStats.get(StatType.MAX_HEALTH);
-		int armor = playerStats.get(StatType.ARMOR);
-		
 		Image healthIconImage = (Image) manager.getResource("healthicon").getObject();
 		g.drawImage(healthIconImage, 3, 3);
 		
@@ -126,13 +133,7 @@ public class RenderSystem extends BaseEntitySystem {
 		g.drawString(health + "/" + maxHealth, healthIconImage.getWidth() + 5, 3);
 		g.drawString(String.valueOf(armor), armorIconImage.getWidth() + 5, healthIconImage.getHeight() + 3);
 		
-		// Player Health Bar
-		float barWidth = playerFrame.getWidth() * 1.5f;
-		float per = (float)health / (float)maxHealth;
-		g.setColor(Color.black);
-		g.fillRect(container.getWidth()/2 - barWidth/2, container.getHeight()/2 + 32, barWidth, 3);
-		g.setColor(Color.red);
-		g.fillRect(container.getWidth()/2 - barWidth/2, container.getHeight()/2 + 32, barWidth*per, 3);
+
 		
 		/*
 		 * 
