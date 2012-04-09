@@ -51,7 +51,7 @@ public class PlayingState extends BaseGameState {
 		player.setGroup("PLAYER");
 		player.addComponent(new Warp("trog1", new Vector2f(800,600)));
 		player.addComponent(new ResourceRef("testplayerimage"));
-		player.addComponent(new Movement(20, new Vector2f(2,2), new Vector2f(2,2)));
+		player.addComponent(new Movement(10, new Vector2f(2,2), new Vector2f(2,2)));
 		player.addComponent(new Direction(Dir.DOWN));
 		
 		HashMap<StatType, Integer> stats = new HashMap<StatType, Integer> ();
