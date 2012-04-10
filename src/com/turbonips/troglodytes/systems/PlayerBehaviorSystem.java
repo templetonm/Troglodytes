@@ -66,34 +66,34 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 				logger.info("Upper left");
 				
 				if (map.getTileId((int)playerPosition.x/tw, (int)newPlayerPosition.y/th, 3) > 0 ||
-					map.getTileId((int)(playerPosition.x)/tw + 1, (int)newPlayerPosition.y/th, 3) > 0) {
+					map.getTileId((int)((playerPosition.x)/tw + 0.5f), (int)newPlayerPosition.y/th, 3) > 0) {
 					newPlayerPosition.y = wy;
 				}
 					
 				else if (map.getTileId((int)newPlayerPosition.x/tw, (int)(playerPosition.y)/th, 3) > 0 ||
-						 map.getTileId((int)newPlayerPosition.x/tw, (int)(playerPosition.y)/th + 1, 3) > 0) {
+						 map.getTileId((int)newPlayerPosition.x/tw, (int)((playerPosition.y)/th + 0.5f), 3) > 0) {
 					newPlayerPosition.x = wx;
 				}
-				
 			}
 			
 			// Upper right
-			else if (map.getTileId((int)(newPlayerPosition.x+pw-1)/tw, (int)newPlayerPosition.y/th, 3) > 0) {
+			if (map.getTileId((int)(newPlayerPosition.x+pw-1)/tw, (int)newPlayerPosition.y/th, 3) > 0) {
 				collision = true;
 				wx = ((int)(newPlayerPosition.x/tw) * tw);
 				wy = ((int)(newPlayerPosition.y/th) * th) + th;
 				logger.info("Upper right");
 				
 				if (map.getTileId((int)(playerPosition.x+pw-1)/tw, (int)newPlayerPosition.y/th, 3) > 0 ||
-					map.getTileId((int)(playerPosition.x+pw-1)/tw - 1, (int)newPlayerPosition.y/th, 3) > 0) {
+					map.getTileId((int)((playerPosition.x+pw-1)/tw - 0.5f), (int)newPlayerPosition.y/th, 3) > 0) {
 					newPlayerPosition.y = wy;
 				}
 					
 				else if (map.getTileId((int)(newPlayerPosition.x+pw-1)/tw, (int)playerPosition.y/th, 3) > 0 ||
-						 map.getTileId((int)(newPlayerPosition.x+pw-1)/tw, (int)playerPosition.y/th + 1, 3) > 0) {
+						 map.getTileId((int)(newPlayerPosition.x+pw-1)/tw, (int)(playerPosition.y/th + 0.5f), 3) > 0) {
 					newPlayerPosition.x = wx;
 				}
 			}
+			
 			// Lower left
 			if (map.getTileId((int)newPlayerPosition.x/tw, (int)(newPlayerPosition.y+ph-1)/th, 3) > 0) {
 				collision = true;
@@ -101,30 +101,32 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 				wy = ((int)(newPlayerPosition.y/th) * th);
 				logger.info("Lower left");
 				
+				
 				if (map.getTileId((int)(playerPosition.x)/tw, (int)(newPlayerPosition.y+ph-1)/th, 3) > 0 ||
-					map.getTileId((int)(playerPosition.x)/tw + 1, (int)(newPlayerPosition.y+ph-1)/th, 3) > 0) {
+					map.getTileId((int)((playerPosition.x)/tw + 0.5f), (int)(newPlayerPosition.y+ph-1)/th, 3) > 0) {
 					newPlayerPosition.y = wy;
 				}
 					
 				else if (map.getTileId((int)(newPlayerPosition.x)/tw, (int)(playerPosition.y+ph-1)/th, 3) > 0 ||
-						 map.getTileId((int)(newPlayerPosition.x)/tw, (int)(playerPosition.y+ph-1)/th - 1, 3) > 0) {
+						 map.getTileId((int)(newPlayerPosition.x)/tw, (int)((playerPosition.y+ph-1)/th - 0.5f), 3) > 0) {
 					newPlayerPosition.x = wx;
 				}
 			}
+			
 			// Lower right
-			else if (map.getTileId((int)(newPlayerPosition.x+pw-1)/tw, (int)(newPlayerPosition.y+ph-1)/th, 3) > 0) {
+			if (map.getTileId((int)(newPlayerPosition.x+pw-1)/tw, (int)(newPlayerPosition.y+ph-1)/th, 3) > 0) {
 				collision = true;
 				wx = ((int)(newPlayerPosition.x/tw) * tw);
 				wy = ((int)(newPlayerPosition.y/th) * th);
 				logger.info("Lower right");
 				
 				if (map.getTileId((int)(playerPosition.x+pw-1)/tw, (int)(newPlayerPosition.y+ph-1)/th, 3) > 0 ||
-					map.getTileId((int)(playerPosition.x+pw-1)/tw - 1, (int)(newPlayerPosition.y+ph-1)/th, 3) > 0) {
+					map.getTileId((int)((playerPosition.x+pw-1)/tw - 0.5f), (int)(newPlayerPosition.y+ph-1)/th, 3) > 0) {
 					newPlayerPosition.y = wy;
 				}
 					
 				else if (map.getTileId((int)(newPlayerPosition.x+pw-1)/tw, (int)(playerPosition.y+ph-1)/th, 3) > 0 ||
-						 map.getTileId((int)(newPlayerPosition.x+pw-1)/tw, (int)(playerPosition.y+ph-1)/th - 1, 3) > 0) {
+						 map.getTileId((int)(newPlayerPosition.x+pw-1)/tw, (int)((playerPosition.y+ph-1)/th - 0.5f), 3) > 0) {
 					newPlayerPosition.x = wx;
 				}
 			}

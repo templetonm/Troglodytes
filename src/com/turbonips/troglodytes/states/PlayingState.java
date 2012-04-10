@@ -49,7 +49,7 @@ public class PlayingState extends BaseGameState {
 		// Setup the initial player
 		Entity player = world.createEntity();
 		player.setGroup("PLAYER");
-		player.addComponent(new Warp("trog1", new Vector2f(800,600)));
+		player.addComponent(new Warp("trog2", new Vector2f(800,1632)));
 		player.addComponent(new ResourceRef("testplayerimage"));
 		player.addComponent(new Movement(10, new Vector2f(2,2), new Vector2f(2,2)));
 		player.addComponent(new Direction(Dir.DOWN));
