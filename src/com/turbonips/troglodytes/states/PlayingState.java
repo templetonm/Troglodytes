@@ -55,7 +55,7 @@ public class PlayingState extends BaseGameState {
 		player.addComponent(new Direction(Dir.DOWN));
 		
 		HashMap<StatType, Integer> stats = new HashMap<StatType, Integer> ();
-		stats.put(StatType.HEALTH, 75);
+		stats.put(StatType.HEALTH, 50);
 		stats.put(StatType.MAX_HEALTH, 100);
 		stats.put(StatType.ARMOR, 25);
 		player.addComponent(new Stats(stats));
