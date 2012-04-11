@@ -20,6 +20,8 @@ import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.ResourceRef;
 import com.turbonips.troglodytes.components.Warp;
+import com.turbonips.troglodytes.systems.EnemyAISystem;
+import com.turbonips.troglodytes.systems.EnemyBehaviorSystem;
 import com.turbonips.troglodytes.systems.InputSystem;
 import com.turbonips.troglodytes.systems.PlayerBehaviorSystem;
 import com.turbonips.troglodytes.systems.RenderSystem;
@@ -33,6 +35,8 @@ public class PlayingState extends BaseGameState {
 	private EntitySystem inputSystem;
 	private EntitySystem playerBehaviorSystem;
 	private EntitySystem warpSystem;
+	private EntitySystem enemyAISystem;
+	private EntitySystem enemyBehaviorSystem;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -44,6 +48,8 @@ public class PlayingState extends BaseGameState {
 	    renderSystem = systemManager.setSystem(new RenderSystem(container));
 	    inputSystem = systemManager.setSystem(new InputSystem(container));
 	    playerBehaviorSystem = systemManager.setSystem(new PlayerBehaviorSystem());
+	    enemyAISystem = systemManager.setSystem(new EnemyAISystem());
+	    enemyBehaviorSystem = systemManager.setSystem(new EnemyBehaviorSystem());
 	    systemManager.initializeAll();
 		
 		// Setup the initial player
@@ -55,7 +61,7 @@ public class PlayingState extends BaseGameState {
 		player.addComponent(new Direction(Dir.DOWN));
 		
 		HashMap<StatType, Integer> stats = new HashMap<StatType, Integer> ();
-		stats.put(StatType.HEALTH, 50);
+		stats.put(StatType.HEALTH, 75);
 		stats.put(StatType.MAX_HEALTH, 100);
 		stats.put(StatType.ARMOR, 25);
 		player.addComponent(new Stats(stats));
@@ -77,6 +83,8 @@ public class PlayingState extends BaseGameState {
 		world.setDelta(delta);
 		inputSystem.process();
 		playerBehaviorSystem.process();
+		enemyAISystem.process();
+		enemyBehaviorSystem.process();
 		warpSystem.process();
 	}
 

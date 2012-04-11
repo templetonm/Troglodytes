@@ -23,6 +23,7 @@ public class EnemyData {
 	private String resourceRef;
 	private int acceleration;
 	private int deceleration;
+	private String AIType;
 
 	public String getName () {return name;}
 	public boolean getElite() {return elite;}
@@ -42,6 +43,7 @@ public class EnemyData {
 	public String getResourceRef() { return resourceRef; }
 	public int getAcceleration() { return acceleration; }
 	public int getDeceleration() { return deceleration; }
+	public String getAIType() { return AIType; }
 	
 	public void setName (String newName) { name = newName; }
 	public void setElite (boolean newElite) { elite = newElite; }
@@ -61,4 +63,5 @@ public class EnemyData {
 	public void setResourceRef(String resourceRef) { this.resourceRef = resourceRef; }
 	public void setAcceleration(int acceleration) { this.acceleration = acceleration; }
 	public void setDeceleration(int deceleration) { this.deceleration = deceleration; }
+	public void setAIType(String AIType) { this.AIType = AIType; }
 }

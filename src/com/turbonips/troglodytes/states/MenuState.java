@@ -9,12 +9,8 @@ import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.gui.*;
 import org.newdawn.slick.state.StateBasedGame;
 
-import com.turbonips.troglodytes.ResourceManager;
-
 public class MenuState extends BaseGameState {
 	public static final int ID = 1;
-	
-	private ResourceManager manager;
 	
 	private UnicodeFont unicodeFont;
 
@@ -36,10 +32,9 @@ public class MenuState extends BaseGameState {
 	public void init(GameContainer container, final StateBasedGame game)
 			throws SlickException {
 		super.init(container, game);
-		
-		manager = ResourceManager.getInstance();
-		
-		unicodeFont = (UnicodeFont) manager.getResource("defaultFont").getObject();
+
+		unicodeFont = new UnicodeFont ("resources/fonts/C64.ttf", 70, true, false);
+		unicodeFont.getEffects().add(new ColorEffect(java.awt.Color.white));
 
 		playGameButtonImage = new Image ("resources/graphics/newGameButton.png");
 		playGameButtonClicked = new Image ("resources/graphics/newGameButton-Clicked.png");

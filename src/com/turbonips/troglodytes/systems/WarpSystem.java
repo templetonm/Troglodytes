@@ -11,6 +11,7 @@ import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.ResourceManager;
 import com.turbonips.troglodytes.XMLSerializer;
 import com.turbonips.troglodytes.components.Direction;
+import com.turbonips.troglodytes.components.EnemyAI;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.ResourceRef;
@@ -101,6 +102,7 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 					int enemyAcc = enemyData.getAcceleration();
 					int enemyDec = enemyData.getDeceleration();
 					enemyData.setAcceleration(4);
+					String enemyAIType = enemyData.getAIType();
 							
 					for (int i=0; i<spawnNum; i++) {
 						Vector2f startPosition = new Vector2f(objectX+(int)(Math.random()*objectWidth), 
@@ -112,6 +114,7 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 						enemy.addComponent(new Movement(enemyMaxSpeed, new Vector2f(enemyAcc,enemyAcc), new Vector2f(enemyDec,enemyDec)));
 						enemy.addComponent(new Direction(Dir.DOWN));
 						enemy.addComponent(new Position(startPosition));
+						enemy.addComponent(new EnemyAI(enemyAIType));
 						enemy.refresh();
 					}
 				}

@@ -55,5 +55,8 @@
   <void property="deceleration"> 
    <int>2</int>
   </void>
+  <void property="AIType">
+   <string>DUMB</string>
+  </void>
  </object> 
 </java> 
