@@ -48,7 +48,8 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 			Entity player = players.get(i);
 			Position pos = positionMapper.get(player);
 			Vector2f position = pos.getPosition();
-			position.set(warp.getPosition());
+			logger.info(warp.getPosition());
+			position.set(new Vector2f(warp.getPosition().x*map.getTileWidth(), warp.getPosition().y*map.getTileHeight()));
 		}
 		for (int i=0; i<enemies.size(); i++) {
 			Entity enemy = enemies.get(i);

@@ -134,6 +134,9 @@ public class RenderSystem extends BaseEntitySystem {
 		g.drawString(String.valueOf(armor), armorIconImage.getWidth() + 5, healthIconImage.getHeight() + 3);
 		
 
+		if (--health > 0) {
+			playerStats.put(StatType.HEALTH, health);
+		}
 		
 		/*
 		 * 
