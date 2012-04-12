@@ -61,7 +61,7 @@
   <object name="TestSpawn" type="spawn" x="800" y="1345" width="64" height="63">
    <properties>
     <property name="Enemy" value="smalldino"/>
-    <property name="Number" value="5"/>
+    <property name="Number" value="50"/>
    </properties>
   </object>
  </objectgroup>
