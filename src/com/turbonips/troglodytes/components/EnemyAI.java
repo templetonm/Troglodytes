@@ -8,7 +8,7 @@ public class EnemyAI extends Component
 	private int sight = 0;
 	
 	public EnemyAI (String enemyAIType, int sight) {
-		this.enemyAIType = AIType.valueOf(enemyAIType);
+		this.enemyAIType = AIType.valueOf(enemyAIType.toUpperCase());
 		this.sight = sight;
 	}
 	
