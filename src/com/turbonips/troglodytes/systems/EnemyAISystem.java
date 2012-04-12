@@ -217,18 +217,29 @@ public class EnemyAISystem extends BaseEntitySystem
 						velocity.y = tmpVelocity.y;
 						
 						Direction direction = directionMapper.get(enemy);
-						ArrayList<Dir> directions = direction.getDirections();
 						if (movement.getCurrentSpeed() != 0) {
-							directions.clear();
 							if (velocity.x > 0) {
-								directions.add(Dir.RIGHT);
+								if (velocity.y > 0) {
+									direction.setDirection(Dir.DOWN_RIGHT);
+								} else if (velocity.y < 0) {
+									direction.setDirection(Dir.UP_RIGHT);
+								} else {
+									direction.setDirection(Dir.RIGHT);
+								}
 							} else if (velocity.x < 0) {
-								directions.add(Dir.LEFT);
-							}
-							if (velocity.y > 0) {
-								directions.add(Dir.DOWN);
-							} else if (velocity.y < 0) {
-								directions.add(Dir.UP);
+								if (velocity.y > 0) {
+									direction.setDirection(Dir.DOWN_LEFT);
+								} else if (velocity.y < 0) {
+									direction.setDirection(Dir.UP_LEFT);
+								} else {
+									direction.setDirection(Dir.LEFT);
+								}
+							} else {
+								if (velocity.y > 0) {
+									direction.setDirection(Dir.DOWN);
+								} else {
+									direction.setDirection(Dir.UP);
+								}
 							}
 						}
 					}

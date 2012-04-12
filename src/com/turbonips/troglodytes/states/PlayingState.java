@@ -56,9 +56,9 @@ public class PlayingState extends BaseGameState {
 		// Setup the initial player
 		Entity player = world.createEntity();
 		player.setGroup("PLAYER");
-		player.addComponent(new Warp("testmap", new Vector2f(30,25)));
+		player.addComponent(new Warp("trog1", new Vector2f(20,20)));
 		player.addComponent(new ResourceRef("testplayerimage"));
-		player.addComponent(new Movement(20, new Vector2f(2,2), new Vector2f(2,2)));
+		player.addComponent(new Movement(10, new Vector2f(2,2), new Vector2f(2,2)));
 		player.addComponent(new Direction(Dir.DOWN));
 		
 		HashMap<StatType, Integer> stats = new HashMap<StatType, Integer> ();
