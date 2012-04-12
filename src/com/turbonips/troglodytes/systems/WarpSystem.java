@@ -104,6 +104,7 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 					int enemyDec = enemyData.getDeceleration();
 					enemyData.setAcceleration(4);
 					String enemyAIType = enemyData.getAIType();
+					int sight = enemyData.getSight();
 							
 					for (int i=0; i<spawnNum; i++) {
 						Vector2f startPosition = new Vector2f(objectX+(int)(Math.random()*objectWidth), 
@@ -115,7 +116,7 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 						enemy.addComponent(new Movement(enemyMaxSpeed, new Vector2f(enemyAcc,enemyAcc), new Vector2f(enemyDec,enemyDec)));
 						enemy.addComponent(new Direction(Dir.DOWN));
 						enemy.addComponent(new Position(startPosition));
-						enemy.addComponent(new EnemyAI(enemyAIType));
+						enemy.addComponent(new EnemyAI(enemyAIType, sight));
 						enemy.refresh();
 					}
 				}

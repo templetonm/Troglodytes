@@ -4,17 +4,24 @@ import com.artemis.Component;
 
 public class EnemyAI extends Component
 {
-	private AIType aiType;
+	private AIType enemyAIType;
+	private int sight = 0;
 	
-	public EnemyAI (String enemyAIType) {
-		aiType = AIType.valueOf(enemyAIType);
+	public EnemyAI (String enemyAIType, int sight) {
+		this.enemyAIType = AIType.valueOf(enemyAIType);
+		this.sight = sight;
 	}
 	
 	public enum AIType {
-		DUMB
+		DUMB,
+		DUMBANDCHARGE
 	}
 	
-	public AIType getAIType() {
-		return aiType;
+	public AIType getEnemyAIType() {
+		return enemyAIType;
+	}
+	
+	public int getSight() {
+		return sight;
 	}
 }
