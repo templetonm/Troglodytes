@@ -30,6 +30,5 @@
     <property name="Number" value="10000"/>
    </properties>
   </object>
-  <object x="720" y="1680"/>
  </objectgroup>
 </map>
