@@ -159,41 +159,43 @@ public class RenderSystem extends BaseEntitySystem {
 			case CREATURE_ANIMATION:
 				CreatureAnimation entityAnim = (CreatureAnimation)res.getObject();
 				Direction direction = directionMapper.get(entity);
-				ArrayList<Dir> directions = direction.getDirections();
 				float speed = movement.getCurrentSpeed()/10;
 				entityAnim.setIdle();
 				Animation animation = null;
-				for (Dir dir : directions) {
-					switch (dir) {
-						case UP:
-							if (movement.getCurrentSpeed() != 0) {
-								animation = entityAnim.getMoveUp(speed);
-							} else {
-								animation = entityAnim.getIdleUp();
-							}
-							break;
-						case DOWN:
-							if (movement.getCurrentSpeed() != 0) {
-								animation = entityAnim.getMoveDown(speed);
-							} else {
-								animation = entityAnim.getIdleDown();
-							}
-							break;
-						case LEFT:
-							if (movement.getCurrentSpeed() != 0) {
-								animation = entityAnim.getMoveLeft(speed);
-							} else {
-								animation = entityAnim.getIdleLeft();
-							}
-							break;
-						case RIGHT:
-							if (movement.getCurrentSpeed() != 0) {
-								animation = entityAnim.getMoveRight(speed);
-							} else {
-								animation = entityAnim.getIdleRight();
-							}
-							break;
+				
+				switch (direction.getDirection()) {
+					case UP:
+					case UP_LEFT:
+					case UP_RIGHT:
+						if (movement.getCurrentSpeed() != 0) {
+							animation = entityAnim.getMoveUp(speed);
+						} else {
+							animation = entityAnim.getIdleUp();
 						}
+						break;
+					case DOWN:
+					case DOWN_RIGHT:
+					case DOWN_LEFT:
+						if (movement.getCurrentSpeed() != 0) {
+							animation = entityAnim.getMoveDown(speed);
+						} else {
+							animation = entityAnim.getIdleDown();
+						}
+						break;
+					case LEFT:
+						if (movement.getCurrentSpeed() != 0) {
+							animation = entityAnim.getMoveLeft(speed);
+						} else {
+							animation = entityAnim.getIdleLeft();
+						}
+						break;
+					case RIGHT:
+						if (movement.getCurrentSpeed() != 0) {
+							animation = entityAnim.getMoveRight(speed);
+						} else {
+							animation = entityAnim.getIdleRight();
+						}
+						break;
 					}
 					g.drawAnimation(animation, x, y);
 					break;

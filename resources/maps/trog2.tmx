@@ -58,5 +58,11 @@
     <property name="Y" value="15"/>
    </properties>
   </object>
+  <object name="TestSpawn" type="spawn" x="1062" y="1191" width="504" height="404">
+   <properties>
+    <property name="Enemy" value="smalldino"/>
+    <property name="Number" value="1000"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

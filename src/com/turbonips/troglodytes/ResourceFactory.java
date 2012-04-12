@@ -20,8 +20,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.UnicodeFont;
-import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.loading.LoadingList;
 import org.newdawn.slick.tiled.TiledMap;
 import org.w3c.dom.Document;
@@ -79,10 +77,8 @@ public class ResourceFactory {
 		} else if (type.equals("sound")) {
 			return new Resource(id, ResourceType.SOUND, path, new Sound(path));
 		} else if (type.equals("font")) {
-			UnicodeFont unicodeFont = new UnicodeFont(path, 12, false, false);
-			unicodeFont.getEffects().add(new ColorEffect(java.awt.Color.white));
-			
-			return new Resource(id, ResourceType.FONT, path, unicodeFont);
+//			String TGApath = "resources/" + String.valueOf(resourceElement.getAttribute("TGApath"));
+//			return new Resource(id, ResourceType.FONT, path, new AngelCodeFont(, false));
 		}
 		
 		return null;

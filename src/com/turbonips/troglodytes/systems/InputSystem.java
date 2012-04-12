@@ -10,6 +10,7 @@ import org.newdawn.slick.geom.Vector2f;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
+import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.Direction.Dir;
 import com.turbonips.troglodytes.components.Movement;
@@ -17,6 +18,7 @@ import com.turbonips.troglodytes.components.Movement;
 public class InputSystem extends BaseEntitySystem implements KeyListener {
 	private ComponentMapper<Movement> movementMapper;
 	private ComponentMapper<Direction> directionMapper;
+	private ComponentMapper<Attack> attackMapper;
 	private GameContainer container;
 
 	boolean key_up = false, 
@@ -24,7 +26,7 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 			key_left = false, 
 			key_right = false, 
 			key_esc = false, 
-			key_ctrl = false;
+			key_attack = false;
 
 	public InputSystem(GameContainer container) {
 		this.container = container;
@@ -34,6 +36,7 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 	protected void initialize() {
 		movementMapper = new ComponentMapper<Movement>(Movement.class, world);
 		directionMapper = new ComponentMapper<Direction>(Direction.class, world);
+		attackMapper = new ComponentMapper<Attack>(Attack.class, world);
 		container.getInput().addKeyListener(this);
 	}
 
@@ -43,7 +46,7 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 		
 		for (int i = 0; i < players.size(); i++) {
 			Entity player = players.get(i);
-
+			Attack playerAttack = attackMapper.get(player);
 			Movement movement = movementMapper.get(player);
 			if (movement != null) {
 				Vector2f velocity = movement.getVelocity();
@@ -97,19 +100,36 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 				velocity.y = tmpVelocity.y;
 				
 				Direction direction = directionMapper.get(player);
-				ArrayList<Dir> directions = direction.getDirections();
 				if (movement.getCurrentSpeed() != 0) {
-					directions.clear();
 					if (velocity.x > 0) {
-						directions.add(Dir.RIGHT);
+						if (velocity.y > 0) {
+							direction.setDirection(Dir.DOWN_RIGHT);
+						} else if (velocity.y < 0) {
+							direction.setDirection(Dir.UP_RIGHT);
+						} else {
+							direction.setDirection(Dir.RIGHT);
+						}
 					} else if (velocity.x < 0) {
-						directions.add(Dir.LEFT);
+						if (velocity.y > 0) {
+							direction.setDirection(Dir.DOWN_LEFT);
+						} else if (velocity.y < 0) {
+							direction.setDirection(Dir.UP_LEFT);
+						} else {
+							direction.setDirection(Dir.LEFT);
+						}
+					} else {
+						if (velocity.y > 0) {
+							direction.setDirection(Dir.DOWN);
+						} else {
+							direction.setDirection(Dir.UP);
+						}
 					}
-					if (velocity.y > 0) {
-						directions.add(Dir.DOWN);
-					} else if (velocity.y < 0) {
-						directions.add(Dir.UP);
-					}
+				}
+				
+				if (key_attack) {
+					playerAttack.setAttacking(true);
+				} else {
+					playerAttack.setAttacking(false);
 				}
 			}
 		
@@ -144,7 +164,8 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 				break;
 			case Input.KEY_RCONTROL:
 			case Input.KEY_LCONTROL:
-				key_ctrl = true;
+			case Input.KEY_Z:
+				key_attack = true;
 				break;
 		}
 	}
@@ -169,7 +190,8 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 				break;
 			case Input.KEY_RCONTROL:
 			case Input.KEY_LCONTROL:
-				key_ctrl = false;
+			case Input.KEY_Z:
+				key_attack = false;
 				break;
 		}
 	}
