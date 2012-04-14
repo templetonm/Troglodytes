@@ -63,7 +63,6 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 				// Wall lower right
 				wx = ((int)(newPlayerPosition.x/tw) * tw) + tw;
 				wy = ((int)(newPlayerPosition.y/th) * th) + th;
-				logger.info("Upper left");
 				
 				if (map.getTileId((int)playerPosition.x/tw, (int)newPlayerPosition.y/th, 3) > 0 ||
 					map.getTileId((int)((playerPosition.x)/tw + 0.5f), (int)newPlayerPosition.y/th, 3) > 0) {
@@ -81,7 +80,6 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 				collision = true;
 				wx = ((int)(newPlayerPosition.x/tw) * tw);
 				wy = ((int)(newPlayerPosition.y/th) * th) + th;
-				logger.info("Upper right");
 				
 				if (map.getTileId((int)(playerPosition.x+pw-1)/tw, (int)newPlayerPosition.y/th, 3) > 0 ||
 					map.getTileId((int)((playerPosition.x+pw-1)/tw - 0.5f), (int)newPlayerPosition.y/th, 3) > 0) {
@@ -99,8 +97,6 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 				collision = true;
 				wx = ((int)(newPlayerPosition.x/tw) * tw) + tw;
 				wy = ((int)(newPlayerPosition.y/th) * th);
-				logger.info("Lower left");
-				
 				
 				if (map.getTileId((int)(playerPosition.x)/tw, (int)(newPlayerPosition.y+ph-1)/th, 3) > 0 ||
 					map.getTileId((int)((playerPosition.x)/tw + 0.5f), (int)(newPlayerPosition.y+ph-1)/th, 3) > 0) {
@@ -118,7 +114,6 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 				collision = true;
 				wx = ((int)(newPlayerPosition.x/tw) * tw);
 				wy = ((int)(newPlayerPosition.y/th) * th);
-				logger.info("Lower right");
 				
 				if (map.getTileId((int)(playerPosition.x+pw-1)/tw, (int)(newPlayerPosition.y+ph-1)/th, 3) > 0 ||
 					map.getTileId((int)((playerPosition.x+pw-1)/tw - 0.5f), (int)(newPlayerPosition.y+ph-1)/th, 3) > 0) {

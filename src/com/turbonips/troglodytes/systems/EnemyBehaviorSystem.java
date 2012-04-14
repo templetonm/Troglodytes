@@ -72,7 +72,6 @@ public class EnemyBehaviorSystem extends BaseEntitySystem
 					// Wall lower right
 					wx = ((int)(newEnemyPosition.x/tw) * tw) + tw;
 					wy = ((int)(newEnemyPosition.y/th) * th) + th;
-					logger.info("Upper left");
 					
 					if (map.getTileId((int)enemyPosition.x/tw, (int)newEnemyPosition.y/th, 3) > 0 ||
 						map.getTileId((int)((enemyPosition.x)/tw + 0.5f), (int)newEnemyPosition.y/th, 3) > 0) {
@@ -90,7 +89,6 @@ public class EnemyBehaviorSystem extends BaseEntitySystem
 					collision = true;
 					wx = ((int)(newEnemyPosition.x/tw) * tw);
 					wy = ((int)(newEnemyPosition.y/th) * th) + th;
-					logger.info("Upper right");
 					
 					if (map.getTileId((int)(enemyPosition.x+ew-1)/tw, (int)newEnemyPosition.y/th, 3) > 0 ||
 						map.getTileId((int)((enemyPosition.x+ew-1)/tw - 0.5f), (int)newEnemyPosition.y/th, 3) > 0) {
@@ -108,7 +106,6 @@ public class EnemyBehaviorSystem extends BaseEntitySystem
 					collision = true;
 					wx = ((int)(newEnemyPosition.x/tw) * tw) + tw;
 					wy = ((int)(newEnemyPosition.y/th) * th);
-					logger.info("Lower left");
 					
 					
 					if (map.getTileId((int)(enemyPosition.x)/tw, (int)(newEnemyPosition.y+eh-1)/th, 3) > 0 ||
@@ -127,7 +124,6 @@ public class EnemyBehaviorSystem extends BaseEntitySystem
 					collision = true;
 					wx = ((int)(newEnemyPosition.x/tw) * tw);
 					wy = ((int)(newEnemyPosition.y/th) * th);
-					logger.info("Lower right");
 					
 					if (map.getTileId((int)(enemyPosition.x+ew-1)/tw, (int)(newEnemyPosition.y+eh-1)/th, 3) > 0 ||
 						map.getTileId((int)((enemyPosition.x+ew-1)/tw - 0.5f), (int)(newEnemyPosition.y+eh-1)/th, 3) > 0) {

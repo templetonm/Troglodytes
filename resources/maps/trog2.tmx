@@ -47,7 +47,7 @@
  </layer>
  <layer name="Collision" width="86" height="64">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3UgWrDMAwE0OzX9+WljEEJjWtJJ+nUnEEwSmydXpwdx9/6/VEh65CrXAeVXOU6qeQq10klV7lOKrnKdVLJlcs1cyHmqew5wbXDFNWfxTWa4V0WS77Vs5NdEbNYzv7UF5XpTq5duRDfYGf+7FXtipot0rvCuMMVYczwvSDzRedCzSrXnHmZTT35InMh52Z2jWTLcLXMzmrqycbiWnlXvfvZXHdmYL6r0YyVruff2E2tGVnu627/zPXp/Lu5Isx3zmBztc5WfWd3z612Xe31zBd9d953ic4XmWvV37qqvgtv1m7XyByspp5skZnQqzKDde9kV2uOaA/Lc1Wu2Suzv2d/tWu2c4bpBNdpy5v9W1077+rr3m9zRaxz7t1ZrDYR11UeRvfKuxp1nXR3Izm7XCfYTnVl9o3mYnBlsH3NgcjE4spg+1yIPNH50a67s2S+h6672umafadR74vR9f/86v8NyH7Mrhnr6nx0b1bXjnu66lk1f9a55x5Xf69mvnpm12rHNfsuVfW7S8lVrpNKrnKdVHKV66SSq1wnlVzlOqnkmlMPAF1YmgBWAAA=
+   H4sIAAAAAAAAA+2UiYrDMAxE009Pv7yUpWCMD13WsZkBwdKNpZkXxdf1p/cLZVkXuIJroQJXcK1U4AqulQpcwbVSgSu4VipwzcX1pCzyeM6swDWCqdX8LFy1HkZeOP5Wz1bmapGF03s318rTk7hG+bL4BiP9n5Y3V6tsmtkejCO4WjDO8L1Y+tPmssoKrmfyZmYq8afJZZk7M1eNtxNcOdmzMpV4y8LVc1el57NxpWTIvKtaj55c+9+yM+V6zLKv1Pkntev/NK4WzCk9snHlZvPeWWpfb66rs5J82ncnfZfW/jS5VvO58voupF6juc50N+fuzTvJxlTiTZOJo5alJVepuGcrc+X6kIp6vn3OiytXVK5UPxpJzntzHeX8chtV+39NHo2kPTLs644bh6u1pO/lv3KN3NX2bCauu3vBS71vKmcuGw3XlR8KM2+unruq5TrzSuXqyVZzh0Rx7T2Dq+7srN+I1+jO9ZKG6e98NNf3ZA89ubbZNPdq3y+a6yhHxL6u/Eh6ZODaZ5lxtdinHROLHlW4nmLZ57Hqk4nrt+7BrNOynJeV6ynN+lvPzso1Yk9XM73yn+rbz5j9vco8e4bKisL19C55zXtKgSu4VipwBddKBa7gWqnAFVwrFbiCa6UC1zP1AVqMf5QAVgAA
   </data>
  </layer>
  <objectgroup name="Objects" width="86" height="64">
@@ -58,10 +58,10 @@
     <property name="Y" value="8"/>
    </properties>
   </object>
-  <object name="TestSpawn" type="spawn" x="800" y="1345" width="64" height="63">
+  <object name="TestSpawn" type="spawn" x="874" y="1097" width="41" height="45">
    <properties>
     <property name="Enemy" value="smalldino"/>
-    <property name="Number" value="50"/>
+    <property name="Number" value="1"/>
    </properties>
   </object>
  </objectgroup>

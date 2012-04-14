@@ -14,7 +14,8 @@ public class EnemyAI extends Component
 	
 	public enum AIType {
 		DUMB,
-		DUMBANDCHARGE
+		DUMBCHARGE,
+		DUMBFIND
 	}
 	
 	public AIType getEnemyAIType() {
