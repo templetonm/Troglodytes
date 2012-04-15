@@ -58,86 +58,10 @@ public class EnemyBehaviorSystem extends BaseEntitySystem
 				String groundResName = resourceMapper.get(ground).getResourceName();
 				Resource groundRes = manager.getResource(groundResName);
 				TiledMap map = (TiledMap)groundRes.getObject();
-				int th = map.getTileHeight();
-				int tw = map.getTileWidth();
-				int eh = enemyFrame.getHeight();
-				int ew = enemyFrame.getWidth();
-				Integer wx = ((int)(newEnemyPosition.x/tw) * tw),
-						wy = ((int)(newEnemyPosition.y/th) * th);
-				boolean collision = false;
-		
-				// Upper left
-				if (map.getTileId((int)newEnemyPosition.x/tw, (int)newEnemyPosition.y/th, 3) > 0) {
-					collision = true;
-					// Wall lower right
-					wx = ((int)(newEnemyPosition.x/tw) * tw) + tw;
-					wy = ((int)(newEnemyPosition.y/th) * th) + th;
-					
-					if (map.getTileId((int)enemyPosition.x/tw, (int)newEnemyPosition.y/th, 3) > 0 ||
-						map.getTileId((int)((enemyPosition.x)/tw + 0.5f), (int)newEnemyPosition.y/th, 3) > 0) {
-						newEnemyPosition.y = wy;
-					}
-						
-					else if (map.getTileId((int)newEnemyPosition.x/tw, (int)(enemyPosition.y)/th, 3) > 0 ||
-							 map.getTileId((int)newEnemyPosition.x/tw, (int)((enemyPosition.y)/th + 0.5f), 3) > 0) {
-						newEnemyPosition.x = wx;
-					}
-				}
-				
-				// Upper right
-				if (map.getTileId((int)(newEnemyPosition.x+ew-1)/tw, (int)newEnemyPosition.y/th, 3) > 0) {
-					collision = true;
-					wx = ((int)(newEnemyPosition.x/tw) * tw);
-					wy = ((int)(newEnemyPosition.y/th) * th) + th;
-					
-					if (map.getTileId((int)(enemyPosition.x+ew-1)/tw, (int)newEnemyPosition.y/th, 3) > 0 ||
-						map.getTileId((int)((enemyPosition.x+ew-1)/tw - 0.5f), (int)newEnemyPosition.y/th, 3) > 0) {
-						newEnemyPosition.y = wy;
-					}
-						
-					else if (map.getTileId((int)(newEnemyPosition.x+ew-1)/tw, (int)enemyPosition.y/th, 3) > 0 ||
-							 map.getTileId((int)(newEnemyPosition.x+ew-1)/tw, (int)(enemyPosition.y/th + 0.5f), 3) > 0) {
-						newEnemyPosition.x = wx;
-					}
-				}
-				
-				// Lower left
-				if (map.getTileId((int)newEnemyPosition.x/tw, (int)(newEnemyPosition.y+eh-1)/th, 3) > 0) {
-					collision = true;
-					wx = ((int)(newEnemyPosition.x/tw) * tw) + tw;
-					wy = ((int)(newEnemyPosition.y/th) * th);
-					
-					
-					if (map.getTileId((int)(enemyPosition.x)/tw, (int)(newEnemyPosition.y+eh-1)/th, 3) > 0 ||
-						map.getTileId((int)((enemyPosition.x)/tw + 0.5f), (int)(newEnemyPosition.y+eh-1)/th, 3) > 0) {
-						newEnemyPosition.y = wy;
-					}
-						
-					else if (map.getTileId((int)(newEnemyPosition.x)/tw, (int)(enemyPosition.y+eh-1)/th, 3) > 0 ||
-							 map.getTileId((int)(newEnemyPosition.x)/tw, (int)((enemyPosition.y+eh-1)/th - 0.5f), 3) > 0) {
-						newEnemyPosition.x = wx;
-					}
-				}
-				
-				// Lower right
-				if (map.getTileId((int)(newEnemyPosition.x+ew-1)/tw, (int)(newEnemyPosition.y+eh-1)/th, 3) > 0) {
-					collision = true;
-					wx = ((int)(newEnemyPosition.x/tw) * tw);
-					wy = ((int)(newEnemyPosition.y/th) * th);
-					
-					if (map.getTileId((int)(enemyPosition.x+ew-1)/tw, (int)(newEnemyPosition.y+eh-1)/th, 3) > 0 ||
-						map.getTileId((int)((enemyPosition.x+ew-1)/tw - 0.5f), (int)(newEnemyPosition.y+eh-1)/th, 3) > 0) {
-						newEnemyPosition.y = wy;
-					}
-						
-					else if (map.getTileId((int)(newEnemyPosition.x+ew-1)/tw, (int)(enemyPosition.y+eh-1)/th, 3) > 0 ||
-							 map.getTileId((int)(newEnemyPosition.x+ew-1)/tw, (int)((enemyPosition.y+eh-1)/th - 0.5f), 3) > 0) {
-						newEnemyPosition.x = wx;
-					}
-				}
+				CollisionResolution collisionResolution = CollisionResolution.getInstance();
+				Vector2f newPosition = collisionResolution.resolveWallCollisions(enemy, map);
+				enemyPosition.set(newPosition);
 			}
-				
-			enemyPosition.set(newEnemyPosition);
 		}
 	}
 

@@ -21,6 +21,7 @@ import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.ResourceRef;
 import com.turbonips.troglodytes.components.Warp;
+import com.turbonips.troglodytes.systems.CollisionResolution;
 import com.turbonips.troglodytes.systems.EnemyAISystem;
 import com.turbonips.troglodytes.systems.EnemyBehaviorSystem;
 import com.turbonips.troglodytes.systems.InputSystem;
@@ -52,6 +53,7 @@ public class PlayingState extends BaseGameState {
 	    enemyAISystem = systemManager.setSystem(new EnemyAISystem());
 	    enemyBehaviorSystem = systemManager.setSystem(new EnemyBehaviorSystem());
 	    systemManager.initializeAll();
+	    CollisionResolution.getInstance().initialize(world);
 		
 		// Setup the initial player
 		Entity player = world.createEntity();
