@@ -83,6 +83,9 @@ public class ResourceFactory {
 			unicodeFont.getEffects().add(new ColorEffect(java.awt.Color.white));
 			
 			return new Resource(id, ResourceType.FONT, path, unicodeFont);
+
+//			String TGApath = "resources/" + String.valueOf(resourceElement.getAttribute("TGApath"));
+//			return new Resource(id, ResourceType.FONT, path, new AngelCodeFont(, false));
 		}
 		
 		return null;

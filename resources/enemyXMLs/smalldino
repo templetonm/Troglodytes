@@ -26,7 +26,7 @@
    <int>0</int>
   </void>
   <void property="sight"> 
-   <int>10</int>
+   <int>3</int>
   </void>
   <void property="mspd"> 
    <int>0</int>
@@ -47,13 +47,16 @@
    <int>10</int>
   </void>
   <void property="resourceRef"> 
-   <string>testenemyanimation</string>
+   <string>testenemyimage</string>
   </void>
   <void property="acceleration"> 
-   <int>2</int>
+   <int>1</int>
   </void>
   <void property="deceleration"> 
    <int>2</int>
+  </void>
+  <void property="AIType">
+   <string>DUMBANDCHARGE</string>
   </void>
  </object> 
 </java> 
