@@ -1,5 +1,7 @@
 package com.turbonips.troglodytes.systems;
 
+import java.util.HashMap;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
@@ -15,6 +17,8 @@ import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.ResourceRef;
+import com.turbonips.troglodytes.components.Stats;
+import com.turbonips.troglodytes.components.Stats.StatType;
 import com.turbonips.troglodytes.components.Warp;
 
 public class PlayerBehaviorSystem extends BaseEntitySystem {
@@ -23,6 +27,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 	private ComponentMapper<ResourceRef> resourceMapper;
 	private ComponentMapper<Direction> directionMapper;
 	private ComponentMapper<Attack> attackMapper;
+	private ComponentMapper<Stats> statsMapper;
 
 	@Override
 	protected void initialize() {
@@ -31,6 +36,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 		resourceMapper = new ComponentMapper<ResourceRef>(ResourceRef.class, world);
 		directionMapper = new ComponentMapper<Direction>(Direction.class, world);
 		attackMapper = new ComponentMapper<Attack>(Attack.class, world);
+		statsMapper = new ComponentMapper<Stats>(Stats.class, world);
 	}
 
 	@Override
@@ -132,6 +138,8 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 			Vector2f playerCenter = new Vector2f(playerPosition.x + (pw / 2), playerPosition.y + (ph / 2));
 			int MAX_DISTANCE = 64;
 			Direction playerDirection = directionMapper.get(player);
+			HashMap<StatType, Integer> playerStats = statsMapper.get(player).getStats();
+			int playerDamage = 10;
 
 			for (int i = 0; i < enemies.size(); i++) {
 				Entity enemy = enemies.get(i);
@@ -238,14 +246,6 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 							}
 							break;
 					}
-					// Attack up
-					// Attack down
-					// Attack left
-					// Attack right
-					// Attack up right
-					// Attack down right
-					// Attack up left
-					// Attack down left
 				}
 			}
 		}

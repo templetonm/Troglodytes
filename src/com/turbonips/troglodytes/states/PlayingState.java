@@ -41,13 +41,13 @@ public class PlayingState extends BaseGameState {
 	private EntitySystem enemyBehaviorSystem;
 
 	@Override
-	public void init(GameContainer container, StateBasedGame game)
-			throws SlickException {
-		super.init(container, game);
+	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
+		// TODO Auto-generated method stub
+		super.enter(container, game);
 		world = new World();
 	    systemManager = world.getSystemManager();
 	    warpSystem = systemManager.setSystem(new WarpSystem());
-	    renderSystem = systemManager.setSystem(new RenderSystem(container));
+	    renderSystem = systemManager.setSystem(new RenderSystem(container, game));
 	    inputSystem = systemManager.setSystem(new InputSystem(container));
 	    playerBehaviorSystem = systemManager.setSystem(new PlayerBehaviorSystem());
 	    enemyAISystem = systemManager.setSystem(new EnemyAISystem());
@@ -70,8 +70,14 @@ public class PlayingState extends BaseGameState {
 		player.addComponent(new Stats(stats));
 		// This position is overwritten when the player is warped
 		player.addComponent(new Position(new Vector2f(0,0)));
-		player.addComponent(new Attack(0));
+		player.addComponent(new Attack(0,9));
 		player.refresh();
+	}
+	
+	@Override
+	public void init(GameContainer container, StateBasedGame game)
+			throws SlickException {
+		super.init(container, game);
 	}
 
 	@Override
