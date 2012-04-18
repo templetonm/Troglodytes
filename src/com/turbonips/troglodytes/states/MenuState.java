@@ -5,7 +5,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
-import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.gui.*;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -85,7 +84,7 @@ public class MenuState extends BaseGameState {
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
 		// TODO Auto-generated method stub
-
+		
 		unicodeFont.drawString(container.getWidth()/2-(unicodeFont.getWidth(title)/2), 
 				container.getHeight()/4-unicodeFont.getYOffset(title), 
 				title);

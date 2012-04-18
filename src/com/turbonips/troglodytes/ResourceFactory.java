@@ -79,7 +79,7 @@ public class ResourceFactory {
 		} else if (type.equals("sound")) {
 			return new Resource(id, ResourceType.SOUND, path, new Sound(path));
 		} else if (type.equals("font")) {
-			UnicodeFont unicodeFont = new UnicodeFont(path, 12, false, false);
+			UnicodeFont unicodeFont = new UnicodeFont(path, 70, false, false);
 			unicodeFont.getEffects().add(new ColorEffect(java.awt.Color.white));
 			
 			return new Resource(id, ResourceType.FONT, path, unicodeFont);
