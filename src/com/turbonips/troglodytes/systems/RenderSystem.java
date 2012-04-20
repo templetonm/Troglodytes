@@ -171,7 +171,7 @@ public class RenderSystem extends BaseEntitySystem {
 					case UP_LEFT:
 					case UP_RIGHT:
 						if (movement.getCurrentSpeed() != 0) {
-							animation = entityAnim.getMoveUp(speed);
+							animation = entityAnim.getMoveUp();
 						} else {
 							animation = entityAnim.getIdleUp();
 						}
@@ -180,21 +180,21 @@ public class RenderSystem extends BaseEntitySystem {
 					case DOWN_RIGHT:
 					case DOWN_LEFT:
 						if (movement.getCurrentSpeed() != 0) {
-							animation = entityAnim.getMoveDown(speed);
+							animation = entityAnim.getMoveDown();
 						} else {
 							animation = entityAnim.getIdleDown();
 						}
 						break;
 					case LEFT:
 						if (movement.getCurrentSpeed() != 0) {
-							animation = entityAnim.getMoveLeft(speed);
+							animation = entityAnim.getMoveLeft();
 						} else {
 							animation = entityAnim.getIdleLeft();
 						}
 						break;
 					case RIGHT:
 						if (movement.getCurrentSpeed() != 0) {
-							animation = entityAnim.getMoveRight(speed);
+							animation = entityAnim.getMoveRight();
 						} else {
 							animation = entityAnim.getIdleRight();
 						}
