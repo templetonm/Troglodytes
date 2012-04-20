@@ -64,30 +64,66 @@ public class CollisionResolution {
 		if (map.getTileId((int)newEntityPosition.x/tw, (int)newEntityPosition.y/th, 3) > 0) {
 			wx = ((int)(newEntityPosition.x/tw) * tw) + tw;
 			wy = ((int)(newEntityPosition.y/th) * th) + th;
+			logger.info("upper left");
 			
 			if (map.getTileId((int)entityPosition.x/tw, (int)newEntityPosition.y/th, 3) > 0 ||
 				map.getTileId((int)((entityPosition.x)/tw + 0.5f), (int)newEntityPosition.y/th, 3) > 0) {
 				newEntityPosition.y = wy;
 			}
 				
-			else if (map.getTileId((int)newEntityPosition.x/tw, (int)(entityPosition.y)/th, 3) > 0 ||
+			if (map.getTileId((int)newEntityPosition.x/tw, (int)(entityPosition.y)/th, 3) > 0 ||
 					 map.getTileId((int)newEntityPosition.x/tw, (int)((entityPosition.y)/th + 0.5f), 3) > 0) {
 				newEntityPosition.x = wx;
-			}
+			} 
 		}
 		
 		// Upper right
 		if (map.getTileId((int)(newEntityPosition.x+ew-1)/tw, (int)newEntityPosition.y/th, 3) > 0) {
 			wx = ((int)(newEntityPosition.x/tw) * tw);
 			wy = ((int)(newEntityPosition.y/th) * th) + th;
+			logger.info("upper right");
 			
 			if (map.getTileId((int)(entityPosition.x+ew-1)/tw, (int)newEntityPosition.y/th, 3) > 0 ||
 				map.getTileId((int)((entityPosition.x+ew-1)/tw - 0.5f), (int)newEntityPosition.y/th, 3) > 0) {
 				newEntityPosition.y = wy;
 			}
 				
-			else if (map.getTileId((int)(newEntityPosition.x+ew-1)/tw, (int)entityPosition.y/th, 3) > 0 ||
+			if (map.getTileId((int)(newEntityPosition.x+ew-1)/tw, (int)entityPosition.y/th, 3) > 0 ||
 					 map.getTileId((int)(newEntityPosition.x+ew-1)/tw, (int)(entityPosition.y/th + 0.5f), 3) > 0) {
+				newEntityPosition.x = wx;
+			}
+		}
+		
+		// Center right
+		if (map.getTileId((int)(newEntityPosition.x+ew-1)/tw, (int)(newEntityPosition.y+(eh-1)/2)/th, 3) > 0) {
+			wx = ((int)(newEntityPosition.x/tw) * tw);
+			wy = ((int)(newEntityPosition.y/th) * th) + th/2;
+			logger.info("upper center right");
+			
+			if (map.getTileId((int)(entityPosition.x+ew-1)/tw, (int)(newEntityPosition.y+(eh-1)/2)/th, 3) > 0 ||
+				map.getTileId((int)((entityPosition.x+ew-1)/tw - 0.5f), (int)(newEntityPosition.y+(eh-1)/2)/th, 3) > 0) {
+				newEntityPosition.y = wy;
+			}
+				
+			if (map.getTileId((int)(newEntityPosition.x+ew-1)/tw, (int)(entityPosition.y+(eh-1)/2)/th, 3) > 0 ||
+				map.getTileId((int)(newEntityPosition.x+ew-1)/tw, (int)((entityPosition.y+(eh-1)/2)/th + 0.5f), 3) > 0) {
+				newEntityPosition.x = wx;
+			}
+		}
+		
+		// Center left
+		if (map.getTileId((int)(newEntityPosition.x)/tw, (int)(newEntityPosition.y+(eh-1)/2)/th, 3) > 0) {
+			wx = ((int)(newEntityPosition.x/tw) * tw) + tw;
+			wy = ((int)(newEntityPosition.y/th) * th) + th/2;
+			logger.info("upper center left");
+			
+			if (map.getTileId((int)(entityPosition.x)/tw, (int)(newEntityPosition.y+(eh-1)/2)/th, 3) > 0 ||
+				map.getTileId((int)((entityPosition.x)/tw + 0.5f), (int)(newEntityPosition.y+(eh-1)/2)/th, 3) > 0) {
+				newEntityPosition.y = wy;
+			}
+				
+			if (map.getTileId((int)(newEntityPosition.x)/tw, (int)(entityPosition.y+(eh-1)/2)/th, 3) > 0 ||
+				map.getTileId((int)(newEntityPosition.x)/tw, (int)((entityPosition.y+(eh-1)/2)/th + 0.5f), 3) > 0) {
 				newEntityPosition.x = wx;
 			}
 		}
@@ -96,13 +132,14 @@ public class CollisionResolution {
 		if (map.getTileId((int)newEntityPosition.x/tw, (int)(newEntityPosition.y+eh-1)/th, 3) > 0) {
 			wx = ((int)(newEntityPosition.x/tw) * tw) + tw;
 			wy = ((int)(newEntityPosition.y/th) * th);
+			logger.info("lower left");
 			
 			if (map.getTileId((int)(entityPosition.x)/tw, (int)(newEntityPosition.y+eh-1)/th, 3) > 0 ||
 				map.getTileId((int)((entityPosition.x)/tw + 0.5f), (int)(newEntityPosition.y+eh-1)/th, 3) > 0) {
 				newEntityPosition.y = wy;
 			}
 				
-			else if (map.getTileId((int)(newEntityPosition.x)/tw, (int)(entityPosition.y+eh-1)/th, 3) > 0 ||
+			if (map.getTileId((int)(newEntityPosition.x)/tw, (int)(entityPosition.y+eh-1)/th, 3) > 0 ||
 					 map.getTileId((int)(newEntityPosition.x)/tw, (int)((entityPosition.y+eh-1)/th - 0.5f), 3) > 0) {
 				newEntityPosition.x = wx;
 			}
@@ -112,13 +149,14 @@ public class CollisionResolution {
 		if (map.getTileId((int)(newEntityPosition.x+ew-1)/tw, (int)(newEntityPosition.y+eh-1)/th, 3) > 0) {
 			wx = ((int)(newEntityPosition.x/tw) * tw);
 			wy = ((int)(newEntityPosition.y/th) * th);
+			logger.info("lower right");
 			
 			if (map.getTileId((int)(entityPosition.x+ew-1)/tw, (int)(newEntityPosition.y+eh-1)/th, 3) > 0 ||
 				map.getTileId((int)((entityPosition.x+ew-1)/tw - 0.5f), (int)(newEntityPosition.y+eh-1)/th, 3) > 0) {
 				newEntityPosition.y = wy;
 			}
 				
-			else if (map.getTileId((int)(newEntityPosition.x+ew-1)/tw, (int)(entityPosition.y+eh-1)/th, 3) > 0 ||
+			if (map.getTileId((int)(newEntityPosition.x+ew-1)/tw, (int)(entityPosition.y+eh-1)/th, 3) > 0 ||
 					 map.getTileId((int)(newEntityPosition.x+ew-1)/tw, (int)((entityPosition.y+eh-1)/th - 0.5f), 3) > 0) {
 				newEntityPosition.x = wx;
 			}

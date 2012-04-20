@@ -41,7 +41,7 @@
    <properties>
     <property name="Map" value="trog2"/>
     <property name="X" value="65"/>
-    <property name="Y" value="48"/>
+    <property name="Y" value="47"/>
    </properties>
   </object>
   <object name="TestSpawn" type="Spawn" x="2175" y="400" width="263" height="282">
