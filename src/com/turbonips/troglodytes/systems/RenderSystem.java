@@ -3,14 +3,14 @@ package com.turbonips.troglodytes.systems;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.newdawn.slick.AngelCodeFont;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
 import com.artemis.ComponentMapper;
@@ -26,17 +26,20 @@ import com.turbonips.troglodytes.components.ResourceRef;
 import com.turbonips.troglodytes.components.Direction.Dir;
 import com.turbonips.troglodytes.components.Stats.StatType;
 import com.turbonips.troglodytes.components.Stats;
+import com.turbonips.troglodytes.states.MenuState;
 
 public class RenderSystem extends BaseEntitySystem {
 	private ComponentMapper<ResourceRef> resourceMapper;
 	ComponentMapper<Position> positionMapper;
 	private GameContainer container;
+	private StateBasedGame game;
 	private ComponentMapper<Movement> movementMapper;
 	private ComponentMapper<Direction> directionMapper;
 	private ComponentMapper<Stats> statsMapper;
 	
-	public RenderSystem(GameContainer container) {
+	public RenderSystem(GameContainer container, StateBasedGame game) {
 		this.container = container;
+		this.game = game;
 	}
 
 	@Override
@@ -93,6 +96,11 @@ public class RenderSystem extends BaseEntitySystem {
 		Stats stats = statsMapper.get(player);
 		HashMap<StatType, Integer> playerStats = stats.getStats();
 		int health = playerStats.get(StatType.HEALTH);
+		
+		if (health <= 0) {
+			game.enterState(MenuState.ID);
+		}
+		
 		int maxHealth = playerStats.get(StatType.MAX_HEALTH);
 		int armor = playerStats.get(StatType.ARMOR);
 		float barWidth = playerFrame.getWidth() * 1.5f;
@@ -132,11 +140,6 @@ public class RenderSystem extends BaseEntitySystem {
 		g.setColor(Color.white);
 		g.drawString(health + "/" + maxHealth, healthIconImage.getWidth() + 5, 3);
 		g.drawString(String.valueOf(armor), armorIconImage.getWidth() + 5, healthIconImage.getHeight() + 3);
-		
-
-		if (--health > 0) {
-			playerStats.put(StatType.HEALTH, health);
-		}
 		
 		/*
 		 * 
