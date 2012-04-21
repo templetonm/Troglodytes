@@ -106,7 +106,7 @@ public class RenderSystem extends BaseEntitySystem {
 		float barWidth = playerFrame.getWidth() * 1.5f;
 		float per = (float)health / (float)maxHealth;
 		g.setColor(Color.black);
-		g.fillRect(container.getWidth()/2 - barWidth/2, container.getHeight()/2 + 32, barWidth, 3);
+		g.fillRect(container.getWidth()/2 - barWidth/2 - 1, container.getHeight()/2 + 31, barWidth+2, 5);
 		g.setColor(Color.red);
 		g.fillRect(container.getWidth()/2 - barWidth/2, container.getHeight()/2 + 32, barWidth*per, 3);
 		
