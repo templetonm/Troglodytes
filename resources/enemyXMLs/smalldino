@@ -14,12 +14,12 @@
    <int>0</int>
   </void>
   <void property="health"> 
-   <int>100</int>
+   <int>50</int>
   </void> 
   <void property="damage"> 
    <int>1</int>
   </void> 
-  <void property="aspd"> 
+  <void property="cooldown"> 
    <int>0</int>
   </void>
   <void property="range"> 
@@ -27,9 +27,6 @@
   </void>
   <void property="sight"> 
    <int>8</int>
-  </void>
-  <void property="mspd"> 
-   <int>0</int>
   </void>
   <void property="flier"> 
    <boolean>false</boolean>
@@ -44,19 +41,19 @@
    <int>0</int>
   </void>
   <void property="maxSpeed"> 
-   <int>5</int>
+   <int>3</int>
   </void>
   <void property="resourceRef"> 
    <string>testenemyimage</string>
   </void>
   <void property="acceleration"> 
-   <int>1</int>
+   <float>1.5</float>
   </void>
   <void property="deceleration"> 
-   <int>2</int>
+   <float>1.5</float>
   </void>
   <void property="AIType">
-   <string>duMBanDcHaRGe</string>
+   <string>dumbandcharge</string>
   </void>
  </object> 
 </java> 

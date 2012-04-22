@@ -20,14 +20,13 @@ import com.turbonips.troglodytes.components.ResourceRef;
 import com.turbonips.troglodytes.components.Stats;
 import com.turbonips.troglodytes.components.Stats.StatType;
 
-public class EnemyBehaviorSystem extends BaseEntitySystem
-{
+public class EnemyBehaviorSystem extends BaseEntitySystem {
 	private ComponentMapper<Movement> movementMapper;
 	private ComponentMapper<Position> positionMapper;
 	private ComponentMapper<ResourceRef> resourceMapper;
 	private ComponentMapper<Stats> statsMapper;
 	private ComponentMapper<Attack> attackMapper;
-	
+
 	@Override
 	protected void initialize() {
 		movementMapper = new ComponentMapper<Movement>(Movement.class, world);
@@ -38,20 +37,18 @@ public class EnemyBehaviorSystem extends BaseEntitySystem
 	}
 
 	@Override
-	protected boolean checkProcessing()
-	{
+	protected boolean checkProcessing() {
 		return true;
 	}
 
 	@Override
-	protected void processEntities(ImmutableBag<Entity> entities)
-	{
+	protected void processEntities(ImmutableBag<Entity> entities) {
 		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities("ENEMY");
 		ImmutableBag<Entity> players = world.getGroupManager().getEntities("PLAYER");
 		ImmutableBag<Entity> grounds = world.getGroupManager().getEntities("GROUND");
 		ResourceManager manager = ResourceManager.getInstance();
 		Entity ground = grounds.get(0);
-		
+
 		for (int i = 0; i < enemies.size(); i++) {
 			Entity enemy = enemies.get(i);
 			Movement movement = movementMapper.get(enemy);
@@ -63,21 +60,21 @@ public class EnemyBehaviorSystem extends BaseEntitySystem
 			Resource enemyRes = manager.getResource(enemyResName);
 			Image enemyFrame = getFrame(enemyRes);
 			newEnemyPosition.add(enemyVelocity);
-			
+
 			// Collision detection
 			if (ground != null) {
 				String groundResName = resourceMapper.get(ground).getResourceName();
 				Resource groundRes = manager.getResource(groundResName);
-				TiledMap map = (TiledMap)groundRes.getObject();
+				TiledMap map = (TiledMap) groundRes.getObject();
 				CollisionResolution collisionResolution = CollisionResolution.getInstance();
 				Vector2f newPosition = collisionResolution.resolveWallCollisions(enemy, map);
 				enemyPosition.set(newPosition);
 			}
-			
-			checkAttacking(enemy,players.get(0));
+
+			checkAttacking(enemy, players.get(0));
 		}
 	}
-	
+
 	private void checkAttacking(Entity enemy, Entity player) {
 		Vector2f enemyPosition = positionMapper.get(enemy).getPosition();
 		String enemyResName = resourceMapper.get(enemy).getResourceName();
@@ -87,8 +84,8 @@ public class EnemyBehaviorSystem extends BaseEntitySystem
 		int eh = enemyFrame.getHeight();
 		int ew = enemyFrame.getWidth();
 		Vector2f enemyCenter = new Vector2f(enemyPosition.x + (ew / 2), enemyPosition.y + (eh / 2));
-		int MAX_DISTANCE = 64;
-		
+		int MAX_DISTANCE = 32;
+
 		Vector2f playerPosition = positionMapper.get(player).getPosition();
 		String playerResName = resourceMapper.get(player).getResourceName();
 		Resource playerRes = manager.getResource(playerResName);
@@ -96,21 +93,21 @@ public class EnemyBehaviorSystem extends BaseEntitySystem
 		int ph = playerFrame.getHeight();
 		int pw = playerFrame.getWidth();
 		Vector2f playerCenter = new Vector2f(playerPosition.x + (pw / 2), playerPosition.y + (ph / 2));
-		
+
 		HashMap<StatType, Integer> playerStats = statsMapper.get(player).getStats();
 		int enemyDamage = attackMapper.get(enemy).getDamage();
 
 		if (enemyCenter.distance(playerCenter) < MAX_DISTANCE) {
-			playerStats.put(StatType.HEALTH, playerStats.get(StatType.HEALTH)-enemyDamage);
+			playerStats.put(StatType.HEALTH, playerStats.get(StatType.HEALTH) - enemyDamage);
 		}
 	}
 
 	private Image getFrame(Resource resource) {
 		switch (resource.getType()) {
 			case CREATURE_ANIMATION:
-				return ((CreatureAnimation)resource.getObject()).getCurrent().getCurrentFrame();
+				return ((CreatureAnimation) resource.getObject()).getCurrent().getCurrentFrame();
 			case IMAGE:
-				return (Image)resource.getObject();
+				return (Image) resource.getObject();
 			default:
 				return null;
 		}

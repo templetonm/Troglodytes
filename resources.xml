@@ -16,7 +16,7 @@
 	<resource id="swampbubble" type="image" path="graphics/testBubble.png" />
 	<resource id="smallfire" type="image" path="graphics/blankParticleW.png" />
 	<resource id="smallsmoke" type="image" path="graphics/blankParticleW.png" />
-
+	<resource id="spideranimation" type="creatureanimation" path="graphics/monster-spider.png" width="35" height="35" />
 	<resource id="stepsound" type="sound" path="sounds/step.wav" />
 
 	<resource id="Into the Dark.ogg" type="music" path="music/Into the Dark.ogg" />

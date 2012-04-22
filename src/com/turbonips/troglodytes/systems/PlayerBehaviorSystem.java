@@ -17,6 +17,7 @@ import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.ResourceRef;
+import com.turbonips.troglodytes.components.Secondary;
 import com.turbonips.troglodytes.components.Stats;
 import com.turbonips.troglodytes.components.Stats.StatType;
 import com.turbonips.troglodytes.components.Warp;
@@ -27,6 +28,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 	private ComponentMapper<ResourceRef> resourceMapper;
 	private ComponentMapper<Direction> directionMapper;
 	private ComponentMapper<Attack> attackMapper;
+	private ComponentMapper<Secondary> secondaryMapper;
 	private ComponentMapper<Stats> statsMapper;
 
 	@Override
@@ -37,6 +39,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 		directionMapper = new ComponentMapper<Direction>(Direction.class, world);
 		attackMapper = new ComponentMapper<Attack>(Attack.class, world);
 		statsMapper = new ComponentMapper<Stats>(Stats.class, world);
+		secondaryMapper = new ComponentMapper<Secondary>(Secondary.class, world);
 	}
 
 	@Override
@@ -59,6 +62,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 			Vector2f newPosition = collisionResolution.resolveWallCollisions(player, map);
 			checkWarps(map, player);
 			checkAttacking(player, enemies);
+			checkSecondary(player, enemies);
 			playerPosition.set(newPosition);
 		}
 	}
@@ -124,6 +128,53 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 		}
 	}
 
+	private void checkSecondary(Entity player, ImmutableBag<Entity> enemies) {
+		Secondary playerSecondary = secondaryMapper.get(player);
+		if (playerSecondary.isSecondary()) {
+			Vector2f playerPosition = positionMapper.get(player).getPosition();
+			String playerResName = resourceMapper.get(player).getResourceName();
+			ResourceManager manager = ResourceManager.getInstance();
+			Resource playerRes = manager.getResource(playerResName);
+			Image playerFrame = getFrame(playerRes);
+			int ph = playerFrame.getHeight();
+			int pw = playerFrame.getWidth();
+			Vector2f playerCenter = new Vector2f(playerPosition.x + (pw / 2), playerPosition.y + (ph / 2));
+			int MAX_DISTANCE = 128;
+			HashMap<StatType, Integer> playerStats = statsMapper.get(player).getStats();
+			int playerDamage = 10;
+
+			for (int i = 0; i < enemies.size(); i++) {
+				Entity enemy = enemies.get(i);
+				Vector2f enemyPosition = positionMapper.get(enemy).getPosition();
+				String enemyResName = resourceMapper.get(enemy).getResourceName();
+				Resource enemyRes = manager.getResource(enemyResName);
+				Image enemyFrame = getFrame(enemyRes);
+				int eh = enemyFrame.getHeight();
+				int ew = enemyFrame.getWidth();
+				Vector2f enemyCenter = new Vector2f(enemyPosition.x + (ew / 2), enemyPosition.y + (eh / 2));
+				Movement enemyMovement = movementMapper.get(enemy);
+				Vector2f enemyVelocity = enemyMovement.getVelocity();
+				boolean secondaryEnemy = false;
+				double secondaryKnockBack = 40;
+				double secondaryKnockBackX = (secondaryKnockBack/Math.sqrt(2));
+
+				if (playerCenter.distance(enemyCenter) < MAX_DISTANCE) {
+					Vector2f playerToEnemy = new Vector2f(enemyCenter.x - playerCenter.x, enemyCenter.y - playerCenter.y);
+					float scale = (float) (secondaryKnockBack/playerCenter.distance(enemyCenter));
+					enemyVelocity.x = scale * playerToEnemy.x;
+					enemyVelocity.y = scale * playerToEnemy.y;
+
+					HashMap<StatType, Integer> enemyStats = statsMapper.get(enemy).getStats();
+					enemyStats.put(StatType.HEALTH, enemyStats.get(StatType.HEALTH)-playerDamage);
+					
+					if (enemyStats.get(StatType.HEALTH) <= 0) {
+						enemy.delete();
+					}
+				}
+			}
+		}
+	}
+	
 	private void checkAttacking(Entity player, ImmutableBag<Entity> enemies) {
 		Attack playerAttack = attackMapper.get(player);
 		if (playerAttack.isAttacking()) {
@@ -152,6 +203,9 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 				Vector2f enemyCenter = new Vector2f(enemyPosition.x + (ew / 2), enemyPosition.y + (eh / 2));
 				Movement enemyMovement = movementMapper.get(enemy);
 				Vector2f enemyVelocity = enemyMovement.getVelocity();
+				boolean attackEnemy = false;
+				double attackingKnockBack = 20;
+				double attackingKnockBackX = (attackingKnockBack/Math.sqrt(2));
 
 				if (playerCenter.distance(enemyCenter) < MAX_DISTANCE) {
 					Vector2f playerToEnemy = new Vector2f(enemyCenter.x - playerCenter.x, playerCenter.y - enemyCenter.y);
@@ -159,92 +213,113 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 					switch (playerDirection.getDirection()) {
 						case UP:
 							if (playerToEnemy.y >= 0) {
-								enemyVelocity.y -= 15;
+								enemyVelocity.y -= attackingKnockBack;
+								attackEnemy = true;
 							}
 							break;
 						case DOWN:
 							if (playerToEnemy.y <= 0) {
-								enemyVelocity.y += 15;
+								enemyVelocity.y += attackingKnockBack;
+								attackEnemy = true;
 							}
 							break;
 						case LEFT:
 							if (playerToEnemy.x <= 0) {
-								enemyVelocity.x -= 15;
+								enemyVelocity.x -= attackingKnockBack;
+								attackEnemy = true;
 							}
 							break;
 						case RIGHT:
 							if (playerToEnemy.x >= 0) {
-								enemyVelocity.x += 15;
+								enemyVelocity.x += attackingKnockBack;
+								attackEnemy = true;
 							}
 							break;
 
 						case UP_RIGHT:
 							if (playerToEnemy.x < 0) {
 								if (Math.abs(playerToEnemy.x) <= Math.abs(playerToEnemy.y)) {
-									enemyVelocity.x += 10;
-									enemyVelocity.y -= 10;
+									attackEnemy = true;
 								}
 							} else if (playerToEnemy.x > 0) {
 								if (Math.abs(playerToEnemy.x) >= Math.abs(playerToEnemy.y) || playerToEnemy.y > 0) {
-									enemyVelocity.x += 10;
-									enemyVelocity.y -= 10;
+									attackEnemy = true;
 								}
 							} else if (playerToEnemy.y >= 0) {
-								enemyVelocity.x += 10;
-								enemyVelocity.y -= 10;
+								attackEnemy = true;
+							}
+							
+							if (attackEnemy) {
+								enemyVelocity.x += attackingKnockBackX;
+								enemyVelocity.y -= attackingKnockBackX;
 							}
 							break;
 
 						case UP_LEFT:
 							if (playerToEnemy.x > 0) {
 								if (Math.abs(playerToEnemy.x) >= Math.abs(playerToEnemy.y)) {
-									enemyVelocity.x -= 10;
-									enemyVelocity.y -= 10;
+									attackEnemy = true;
 								}
 							} else if (playerToEnemy.x < 0) {
 								if (Math.abs(playerToEnemy.x) >= Math.abs(playerToEnemy.y) || playerToEnemy.y > 0) {
-									enemyVelocity.x -= 10;
-									enemyVelocity.y -= 10;
+									attackEnemy = true;
 								}
 							} else if (playerToEnemy.y >= 0) {
-								enemyVelocity.x -= 10;
-								enemyVelocity.y -= 10;
+								attackEnemy = true;
+							}
+							
+							if (attackEnemy) {
+								enemyVelocity.x -= attackingKnockBackX;
+								enemyVelocity.y -= attackingKnockBackX;
 							}
 							break;
 
 						case DOWN_LEFT:
 							if (playerToEnemy.x > 0) {
 								if (Math.abs(playerToEnemy.y) >= Math.abs(playerToEnemy.x)) {
-									enemyVelocity.x -= 10;
-									enemyVelocity.y += 10;
+									attackEnemy = true;
 								}
 							} else if (playerToEnemy.x < 0) {
 								if (Math.abs(playerToEnemy.y) >= Math.abs(playerToEnemy.x) || playerToEnemy.x < 0) {
-									enemyVelocity.x -= 10;
-									enemyVelocity.y += 10;
+									attackEnemy = true;
 								}
 							} else if (playerToEnemy.x <= 0) {
-								enemyVelocity.x -= 10;
-								enemyVelocity.y += 10;
+								attackEnemy = true;
+							}
+							
+							if (attackEnemy) {
+								enemyVelocity.x -= attackingKnockBackX;
+								enemyVelocity.y += attackingKnockBackX;
 							}
 							break;
 
 						case DOWN_RIGHT:
 							if (playerToEnemy.x < 0) {
 								if (Math.abs(playerToEnemy.y) >= Math.abs(playerToEnemy.x)) {
-									enemyVelocity.x += 10;
-									enemyVelocity.y += 10;
+									attackEnemy = true;
 								}
 							} else if (playerToEnemy.x > 0) {
 								if (Math.abs(playerToEnemy.y) <= Math.abs(playerToEnemy.x) || playerToEnemy.x > 0) {
-									enemyVelocity.x += 10;
-									enemyVelocity.y += 10;
+									attackEnemy = true;
 								}
 							} else if (playerToEnemy.x <= 0) {
-								enemyVelocity.x += 10;
-								enemyVelocity.y += 10;
+								attackEnemy = true;
+							}
+							
+							if (attackEnemy) {
+								enemyVelocity.x += attackingKnockBackX;
+								enemyVelocity.y += attackingKnockBackX;
 							}
 							break;
+					}
+				}
+				
+				if (attackEnemy) {
+					HashMap<StatType, Integer> enemyStats = statsMapper.get(enemy).getStats();
+					enemyStats.put(StatType.HEALTH, enemyStats.get(StatType.HEALTH)-playerDamage);
+					
+					if (enemyStats.get(StatType.HEALTH) <= 0) {
+						enemy.delete();
 					}
 				}
 			}

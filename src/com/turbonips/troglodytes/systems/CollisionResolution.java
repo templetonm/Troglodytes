@@ -79,7 +79,7 @@ public class CollisionResolution {
 		if (map.getTileId((int)(newEntityPosition.x+ew-1)/tw, (int)newEntityPosition.y/th, 3) > 0) {
 			wx = ((int)(newEntityPosition.x/tw) * tw);
 			wy = ((int)(newEntityPosition.y/th) * th) + th;
-			
+
 			if (map.getTileId((int)(entityPosition.x+ew-1)/tw, (int)newEntityPosition.y/th, 3) > 0) {
 				newEntityPosition.y = wy;
 			}
@@ -120,7 +120,6 @@ public class CollisionResolution {
 		for (int i=2; i<= accuracy; i++) {
 			// Lower center right
 			if (map.getTileId((int)(newEntityPosition.x+ew/i-1)/tw, (int)(newEntityPosition.y+eh-1)/th, 3) > 0) {
-				logger.info("Lower center right");
 				wx = ((int)(newEntityPosition.x/tw) * tw) + tw/i;
 				wy = ((int)(newEntityPosition.y/th) * th);
 				
@@ -135,7 +134,6 @@ public class CollisionResolution {
 			
 			// Lower center left
 			if (map.getTileId((int)(newEntityPosition.x+ew-ew/i)/tw, (int)(newEntityPosition.y+eh-1)/th, 3) > 0) {
-				logger.info("Lower center left");
 				wx = ((int)(newEntityPosition.x/tw) * tw) + tw/i;
 				wy = ((int)(newEntityPosition.y/th) * th);
 				
@@ -150,7 +148,6 @@ public class CollisionResolution {
 			
 			// Upper center right
 			if (map.getTileId((int)(newEntityPosition.x+ew/i-1)/tw, (int)newEntityPosition.y/th, 3) > 0) {
-				logger.info("Upper center right");
 				wx = ((int)(newEntityPosition.x/tw) * tw) + tw/i;
 				wy = ((int)(newEntityPosition.y/th) * th) + th;
 				
@@ -165,7 +162,6 @@ public class CollisionResolution {
 			
 			// Upper center left
 			if (map.getTileId((int)(newEntityPosition.x+ew-ew/i)/tw, (int)newEntityPosition.y/th, 3) > 0) {
-				logger.info("Upper center left");
 				wx = ((int)(newEntityPosition.x/tw) * tw) + tw/i;
 				wy = ((int)(newEntityPosition.y/th) * th) + th;
 				
@@ -180,7 +176,6 @@ public class CollisionResolution {
 			
 			// Center upper left
 			if (map.getTileId((int)(newEntityPosition.x)/tw, (int)(newEntityPosition.y+eh/i-1)/th, 3) > 0) {
-				logger.info("Upper center right");
 				wx = ((int)(newEntityPosition.x/tw) * tw) + tw;
 				wy = ((int)(newEntityPosition.y/th) * th) + th/i;
 				

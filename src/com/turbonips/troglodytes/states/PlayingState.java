@@ -15,6 +15,7 @@ import com.artemis.World;
 import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.Direction.Dir;
+import com.turbonips.troglodytes.components.Secondary;
 import com.turbonips.troglodytes.components.Stats;
 import com.turbonips.troglodytes.components.Stats.StatType;
 import com.turbonips.troglodytes.components.Movement;
@@ -70,7 +71,9 @@ public class PlayingState extends BaseGameState {
 		player.addComponent(new Stats(stats));
 		// This position is overwritten when the player is warped
 		player.addComponent(new Position(new Vector2f(0,0)));
-		player.addComponent(new Attack(0,9));
+		player.addComponent(new Attack(500,9));
+		// It's over 9000
+		player.addComponent(new Secondary(6*1000));
 		player.refresh();
 	}
 	

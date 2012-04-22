@@ -210,8 +210,17 @@ public class EnemyAISystem extends BaseEntitySystem
 							float scale;
 							// Scale the x and y velocity by the maximum-speed/current-velocity
 							scale = (movement.getMaximumSpeed()/tmpVelocity.distance(new Vector2f(0,0)));
-							tmpVelocity.x = scale*tmpVelocity.x;
-							tmpVelocity.y = scale*tmpVelocity.y;
+							
+							if (tmpVelocity.x > 0) {
+								tmpVelocity.x -= movement.getDeceleration().getX();
+							} else {
+								tmpVelocity.x += movement.getDeceleration().getX();
+							}
+							if (tmpVelocity.y > 0) {
+								tmpVelocity.y -= movement.getDeceleration().getY();
+							} else {
+								tmpVelocity.y += movement.getDeceleration().getY();
+							}
 						}
 						velocity.x = tmpVelocity.x;
 						velocity.y = tmpVelocity.y;

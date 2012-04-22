@@ -1,6 +1,7 @@
 package com.turbonips.troglodytes.systems;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import org.newdawn.slick.Animation;
@@ -19,11 +20,13 @@ import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.CreatureAnimation;
 import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.ResourceManager;
+import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.ResourceRef;
 import com.turbonips.troglodytes.components.Direction.Dir;
+import com.turbonips.troglodytes.components.Secondary;
 import com.turbonips.troglodytes.components.Stats.StatType;
 import com.turbonips.troglodytes.components.Stats;
 import com.turbonips.troglodytes.states.MenuState;
@@ -36,6 +39,8 @@ public class RenderSystem extends BaseEntitySystem {
 	private ComponentMapper<Movement> movementMapper;
 	private ComponentMapper<Direction> directionMapper;
 	private ComponentMapper<Stats> statsMapper;
+	private ComponentMapper<Attack> attackMapper;
+	private ComponentMapper<Secondary> secondaryMapper;
 	
 	public RenderSystem(GameContainer container, StateBasedGame game) {
 		this.container = container;
@@ -48,7 +53,9 @@ public class RenderSystem extends BaseEntitySystem {
 		positionMapper = new ComponentMapper<Position>(Position.class, world);
 		movementMapper = new ComponentMapper<Movement>(Movement.class, world);
 		directionMapper = new ComponentMapper<Direction>(Direction.class, world);
+		attackMapper = new ComponentMapper<Attack>(Attack.class, world);
 		statsMapper = new ComponentMapper<Stats>(Stats.class, world);
+		secondaryMapper = new ComponentMapper<Secondary>(Secondary.class, world);
 	}
 
 	@Override
@@ -100,15 +107,39 @@ public class RenderSystem extends BaseEntitySystem {
 		if (health <= 0) {
 			game.enterState(MenuState.ID);
 		}
+
 		
 		int maxHealth = playerStats.get(StatType.MAX_HEALTH);
 		int armor = playerStats.get(StatType.ARMOR);
-		float barWidth = playerFrame.getWidth() * 1.5f;
-		float per = (float)health / (float)maxHealth;
-		g.setColor(Color.black);
-		g.fillRect(container.getWidth()/2 - barWidth/2 - 1, container.getHeight()/2 + 31, barWidth+2, 5);
-		g.setColor(Color.red);
-		g.fillRect(container.getWidth()/2 - barWidth/2, container.getHeight()/2 + 32, barWidth*per, 3);
+		
+		// Secondary cooldown time bar
+		long secondaryCooldown = secondaryMapper.get(player).getCooldown();
+		long currentSecondaryCooldown = new Date().getTime()-secondaryMapper.get(player).getLastSecondaryTime();
+		
+		float secondaryBarWidth = 32 * 1.0f;
+		float secondaryPer = (float)currentSecondaryCooldown / (float)secondaryCooldown;
+		if (secondaryPer <= 1) {
+			g.setColor(Color.black);
+			g.fillRect(container.getWidth()/2 - secondaryBarWidth/2 - 1, container.getHeight()/2 + 31 + 12, secondaryBarWidth+2, 5);
+			
+			g.setColor(new Color(255,127,0));
+			g.fillRect(container.getWidth()/2 - secondaryBarWidth/2, container.getHeight()/2 + 32 + 12, secondaryBarWidth*secondaryPer, 3);
+		}
+		
+		// Attack cooldown time bar
+		long attackCooldown = attackMapper.get(player).getCooldown();
+		long currentAttackCooldown = new Date().getTime()-attackMapper.get(player).getLastAttackTime();
+		
+		float attackBarWidth = 32 * .5f;
+		float attackPer = (float)currentAttackCooldown / (float)attackCooldown;
+		if (attackPer <= 1) {
+			g.setColor(Color.black);
+			g.fillRect(container.getWidth()/2 - attackBarWidth/2 - 1, container.getHeight()/2 + 31 + 19, attackBarWidth+2, 5);
+			g.setColor(new Color(255,255,0));
+			g.fillRect(container.getWidth()/2 - attackBarWidth/2, container.getHeight()/2 + 32 + 19, attackBarWidth*attackPer, 3);
+		}
+		
+
 		
 		// Draw enemies
 		for (int i=0; i<enemies.size(); i++) {
@@ -206,6 +237,20 @@ public class RenderSystem extends BaseEntitySystem {
 				Image entityImg = (Image)res.getObject();
 				g.drawImage(entityImg, x, y);
 				break;
+		}
+		
+		Image entityFrame = getFrame(res);
+		HashMap<StatType, Integer> stats = statsMapper.get(entity).getStats();
+		int maxHealth = stats.get(StatType.MAX_HEALTH);
+		int health = stats.get(StatType.HEALTH);
+		float barWidth = 32 * 1.5f;
+		float per = (float)health / (float)maxHealth;
+		
+		if (health > 0 && health != maxHealth) {
+			g.setColor(new Color(0,0,0));
+			g.fillRect(x + entityFrame.getWidth()/2 - barWidth/2 - 1, y + entityFrame.getHeight()+4, barWidth+2, 5);
+			g.setColor(new Color(255,0,0));
+			g.fillRect(x + entityFrame.getWidth()/2 - barWidth/2, y + entityFrame.getHeight()+5, barWidth*per, 3);
 		}
 	}
 	

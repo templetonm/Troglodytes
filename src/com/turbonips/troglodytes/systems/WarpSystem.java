@@ -1,5 +1,7 @@
 package com.turbonips.troglodytes.systems;
 
+import java.util.HashMap;
+
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
 
@@ -16,8 +18,10 @@ import com.turbonips.troglodytes.components.EnemyAI;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.ResourceRef;
+import com.turbonips.troglodytes.components.Stats;
 import com.turbonips.troglodytes.components.Warp;
 import com.turbonips.troglodytes.components.Direction.Dir;
+import com.turbonips.troglodytes.components.Stats.StatType;
 
 public class WarpSystem extends BaseEntityProcessingSystem {
 	private ComponentMapper<Warp> warpMapper;
@@ -101,9 +105,8 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 					EnemyData enemyData = xmls.deserializeEnemyData(enemyId);
 					String enemyResourceRef = enemyData.getResourceRef();
 					int enemyMaxSpeed = enemyData.getMaxSpeed();
-					int enemyAcc = enemyData.getAcceleration();
-					int enemyDec = enemyData.getDeceleration();
-					enemyData.setAcceleration(4);
+					float enemyAcc = enemyData.getAcceleration();
+					float enemyDec = enemyData.getDeceleration();
 					String enemyAIType = enemyData.getAIType();
 					int sight = enemyData.getSight();
 
@@ -117,6 +120,10 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 						enemy.addComponent(new Position(startPosition));
 						enemy.addComponent(new EnemyAI(enemyAIType, sight));
 						enemy.addComponent(new Attack(0,enemyData.getDamage()));
+						HashMap<StatType, Integer> stats = new HashMap<StatType, Integer> ();
+						stats.put(StatType.HEALTH, enemyData.getHealth());
+						stats.put(StatType.MAX_HEALTH, enemyData.getHealth());
+						enemy.addComponent(new Stats(stats));
 						enemy.refresh();
 					}
 				}
