@@ -2,7 +2,7 @@
 <java version="1.6.0_29" class="java.beans.XMLDecoder"> 
  <object class="com.turbonips.troglodytes.EnemyData"> 
   <void property="name"> 
-   <string>Small Dino</string> 
+   <string>Small Spider</string> 
   </void> 
   <void property="elite"> 
    <boolean>false</boolean>
@@ -20,7 +20,7 @@
    <int>1</int>
   </void> 
   <void property="cooldown"> 
-   <int>0</int>
+   <int>100</int>
   </void>
   <void property="range"> 
    <int>1</int>
@@ -47,7 +47,7 @@
    <string>spideranimation</string>
   </void>
   <void property="acceleration"> 
-   <float>1</float>
+   <float>1.5</float>
   </void>
   <void property="deceleration"> 
    <float>1.5</float>

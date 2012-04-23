@@ -1,5 +1,6 @@
 package com.turbonips.troglodytes.systems;
 
+import java.util.Date;
 import java.util.HashMap;
 
 import org.newdawn.slick.Image;
@@ -13,7 +14,6 @@ import com.turbonips.troglodytes.CreatureAnimation;
 import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.ResourceManager;
 import com.turbonips.troglodytes.components.Attack;
-import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.ResourceRef;
@@ -76,29 +76,35 @@ public class EnemyBehaviorSystem extends BaseEntitySystem {
 	}
 
 	private void checkAttacking(Entity enemy, Entity player) {
-		Vector2f enemyPosition = positionMapper.get(enemy).getPosition();
-		String enemyResName = resourceMapper.get(enemy).getResourceName();
-		ResourceManager manager = ResourceManager.getInstance();
-		Resource enemyRes = manager.getResource(enemyResName);
-		Image enemyFrame = getFrame(enemyRes);
-		int eh = enemyFrame.getHeight();
-		int ew = enemyFrame.getWidth();
-		Vector2f enemyCenter = new Vector2f(enemyPosition.x + (ew / 2), enemyPosition.y + (eh / 2));
-		int MAX_DISTANCE = 32;
-
-		Vector2f playerPosition = positionMapper.get(player).getPosition();
-		String playerResName = resourceMapper.get(player).getResourceName();
-		Resource playerRes = manager.getResource(playerResName);
-		Image playerFrame = getFrame(playerRes);
-		int ph = playerFrame.getHeight();
-		int pw = playerFrame.getWidth();
-		Vector2f playerCenter = new Vector2f(playerPosition.x + (pw / 2), playerPosition.y + (ph / 2));
-
-		HashMap<StatType, Integer> playerStats = statsMapper.get(player).getStats();
-		int enemyDamage = attackMapper.get(enemy).getDamage();
-
-		if (enemyCenter.distance(playerCenter) < MAX_DISTANCE) {
-			playerStats.put(StatType.HEALTH, playerStats.get(StatType.HEALTH) - enemyDamage);
+		// Enemy cooldown
+		Attack enemyAttack = attackMapper.get(enemy);
+		if (new Date().getTime()-enemyAttack.getLastTime() > enemyAttack.getTime()) {
+			enemyAttack.setLastTime(new Date().getTime());
+			Vector2f enemyPosition = positionMapper.get(enemy).getPosition();
+			String enemyResName = resourceMapper.get(enemy).getResourceName();
+			ResourceManager manager = ResourceManager.getInstance();
+			Resource enemyRes = manager.getResource(enemyResName);
+			Image enemyFrame = getFrame(enemyRes);
+			int eh = enemyFrame.getHeight();
+			int ew = enemyFrame.getWidth();
+			Vector2f enemyCenter = new Vector2f(enemyPosition.x + (ew / 2), enemyPosition.y + (eh / 2));
+	
+			Vector2f playerPosition = positionMapper.get(player).getPosition();
+			String playerResName = resourceMapper.get(player).getResourceName();
+			Resource playerRes = manager.getResource(playerResName);
+			Image playerFrame = getFrame(playerRes);
+			int ph = playerFrame.getHeight();
+			int pw = playerFrame.getWidth();
+			Vector2f playerCenter = new Vector2f(playerPosition.x + (pw / 2), playerPosition.y + (ph / 2));
+	
+			HashMap<StatType, Integer> playerStats = statsMapper.get(player).getStats();
+			HashMap<StatType, Integer> enemyStats = statsMapper.get(enemy).getStats();
+			int enemyDamage = enemyAttack.getDamage();
+			int enemyRange = enemyStats.get(StatType.RANGE);
+	
+			if (enemyCenter.distance(playerCenter) < enemyRange*32) {
+				playerStats.put(StatType.HEALTH, playerStats.get(StatType.HEALTH) - enemyDamage);
+			}
 		}
 	}
 

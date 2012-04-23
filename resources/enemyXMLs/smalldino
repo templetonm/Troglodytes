@@ -23,7 +23,7 @@
    <int>0</int>
   </void>
   <void property="range"> 
-   <int>0</int>
+   <int>1</int>
   </void>
   <void property="sight"> 
    <int>5</int>

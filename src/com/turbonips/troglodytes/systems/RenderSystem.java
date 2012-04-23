@@ -1,6 +1,5 @@
 package com.turbonips.troglodytes.systems;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -9,7 +8,6 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
@@ -25,7 +23,6 @@ import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.ResourceRef;
-import com.turbonips.troglodytes.components.Direction.Dir;
 import com.turbonips.troglodytes.components.Secondary;
 import com.turbonips.troglodytes.components.Stats.StatType;
 import com.turbonips.troglodytes.components.Stats;
@@ -113,34 +110,32 @@ public class RenderSystem extends BaseEntitySystem {
 		int armor = playerStats.get(StatType.ARMOR);
 		
 		// Secondary cooldown time bar
-		long secondaryCooldown = secondaryMapper.get(player).getCooldown();
-		long currentSecondaryCooldown = new Date().getTime()-secondaryMapper.get(player).getLastSecondaryTime();
+		long secondaryCooldown = secondaryMapper.get(player).getTime();
+		long currentSecondaryCooldown = new Date().getTime()-secondaryMapper.get(player).getLastTime();
 		
 		float secondaryBarWidth = 32 * 1.0f;
 		float secondaryPer = (float)currentSecondaryCooldown / (float)secondaryCooldown;
 		if (secondaryPer <= 1) {
 			g.setColor(Color.black);
-			g.fillRect(container.getWidth()/2 - secondaryBarWidth/2 - 1, container.getHeight()/2 + 31 + 12, secondaryBarWidth+2, 5);
+			g.fillRect(container.getWidth()/2 - secondaryBarWidth/2 - 1, container.getHeight()/2 + playerFrame.getHeight()/2-1 + 12, secondaryBarWidth+2, 5);
 			
 			g.setColor(new Color(255,127,0));
-			g.fillRect(container.getWidth()/2 - secondaryBarWidth/2, container.getHeight()/2 + 32 + 12, secondaryBarWidth*secondaryPer, 3);
+			g.fillRect(container.getWidth()/2 - secondaryBarWidth/2, container.getHeight()/2 + playerFrame.getHeight()/2 + 12, secondaryBarWidth*secondaryPer, 3);
 		}
 		
 		// Attack cooldown time bar
-		long attackCooldown = attackMapper.get(player).getCooldown();
-		long currentAttackCooldown = new Date().getTime()-attackMapper.get(player).getLastAttackTime();
+		long attackCooldown = attackMapper.get(player).getTime();
+		long currentAttackCooldown = new Date().getTime()-attackMapper.get(player).getLastTime();
 		
 		float attackBarWidth = 32 * .5f;
 		float attackPer = (float)currentAttackCooldown / (float)attackCooldown;
 		if (attackPer <= 1) {
 			g.setColor(Color.black);
-			g.fillRect(container.getWidth()/2 - attackBarWidth/2 - 1, container.getHeight()/2 + 31 + 19, attackBarWidth+2, 5);
+			g.fillRect(container.getWidth()/2 - attackBarWidth/2 - 1, container.getHeight()/2 + playerFrame.getHeight()/2 - 1 + 19, attackBarWidth+2, 5);
 			g.setColor(new Color(255,255,0));
-			g.fillRect(container.getWidth()/2 - attackBarWidth/2, container.getHeight()/2 + 32 + 19, attackBarWidth*attackPer, 3);
+			g.fillRect(container.getWidth()/2 - attackBarWidth/2, container.getHeight()/2 + playerFrame.getHeight()/2 + 19, attackBarWidth*attackPer, 3);
 		}
-		
 
-		
 		// Draw enemies
 		for (int i=0; i<enemies.size(); i++) {
 			Entity enemy = enemies.get(i);
@@ -193,7 +188,6 @@ public class RenderSystem extends BaseEntitySystem {
 			case CREATURE_ANIMATION:
 				CreatureAnimation entityAnim = (CreatureAnimation)res.getObject();
 				Direction direction = directionMapper.get(entity);
-				float speed = movement.getCurrentSpeed()/10;
 				entityAnim.setIdle();
 				Animation animation = null;
 				

@@ -1,8 +1,5 @@
 package com.turbonips.troglodytes.systems;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 import org.newdawn.slick.geom.Vector2f;
 
 import com.artemis.ComponentMapper;

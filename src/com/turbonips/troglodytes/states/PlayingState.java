@@ -15,6 +15,7 @@ import com.artemis.World;
 import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.Direction.Dir;
+import com.turbonips.troglodytes.components.HealthRegen;
 import com.turbonips.troglodytes.components.Secondary;
 import com.turbonips.troglodytes.components.Stats;
 import com.turbonips.troglodytes.components.Stats.StatType;
@@ -59,8 +60,8 @@ public class PlayingState extends BaseGameState {
 		// Setup the initial player
 		Entity player = world.createEntity();
 		player.setGroup("PLAYER");
-		player.addComponent(new Warp("trog2", new Vector2f(15,12)));
-		player.addComponent(new ResourceRef("playeranimation"));
+		player.addComponent(new Warp("trog1", new Vector2f(20,20)));
+		player.addComponent(new ResourceRef("yetianimation"));
 		player.addComponent(new Movement(10, new Vector2f(2,2), new Vector2f(2,2)));
 		player.addComponent(new Direction(Dir.DOWN));
 		
@@ -68,12 +69,14 @@ public class PlayingState extends BaseGameState {
 		stats.put(StatType.HEALTH, 100);
 		stats.put(StatType.MAX_HEALTH, 100);
 		stats.put(StatType.ARMOR, 25);
+		stats.put(StatType.RANGE, 2);
 		player.addComponent(new Stats(stats));
 		// This position is overwritten when the player is warped
 		player.addComponent(new Position(new Vector2f(0,0)));
 		player.addComponent(new Attack(500,9));
 		// It's over 9000
 		player.addComponent(new Secondary(6*1000));
+		player.addComponent(new HealthRegen(250));
 		player.refresh();
 	}
 	

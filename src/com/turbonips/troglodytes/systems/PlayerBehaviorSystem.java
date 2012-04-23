@@ -1,5 +1,6 @@
 package com.turbonips.troglodytes.systems;
 
+import java.util.Date;
 import java.util.HashMap;
 
 import org.newdawn.slick.Image;
@@ -14,6 +15,7 @@ import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.ResourceManager;
 import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.Direction;
+import com.turbonips.troglodytes.components.HealthRegen;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.ResourceRef;
@@ -30,6 +32,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 	private ComponentMapper<Attack> attackMapper;
 	private ComponentMapper<Secondary> secondaryMapper;
 	private ComponentMapper<Stats> statsMapper;
+	private ComponentMapper<HealthRegen> healthRegenMapper;
 
 	@Override
 	protected void initialize() {
@@ -40,6 +43,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 		attackMapper = new ComponentMapper<Attack>(Attack.class, world);
 		statsMapper = new ComponentMapper<Stats>(Stats.class, world);
 		secondaryMapper = new ComponentMapper<Secondary>(Secondary.class, world);
+		healthRegenMapper = new ComponentMapper<HealthRegen>(HealthRegen.class, world);
 	}
 
 	@Override
@@ -52,6 +56,16 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 		Entity player = players.get(0);
 		Position playerPos = positionMapper.get(player);
 		Vector2f playerPosition = playerPos.getPosition();
+		HashMap<StatType, Integer> playerStats = statsMapper.get(player).getStats();
+		
+		// Health regen
+		if (playerStats.get(StatType.HEALTH) < playerStats.get(StatType.MAX_HEALTH)) {
+			HealthRegen healthRegen = healthRegenMapper.get(player);
+			if (new Date().getTime()-healthRegen.getLastTime() > healthRegen.getTime()) {
+				playerStats.put(StatType.HEALTH, playerStats.get(StatType.HEALTH)+1);
+				healthRegen.setLastTime(new Date().getTime());
+			}
+		}
 
 		// Collision detection
 		if (ground != null) {
@@ -65,6 +79,8 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 			checkSecondary(player, enemies);
 			playerPosition.set(newPosition);
 		}
+		
+		
 	}
 
 	private void checkWarps(TiledMap map, Entity player) {
@@ -140,7 +156,6 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 			int pw = playerFrame.getWidth();
 			Vector2f playerCenter = new Vector2f(playerPosition.x + (pw / 2), playerPosition.y + (ph / 2));
 			int MAX_DISTANCE = 128;
-			HashMap<StatType, Integer> playerStats = statsMapper.get(player).getStats();
 			int playerDamage = 10;
 
 			for (int i = 0; i < enemies.size(); i++) {
@@ -187,7 +202,6 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 			int ph = playerFrame.getHeight();
 			int pw = playerFrame.getWidth();
 			Vector2f playerCenter = new Vector2f(playerPosition.x + (pw / 2), playerPosition.y + (ph / 2));
-			int MAX_DISTANCE = 64;
 			Direction playerDirection = directionMapper.get(player);
 			HashMap<StatType, Integer> playerStats = statsMapper.get(player).getStats();
 			int playerDamage = 10;
@@ -207,7 +221,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 				double attackingKnockBack = 20;
 				double attackingKnockBackX = (attackingKnockBack/Math.sqrt(2));
 
-				if (playerCenter.distance(enemyCenter) < MAX_DISTANCE) {
+				if (playerCenter.distance(enemyCenter) < playerStats.get(StatType.RANGE)*32) {
 					Vector2f playerToEnemy = new Vector2f(enemyCenter.x - playerCenter.x, playerCenter.y - enemyCenter.y);
 
 					switch (playerDirection.getDirection()) {

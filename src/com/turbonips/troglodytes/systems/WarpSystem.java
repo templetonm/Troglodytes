@@ -119,10 +119,11 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 						enemy.addComponent(new Direction(Dir.DOWN));
 						enemy.addComponent(new Position(startPosition));
 						enemy.addComponent(new EnemyAI(enemyAIType, sight));
-						enemy.addComponent(new Attack(0,enemyData.getDamage()));
+						enemy.addComponent(new Attack(enemyData.getCooldown(),enemyData.getDamage()));
 						HashMap<StatType, Integer> stats = new HashMap<StatType, Integer> ();
 						stats.put(StatType.HEALTH, enemyData.getHealth());
 						stats.put(StatType.MAX_HEALTH, enemyData.getHealth());
+						stats.put(StatType.RANGE, enemyData.getRange());
 						enemy.addComponent(new Stats(stats));
 						enemy.refresh();
 					}

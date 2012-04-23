@@ -62,5 +62,29 @@
     <property name="Number" value="10"/>
    </properties>
   </object>
+  <object name="VampireBatSpawn" type="Spawn" x="2177" y="373" width="238" height="154">
+   <properties>
+    <property name="Enemy" value="vampirebat"/>
+    <property name="Number" value="10"/>
+   </properties>
+  </object>
+  <object name="YetiSpawn" type="Spawn" x="692" y="1866" width="226" height="137">
+   <properties>
+    <property name="Enemy" value="yeti"/>
+    <property name="Number" value="10"/>
+   </properties>
+  </object>
+  <object name="GiantMaggotSpawn" type="Spawn" x="781" y="690" width="226" height="137">
+   <properties>
+    <property name="Enemy" value="giantmaggot"/>
+    <property name="Number" value="10"/>
+   </properties>
+  </object>
+  <object name="SlimeSpawn" type="Spawn" x="1135" y="543" width="226" height="137">
+   <properties>
+    <property name="Enemy" value="slime"/>
+    <property name="Number" value="10"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

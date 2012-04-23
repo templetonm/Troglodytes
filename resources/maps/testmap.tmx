@@ -26,8 +26,8 @@
  <objectgroup name="Objects" width="100" height="100">
   <object name="TestSpawn" type="Spawn" x="1080" y="312" width="984" height="1004">
    <properties>
-    <property name="Enemy" value="smalldino"/>
-    <property name="Number" value="10000"/>
+    <property name="Enemy" value="yeti"/>
+    <property name="Number" value="10"/>
    </properties>
   </object>
  </objectgroup>

@@ -9,7 +9,8 @@ public class Stats extends Component {
 	public enum StatType { 
 		HEALTH,
 		MAX_HEALTH,
-		ARMOR
+		ARMOR, 
+		RANGE
 	}
 	private HashMap<StatType, Integer> stats = new HashMap<StatType, Integer>();
 	
