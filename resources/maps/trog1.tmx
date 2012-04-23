@@ -31,7 +31,7 @@
    H4sIAAAAAAAAC+3Zu04DMRCFYQeq0CBEQVoeiEtBuEj08P5PwLiwtLI2y0ZZ+3js/5OmTayz47FXGwIAAAAAAAAAAAAAAPDozepo9b6iPqw+Ncts1jn55fVk9Vx/ya5N8yY/wKed1WGnXsWY7tQLGNijegGDerBZc8O8qS5GTu4azHkNel6HntfhbqPBvNFh3ugwbzSYNzrMGw16Xoee11Gfsae+r47wLVqZfcz9K8x/X721+g795t/6rFfmP7cft9yLHmZ9zP811J1Bp/bjy0Zrab3ncz9WvxX+Z2kOJvEZXLIfPfT8VI35syb3JO2Bc2eR12+C3s9fb7MmV2v2lOBt1uQUZ+9Wat/n97bHrgv8rsdnoHiXui/42+kZeHgf7i17L1TnLNnrztmRs4/3+YPwTj9i9urMk1GyT3m3kHlS6p6pNs26pbxzPfV+K/NkLc+976W/l3jIP8/Za9ZzYv5XQfcM5rLtMecl+38yKFUjZAsAANCDP6adik3oZwAA
   </data>
  </layer>
- <layer name="Collision" width="95" height="70">
+ <layer name="Collision" width="95" height="70" visible="0">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC+2UwQ7CMAxDx6/z5ZyQENrUtXViJ7MlH2lfXsrer+N4u67ruq7ruq7rNu1V2Fzd++/ae8h1PhM2d/Xuhs1fsciwZ2E4Y/p+4h5m52SE7QjpuFrY7rr5nAnbM8u5wo7ZvtEOFJzeTRfnarkzH9N7d/+j+K3z8jTvSrwVvVdkZs1RhdPueZwjZvQ+7L7ne7f7erNc/UaNczWq3pncGVF+8yz+jGR6j5xJnS+SWWkuRaYdxkruZ8Ngs3dMVuaze078veGlk/dqe+7ifuV+5n6e5F3tO9jBvTJbJDN7tgqM0dzV3WdHwfuui4reUdw7s6Gc2Dvuza+6QTpH7+n391Xc78y9ek7kfyXLO9v9SqJ5KrrP8B8xI+J8BffR/iPdZ3u/w2X3ddxH7iCSgeF+xBi929lE3avoHs2FSMT5Cu7P+NXcnzEhz1J690g+Rkb3qrtHcKqF6XzXSTXX37B9V3CEDNuxqv+I+9k+Vdxn7pbtUdF/VNjOnuKf7ab7Dthzu67ruq7ruuN+ABsH6njoZwAA
   </data>
@@ -40,30 +40,26 @@
   <object name="Warp To Forest" type="Warp" x="1440" y="416" width="96" height="64">
    <properties>
     <property name="Map" value="trog2"/>
-    <property name="X" value="62"/>
-    <property name="Y" value="23"/>
+    <property name="X" value="65"/>
+    <property name="Y" value="47"/>
    </properties>
   </object>
-  <object name="TestSpawn" type="Spawn" x="2175" y="400" width="263" height="282">
+  <object name="SpiderSpawn" type="Spawn" x="1202" y="1577" width="390" height="311">
    <properties>
-    <property name="Enemy" value="smalldino"/>
-    <property name="Number" value="25"/>
+    <property name="Enemy" value="spider"/>
+    <property name="Number" value="10"/>
    </properties>
   </object>
-  <object name="TestSpawn" type="Spawn" x="705" y="967" width="308" height="391">
+  <object name="SpiderSpawn" type="Spawn" x="2032" y="746" width="390" height="311">
    <properties>
-    <property name="Enemy" value="smalldino"/>
-    <property name="Number" value="1000"/>
+    <property name="Enemy" value="spider"/>
+    <property name="Number" value="10"/>
    </properties>
   </object>
-  <object name="psTest" type="particleSpawn" x="912" y="911" width="64" height="64">
+  <object name="SpiderSpawn" type="Spawn" x="552" y="939" width="390" height="311">
    <properties>
-    <property name="type" value="smallfire"/>
-   </properties>
-  </object>
-  <object name="psTest2" type="particleSpawn" x="913" y="886" width="42" height="43">
-   <properties>
-    <property name="type" value="smallsmoke"/>
+    <property name="Enemy" value="spider"/>
+    <property name="Number" value="10"/>
    </properties>
   </object>
  </objectgroup>

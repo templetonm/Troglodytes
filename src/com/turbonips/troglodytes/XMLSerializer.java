@@ -15,7 +15,7 @@ public class XMLSerializer {
 	private XMLSerializer() {
 	}
 
-	public void SerializeObject(Object obj, String objName) {
+	public void serializeObject(Object obj, String objName) {
 		try {
 			String objFilepath = objName;
 			fos = new FileOutputStream(objFilepath);
@@ -27,7 +27,7 @@ public class XMLSerializer {
 		}
 	}
 
-	public EnemyData DeserializeEnemyData(String enemyName) {
+	public EnemyData deserializeEnemyData(String enemyName) {
 		EnemyData enemyData = null;
 		try {
 			enemyData = new EnemyData();
@@ -43,7 +43,7 @@ public class XMLSerializer {
 		return enemyData;
 	}
 
-	public ParticleData DeserializeParticleData(String particleType) {
+	public ParticleData deserializeParticleData(String particleType) {
 		ParticleData particleData = null;
 		try {
 			particleData = new ParticleData();

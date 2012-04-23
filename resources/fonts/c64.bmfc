@@ -25,10 +25,10 @@ spacingVert=1
 # output file
 outWidth=320
 outHeight=320
-outBitDepth=32
-fontDescFormat=2
+outBitDepth=8
+fontDescFormat=0
 fourChnlPacked=0
-textureFormat=png
+textureFormat=tga
 textureCompression=0
 alphaChnl=0
 redChnl=4
@@ -43,7 +43,7 @@ invB=0
 outlineThickness=0
 
 # selected chars
-chars=32-126,133,146,151,160,163,183,8194-8202,8208,8212,8217,8220-8221,8226,8230,8722,8729,119155-119162
-chars=917505,917536-917631
+chars=32-86,88-126,133,146,151,160,163,183,8194-8202,8208,8212,8217,8220-8221,8226,8230,8722,8729,119155
+chars=119156-119162,917505,917536-917631
 
 # imported icon images

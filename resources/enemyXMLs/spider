@@ -14,7 +14,7 @@
    <int>0</int>
   </void>
   <void property="health"> 
-   <int>20</int>
+   <int>50</int>
   </void> 
   <void property="damage"> 
    <int>1</int>
@@ -26,7 +26,7 @@
    <int>0</int>
   </void>
   <void property="sight"> 
-   <int>5</int>
+   <int>8</int>
   </void>
   <void property="flier"> 
    <boolean>false</boolean>
@@ -41,13 +41,13 @@
    <int>0</int>
   </void>
   <void property="maxSpeed"> 
-   <int>3</int>
+   <int>5</int>
   </void>
   <void property="resourceRef"> 
-   <string>smalldinoanimation</string>
+   <string>spideranimation</string>
   </void>
   <void property="acceleration"> 
-   <float>1.5</float>
+   <float>1</float>
   </void>
   <void property="deceleration"> 
    <float>1.5</float>

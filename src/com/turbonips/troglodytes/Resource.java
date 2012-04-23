@@ -11,14 +11,15 @@ public class Resource {
 		SPRITE_SHEET, 
 		CREATURE_ANIMATION, 
 		MUSIC,
-		SOUND
+		SOUND,
+		FONT
 	}
 	private final ResourceType type;
 	
 	public Resource(String id, ResourceType type, String path, Object object) {
-		this.path = path;
 		this.id = id;
 		this.type = type;
+		this.path = path;
 		this.object = object;
 	}
 

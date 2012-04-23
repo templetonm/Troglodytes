@@ -1,7 +1,5 @@
 package com.turbonips.troglodytes.states;
 
-import org.newdawn.slick.AngelCodeFont;
-import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -10,12 +8,10 @@ import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.gui.*;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.Color;
 
 public class MenuState extends BaseGameState {
 	public static final int ID = 1;
-
-	private Image backgroundImage;
+	
 	private UnicodeFont unicodeFont;
 
 	private String title = "Troglodytes";
@@ -37,9 +33,7 @@ public class MenuState extends BaseGameState {
 			throws SlickException {
 		super.init(container, game);
 
-		backgroundImage = new Image ("resources/graphics/menuBackground.png");
-
-		unicodeFont = new UnicodeFont ("resources/fonts/C64.ttf", 84, true, false);
+		unicodeFont = new UnicodeFont ("resources/fonts/C64.ttf", 70, true, false);
 		unicodeFont.getEffects().add(new ColorEffect(java.awt.Color.white));
 
 		playGameButtonImage = new Image ("resources/graphics/newGameButton.png");
@@ -57,7 +51,7 @@ public class MenuState extends BaseGameState {
 		playGameButton.addListener(new ComponentListener() {
 
 			public void componentActivated (AbstractComponent arg0) {
-				game.enterState(LoadingState.ID);
+				game.enterState(PlayingState.ID);
 			}
 		});
 
@@ -86,9 +80,7 @@ public class MenuState extends BaseGameState {
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
 		// TODO Auto-generated method stub
-
-		backgroundImage.draw(0,0,container.getWidth(), container.getHeight());
-
+		
 		unicodeFont.drawString(container.getWidth()/2-(unicodeFont.getWidth(title)/2), 
 				container.getHeight()/4-unicodeFont.getYOffset(title), 
 				title);

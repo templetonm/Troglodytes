@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-	<resource id="testplayerimage" type="image" path="graphics/player.png" />
-	<resource id="testenemyimage" type="image" path="graphics/enemy.png" />
-	<resource id="testplayeranimation" type="creatureanimation" path="graphics/demoCharTest.png" width="32" height="64" />
-	<resource id="testenemyanimation" type="creatureanimation" path="graphics/demoMobTest.png" width="64" height="48" />
-	
-	
-	<resource id="smalldinoanimation" type="creatureanimation" path="graphics/demoMobTest.png" width="64" height="48" />
-	<resource id="light" type="image" path="graphics/light.png" />
-
+	<resource id="testwhiteimage" type="image" path="graphics/white.png" />
+	<resource id="testblueimage" type="image" path="graphics/blue.png" />
+	<resource id="healthicon" type="image" path="graphics/heart.png" />
+	<resource id="armoricon" type="image" path="graphics/shield.png" />
 	<resource id="swampbubble" type="image" path="graphics/testBubble.png" />
 	<resource id="smallfire" type="image" path="graphics/blankParticleW.png" />
 	<resource id="smallsmoke" type="image" path="graphics/blankParticleW.png" />
+	<resource id="light" type="image" path="graphics/light.png" />
+
+	<resource id="playeranimation" type="creatureanimation" path="graphics/demoCharTest.png" width="32" height="64" />
+	<resource id="smalldinoanimation" type="creatureanimation" path="graphics/smalldino.png" width="64" height="48" />
+	<resource id="spideranimation" type="creatureanimation" path="graphics/spider.png" width="35" height="35" />
 
 	<resource id="stepsound" type="sound" path="sounds/step.wav" />
-
 	<resource id="Into the Dark.ogg" type="music" path="music/Into the Dark.ogg" />
+	
+	<resource id="defaultFont" type="font" path="fonts/C64.ttf" />
 	
 	<resource id="trog0" type="tiledmap" path="maps/trogStart.tmx" />
 	<resource id="trog1" type="tiledmap" path="maps/trog1.tmx" />
 	<resource id="trog2" type="tiledmap" path="maps/trog2.tmx" />
+	<resource id="testmap" type="tiledmap" path="maps/testmap.tmx" />
 </resources>
