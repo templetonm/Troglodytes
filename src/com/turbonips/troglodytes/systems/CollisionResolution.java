@@ -49,187 +49,53 @@ public class CollisionResolution {
 		Image entityFrame = getFrame(entityRes);
 		int th = map.getTileHeight();
 		int tw = map.getTileWidth();
-		int eh = entityFrame.getHeight();
-		int ew = entityFrame.getWidth();
+		int eh = entityFrame.getHeight()-1;
+		int ew = entityFrame.getWidth()-1;
 		Movement entityMovement = movementMapper.get(entity);
 		Position entityPos = positionMapper.get(entity);
 		Vector2f entityPosition = entityPos.getPosition();
 		Vector2f entityVelocity = entityMovement.getVelocity();
 		Vector2f newEntityPosition = new Vector2f(entityPosition);
 		newEntityPosition.add(entityVelocity);
-		Integer wx = ((int)(newEntityPosition.x/tw) * tw),
-				wy = ((int)(newEntityPosition.y/th) * th);
-		int accuracy = 3;
+		int step = 4;
 		
-		// Upper left
-		if (map.getTileId((int)newEntityPosition.x/tw, (int)newEntityPosition.y/th, 3) > 0) {
-			wx = ((int)(newEntityPosition.x/tw) * tw) + tw;
-			wy = ((int)(newEntityPosition.y/th) * th) + th;
-			
-			if (map.getTileId((int)entityPosition.x/tw, (int)newEntityPosition.y/th, 3) > 0)  {
-				newEntityPosition.y = wy;
-			}
+		for (int x=0; x<ew; x=x+step) {
+			// Up
+			if (map.getTileId((int)(newEntityPosition.x+x)/tw, (int)newEntityPosition.y/th, 3) > 0) {
 				
-			else if (map.getTileId((int)newEntityPosition.x/tw, (int)(entityPosition.y)/th, 3) > 0)  {
-				newEntityPosition.x = wx;
-			} 
+				if (map.getTileId((int)(entityPosition.x+x)/tw, (int)newEntityPosition.y/th, 3) > 0)  {
+					newEntityPosition.y = (int)(newEntityPosition.y/th)*th + th;
+				}
+			}
+			
+			// Down
+			if (map.getTileId((int)(entityPosition.x+x)/tw, (int)(newEntityPosition.y+eh)/th, 3) > 0) {
+				
+				if (map.getTileId((int)(newEntityPosition.x+x)/tw, (int)(newEntityPosition.y+eh)/th, 3) > 0 ) {
+					newEntityPosition.y = (int)((newEntityPosition.y+eh)/th)*th - (eh+1);
+				}
+			}
 		}
 		
-		// Upper right
-		if (map.getTileId((int)(newEntityPosition.x+ew-1)/tw, (int)newEntityPosition.y/th, 3) > 0) {
-			wx = ((int)(newEntityPosition.x/tw) * tw);
-			wy = ((int)(newEntityPosition.y/th) * th) + th;
+		for (int y=0; y<eh; y=y+step) {
+			// Right
+			if (map.getTileId((int)(newEntityPosition.x+ew)/tw, (int)(newEntityPosition.y+y)/th, 3) > 0) {
+					
+				if (map.getTileId((int)(newEntityPosition.x+ew)/tw, (int)(entityPosition.y+y)/th, 3) > 0 ) {
+					newEntityPosition.x = (int)((newEntityPosition.x+ew)/tw)*tw - (ew+1);
+				}
+			}
+			
+			// Left
+			if (map.getTileId((int)newEntityPosition.x/tw, (int)(newEntityPosition.y+y)/th, 3) > 0) {
+					
+				if (map.getTileId((int)(newEntityPosition.x)/tw, (int)(entityPosition.y+y)/th, 3) > 0 ) {
+					newEntityPosition.x = (int)(newEntityPosition.x/tw)*tw + tw;
+				}
+			}
+		
+		}
 
-			if (map.getTileId((int)(entityPosition.x+ew-1)/tw, (int)newEntityPosition.y/th, 3) > 0) {
-				newEntityPosition.y = wy;
-			}
-				
-			else if (map.getTileId((int)(newEntityPosition.x+ew-1)/tw, (int)entityPosition.y/th, 3) > 0 ) {
-				newEntityPosition.x = wx;
-			}
-		}
-		
-		// Lower right
-		if (map.getTileId((int)(newEntityPosition.x+ew-1)/tw, (int)(newEntityPosition.y+eh-1)/th, 3) > 0) {
-			wx = ((int)(newEntityPosition.x/tw) * tw);
-			wy = ((int)(newEntityPosition.y/th) * th);
-			
-			if (map.getTileId((int)(entityPosition.x+ew-1)/tw, (int)(newEntityPosition.y+eh-1)/th, 3) > 0 ) {
-				newEntityPosition.y = wy;
-			}
-				
-			else if (map.getTileId((int)(newEntityPosition.x+ew-1)/tw, (int)(entityPosition.y+eh-1)/th, 3) > 0 ) {
-				newEntityPosition.x = wx;
-			}
-		}
-		
-		// Lower left
-		if (map.getTileId((int)newEntityPosition.x/tw, (int)(newEntityPosition.y+eh-1)/th, 3) > 0) {
-			wx = ((int)(newEntityPosition.x/tw) * tw) + tw;
-			wy = ((int)(newEntityPosition.y/th) * th);
-			
-			if (map.getTileId((int)(entityPosition.x)/tw, (int)(newEntityPosition.y+eh-1)/th, 3) > 0 ) {
-				newEntityPosition.y = wy;
-			}
-				
-			else if (map.getTileId((int)(newEntityPosition.x)/tw, (int)(entityPosition.y+eh-1)/th, 3) > 0 ) {
-				newEntityPosition.x = wx;
-			}
-		}
-		
-		for (int i=2; i<= accuracy; i++) {
-			// Lower center right
-			if (map.getTileId((int)(newEntityPosition.x+ew/i-1)/tw, (int)(newEntityPosition.y+eh-1)/th, 3) > 0) {
-				wx = ((int)(newEntityPosition.x/tw) * tw) + tw/i;
-				wy = ((int)(newEntityPosition.y/th) * th);
-				
-				if (map.getTileId((int)(entityPosition.x+ew/i-1)/tw, (int)(newEntityPosition.y+eh-1)/th, 3) > 0)  {
-					newEntityPosition.y = wy;
-				}
-					
-				else if (map.getTileId((int)(newEntityPosition.x+ew/i-1)/tw, (int)(entityPosition.y+eh-1)/th, 3) > 0)  {
-					newEntityPosition.x = wx;
-				}
-			}
-			
-			// Lower center left
-			if (map.getTileId((int)(newEntityPosition.x+ew-ew/i)/tw, (int)(newEntityPosition.y+eh-1)/th, 3) > 0) {
-				wx = ((int)(newEntityPosition.x/tw) * tw) + tw/i;
-				wy = ((int)(newEntityPosition.y/th) * th);
-				
-				if (map.getTileId((int)(entityPosition.x+ew-ew/i)/tw, (int)(newEntityPosition.y+eh-1)/th, 3) > 0)  {
-					newEntityPosition.y = wy;
-				}
-					
-				else if (map.getTileId((int)(newEntityPosition.x+ew-ew/i)/tw, (int)(entityPosition.y+eh-1)/th, 3) > 0)  {
-					newEntityPosition.x = wx;
-				}
-			}
-			
-			// Upper center right
-			if (map.getTileId((int)(newEntityPosition.x+ew/i-1)/tw, (int)newEntityPosition.y/th, 3) > 0) {
-				wx = ((int)(newEntityPosition.x/tw) * tw) + tw/i;
-				wy = ((int)(newEntityPosition.y/th) * th) + th;
-				
-				if (map.getTileId((int)(entityPosition.x+ew/i-1)/tw, (int)newEntityPosition.y/th, 3) > 0)  {
-					newEntityPosition.y = wy;
-				}
-					
-				else if (map.getTileId((int)(newEntityPosition.x+ew/i-1)/tw, (int)(entityPosition.y)/th, 3) > 0)  {
-					newEntityPosition.x = wx;
-				}
-			}
-			
-			// Upper center left
-			if (map.getTileId((int)(newEntityPosition.x+ew-ew/i)/tw, (int)newEntityPosition.y/th, 3) > 0) {
-				wx = ((int)(newEntityPosition.x/tw) * tw) + tw/i;
-				wy = ((int)(newEntityPosition.y/th) * th) + th;
-				
-				if (map.getTileId((int)(entityPosition.x+ew-ew/i)/tw, (int)newEntityPosition.y/th, 3) > 0)  {
-					newEntityPosition.y = wy;
-				}
-					
-				else if (map.getTileId((int)(newEntityPosition.x+ew-ew/i)/tw, (int)(entityPosition.y)/th, 3) > 0)  {
-					newEntityPosition.x = wx;
-				}
-			}
-			
-			// Center upper left
-			if (map.getTileId((int)(newEntityPosition.x)/tw, (int)(newEntityPosition.y+eh/i-1)/th, 3) > 0) {
-				wx = ((int)(newEntityPosition.x/tw) * tw) + tw;
-				wy = ((int)(newEntityPosition.y/th) * th) + th/i;
-				
-				if (map.getTileId((int)(entityPosition.x)/tw, (int)(newEntityPosition.y+eh/i-1)/th, 3) > 0 ) {
-					newEntityPosition.y = wy;
-				}
-					
-				else if (map.getTileId((int)(newEntityPosition.x)/tw, (int)(entityPosition.y+eh/i-1)/th, 3) > 0 ) {
-					newEntityPosition.x = wx;
-				}
-			}
-			
-			// Center lower left
-			if (map.getTileId((int)(newEntityPosition.x)/tw, (int)(newEntityPosition.y+eh-eh/i)/th, 3) > 0) {
-				wx = ((int)(newEntityPosition.x/tw) * tw) + tw;
-				wy = ((int)(newEntityPosition.y/th) * th) + th/i;
-				
-				if (map.getTileId((int)(entityPosition.x)/tw, (int)(newEntityPosition.y+eh-eh/i)/th, 3) > 0 ) {
-					newEntityPosition.y = wy;
-				}
-					
-				else if (map.getTileId((int)(newEntityPosition.x)/tw, (int)(entityPosition.y+eh-eh/i)/th, 3) > 0 ) {
-					newEntityPosition.x = wx;
-				}
-			}
-			
-			// Center upper right
-			if (map.getTileId((int)(newEntityPosition.x+ew-1)/tw, (int)(newEntityPosition.y+eh/i-1)/th, 3) > 0) {
-				wx = ((int)(newEntityPosition.x/tw) * tw);
-				wy = ((int)(newEntityPosition.y/th) * th) + th/i;
-				
-				if (map.getTileId((int)(entityPosition.x+ew-1)/tw, (int)(newEntityPosition.y+eh/i-1)/th, 3) > 0) {
-					newEntityPosition.y = wy;
-				}
-					
-				else if (map.getTileId((int)(newEntityPosition.x+ew-1)/tw, (int)(entityPosition.y+eh/i-1)/th, 3) > 0 ) {
-					newEntityPosition.x = wx;
-				}
-			}
-			
-			// Center lower right
-			if (map.getTileId((int)(newEntityPosition.x+ew-1)/tw, (int)(newEntityPosition.y+eh-eh/i)/th, 3) > 0) {
-				wx = ((int)(newEntityPosition.x/tw) * tw);
-				wy = ((int)(newEntityPosition.y/th) * th) + th/i;
-				
-				if (map.getTileId((int)(entityPosition.x+ew-1)/tw, (int)(newEntityPosition.y+eh-eh/i)/th, 3) > 0) {
-					newEntityPosition.y = wy;
-				}
-					
-				else if (map.getTileId((int)(newEntityPosition.x+ew-1)/tw, (int)(entityPosition.y+eh-eh/i)/th, 3) > 0 ) {
-					newEntityPosition.x = wx;
-				}
-			}
-		}
 		return newEntityPosition;
 	}
 	
