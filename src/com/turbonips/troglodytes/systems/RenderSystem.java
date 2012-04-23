@@ -158,7 +158,7 @@ public class RenderSystem extends BaseEntitySystem {
 			Resource mapRes = manager.getResource(mapResName);
 			TiledMap map = (TiledMap)mapRes.getObject();
 			map.render(mapX, mapY, 2);
-			map.render(mapX, mapY, 3);
+			//map.render(mapX, mapY, 3);
 		}
 		
 		// Draw UI
