@@ -14,7 +14,7 @@
    <int>0</int>
   </void>
   <void property="health"> 
-   <int>50</int>
+   <int>20</int>
   </void> 
   <void property="damage"> 
    <int>1</int>
@@ -26,7 +26,7 @@
    <int>0</int>
   </void>
   <void property="sight"> 
-   <int>8</int>
+   <int>5</int>
   </void>
   <void property="flier"> 
    <boolean>false</boolean>
@@ -44,7 +44,7 @@
    <int>3</int>
   </void>
   <void property="resourceRef"> 
-   <string>testenemyimage</string>
+   <string>smalldinoanimation</string>
   </void>
   <void property="acceleration"> 
    <float>1.5</float>

@@ -58,10 +58,22 @@
     <property name="Y" value="15"/>
    </properties>
   </object>
-  <object name="TestSpawn" type="spawn" x="1062" y="1191" width="504" height="404">
+  <object name="DinoSpawn" type="spawn" x="1488" y="1264" width="131" height="124">
    <properties>
     <property name="Enemy" value="smalldino"/>
-    <property name="Number" value="1000"/>
+    <property name="Number" value="5"/>
+   </properties>
+  </object>
+  <object name="DinoSpawn" type="spawn" x="882" y="890" width="131" height="124">
+   <properties>
+    <property name="Enemy" value="smalldino"/>
+    <property name="Number" value="5"/>
+   </properties>
+  </object>
+  <object name="SpiderSpawn" type="spawn" x="2174" y="884" width="131" height="124">
+   <properties>
+    <property name="Enemy" value="spider"/>
+    <property name="Number" value="2"/>
    </properties>
   </object>
  </objectgroup>

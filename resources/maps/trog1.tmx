@@ -44,26 +44,22 @@
     <property name="Y" value="47"/>
    </properties>
   </object>
-  <object name="TestSpawn" type="Spawn" x="2175" y="400" width="263" height="282">
+  <object name="SpiderSpawn" type="Spawn" x="1202" y="1577" width="390" height="311">
    <properties>
-    <property name="Enemy" value="smalldino"/>
-    <property name="Number" value="25"/>
-   </properties>
-  </object>
-  <object name="TestSpawn" type="Spawn" x="705" y="967" width="308" height="391">
-   <properties>
-    <property name="Enemy" value="smalldino"/>
+    <property name="Enemy" value="spider"/>
     <property name="Number" value="10"/>
    </properties>
   </object>
-  <object name="psTest" type="particleSpawn" x="912" y="911" width="64" height="64">
+  <object name="SpiderSpawn" type="Spawn" x="2032" y="746" width="390" height="311">
    <properties>
-    <property name="type" value="smallfire"/>
+    <property name="Enemy" value="spider"/>
+    <property name="Number" value="10"/>
    </properties>
   </object>
-  <object name="psTest2" type="particleSpawn" x="913" y="886" width="42" height="43">
+  <object name="SpiderSpawn" type="Spawn" x="552" y="939" width="390" height="311">
    <properties>
-    <property name="type" value="smallsmoke"/>
+    <property name="Enemy" value="spider"/>
+    <property name="Number" value="10"/>
    </properties>
   </object>
  </objectgroup>
