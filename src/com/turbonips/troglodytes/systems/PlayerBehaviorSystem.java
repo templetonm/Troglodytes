@@ -171,6 +171,15 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 				Vector2f enemyVelocity = enemyMovement.getVelocity();
 				boolean secondaryEnemy = false;
 				double secondaryKnockBack = 40;
+				
+				// Make sure we don't set the velocity > the entity width or height (necessary for collision)
+				if (ew < eh && secondaryKnockBack > ew) {
+					secondaryKnockBack = ew;
+				}
+				if (eh < ew && secondaryKnockBack > eh) {
+					secondaryKnockBack = eh;
+				}
+				
 				double secondaryKnockBackX = (secondaryKnockBack/Math.sqrt(2));
 
 				if (playerCenter.distance(enemyCenter) < MAX_DISTANCE) {
