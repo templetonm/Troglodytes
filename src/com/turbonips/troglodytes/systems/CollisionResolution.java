@@ -99,6 +99,73 @@ public class CollisionResolution {
 		return newEntityPosition;
 	}
 	
+	public Vector2f resolveEntityCollision(Entity entity, Vector2f newEntityPosition, Entity otherEntity) {
+		String entityResName = resourceMapper.get(entity).getResourceName();
+		ResourceManager manager = ResourceManager.getInstance();
+		Resource entityRes = manager.getResource(entityResName);
+		Image entityFrame = getFrame(entityRes);
+		Resource otherEntityRes = manager.getResource(entityResName);
+		Image otherEntityFrame = getFrame(otherEntityRes);
+		int eh = entityFrame.getHeight()-1;
+		int ew = entityFrame.getWidth()-1;
+		int oeh = otherEntityFrame.getHeight()-1;
+		int oew = otherEntityFrame.getWidth()-1;
+		Position entityPos = positionMapper.get(entity);
+		Vector2f entityPosition = entityPos.getPosition();
+		Vector2f otherEntityPosition = positionMapper.get(otherEntity).getPosition();
+		int step = 1;
+		
+		for (int x=0; x<ew; x=x+step) {
+			// Up
+			if (newEntityPosition.x+x > otherEntityPosition.x && newEntityPosition.x < otherEntityPosition.x+oew &&
+				newEntityPosition.y+eh > otherEntityPosition.y+oeh && newEntityPosition.y < otherEntityPosition.y+oeh) {
+				
+				if (entityPosition.x+x > otherEntityPosition.x && entityPosition.x < otherEntityPosition.x+oew &&
+					newEntityPosition.y+eh > otherEntityPosition.y+oeh && newEntityPosition.y < otherEntityPosition.y+oeh) {
+					newEntityPosition.y = otherEntityPosition.y+oeh+1;
+				}
+			}
+			
+			// Down
+			if (newEntityPosition.x+x > otherEntityPosition.x && newEntityPosition.x < otherEntityPosition.x+oew &&
+				newEntityPosition.y+eh > otherEntityPosition.y && newEntityPosition.y+eh < otherEntityPosition.y+oeh) {
+				
+				if (entityPosition.x+x > otherEntityPosition.x && entityPosition.x < otherEntityPosition.x+oew &&
+					newEntityPosition.y+eh > otherEntityPosition.y && newEntityPosition.y+eh < otherEntityPosition.y+oeh) {
+					newEntityPosition.y = otherEntityPosition.y-eh-1;
+				}
+			}
+		}
+		
+
+		for (int y=0; y<eh; y=y+step) {
+			// Left
+			if (newEntityPosition.y+y > otherEntityPosition.y && newEntityPosition.y < otherEntityPosition.y+oeh &&
+				newEntityPosition.x+ew > otherEntityPosition.x+oew && newEntityPosition.x < otherEntityPosition.x+oew) {
+				
+				if (entityPosition.y+y > otherEntityPosition.y && entityPosition.y < otherEntityPosition.y+oeh &&
+					newEntityPosition.x+ew > otherEntityPosition.x+oew && newEntityPosition.x < otherEntityPosition.x+oew) {
+					newEntityPosition.x = otherEntityPosition.x+oew+1;
+				}
+			}
+			
+			// Right
+			if (newEntityPosition.y+y > otherEntityPosition.y && newEntityPosition.y < otherEntityPosition.y+oeh &&
+				newEntityPosition.x+ew > otherEntityPosition.x && newEntityPosition.x+ew < otherEntityPosition.x+oew) {
+				
+				if (entityPosition.y+y > otherEntityPosition.y && entityPosition.y < otherEntityPosition.y+oeh &&
+					newEntityPosition.x+ew > otherEntityPosition.x && newEntityPosition.x+ew < otherEntityPosition.x+oew) {
+					newEntityPosition.x = otherEntityPosition.x-ew-1;
+				}
+			}
+		}
+
+		return newEntityPosition;
+	}
+	
+	
+	
+	
 	private Image getFrame(Resource resource) {
 		switch (resource.getType()) {
 			case CREATURE_ANIMATION:
