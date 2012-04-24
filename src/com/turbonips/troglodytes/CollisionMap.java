@@ -19,7 +19,6 @@ public class CollisionMap implements TileBasedMap
 	
 	@Override
 	public boolean blocked(PathFindingContext pfc, int x, int y) {
-		logger.info("bxyb:" + String.valueOf(x) + ", " + String.valueOf(y) + ":" + String.valueOf(tiledMap.getTileId(x, y, collisionLayerID) > 0));
 		return tiledMap.getTileId(x, y, collisionLayerID) > 0;
 	}
 

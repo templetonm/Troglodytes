@@ -1,11 +1,16 @@
 package com.turbonips.troglodytes.components;
 
+import org.newdawn.slick.util.pathfinding.Path;
+
 import com.artemis.Component;
 
 public class EnemyAI extends Component
 {
 	private AIType enemyAIType;
 	private int sight = 0;
+	private Path path = null;
+	public int pathAge = 0;
+	public int pathStep = 0;
 	
 	public EnemyAI (String enemyAIType, int sight) {
 		this.enemyAIType = AIType.valueOf(enemyAIType);
@@ -24,5 +29,13 @@ public class EnemyAI extends Component
 	
 	public int getSight() {
 		return sight;
+	}
+	
+	public void setPath(Path path) {
+		this.path = path;
+	}
+	
+	public Path getPath() {
+		return path;
 	}
 }

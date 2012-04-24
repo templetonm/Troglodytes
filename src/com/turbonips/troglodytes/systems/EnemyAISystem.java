@@ -245,10 +245,11 @@ public class EnemyAISystem extends BaseEntitySystem
 						if (positionCheck.y < 0) {
 							positionCheck.y = -positionCheck.y;
 						}
-						float range = enemyAI.getSight()*32;
+						float range = enemyAI.getSight()*100;
 						
 						if (positionCheck.x < range && positionCheck.y < range) {
 							if (ground != null) {
+								enemyAI.pathAge--;
 								String enemyResName = resourceMapper.get(enemy).getResourceName();
 								Resource enemyRes = manager.getResource(enemyResName);
 								Image enemyFrame = getFrame(enemyRes);
@@ -260,36 +261,135 @@ public class EnemyAISystem extends BaseEntitySystem
 								int tw = tiledMap.getTileWidth();
 								int th = tiledMap.getTileHeight();
 								CollisionMap map = new CollisionMap(tiledMap);
-								AStarPathFinder pathFinder = new AStarPathFinder(map, (int)range*3, true);
-								//Path upperLeftPath = pathFinder.findPath(null, (int)enemyPosition.x/tw, (int)enemyPosition.y/th, (int)playerPosition.x/tw, (int)playerPosition.y/th);
-								//Path upperRightPath = pathFinder.findPath(null, (int)(enemyPosition.x+ew-1)/tw, (int)enemyPosition.y/th, (int)playerPosition.x/tw, (int)playerPosition.y/th);
-								//Path lowerLeftPath = pathFinder.findPath(null, (int)enemyPosition.x/tw, (int)(enemyPosition.y+eh-1)/th, (int)playerPosition.x/tw, (int)playerPosition.y/th);
-								Path lowerRightPath = pathFinder.findPath(null, (int)(enemyPosition.x+ew-1)/tw, (int)(enemyPosition.y+eh-1)/th, (int)playerPosition.x/tw, (int)playerPosition.y/th);
-								Path middlePath = pathFinder.findPath(null, (int)(enemyPosition.x+ew/2-1)/tw, (int)(enemyPosition.y+eh/2-1)/th, (int)playerPosition.x/tw, (int)playerPosition.y/th);
-								// TODO: Try getting the path for all four corners of the dino; I don't know what else to suggest right now.
+								AStarPathFinder pathFinder = new AStarPathFinder(map, (int)range*3, false);
+
+								Path path = enemyAI.getPath();
+
+								Path newPath = null;
 								
-								//String message = "ewh" + String.valueOf(ew) + ", " + String.valueOf(eh);
+								if (enemyAI.pathAge <= 0) {
+									
+									int xlr = 0, ylr = 0;
+									if (positionDifference.x > 0) {
+										xlr = 1; // p > e; player is right
+									} else if (positionDifference.x < 0) {
+										xlr = -1; // p < e; player is left
+									}
+									if (positionDifference.y > 0) {
+										ylr = 1; // p is down
+									} else if (positionDifference.y < 0) {
+										ylr = -1; // p is up
+									}
+									if (xlr==1&&ylr==1) {
+										logger.info("LR");
+										// LowerRight
+										newPath = pathFinder.findPath(null, (int)(enemyPosition.x+ew-1)/tw, (int)(enemyPosition.y+eh-1)/th, (int)playerPosition.x/tw, (int)playerPosition.y/th);
+									} else if (xlr==1&&ylr==-1) {
+										logger.info("UR");
+										// UpperRight
+										newPath = pathFinder.findPath(null, (int)(enemyPosition.x+ew-1)/tw, (int)enemyPosition.y/th, (int)playerPosition.x/tw, (int)playerPosition.y/th);
+									} else if (xlr==-1&&ylr==1) {
+										logger.info("LL");
+										// LowerLeft
+										newPath = pathFinder.findPath(null, (int)enemyPosition.x/tw, (int)(enemyPosition.y+eh-1)/th, (int)playerPosition.x/tw, (int)playerPosition.y/th);
+									} else if (xlr==-1&&ylr==-1) {
+										logger.info("UL");
+										// UpperLeft
+										newPath = pathFinder.findPath(null, (int)enemyPosition.x/tw, (int)enemyPosition.y/th, (int)playerPosition.x/tw, (int)playerPosition.y/th);
+									} else {
+										// Middle Path
+										newPath = pathFinder.findPath(null, (int)(enemyPosition.x+ew/2-1)/tw, (int)(enemyPosition.y+eh/2-1)/th, (int)playerPosition.x/tw, (int)playerPosition.y/th);
+									}
+									path = newPath;
+									enemyAI.setPath(path);
+									enemyAI.pathAge = 300;
+									enemyAI.pathStep = 1;
+								}
 								
-								//String message = "ep/t:" + String.valueOf((int)enemyPosition.x/tw) + ", " + String.valueOf((int)enemyPosition.y/th); 
-								//message += "] path(0):" + String.valueOf(path.getX(0)) + ", " + String.valueOf(path.getY(0));
-								//message += "] path(1):" + String.valueOf(path.getX(1)) + ", " + String.valueOf(path.getY(1));
-								//message += "] path(2):" + String.valueOf(path.getX(2)) + ", " + String.valueOf(path.getY(2));
-								
-								//logger.info(message);
-								
-								if (middlePath != null && middlePath.getLength() > 0) {
-									if (middlePath.getX(1) > (int)(enemyPosition.x+ew/2-1)/tw) {
+								if (path != null && path.getLength() > 0 && enemyAI.pathStep < path.getLength()) {
+									
+									Vector2f curEP = new Vector2f((int)(enemyPosition.x+ew/2-1)/tw, (int)(enemyPosition.y+eh/2-1)/th);
+
+									int xlr = 0, ylr = 0;
+									if (positionDifference.x > 0) {
+										xlr = 1; // p > e; player is right
+									} else if (positionDifference.x < 0) {
+										xlr = -1; // p < e; player is left
+									}
+									if (positionDifference.y > 0) {
+										ylr = 1; // p is down
+									} else if (positionDifference.y < 0) {
+										ylr = -1; // p is up
+									}
+									if (xlr==1&&ylr==1) {
+										// LowerRight
+										if ((int)(enemyPosition.x+ew-1)/tw == path.getX(enemyAI.pathStep) && (int)(enemyPosition.y+eh-1)/th == path.getY(enemyAI.pathStep)) {
+											enemyAI.pathStep++;
+											logger.info("pathStep++");
+											curEP.x = (int)(enemyPosition.x+ew-1)/tw;
+											curEP.y = (int)(enemyPosition.y+eh-1)/th;
+										}
+									} else if (xlr==1&&ylr==-1) {
+										// UpperRight
+										if ((int)(enemyPosition.x+ew-1)/tw == path.getX(enemyAI.pathStep) && (int)enemyPosition.y/th == path.getY(enemyAI.pathStep)) {
+											enemyAI.pathStep++;
+											logger.info("pathStep++");
+											curEP.x = (int)(enemyPosition.x+ew-1)/tw;
+											curEP.y = (int)enemyPosition.y/th;
+										}
+									} else if (xlr==-1&&ylr==1) {
+										// LowerLeft
+										if ((int)enemyPosition.x/tw == path.getX(enemyAI.pathStep) && (int)(enemyPosition.y+eh-1)/th == path.getY(enemyAI.pathStep)) {
+											enemyAI.pathStep++;
+											logger.info("pathStep++");
+											curEP.x = (int)enemyPosition.x/tw;
+											curEP.y = (int)(enemyPosition.y+eh-1)/th;
+										}
+									} else if (xlr==-1&&ylr==-1) {
+										// UpperLeft
+										if ((int)enemyPosition.x/tw == path.getX(enemyAI.pathStep) && (int)enemyPosition.y/th == path.getY(enemyAI.pathStep)) {
+											enemyAI.pathStep++;
+											logger.info("pathStep++");
+											curEP.x = (int)enemyPosition.x/tw;
+											curEP.y = (int)enemyPosition.y/th;
+										}
+									} else {
+										// Middle Path
+										if ((int)(enemyPosition.x+ew/2-1)/tw == path.getX(enemyAI.pathStep) && (int)(enemyPosition.y+eh/2-1)/th == path.getY(enemyAI.pathStep)) {
+											enemyAI.pathStep++;
+											logger.info("pathStep++");
+											curEP.x = (int)(enemyPosition.x+ew/2-1)/tw;
+											curEP.y = (int)(enemyPosition.y+eh/2-1)/th;
+										}
+									}
+									
+									logger.info("curEP.x:"+String.valueOf(curEP.x));
+									logger.info("pathX:"+String.valueOf(path.getX(enemyAI.pathStep)));
+									logger.info("curEP.y:"+String.valueOf(curEP.y));
+									logger.info("pathY:"+String.valueOf(path.getY(enemyAI.pathStep)));
+									
+									if ((int)curEP.x == path.getX(enemyAI.pathStep) && (int)curEP.y == path.getY(enemyAI.pathStep)) {
+										logger.info("incr");
+										enemyAI.pathStep++;
+									}
+									
+									// TODO: use the correct side of the mob for compare
+									if (path.getX(enemyAI.pathStep) > (int)(enemyPosition.x+ew/2-1)/tw) {
 										tmpVelocity.x += acceleration.x;
-									} else if (middlePath.getX(1) < (int)(enemyPosition.x+ew/2-1)/tw) {
+									} else if (path.getX(enemyAI.pathStep) < (int)(enemyPosition.x+ew/2-1)/tw) {
 										tmpVelocity.x -= acceleration.x;
 									}
-									if (middlePath.getY(1) > (int)(enemyPosition.y+eh/2-1)/th) {
+									if (path.getY(enemyAI.pathStep) > (int)(enemyPosition.y+eh/2-1)/th) {
 										tmpVelocity.y += acceleration.y;
-									} else if (middlePath.getY(1) < (int)(enemyPosition.y+eh/2-1)/th) {
+									} else if (path.getY(enemyAI.pathStep) < (int)(enemyPosition.y+eh/2-1)/th) {
 										tmpVelocity.y -= acceleration.y;
 									}
+									
+									if ((enemyAI.pathAge%15) == 0){
+									//	enemyAI.pathStep++;
+									}
 								}
-							}							
+							}
 						} else {
 						
 							switch ((int) (Math.random()*30)) {

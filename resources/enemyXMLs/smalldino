@@ -44,16 +44,16 @@
    <int>0</int>
   </void>
   <void property="maxSpeed"> 
-   <int>8</int>
+   <int>5</int>
   </void>
   <void property="resourceRef"> 
    <string>testenemyanimation</string>
   </void>
   <void property="acceleration"> 
-   <int>2</int>
+   <int>1</int>
   </void>
   <void property="deceleration"> 
-   <int>2</int>
+   <int>5</int>
   </void>
   <void property="AIType">
    <string>DUMBFIND</string>
