@@ -86,5 +86,11 @@
     <property name="Number" value="10"/>
    </properties>
   </object>
+  <object name="ScorpionSpawn" type="Spawn" x="1754" y="502" width="226" height="137">
+   <properties>
+    <property name="Enemy" value="scorpion"/>
+    <property name="Number" value="10"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
