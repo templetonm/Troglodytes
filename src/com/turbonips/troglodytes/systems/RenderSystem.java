@@ -39,6 +39,11 @@ public class RenderSystem extends BaseEntitySystem {
 	private ComponentMapper<Attack> attackMapper;
 	private ComponentMapper<Secondary> secondaryMapper;
 	
+	// Bars below the player/enemy
+	int barSpacing = 1;
+	int barHeight = 6;
+	float longestBarWidth = 32 * 1.5f;
+	
 	public RenderSystem(GameContainer container, StateBasedGame game) {
 		this.container = container;
 		this.game = game;
@@ -113,27 +118,26 @@ public class RenderSystem extends BaseEntitySystem {
 		long secondaryCooldown = secondaryMapper.get(player).getTime();
 		long currentSecondaryCooldown = new Date().getTime()-secondaryMapper.get(player).getLastTime();
 		
-		float secondaryBarWidth = 32 * 1.0f;
+		float secondaryBarWidth = longestBarWidth/2;
 		float secondaryPer = (float)currentSecondaryCooldown / (float)secondaryCooldown;
 		if (secondaryPer <= 1) {
 			g.setColor(Color.black);
-			g.fillRect(container.getWidth()/2 - secondaryBarWidth/2 - 1, container.getHeight()/2 + playerFrame.getHeight()/2-1 + 12, secondaryBarWidth+2, 5);
-			
+			g.fillRect(container.getWidth()/2 - secondaryBarWidth/2 - 1, container.getHeight()/2 + playerFrame.getHeight()/2 + barHeight + barSpacing, secondaryBarWidth+2, barHeight);
 			g.setColor(new Color(255,127,0));
-			g.fillRect(container.getWidth()/2 - secondaryBarWidth/2, container.getHeight()/2 + playerFrame.getHeight()/2 + 12, secondaryBarWidth*secondaryPer, 3);
+			g.fillRect(container.getWidth()/2 - secondaryBarWidth/2, container.getHeight()/2 + playerFrame.getHeight()/2 + barHeight + barSpacing + 1, secondaryBarWidth*secondaryPer, barHeight-2);
 		}
 		
 		// Attack cooldown time bar
 		long attackCooldown = attackMapper.get(player).getTime();
 		long currentAttackCooldown = new Date().getTime()-attackMapper.get(player).getLastTime();
 		
-		float attackBarWidth = 32 * .5f;
+		float attackBarWidth = longestBarWidth/4;
 		float attackPer = (float)currentAttackCooldown / (float)attackCooldown;
 		if (attackPer <= 1) {
 			g.setColor(Color.black);
-			g.fillRect(container.getWidth()/2 - attackBarWidth/2 - 1, container.getHeight()/2 + playerFrame.getHeight()/2 - 1 + 19, attackBarWidth+2, 5);
+			g.fillRect(container.getWidth()/2 - attackBarWidth/2 - 1, container.getHeight()/2 + playerFrame.getHeight()/2 + barHeight*2 + barSpacing*2, attackBarWidth+2, barHeight);
 			g.setColor(new Color(255,255,0));
-			g.fillRect(container.getWidth()/2 - attackBarWidth/2, container.getHeight()/2 + playerFrame.getHeight()/2 + 19, attackBarWidth*attackPer, 3);
+			g.fillRect(container.getWidth()/2 - attackBarWidth/2, container.getHeight()/2 + playerFrame.getHeight()/2 + barHeight*2 + barSpacing*2 + 1, attackBarWidth*attackPer, barHeight-2);
 		}
 
 		// Draw enemies
@@ -156,16 +160,40 @@ public class RenderSystem extends BaseEntitySystem {
 			//map.render(mapX, mapY, 3);
 		}
 		
-		// Draw UI
+		// Draw Upper Left UI
+		float bigBarWidth = 200;
+		float bigBarHeight = 17;
+		if (health < 0) health = 0;
+		float healthPer = (float)(health) / (float)maxHealth;
+		if (healthPer < 0) healthPer = 0;
+		//float armorPer = (float)(armor) / (float)maxHealth;
 		Image healthIconImage = (Image) manager.getResource("healthicon").getObject();
-		g.drawImage(healthIconImage, 3, 3);
 		
-		Image armorIconImage = (Image) manager.getResource("armoricon").getObject();
-		g.drawImage(armorIconImage, 3, healthIconImage.getHeight() + 3);
+		// Upper left health icon
+		
+		g.drawImage(healthIconImage, 5, 6);
+		// Upper left bar
+		g.setColor(new Color(50,50,50,125));
+		g.fillRect(healthIconImage.getWidth()+8, 5, bigBarWidth+2, bigBarHeight+2);
+		g.setColor(new Color(255,0,0,150));
+		g.fillRect(healthIconImage.getWidth()+9, 6, bigBarWidth*healthPer, bigBarHeight);
+		/*g.setColor(new Color(0,0,255,100));
+		g.fillRect(bigBarWidth*healthPer+6, 4, bigBarWidth*armorPer, bigBarHeight);*/
+		
+		
+		//Image armorIconImage = (Image) manager.getResource("armoricon").getObject();
+		//g.drawImage(armorIconImage, 3, healthIconImage.getHeight() + 3);
 		
 		g.setColor(Color.white);
-		g.drawString(health + "/" + maxHealth, healthIconImage.getWidth() + 5, 3);
-		g.drawString(String.valueOf(armor), armorIconImage.getWidth() + 5, healthIconImage.getHeight() + 3);
+		int healthTextWidth = g.getFont().getWidth(health + "/" + maxHealth);
+		g.drawString(health + "/" + maxHealth, 7 + bigBarWidth/2 - healthTextWidth/2 + healthIconImage.getWidth(), 5);
+		//g.drawString(String.valueOf(armor), armorIconImage.getWidth() + 5, healthIconImage.getHeight() + 3);
+		
+		
+		
+		//if (health > 0 && health != maxHealth) {
+
+		//}
 		
 		/*
 		 * 
@@ -237,14 +265,14 @@ public class RenderSystem extends BaseEntitySystem {
 		HashMap<StatType, Integer> stats = statsMapper.get(entity).getStats();
 		int maxHealth = stats.get(StatType.MAX_HEALTH);
 		int health = stats.get(StatType.HEALTH);
-		float barWidth = 32 * 1.5f;
+		float barWidth = longestBarWidth;
 		float per = (float)health / (float)maxHealth;
 		
 		if (health > 0 && health != maxHealth) {
 			g.setColor(new Color(0,0,0));
-			g.fillRect(x + entityFrame.getWidth()/2 - barWidth/2 - 1, y + entityFrame.getHeight()+4, barWidth+2, 5);
+			g.fillRect(x + entityFrame.getWidth()/2 - barWidth/2 - 1, y + entityFrame.getHeight(), barWidth+2, barHeight);
 			g.setColor(new Color(255,0,0));
-			g.fillRect(x + entityFrame.getWidth()/2 - barWidth/2, y + entityFrame.getHeight()+5, barWidth*per, 3);
+			g.fillRect(x + entityFrame.getWidth()/2 - barWidth/2, y + entityFrame.getHeight()+1, barWidth*per, barHeight-2);
 		}
 	}
 	

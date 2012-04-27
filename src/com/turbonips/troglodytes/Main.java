@@ -36,8 +36,8 @@ public class Main extends StateBasedGame {
 		
 		try {
 			AppGameContainer container = new AppGameContainer(new Main());
-			//container.setDisplayMode(800, 600, false);
-			container.setDisplayMode(1024, 768, true);
+			container.setDisplayMode(800, 600, false);
+			//container.setDisplayMode(1024, 768, true);
 			container.start();
 		} catch (SlickException ex) {
 			logger.fatal(ex);
