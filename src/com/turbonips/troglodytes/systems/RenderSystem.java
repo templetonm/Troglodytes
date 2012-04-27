@@ -118,7 +118,7 @@ public class RenderSystem extends BaseEntitySystem {
 		long secondaryCooldown = secondaryMapper.get(player).getTime();
 		long currentSecondaryCooldown = new Date().getTime()-secondaryMapper.get(player).getLastTime();
 		
-		float secondaryBarWidth = longestBarWidth/2;
+		float secondaryBarWidth = longestBarWidth*(2.0f/3.0f);
 		float secondaryPer = (float)currentSecondaryCooldown / (float)secondaryCooldown;
 		if (secondaryPer <= 1) {
 			g.setColor(Color.black);
@@ -131,7 +131,7 @@ public class RenderSystem extends BaseEntitySystem {
 		long attackCooldown = attackMapper.get(player).getTime();
 		long currentAttackCooldown = new Date().getTime()-attackMapper.get(player).getLastTime();
 		
-		float attackBarWidth = longestBarWidth/4;
+		float attackBarWidth = longestBarWidth/3;
 		float attackPer = (float)currentAttackCooldown / (float)attackCooldown;
 		if (attackPer <= 1) {
 			g.setColor(Color.black);
