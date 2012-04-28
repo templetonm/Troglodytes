@@ -80,7 +80,7 @@ public class MenuState extends BaseGameState {
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
 		// TODO Auto-generated method stub
-
+		
 		unicodeFont.drawString(container.getWidth()/2-(unicodeFont.getWidth(title)/2), 
 				container.getHeight()/4-unicodeFont.getYOffset(title), 
 				title);

@@ -13,7 +13,7 @@ public class EnemyAI extends Component
 	public int pathStep = 0;
 	
 	public EnemyAI (String enemyAIType, int sight) {
-		this.enemyAIType = AIType.valueOf(enemyAIType);
+		this.enemyAIType = AIType.valueOf(enemyAIType.toUpperCase());
 		this.sight = sight;
 	}
 	

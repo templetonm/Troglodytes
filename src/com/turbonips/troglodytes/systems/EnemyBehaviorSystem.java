@@ -1,5 +1,8 @@
 package com.turbonips.troglodytes.systems;
 
+import java.util.Date;
+import java.util.HashMap;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
@@ -10,37 +13,42 @@ import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.CreatureAnimation;
 import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.ResourceManager;
+import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.ResourceRef;
+import com.turbonips.troglodytes.components.Stats;
+import com.turbonips.troglodytes.components.Stats.StatType;
 
-public class EnemyBehaviorSystem extends BaseEntitySystem
-{
+public class EnemyBehaviorSystem extends BaseEntitySystem {
 	private ComponentMapper<Movement> movementMapper;
 	private ComponentMapper<Position> positionMapper;
 	private ComponentMapper<ResourceRef> resourceMapper;
-	
+	private ComponentMapper<Stats> statsMapper;
+	private ComponentMapper<Attack> attackMapper;
+
 	@Override
 	protected void initialize() {
 		movementMapper = new ComponentMapper<Movement>(Movement.class, world);
 		positionMapper = new ComponentMapper<Position>(Position.class, world);
 		resourceMapper = new ComponentMapper<ResourceRef>(ResourceRef.class, world);
+		statsMapper = new ComponentMapper<Stats>(Stats.class, world);
+		attackMapper = new ComponentMapper<Attack>(Attack.class, world);
 	}
 
 	@Override
-	protected boolean checkProcessing()
-	{
+	protected boolean checkProcessing() {
 		return true;
 	}
 
 	@Override
-	protected void processEntities(ImmutableBag<Entity> entities)
-	{
+	protected void processEntities(ImmutableBag<Entity> entities) {
 		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities("ENEMY");
+		ImmutableBag<Entity> players = world.getGroupManager().getEntities("PLAYER");
 		ImmutableBag<Entity> grounds = world.getGroupManager().getEntities("GROUND");
 		ResourceManager manager = ResourceManager.getInstance();
 		Entity ground = grounds.get(0);
-		
+
 		for (int i = 0; i < enemies.size(); i++) {
 			Entity enemy = enemies.get(i);
 			Movement movement = movementMapper.get(enemy);
@@ -48,105 +56,61 @@ public class EnemyBehaviorSystem extends BaseEntitySystem
 			Vector2f enemyPosition = position.getPosition();
 			Vector2f enemyVelocity = movement.getVelocity();
 			Vector2f newEnemyPosition = new Vector2f(enemyPosition);
-			String enemyResName = resourceMapper.get(enemy).getResourceName();
-			Resource enemyRes = manager.getResource(enemyResName);
-			Image enemyFrame = getFrame(enemyRes);
 			newEnemyPosition.add(enemyVelocity);
-			
+
 			// Collision detection
 			if (ground != null) {
 				String groundResName = resourceMapper.get(ground).getResourceName();
 				Resource groundRes = manager.getResource(groundResName);
 				TiledMap map = (TiledMap)groundRes.getObject();
-				int th = map.getTileHeight();
-				int tw = map.getTileWidth();
-				int eh = enemyFrame.getHeight();
-				int ew = enemyFrame.getWidth();
-				Integer wx = ((int)(newEnemyPosition.x/tw) * tw),
-						wy = ((int)(newEnemyPosition.y/th) * th);
-				boolean collision = false;
-		
-				// Upper left
-				if (map.getTileId((int)newEnemyPosition.x/tw, (int)newEnemyPosition.y/th, 3) > 0) {
-					collision = true;
-					// Wall lower right
-					wx = ((int)(newEnemyPosition.x/tw) * tw) + tw;
-					wy = ((int)(newEnemyPosition.y/th) * th) + th;
-					
-					if (map.getTileId((int)enemyPosition.x/tw, (int)newEnemyPosition.y/th, 3) > 0 ||
-						map.getTileId((int)((enemyPosition.x)/tw + 0.5f), (int)newEnemyPosition.y/th, 3) > 0) {
-						newEnemyPosition.y = wy;
-					}
-						
-					else if (map.getTileId((int)newEnemyPosition.x/tw, (int)(enemyPosition.y)/th, 3) > 0 ||
-							 map.getTileId((int)newEnemyPosition.x/tw, (int)((enemyPosition.y)/th + 0.5f), 3) > 0) {
-						newEnemyPosition.x = wx;
-					}
-				}
-				
-				// Upper right
-				if (map.getTileId((int)(newEnemyPosition.x+ew-1)/tw, (int)newEnemyPosition.y/th, 3) > 0) {
-					collision = true;
-					wx = ((int)(newEnemyPosition.x/tw) * tw);
-					wy = ((int)(newEnemyPosition.y/th) * th) + th;
-					
-					if (map.getTileId((int)(enemyPosition.x+ew-1)/tw, (int)newEnemyPosition.y/th, 3) > 0 ||
-						map.getTileId((int)((enemyPosition.x+ew-1)/tw - 0.5f), (int)newEnemyPosition.y/th, 3) > 0) {
-						newEnemyPosition.y = wy;
-					}
-						
-					else if (map.getTileId((int)(newEnemyPosition.x+ew-1)/tw, (int)enemyPosition.y/th, 3) > 0 ||
-							 map.getTileId((int)(newEnemyPosition.x+ew-1)/tw, (int)(enemyPosition.y/th + 0.5f), 3) > 0) {
-						newEnemyPosition.x = wx;
-					}
-				}
-				
-				// Lower left
-				if (map.getTileId((int)newEnemyPosition.x/tw, (int)(newEnemyPosition.y+eh-1)/th, 3) > 0) {
-					collision = true;
-					wx = ((int)(newEnemyPosition.x/tw) * tw) + tw;
-					wy = ((int)(newEnemyPosition.y/th) * th);
-					
-					
-					if (map.getTileId((int)(enemyPosition.x)/tw, (int)(newEnemyPosition.y+eh-1)/th, 3) > 0 ||
-						map.getTileId((int)((enemyPosition.x)/tw + 0.5f), (int)(newEnemyPosition.y+eh-1)/th, 3) > 0) {
-						newEnemyPosition.y = wy;
-					}
-						
-					else if (map.getTileId((int)(newEnemyPosition.x)/tw, (int)(enemyPosition.y+eh-1)/th, 3) > 0 ||
-							 map.getTileId((int)(newEnemyPosition.x)/tw, (int)((enemyPosition.y+eh-1)/th - 0.5f), 3) > 0) {
-						newEnemyPosition.x = wx;
-					}
-				}
-				
-				// Lower right
-				if (map.getTileId((int)(newEnemyPosition.x+ew-1)/tw, (int)(newEnemyPosition.y+eh-1)/th, 3) > 0) {
-					collision = true;
-					wx = ((int)(newEnemyPosition.x/tw) * tw);
-					wy = ((int)(newEnemyPosition.y/th) * th);
-					
-					if (map.getTileId((int)(enemyPosition.x+ew-1)/tw, (int)(newEnemyPosition.y+eh-1)/th, 3) > 0 ||
-						map.getTileId((int)((enemyPosition.x+ew-1)/tw - 0.5f), (int)(newEnemyPosition.y+eh-1)/th, 3) > 0) {
-						newEnemyPosition.y = wy;
-					}
-						
-					else if (map.getTileId((int)(newEnemyPosition.x+ew-1)/tw, (int)(enemyPosition.y+eh-1)/th, 3) > 0 ||
-							 map.getTileId((int)(newEnemyPosition.x+ew-1)/tw, (int)((enemyPosition.y+eh-1)/th - 0.5f), 3) > 0) {
-						newEnemyPosition.x = wx;
-					}
-				}
+				CollisionResolution collisionResolution = CollisionResolution.getInstance();
+				Vector2f newPosition = collisionResolution.resolveWallCollisions(enemy, map);
+				enemyPosition.set(newPosition);
 			}
-				
-			enemyPosition.set(newEnemyPosition);
+
+			checkAttacking(enemy, players.get(0));
+		}
+	}
+
+	private void checkAttacking(Entity enemy, Entity player) {
+		// Enemy cooldown
+		Attack enemyAttack = attackMapper.get(enemy);
+		if (new Date().getTime()-enemyAttack.getLastTime() > enemyAttack.getTime()) {
+			enemyAttack.setLastTime(new Date().getTime());
+			Vector2f enemyPosition = positionMapper.get(enemy).getPosition();
+			String enemyResName = resourceMapper.get(enemy).getResourceName();
+			ResourceManager manager = ResourceManager.getInstance();
+			Resource enemyRes = manager.getResource(enemyResName);
+			Image enemyFrame = getFrame(enemyRes);
+			int eh = enemyFrame.getHeight();
+			int ew = enemyFrame.getWidth();
+			Vector2f enemyCenter = new Vector2f(enemyPosition.x + (ew / 2), enemyPosition.y + (eh / 2));
+	
+			Vector2f playerPosition = positionMapper.get(player).getPosition();
+			String playerResName = resourceMapper.get(player).getResourceName();
+			Resource playerRes = manager.getResource(playerResName);
+			Image playerFrame = getFrame(playerRes);
+			int ph = playerFrame.getHeight();
+			int pw = playerFrame.getWidth();
+			Vector2f playerCenter = new Vector2f(playerPosition.x + (pw / 2), playerPosition.y + (ph / 2));
+	
+			HashMap<StatType, Integer> playerStats = statsMapper.get(player).getStats();
+			HashMap<StatType, Integer> enemyStats = statsMapper.get(enemy).getStats();
+			int enemyDamage = enemyAttack.getDamage();
+			int enemyRange = enemyStats.get(StatType.RANGE);
+	
+			if (enemyCenter.distance(playerCenter) < enemyRange*32) {
+				playerStats.put(StatType.HEALTH, playerStats.get(StatType.HEALTH) - enemyDamage);
+			}
 		}
 	}
 
 	private Image getFrame(Resource resource) {
 		switch (resource.getType()) {
 			case CREATURE_ANIMATION:
-				return ((CreatureAnimation)resource.getObject()).getCurrent().getCurrentFrame();
+				return ((CreatureAnimation) resource.getObject()).getCurrent().getCurrentFrame();
 			case IMAGE:
-				return (Image)resource.getObject();
+				return (Image) resource.getObject();
 			default:
 				return null;
 		}

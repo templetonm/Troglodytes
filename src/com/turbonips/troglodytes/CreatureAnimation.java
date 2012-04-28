@@ -74,23 +74,19 @@ public class CreatureAnimation {
 		this(new SpriteSheet(path, width, height));
 	}
 
-	public Animation getMoveUp(float speed) {
-		this.moveUp.setSpeed(speed);
+	public Animation getMoveUp() {
 		return this.moveUp;
 	}
 
-	public Animation getMoveDown(float speed) {
-		this.moveDown.setSpeed(speed);
+	public Animation getMoveDown() {
 		return this.moveDown;
 	}
 
-	public Animation getMoveLeft(float speed) {
-		this.moveLeft.setSpeed(speed);
+	public Animation getMoveLeft() {
 		return this.moveLeft;
 	}
 
-	public Animation getMoveRight(float speed) {
-		this.moveRight.setSpeed(speed);
+	public Animation getMoveRight() {
 		return this.moveRight;
 	}
 

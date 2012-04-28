@@ -1,7 +1,5 @@
 package com.turbonips.troglodytes.components;
 
-import java.util.ArrayList;
-
 import com.artemis.Component;
 
 public class Direction extends Component {
@@ -9,17 +7,23 @@ public class Direction extends Component {
 		UP, 
 		DOWN,
 		LEFT, 
-		RIGHT
+		RIGHT,
+		UP_RIGHT,
+		UP_LEFT,
+		DOWN_RIGHT,
+		DOWN_LEFT
 	}
-	private ArrayList<Dir> directions = new ArrayList<Dir>();
+	private Dir direction;
 	
-	public Direction (Dir ... dirs) {
-		for (Dir dir : dirs) {
-			directions.add(dir);
-		}
+	public Direction (Dir direction) {
+		this.direction = direction;
 	}
 	
-	public ArrayList<Dir> getDirections() {
-		return directions;
+	public Dir getDirection() {
+		return direction;
+	}
+	
+	public void setDirection(Dir direction) {
+		this.direction = direction;
 	}
 }
