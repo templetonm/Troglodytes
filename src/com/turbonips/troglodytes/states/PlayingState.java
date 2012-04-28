@@ -69,7 +69,7 @@ public class PlayingState extends BaseGameState {
 		stats.put(StatType.HEALTH, 100);
 		stats.put(StatType.MAX_HEALTH, 100);
 		stats.put(StatType.ARMOR, 25);
-		stats.put(StatType.RANGE, 2);
+		stats.put(StatType.RANGE, 3);
 		player.addComponent(new Stats(stats));
 		// This position is overwritten when the player is warped
 		player.addComponent(new Position(new Vector2f(0,0)));
