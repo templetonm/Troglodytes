@@ -26,37 +26,21 @@ public class XMLSerializer {
 			e.printStackTrace();
 		}
 	}
-
-	public EnemyData deserializeEnemyData(String enemyName) {
-		EnemyData enemyData = null;
+	
+	public Object deserializeData(String path) {
+		Object data = null;
 		try {
-			enemyData = new EnemyData();
-			String objFilepath = "resources/enemyXMLs/" + enemyName;
+			data = new EnemyData();
+			String objFilepath = path;
 			fis = new FileInputStream(objFilepath);
 			xmld = new XMLDecoder(fis);
-			enemyData = (EnemyData) xmld.readObject();
+			data = (Object) xmld.readObject();
 			xmld.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return enemyData;
-	}
-
-	public ParticleData deserializeParticleData(String particleType) {
-		ParticleData particleData = null;
-		try {
-			particleData = new ParticleData();
-			String objFilepath = "resources/particleXMLs/" + particleType;
-			fis = new FileInputStream(objFilepath);
-			xmld = new XMLDecoder(fis);
-			particleData = (ParticleData) xmld.readObject();
-			xmld.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return particleData;
+		return data;
 	}
 
 	public static XMLSerializer getInstance() {

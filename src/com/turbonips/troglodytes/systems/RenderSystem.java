@@ -69,6 +69,8 @@ public class RenderSystem extends BaseEntitySystem {
 		ImmutableBag<Entity> grounds = world.getGroupManager().getEntities("GROUND");
 		ImmutableBag<Entity> backgrounds = world.getGroupManager().getEntities("BACKGROUND");
 		ImmutableBag<Entity> foregrounds = world.getGroupManager().getEntities("FOREGROUND");
+		ImmutableBag<Entity> trinkets = world.getGroupManager().getEntities("TRINKET");
+		
 		Entity player = players.get(0);
 		Position playerPos = positionMapper.get(player);
 		Vector2f playerPosition = playerPos.getPosition();
@@ -96,6 +98,19 @@ public class RenderSystem extends BaseEntitySystem {
 			map.render(mapX, mapY, 1);
 		}
 		
+		// Draw trinkets on map
+		for (int i=0; i<trinkets.size(); i++) {
+			Entity trinket = trinkets.get(i);
+			String trinketResName = resourceMapper.get(trinket).getResourceName();
+			Resource trinketRes = manager.getResource(trinketResName);
+			Image trinketImage = (Image)trinketRes.getObject();
+			Position trinketPos = positionMapper.get(trinket);
+			Vector2f trinketPosition = trinketPos.getPosition();
+			int trinketX = mapX + (int)trinketPosition.x;
+			int trinketY = mapY + (int)trinketPosition.y;
+			trinketImage.draw(trinketX, trinketY);
+		}
+		
 		// Draw the player
 		int playerCenterX = container.getWidth()/2 - playerFrame.getWidth()/2;
 		int playerCenterY = container.getHeight()/2 - playerFrame.getHeight()/2;
@@ -118,7 +133,7 @@ public class RenderSystem extends BaseEntitySystem {
 		long secondaryCooldown = secondaryMapper.get(player).getTime();
 		long currentSecondaryCooldown = new Date().getTime()-secondaryMapper.get(player).getLastTime();
 		
-		float secondaryBarWidth = longestBarWidth/2;
+		float secondaryBarWidth = longestBarWidth*(2.0f/3.0f);
 		float secondaryPer = (float)currentSecondaryCooldown / (float)secondaryCooldown;
 		if (secondaryPer <= 1) {
 			g.setColor(Color.black);
@@ -131,7 +146,7 @@ public class RenderSystem extends BaseEntitySystem {
 		long attackCooldown = attackMapper.get(player).getTime();
 		long currentAttackCooldown = new Date().getTime()-attackMapper.get(player).getLastTime();
 		
-		float attackBarWidth = longestBarWidth/4;
+		float attackBarWidth = longestBarWidth/3;
 		float attackPer = (float)currentAttackCooldown / (float)attackCooldown;
 		if (attackPer <= 1) {
 			g.setColor(Color.black);
@@ -159,6 +174,8 @@ public class RenderSystem extends BaseEntitySystem {
 			map.render(mapX, mapY, 2);
 			//map.render(mapX, mapY, 3);
 		}
+		
+
 		
 		// Draw Upper Left UI
 		float bigBarWidth = 200;

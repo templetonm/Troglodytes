@@ -34,12 +34,6 @@
   <void property="loot"> 
    <int>0</int>
   </void>
-  <void property="x"> 
-   <int>0</int>
-  </void>
-  <void property="y"> 
-   <int>0</int>
-  </void>
   <void property="maxSpeed"> 
    <int>5</int>
   </void>

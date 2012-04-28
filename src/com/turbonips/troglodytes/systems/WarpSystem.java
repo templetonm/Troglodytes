@@ -11,6 +11,8 @@ import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.EnemyData;
 import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.ResourceManager;
+import com.turbonips.troglodytes.TrinketData;
+import com.turbonips.troglodytes.TrinketData.TrinketType;
 import com.turbonips.troglodytes.XMLSerializer;
 import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.Direction;
@@ -74,6 +76,7 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 			foregound.delete();
 		}
 
+
 		Entity ground = world.createEntity();
 		ground.setGroup("GROUND");
 		ground.addComponent(new ResourceRef(warp.getMapName()));
@@ -101,8 +104,7 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 				if (type.equals("spawn")) {
 					int spawnNum = Integer.valueOf(map.getObjectProperty(groupID, objectID, "Number", "0"));
 					String enemyId = map.getObjectProperty(groupID, objectID, "Enemy", "");
-					logger.info(enemyId);
-					EnemyData enemyData = xmls.deserializeEnemyData(enemyId);
+					EnemyData enemyData = (EnemyData)xmls.deserializeData("resources/enemyXMLs/" + enemyId);
 					String enemyResourceRef = enemyData.getResourceRef();
 					int enemyMaxSpeed = enemyData.getMaxSpeed();
 					float enemyAcc = enemyData.getAcceleration();
@@ -127,6 +129,21 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 						enemy.addComponent(new Stats(stats));
 						enemy.refresh();
 					}
+				} else if (type.equals("trinketspawn")) {
+					Vector2f startPosition = new Vector2f(objectX + (int) (Math.random() * objectWidth), objectY + (int) (Math.random() * objectHeight));
+					TrinketData trinketData = (TrinketData)xmls.deserializeData("resources/trinketXMLs/" + "testTrinket");
+					TrinketType trinketType = trinketData.getType();
+					Entity trinket = world.createEntity();
+					trinket.setGroup("TRINKET");
+					trinket.addComponent(new ResourceRef(trinketData.getResourceRef()));
+					trinket.addComponent(new Position(startPosition));
+					switch (trinketType) {
+						case polymorph:
+							
+							break;
+					}
+					
+					
 				}
 			}
 		}
