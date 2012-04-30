@@ -14,19 +14,19 @@
    <int>0</int>
   </void>
   <void property="health"> 
-   <int>50</int>
+   <int>30</int>
   </void> 
   <void property="damage"> 
    <int>1</int>
   </void> 
   <void property="cooldown"> 
-   <int>100</int>
+   <int>250</int>
   </void>
   <void property="range"> 
    <int>1</int>
   </void>
   <void property="sight"> 
-   <int>8</int>
+   <int>6</int>
   </void>
   <void property="flier"> 
    <boolean>false</boolean>
@@ -53,7 +53,7 @@
    <float>1.5</float>
   </void>
   <void property="AIType">
-   <string>dumbcharge</string>
+   <string>dumbfind</string>
   </void>
  </object> 
 </java> 

@@ -26,7 +26,7 @@
    <int>3</int>
   </void>
   <void property="sight"> 
-   <int>10</int>
+   <int>15</int>
   </void>
   <void property="flier"> 
    <boolean>false</boolean>
@@ -41,7 +41,7 @@
    <int>0</int>
   </void>
   <void property="maxSpeed"> 
-   <int>10</int>
+   <int>7</int>
   </void>
   <void property="resourceRef"> 
    <string>yetianimation</string>
@@ -53,7 +53,7 @@
    <float>1</float>
   </void>
   <void property="AIType">
-   <string>dumbcharge</string>
+   <string>dumbfind</string>
   </void>
  </object> 
 </java> 

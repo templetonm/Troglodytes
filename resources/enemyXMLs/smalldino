@@ -14,19 +14,19 @@
    <int>0</int>
   </void>
   <void property="health"> 
-   <int>20</int>
+   <int>50</int>
   </void> 
   <void property="damage"> 
-   <int>1</int>
+   <int>10</int>
   </void> 
   <void property="cooldown"> 
-   <int>0</int>
+   <int>1000</int>
   </void>
   <void property="range"> 
    <int>1</int>
   </void>
   <void property="sight"> 
-   <int>5</int>
+   <int>8</int>
   </void>
   <void property="flier"> 
    <boolean>false</boolean>
@@ -41,7 +41,7 @@
    <int>0</int>
   </void>
   <void property="maxSpeed"> 
-   <int>3</int>
+   <int>5</int>
   </void>
   <void property="resourceRef"> 
    <string>smalldinoanimation</string>
@@ -53,7 +53,7 @@
    <float>1.5</float>
   </void>
   <void property="AIType">
-   <string>dumbcharge</string>
+   <string>dumbfind</string>
   </void>
  </object> 
 </java> 
