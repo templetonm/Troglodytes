@@ -22,6 +22,7 @@ import com.turbonips.troglodytes.components.Stats.StatType;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.ResourceRef;
+import com.turbonips.troglodytes.components.VisitedMaps;
 import com.turbonips.troglodytes.components.Warp;
 import com.turbonips.troglodytes.systems.CollisionResolution;
 import com.turbonips.troglodytes.systems.EnemyAISystem;
@@ -71,8 +72,9 @@ public class PlayingState extends BaseGameState {
 		stats.put(StatType.ARMOR, 25);
 		stats.put(StatType.RANGE, 3);
 		player.addComponent(new Stats(stats));
+		player.addComponent(new VisitedMaps());
 		// This position is overwritten when the player is warped
-		player.addComponent(new Position(new Vector2f(0,0)));
+		player.addComponent(new Position(new Vector2f(0,0), ""));
 		player.addComponent(new Attack(500,9));
 		// It's over 9000
 		player.addComponent(new Secondary(6*1000));

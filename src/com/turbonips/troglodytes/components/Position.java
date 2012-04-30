@@ -6,9 +6,11 @@ import com.artemis.Component;
 
 public class Position extends Component {
 	private Vector2f position;
+	private String map;
 	
-	public Position(Vector2f position) {
+	public Position(Vector2f position, String map) {
 		setPosition(position);
+		setMap(map);
 	}
 
 	public Vector2f getPosition() {
@@ -17,6 +19,14 @@ public class Position extends Component {
 
 	public void setPosition(Vector2f position) {
 		this.position = position;
+	}
+
+	public String getMap() {
+		return map;
+	}
+
+	public void setMap(String map) {
+		this.map = map;
 	}
 
 }

@@ -159,10 +159,12 @@ public class RenderSystem extends BaseEntitySystem {
 		for (int i=0; i<enemies.size(); i++) {
 			Entity enemy = enemies.get(i);
 			Position enemyPos = positionMapper.get(enemy);
-			Vector2f enemyPosition = enemyPos.getPosition();
-			int enemyX = mapX + (int)enemyPosition.x;
-			int enemyY = mapY + (int)enemyPosition.y;
-			drawCreatureEntity(enemy, enemyX, enemyY);
+			if (enemyPos.getMap().equals(playerPos.getMap())) {
+				Vector2f enemyPosition = enemyPos.getPosition();
+				int enemyX = mapX + (int)enemyPosition.x;
+				int enemyY = mapY + (int)enemyPosition.y;
+				drawCreatureEntity(enemy, enemyX, enemyY);
+			}
 		}
 		
 		// Draw the foreground
