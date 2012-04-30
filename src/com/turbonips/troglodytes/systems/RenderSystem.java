@@ -101,14 +101,18 @@ public class RenderSystem extends BaseEntitySystem {
 		// Draw trinkets on map
 		for (int i=0; i<trinkets.size(); i++) {
 			Entity trinket = trinkets.get(i);
-			String trinketResName = resourceMapper.get(trinket).getResourceName();
-			Resource trinketRes = manager.getResource(trinketResName);
-			Image trinketImage = (Image)trinketRes.getObject();
 			Position trinketPos = positionMapper.get(trinket);
 			Vector2f trinketPosition = trinketPos.getPosition();
-			int trinketX = mapX + (int)trinketPosition.x;
-			int trinketY = mapY + (int)trinketPosition.y;
-			trinketImage.draw(trinketX, trinketY);
+			
+			if (trinketPos.getMap().equals(playerPos.getMap())) {
+				String trinketResName = resourceMapper.get(trinket).getResourceName();
+				Resource trinketRes = manager.getResource(trinketResName);
+				Image trinketImage = (Image)trinketRes.getObject();
+				
+				int trinketX = mapX + (int)trinketPosition.x;
+				int trinketY = mapY + (int)trinketPosition.y;
+				trinketImage.draw(trinketX, trinketY);
+			}
 		}
 		
 		// Draw the player

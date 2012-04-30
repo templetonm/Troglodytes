@@ -30,6 +30,7 @@ import com.turbonips.troglodytes.systems.EnemyBehaviorSystem;
 import com.turbonips.troglodytes.systems.InputSystem;
 import com.turbonips.troglodytes.systems.PlayerBehaviorSystem;
 import com.turbonips.troglodytes.systems.RenderSystem;
+import com.turbonips.troglodytes.systems.TrinketSystem;
 import com.turbonips.troglodytes.systems.WarpSystem;
 
 public class PlayingState extends BaseGameState {
@@ -42,6 +43,7 @@ public class PlayingState extends BaseGameState {
 	private EntitySystem warpSystem;
 	private EntitySystem enemyAISystem;
 	private EntitySystem enemyBehaviorSystem;
+	private EntitySystem trinketSystem;
 
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
@@ -55,6 +57,7 @@ public class PlayingState extends BaseGameState {
 	    playerBehaviorSystem = systemManager.setSystem(new PlayerBehaviorSystem());
 	    enemyAISystem = systemManager.setSystem(new EnemyAISystem());
 	    enemyBehaviorSystem = systemManager.setSystem(new EnemyBehaviorSystem());
+	    trinketSystem = systemManager.setSystem(new TrinketSystem());
 	    systemManager.initializeAll();
 	    CollisionResolution.getInstance().initialize(world);
 		
@@ -103,6 +106,7 @@ public class PlayingState extends BaseGameState {
 		playerBehaviorSystem.process();
 		enemyAISystem.process();
 		enemyBehaviorSystem.process();
+		trinketSystem.process();
 		warpSystem.process();
 	}
 

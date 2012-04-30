@@ -9,6 +9,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.EnemyData;
+import com.turbonips.troglodytes.PolymorphTrinket;
 import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.ResourceManager;
 import com.turbonips.troglodytes.TrinketData;
@@ -18,6 +19,7 @@ import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.EnemyAI;
 import com.turbonips.troglodytes.components.Movement;
+import com.turbonips.troglodytes.components.Polymorph;
 import com.turbonips.troglodytes.components.Position;
 import com.turbonips.troglodytes.components.ResourceRef;
 import com.turbonips.troglodytes.components.Stats;
@@ -30,6 +32,7 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 	private ComponentMapper<Warp> warpMapper;
 	private ComponentMapper<Position> positionMapper;
 	private ComponentMapper<VisitedMaps> visitedMapsMapper;
+	private ComponentMapper<ResourceRef> resourceRefMapper;
 
 	public WarpSystem() {
 		super(Warp.class);
@@ -40,6 +43,7 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 		warpMapper = new ComponentMapper<Warp>(Warp.class, world);
 		positionMapper = new ComponentMapper<Position>(Position.class, world);
 		visitedMapsMapper = new ComponentMapper<VisitedMaps>(VisitedMaps.class, world);
+		resourceRefMapper = new ComponentMapper<ResourceRef>(ResourceRef.class, world);
 	}
 
 	@Override
@@ -55,14 +59,13 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 		TiledMap map = (TiledMap) mapRes.getObject();
 		XMLSerializer xmls = XMLSerializer.getInstance();
 
-		for (int i = 0; i < players.size(); i++) {
-			Entity player = players.get(i);
-			Vector2f position = positionMapper.get(player).getPosition();
-			logger.info(warp.getPosition());
-			position.set(new Vector2f(warp.getPosition().x * map.getTileWidth(), warp.getPosition().y * map.getTileHeight()));
-			positionMapper.get(player).setMap(warp.getMapName());
-			logger.info(positionMapper.get(player).getMap());
-		}
+		Entity player = players.get(0);
+		ResourceRef playerResourceRef = resourceRefMapper.get(player);
+		Vector2f position = positionMapper.get(player).getPosition();
+		logger.info(warp.getPosition());
+		position.set(new Vector2f(warp.getPosition().x * map.getTileWidth(), warp.getPosition().y * map.getTileHeight()));
+		positionMapper.get(player).setMap(warp.getMapName());
+		logger.info(positionMapper.get(player).getMap());
 		for (int i = 0; i < grounds.size(); i++) {
 			Entity ground = grounds.get(i);
 			ground.delete();
@@ -139,7 +142,8 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 						trinket.addComponent(new Position(startPosition, warp.getMapName()));
 						switch (trinketType) {
 							case polymorph:
-								
+								PolymorphTrinket polymorphTrinketData = (PolymorphTrinket)trinketData;
+								trinket.addComponent(new Polymorph(playerResourceRef.getResourceName(), polymorphTrinketData.getNewResourceRef()));
 								break;
 						}
 						
