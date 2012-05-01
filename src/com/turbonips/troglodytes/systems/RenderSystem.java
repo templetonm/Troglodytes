@@ -3,6 +3,7 @@ package com.turbonips.troglodytes.systems;
 import java.util.Date;
 import java.util.HashMap;
 
+import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -79,17 +80,13 @@ public class RenderSystem extends BaseEntitySystem {
 		int mapY = (int)playerPosition.y*-1 + container.getHeight()/2 - playerFrame.getHeight()/2;
 		String mapResName = resourceMapper.get(maps.get(0)).getResourceName();
 		Resource mapRes = manager.getResource(mapResName);
-		TiledMap map = (TiledMap)mapRes.getObject();
-		
-		
-		int lightSize = 15;
-		
+		TiledMap tiledMap = (TiledMap)mapRes.getObject();
 		
 		// Draw the ground
-		map.render(mapX, mapY, 0);
+		tiledMap.render(mapX, mapY, 0);
 		
 		// Draw the background
-		map.render(mapX, mapY, 1);
+		tiledMap.render(mapX, mapY, 1);
 		
 		// Draw trinkets on map
 		for (int i=0; i<trinkets.size(); i++) {
@@ -165,10 +162,17 @@ public class RenderSystem extends BaseEntitySystem {
 		}
 		
 		// Draw the foreground
-		map.render(mapX, mapY, 2);
+		tiledMap.render(mapX, mapY, 2);
 		
 		// Draw the collision layer
 		//map.render(mapX, mapY, 3);
+		
+		
+		// If lighting is turned on
+		if (Boolean.parseBoolean(tiledMap.getMapProperty("Dark", "false"))) {
+			// Draw the player light
+			drawLight(player, 16, container.getWidth()/2, container.getHeight()/2);
+		}
 		
 
 		
@@ -203,6 +207,7 @@ public class RenderSystem extends BaseEntitySystem {
 		
 		
 		
+		
 		//if (health > 0 && health != maxHealth) {
 
 		//}
@@ -217,12 +222,35 @@ public class RenderSystem extends BaseEntitySystem {
 		return true;
 	}
 	
+	private void drawLight(Entity entity, int lightSize, int x, int y) {
+		Graphics g = container.getGraphics();
+		ResourceManager manager = ResourceManager.getInstance();
+		String resName = resourceMapper.get(entity).getResourceName();
+		Resource res = manager.getResource(resName);
+		Image entityFrame = getFrame(res);
+		int ew = entityFrame.getWidth();
+		int eh = entityFrame.getHeight();
+		
+		float invSize = 1f / lightSize;
+		g.clearAlphaMap();
+		g.scale(lightSize, lightSize);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+		Image light = (Image)manager.getResource("light").getObject();
+		light.drawCentered((x) * invSize, (y) * invSize);
+		g.scale(invSize, invSize);
+		GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_DST_ALPHA);
+		g.setColor(new Color(0,0,0,255));
+		g.fillRect(0, 0, container.getWidth(), container.getHeight());
+		g.setDrawMode(Graphics.MODE_NORMAL);
+	}
+	
 	private void drawCreatureEntity(Entity entity, int x, int y) {
 		Graphics g = container.getGraphics();
 		ResourceManager manager = ResourceManager.getInstance();
 		Movement movement = movementMapper.get(entity);
 		String resName = resourceMapper.get(entity).getResourceName();
 		Resource res = manager.getResource(resName);
+		Image entityFrame = getFrame(res);
 		
 		switch (res.getType()) {
 			case CREATURE_ANIMATION:
@@ -273,7 +301,6 @@ public class RenderSystem extends BaseEntitySystem {
 				break;
 		}
 		
-		Image entityFrame = getFrame(res);
 		HashMap<StatType, Integer> stats = statsMapper.get(entity).getStats();
 		int maxHealth = stats.get(StatType.MAX_HEALTH);
 		int health = stats.get(StatType.HEALTH);
