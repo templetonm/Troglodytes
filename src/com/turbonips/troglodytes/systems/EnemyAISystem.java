@@ -46,10 +46,10 @@ public class EnemyAISystem extends BaseEntitySystem {
 	protected void processEntities(ImmutableBag<Entity> e) {
 		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities("ENEMY");
 		ImmutableBag<Entity> players = world.getGroupManager().getEntities("PLAYER");
-		ImmutableBag<Entity> grounds = world.getGroupManager().getEntities("GROUND");
+		ImmutableBag<Entity> maps = world.getGroupManager().getEntities("MAP");
 		ResourceManager manager = ResourceManager.getInstance();
 		Entity player = players.get(0);
-		Entity ground = grounds.get(0);
+		Entity map = maps.get(0);
 		Location playerLocation = locationMapper.get(player);
 
 		for (int i = 0; i < enemies.size(); i++) {
@@ -266,20 +266,20 @@ public class EnemyAISystem extends BaseEntitySystem {
 							float range = enemyAI.getSight() * 32;
 	
 							if (positionCheck.x < range && positionCheck.y < range) {
-								if (ground != null) {
+								if (map != null) {
 									enemyAI.pathAge--;
 									String enemyResName = resourceMapper.get(enemy).getResourceName();
 									Resource enemyRes = manager.getResource(enemyResName);
 									Image enemyFrame = getFrame(enemyRes);
 									int eh = enemyFrame.getHeight();
 									int ew = enemyFrame.getWidth();
-									String groundResName = resourceMapper.get(ground).getResourceName();
+									String groundResName = resourceMapper.get(map).getResourceName();
 									Resource groundRes = manager.getResource(groundResName);
 									TiledMap tiledMap = (TiledMap) groundRes.getObject();
 									int tw = tiledMap.getTileWidth();
 									int th = tiledMap.getTileHeight();
-									CollisionMap map = new CollisionMap(tiledMap);
-									AStarPathFinder pathFinder = new AStarPathFinder(map, (int) range, false);
+									CollisionMap collisionMap = new CollisionMap(tiledMap);
+									AStarPathFinder pathFinder = new AStarPathFinder(collisionMap, (int) range, false);
 	
 									Path newPath = null;
 									if (enemyAI.pathAge <= 0) {
