@@ -12,7 +12,7 @@ import com.turbonips.troglodytes.CreatureAnimation;
 import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.ResourceManager;
 import com.turbonips.troglodytes.components.Movement;
-import com.turbonips.troglodytes.components.Position;
+import com.turbonips.troglodytes.components.Location;
 import com.turbonips.troglodytes.components.ResourceRef;
 
 public class CollisionResolution {
@@ -21,7 +21,7 @@ public class CollisionResolution {
 	private static final Logger logger = Logger.getLogger(CollisionResolution.class);
 	private static World world = null;
 	private ComponentMapper<Movement> movementMapper;
-	private ComponentMapper<Position> positionMapper;
+	private ComponentMapper<Location> locationMapper;
 	private ComponentMapper<ResourceRef> resourceMapper;
 	
 	private CollisionResolution() {
@@ -34,7 +34,7 @@ public class CollisionResolution {
 	public void initialize(World world) {
 		this.world = world;
 		this.movementMapper = new ComponentMapper<Movement>(Movement.class, world);
-		this.positionMapper = new ComponentMapper<Position>(Position.class, world);
+		this.locationMapper = new ComponentMapper<Location>(Location.class, world);
 		this.resourceMapper = new ComponentMapper<ResourceRef>(ResourceRef.class, world);
 	}
 	
@@ -52,8 +52,8 @@ public class CollisionResolution {
 		int eh = entityFrame.getHeight()-1;
 		int ew = entityFrame.getWidth()-1;
 		Movement entityMovement = movementMapper.get(entity);
-		Position entityPos = positionMapper.get(entity);
-		Vector2f entityPosition = entityPos.getPosition();
+		Location entityLocation = locationMapper.get(entity);
+		Vector2f entityPosition = entityLocation.getPosition();
 		Vector2f entityVelocity = entityMovement.getVelocity();
 		Vector2f newEntityPosition = new Vector2f(entityPosition);
 		newEntityPosition.add(entityVelocity);
@@ -110,9 +110,9 @@ public class CollisionResolution {
 		int ew = entityFrame.getWidth()-1;
 		int oeh = otherEntityFrame.getHeight()-1;
 		int oew = otherEntityFrame.getWidth()-1;
-		Position entityPos = positionMapper.get(entity);
-		Vector2f entityPosition = entityPos.getPosition();
-		Vector2f otherEntityPosition = positionMapper.get(otherEntity).getPosition();
+		Location entityLocation = locationMapper.get(entity);
+		Vector2f entityPosition = entityLocation.getPosition();
+		Vector2f otherEntityPosition = locationMapper.get(otherEntity).getPosition();
 		int step = 1;
 		
 		for (int x=0; x<ew; x=x+step) {

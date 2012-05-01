@@ -17,7 +17,7 @@ import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.HealthRegen;
 import com.turbonips.troglodytes.components.Movement;
-import com.turbonips.troglodytes.components.Position;
+import com.turbonips.troglodytes.components.Location;
 import com.turbonips.troglodytes.components.ResourceRef;
 import com.turbonips.troglodytes.components.Secondary;
 import com.turbonips.troglodytes.components.Stats;
@@ -26,7 +26,7 @@ import com.turbonips.troglodytes.components.Warp;
 
 public class PlayerBehaviorSystem extends BaseEntitySystem {
 	private ComponentMapper<Movement> movementMapper;
-	private ComponentMapper<Position> positionMapper;
+	private ComponentMapper<Location> locationMapper;
 	private ComponentMapper<ResourceRef> resourceMapper;
 	private ComponentMapper<Direction> directionMapper;
 	private ComponentMapper<Attack> attackMapper;
@@ -37,7 +37,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 	@Override
 	protected void initialize() {
 		movementMapper = new ComponentMapper<Movement>(Movement.class, world);
-		positionMapper = new ComponentMapper<Position>(Position.class, world);
+		locationMapper = new ComponentMapper<Location>(Location.class, world);
 		resourceMapper = new ComponentMapper<ResourceRef>(ResourceRef.class, world);
 		directionMapper = new ComponentMapper<Direction>(Direction.class, world);
 		attackMapper = new ComponentMapper<Attack>(Attack.class, world);
@@ -49,13 +49,13 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 	@Override
 	protected void processEntities(ImmutableBag<Entity> entities) {
 		ImmutableBag<Entity> players = world.getGroupManager().getEntities("PLAYER");
-		ImmutableBag<Entity> grounds = world.getGroupManager().getEntities("GROUND");
+		ImmutableBag<Entity> maps = world.getGroupManager().getEntities("MAP");
 		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities("ENEMY");
 		ResourceManager manager = ResourceManager.getInstance();
-		Entity ground = grounds.get(0);
+		Entity map = maps.get(0);
 		Entity player = players.get(0);
-		Position playerPos = positionMapper.get(player);
-		Vector2f playerPosition = playerPos.getPosition();
+		Location playerLocation = locationMapper.get(player);
+		Vector2f playerPosition = playerLocation.getPosition();
 		HashMap<StatType, Integer> playerStats = statsMapper.get(player).getStats();
 
 		// Health regen
@@ -68,13 +68,13 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 		}
 
 		// Collision detection
-		if (ground != null) {
-			String groundResName = resourceMapper.get(ground).getResourceName();
+		if (map != null) {
+			String groundResName = resourceMapper.get(map).getResourceName();
 			Resource groundRes = manager.getResource(groundResName);
-			TiledMap map = (TiledMap) groundRes.getObject();
+			TiledMap tiledMap = (TiledMap) groundRes.getObject();
 			CollisionResolution collisionResolution = CollisionResolution.getInstance();
-			Vector2f newPosition = collisionResolution.resolveWallCollisions(player, map);
-			checkWarps(map, player);
+			Vector2f newPosition = collisionResolution.resolveWallCollisions(player, tiledMap);
+			checkWarps(tiledMap, player);
 			checkAttacking(player, enemies);
 			checkSecondary(player, enemies);
 			playerPosition.set(newPosition);
@@ -92,8 +92,8 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 		int ph = playerFrame.getHeight();
 		int pw = playerFrame.getWidth();
 		Movement movement = movementMapper.get(player);
-		Position playerPos = positionMapper.get(player);
-		Vector2f playerPosition = playerPos.getPosition();
+		Location playerLocation = locationMapper.get(player);
+		Vector2f playerPosition = playerLocation.getPosition();
 		Vector2f playerVelocity = movement.getVelocity();
 		Vector2f newPlayerPosition = new Vector2f(playerPosition);
 		newPlayerPosition.add(playerVelocity);
@@ -147,7 +147,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 	private void checkSecondary(Entity player, ImmutableBag<Entity> enemies) {
 		Secondary playerSecondary = secondaryMapper.get(player);
 		if (playerSecondary.isSecondary()) {
-			Vector2f playerPosition = positionMapper.get(player).getPosition();
+			Vector2f playerPosition = locationMapper.get(player).getPosition();
 			String playerResName = resourceMapper.get(player).getResourceName();
 			ResourceManager manager = ResourceManager.getInstance();
 			Resource playerRes = manager.getResource(playerResName);
@@ -160,7 +160,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 
 			for (int i = 0; i < enemies.size(); i++) {
 				Entity enemy = enemies.get(i);
-				Vector2f enemyPosition = positionMapper.get(enemy).getPosition();
+				Vector2f enemyPosition = locationMapper.get(enemy).getPosition();
 				String enemyResName = resourceMapper.get(enemy).getResourceName();
 				Resource enemyRes = manager.getResource(enemyResName);
 				Image enemyFrame = getFrame(enemyRes);
@@ -203,7 +203,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 		Attack playerAttack = attackMapper.get(player);
 		if (playerAttack.isAttacking()) {
 
-			Vector2f playerPosition = positionMapper.get(player).getPosition();
+			Vector2f playerPosition = locationMapper.get(player).getPosition();
 			String playerResName = resourceMapper.get(player).getResourceName();
 			ResourceManager manager = ResourceManager.getInstance();
 			Resource playerRes = manager.getResource(playerResName);
@@ -217,7 +217,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 
 			for (int i = 0; i < enemies.size(); i++) {
 				Entity enemy = enemies.get(i);
-				Vector2f enemyPosition = positionMapper.get(enemy).getPosition();
+				Vector2f enemyPosition = locationMapper.get(enemy).getPosition();
 				String enemyResName = resourceMapper.get(enemy).getResourceName();
 				Resource enemyRes = manager.getResource(enemyResName);
 				Image enemyFrame = getFrame(enemyRes);

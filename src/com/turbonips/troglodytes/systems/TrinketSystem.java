@@ -20,20 +20,20 @@ import com.turbonips.troglodytes.components.ResourceRef;
 import com.turbonips.troglodytes.components.Direction.Dir;
 import com.turbonips.troglodytes.components.EnemyAI.AIType;
 import com.turbonips.troglodytes.components.Movement;
-import com.turbonips.troglodytes.components.Position;
+import com.turbonips.troglodytes.components.Location;
 
 public class TrinketSystem extends BaseEntitySystem {
 	private ComponentMapper<Movement> movementMapper;
 	private ComponentMapper<Direction> directionMapper;
 	private ComponentMapper<EnemyAI> enemyAIMapper;
-	private ComponentMapper<Position> positionMapper;
+	private ComponentMapper<Location> locationMapper;
 	private ComponentMapper<ResourceRef> resourceMapper;
 	private ComponentMapper<Polymorph> polymorphMapper;
 
 	@Override
 	protected void initialize() {
 		movementMapper = new ComponentMapper<Movement>(Movement.class, world);
-		positionMapper = new ComponentMapper<Position>(Position.class, world);
+		locationMapper = new ComponentMapper<Location>(Location.class, world);
 		resourceMapper = new ComponentMapper<ResourceRef>(ResourceRef.class, world);
 		polymorphMapper = new ComponentMapper<Polymorph>(Polymorph.class, world);
 	}
@@ -49,7 +49,7 @@ public class TrinketSystem extends BaseEntitySystem {
 		ImmutableBag<Entity> trinkets = world.getGroupManager().getEntities("TRINKET");
 		ResourceManager manager = ResourceManager.getInstance();
 		Entity player = players.get(0);
-		Position playerLocation = positionMapper.get(player);
+		Location playerLocation = locationMapper.get(player);
 		Vector2f playerPosition = playerLocation.getPosition();
 		ResourceRef playerRes = resourceMapper.get(player);
 		Image playerFrame = getFrame(manager.getResource(playerRes.getResourceName()));
@@ -59,7 +59,7 @@ public class TrinketSystem extends BaseEntitySystem {
 		
 		for (int i=0; i<trinkets.size(); i++) {
 			Entity trinket = trinkets.get(i);
-			Position trinketLocation = positionMapper.get(trinket);
+			Location trinketLocation = locationMapper.get(trinket);
 			Vector2f trinketPosition = trinketLocation.getPosition();
 			trinketPosition = new Vector2f(trinketPosition.x+16, trinketPosition.y+16);
 			

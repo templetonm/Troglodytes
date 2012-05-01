@@ -21,7 +21,7 @@ import com.turbonips.troglodytes.ResourceManager;
 import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.Movement;
-import com.turbonips.troglodytes.components.Position;
+import com.turbonips.troglodytes.components.Location;
 import com.turbonips.troglodytes.components.ResourceRef;
 import com.turbonips.troglodytes.components.Secondary;
 import com.turbonips.troglodytes.components.Stats.StatType;
@@ -30,7 +30,7 @@ import com.turbonips.troglodytes.states.MenuState;
 
 public class RenderSystem extends BaseEntitySystem {
 	private ComponentMapper<ResourceRef> resourceMapper;
-	ComponentMapper<Position> positionMapper;
+	ComponentMapper<Location> locationMapper;
 	private GameContainer container;
 	private StateBasedGame game;
 	private ComponentMapper<Movement> movementMapper;
@@ -52,7 +52,7 @@ public class RenderSystem extends BaseEntitySystem {
 	@Override
 	protected void initialize() {
 		resourceMapper = new ComponentMapper<ResourceRef>(ResourceRef.class, world);
-		positionMapper = new ComponentMapper<Position>(Position.class, world);
+		locationMapper = new ComponentMapper<Location>(Location.class, world);
 		movementMapper = new ComponentMapper<Movement>(Movement.class, world);
 		directionMapper = new ComponentMapper<Direction>(Direction.class, world);
 		attackMapper = new ComponentMapper<Attack>(Attack.class, world);
@@ -66,45 +66,38 @@ public class RenderSystem extends BaseEntitySystem {
 		ResourceManager manager = ResourceManager.getInstance();
 		ImmutableBag<Entity> players = world.getGroupManager().getEntities("PLAYER");
 		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities("ENEMY");
-		ImmutableBag<Entity> grounds = world.getGroupManager().getEntities("GROUND");
-		ImmutableBag<Entity> backgrounds = world.getGroupManager().getEntities("BACKGROUND");
-		ImmutableBag<Entity> foregrounds = world.getGroupManager().getEntities("FOREGROUND");
+		ImmutableBag<Entity> maps = world.getGroupManager().getEntities("MAP");
 		ImmutableBag<Entity> trinkets = world.getGroupManager().getEntities("TRINKET");
 		
 		Entity player = players.get(0);
-		Position playerPos = positionMapper.get(player);
-		Vector2f playerPosition = playerPos.getPosition();
+		Location playerLocation = locationMapper.get(player);
+		Vector2f playerPosition = playerLocation.getPosition();
 		String playerResName = resourceMapper.get(player).getResourceName();
 		Resource playerRes = manager.getResource(playerResName);
 		Image playerFrame = getFrame(playerRes);
 		int mapX = (int)playerPosition.x*-1 + container.getWidth()/2 - playerFrame.getWidth()/2;
 		int mapY = (int)playerPosition.y*-1 + container.getHeight()/2 - playerFrame.getHeight()/2;
+		String mapResName = resourceMapper.get(maps.get(0)).getResourceName();
+		Resource mapRes = manager.getResource(mapResName);
+		TiledMap map = (TiledMap)mapRes.getObject();
+		
+		
+		int lightSize = 15;
+		
 		
 		// Draw the ground
-		for (int i=0; i<grounds.size(); i++) {
-			Entity ground = grounds.get(i);
-			String mapResName = resourceMapper.get(ground).getResourceName();
-			Resource mapRes = manager.getResource(mapResName);
-			TiledMap map = (TiledMap)mapRes.getObject();
-			map.render(mapX, mapY, 0);
-		}
+		map.render(mapX, mapY, 0);
 		
 		// Draw the background
-		for (int i=0; i<backgrounds.size(); i++) {
-			Entity background = backgrounds.get(i);
-			String mapResName = resourceMapper.get(background).getResourceName();
-			Resource mapRes = manager.getResource(mapResName);
-			TiledMap map = (TiledMap)mapRes.getObject();
-			map.render(mapX, mapY, 1);
-		}
+		map.render(mapX, mapY, 1);
 		
 		// Draw trinkets on map
 		for (int i=0; i<trinkets.size(); i++) {
 			Entity trinket = trinkets.get(i);
-			Position trinketPos = positionMapper.get(trinket);
-			Vector2f trinketPosition = trinketPos.getPosition();
+			Location trinketLocation = locationMapper.get(trinket);
+			Vector2f trinketPosition = trinketLocation.getPosition();
 			
-			if (trinketPos.getMap().equals(playerPos.getMap())) {
+			if (trinketLocation.getMap().equals(playerLocation.getMap())) {
 				String trinketResName = resourceMapper.get(trinket).getResourceName();
 				Resource trinketRes = manager.getResource(trinketResName);
 				Image trinketImage = (Image)trinketRes.getObject();
@@ -162,9 +155,9 @@ public class RenderSystem extends BaseEntitySystem {
 		// Draw enemies
 		for (int i=0; i<enemies.size(); i++) {
 			Entity enemy = enemies.get(i);
-			Position enemyPos = positionMapper.get(enemy);
-			if (enemyPos.getMap().equals(playerPos.getMap())) {
-				Vector2f enemyPosition = enemyPos.getPosition();
+			Location enemyLocation = locationMapper.get(enemy);
+			if (enemyLocation.getMap().equals(playerLocation.getMap())) {
+				Vector2f enemyPosition = enemyLocation.getPosition();
 				int enemyX = mapX + (int)enemyPosition.x;
 				int enemyY = mapY + (int)enemyPosition.y;
 				drawCreatureEntity(enemy, enemyX, enemyY);
@@ -172,14 +165,10 @@ public class RenderSystem extends BaseEntitySystem {
 		}
 		
 		// Draw the foreground
-		for (int i=0; i<foregrounds.size(); i++) {
-			Entity foreground = foregrounds.get(i);
-			String mapResName = resourceMapper.get(foreground).getResourceName();
-			Resource mapRes = manager.getResource(mapResName);
-			TiledMap map = (TiledMap)mapRes.getObject();
-			map.render(mapX, mapY, 2);
-			//map.render(mapX, mapY, 3);
-		}
+		map.render(mapX, mapY, 2);
+		
+		// Draw the collision layer
+		//map.render(mapX, mapY, 3);
 		
 
 		

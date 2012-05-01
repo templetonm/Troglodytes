@@ -19,13 +19,13 @@ import com.turbonips.troglodytes.components.ResourceRef;
 import com.turbonips.troglodytes.components.Direction.Dir;
 import com.turbonips.troglodytes.components.EnemyAI.AIType;
 import com.turbonips.troglodytes.components.Movement;
-import com.turbonips.troglodytes.components.Position;
+import com.turbonips.troglodytes.components.Location;
 
 public class EnemyAISystem extends BaseEntitySystem {
 	private ComponentMapper<Movement> movementMapper;
 	private ComponentMapper<Direction> directionMapper;
 	private ComponentMapper<EnemyAI> enemyAIMapper;
-	private ComponentMapper<Position> positionMapper;
+	private ComponentMapper<Location> locationMapper;
 	private ComponentMapper<ResourceRef> resourceMapper;
 
 	@Override
@@ -33,7 +33,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 		movementMapper = new ComponentMapper<Movement>(Movement.class, world);
 		directionMapper = new ComponentMapper<Direction>(Direction.class, world);
 		enemyAIMapper = new ComponentMapper<EnemyAI>(EnemyAI.class, world);
-		positionMapper = new ComponentMapper<Position>(Position.class, world);
+		locationMapper = new ComponentMapper<Location>(Location.class, world);
 		resourceMapper = new ComponentMapper<ResourceRef>(ResourceRef.class, world);
 	}
 
@@ -50,13 +50,13 @@ public class EnemyAISystem extends BaseEntitySystem {
 		ResourceManager manager = ResourceManager.getInstance();
 		Entity player = players.get(0);
 		Entity ground = grounds.get(0);
-		Position playerPos = positionMapper.get(player);
+		Location playerLocation = locationMapper.get(player);
 
 		for (int i = 0; i < enemies.size(); i++) {
 			Entity enemy = enemies.get(i);
 			EnemyAI enemyAI = enemyAIMapper.get(enemy);
-			Position enemyPos = positionMapper.get(enemy);
-			if (enemyPos.getMap().equals(playerPos.getMap())) {
+			Location enemyLocation = locationMapper.get(enemy);
+			if (enemyLocation.getMap().equals(playerLocation.getMap())) {
 				if (enemyAI != null) {
 					Movement movement = movementMapper.get(enemy);
 					if (movement != null) {
@@ -144,8 +144,8 @@ public class EnemyAISystem extends BaseEntitySystem {
 								}
 							}
 						} else if (enemyAIType == AIType.DUMBCHARGE) {
-							Vector2f playerPosition = playerPos.getPosition();
-							Vector2f enemyPosition = enemyPos.getPosition();
+							Vector2f playerPosition = playerLocation.getPosition();
+							Vector2f enemyPosition = enemyLocation.getPosition();
 							Vector2f positionDifference = new Vector2f(playerPosition.x - enemyPosition.x, playerPosition.y - enemyPosition.y);
 							Vector2f positionCheck = new Vector2f(positionDifference);
 							if (positionCheck.x < 0) {
@@ -253,8 +253,8 @@ public class EnemyAISystem extends BaseEntitySystem {
 								}
 							}
 						} else if (enemyAIType == AIType.DUMBFIND) {
-							Vector2f playerPosition = playerPos.getPosition();
-							Vector2f enemyPosition = enemyPos.getPosition();
+							Vector2f playerPosition = playerLocation.getPosition();
+							Vector2f enemyPosition = enemyLocation.getPosition();
 							Vector2f positionDifference = new Vector2f(playerPosition.x - enemyPosition.x, playerPosition.y - enemyPosition.y);
 							Vector2f positionCheck = new Vector2f(positionDifference);
 							if (positionCheck.x < 0) {

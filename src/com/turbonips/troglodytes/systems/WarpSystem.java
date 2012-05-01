@@ -20,7 +20,7 @@ import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.EnemyAI;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Polymorph;
-import com.turbonips.troglodytes.components.Position;
+import com.turbonips.troglodytes.components.Location;
 import com.turbonips.troglodytes.components.ResourceRef;
 import com.turbonips.troglodytes.components.Stats;
 import com.turbonips.troglodytes.components.VisitedMaps;
@@ -30,7 +30,7 @@ import com.turbonips.troglodytes.components.Stats.StatType;
 
 public class WarpSystem extends BaseEntityProcessingSystem {
 	private ComponentMapper<Warp> warpMapper;
-	private ComponentMapper<Position> positionMapper;
+	private ComponentMapper<Location> locationMapper;
 	private ComponentMapper<VisitedMaps> visitedMapsMapper;
 	private ComponentMapper<ResourceRef> resourceRefMapper;
 
@@ -41,7 +41,7 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 	@Override
 	protected void initialize() {
 		warpMapper = new ComponentMapper<Warp>(Warp.class, world);
-		positionMapper = new ComponentMapper<Position>(Position.class, world);
+		locationMapper = new ComponentMapper<Location>(Location.class, world);
 		visitedMapsMapper = new ComponentMapper<VisitedMaps>(VisitedMaps.class, world);
 		resourceRefMapper = new ComponentMapper<ResourceRef>(ResourceRef.class, world);
 	}
@@ -50,63 +50,45 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 	protected void process(Entity e) {
 		ResourceManager manager = ResourceManager.getInstance();
 		ImmutableBag<Entity> players = world.getGroupManager().getEntities("PLAYER");
-		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities("ENEMY");
-		ImmutableBag<Entity> grounds = world.getGroupManager().getEntities("GROUND");
-		ImmutableBag<Entity> backgrounds = world.getGroupManager().getEntities("BACKGROUND");
-		ImmutableBag<Entity> foregrounds = world.getGroupManager().getEntities("FOREGROUND");
+		ImmutableBag<Entity> maps = world.getGroupManager().getEntities("MAP");
 		Warp warp = warpMapper.get(e);
 		Resource mapRes = manager.getResource(warp.getMapName());
-		TiledMap map = (TiledMap) mapRes.getObject();
+		TiledMap tiledMap = (TiledMap) mapRes.getObject();
 		XMLSerializer xmls = XMLSerializer.getInstance();
-
 		Entity player = players.get(0);
 		ResourceRef playerResourceRef = resourceRefMapper.get(player);
-		Vector2f position = positionMapper.get(player).getPosition();
+		Vector2f playerPosition = locationMapper.get(player).getPosition();
+		
+		playerPosition.set(new Vector2f(warp.getPosition().x * tiledMap.getTileWidth(), warp.getPosition().y * tiledMap.getTileHeight()));
+		locationMapper.get(player).setMap(warp.getMapName());
+		
 		logger.info(warp.getPosition());
-		position.set(new Vector2f(warp.getPosition().x * map.getTileWidth(), warp.getPosition().y * map.getTileHeight()));
-		positionMapper.get(player).setMap(warp.getMapName());
-		logger.info(positionMapper.get(player).getMap());
-		for (int i = 0; i < grounds.size(); i++) {
-			Entity ground = grounds.get(i);
-			ground.delete();
-		}
-		for (int i = 0; i < backgrounds.size(); i++) {
-			Entity background = backgrounds.get(i);
-			background.delete();
-		}
-		for (int i = 0; i < foregrounds.size(); i++) {
-			Entity foregound = foregrounds.get(i);
-			foregound.delete();
+		logger.info(locationMapper.get(player).getMap());
+		
+		// Delete existing map
+		for (int i=0; i<maps.size(); i++) {
+			maps.get(i).delete();
 		}
 
-		Entity ground = world.createEntity();
-		ground.setGroup("GROUND");
-		ground.addComponent(new ResourceRef(warp.getMapName()));
-		ground.refresh();
-
-		Entity background = world.createEntity();
-		background.setGroup("BACKGROUND");
-		background.addComponent(new ResourceRef(warp.getMapName()));
-		background.refresh();
-
-		Entity foreground = world.createEntity();
-		foreground.setGroup("FOREGROUND");
-		foreground.addComponent(new ResourceRef(warp.getMapName()));
-		foreground.refresh();
+		// Add the new map
+		Entity map = world.createEntity();
+		map.setGroup("MAP");
+		map.addComponent(new ResourceRef(warp.getMapName()));
+		map.refresh();
 
 		// Spawn enemies and particles
 		if (!visitedMapsMapper.get(players.get(0)).getMaps().contains(warp.getMapName())) {
-			for (int groupID = 0; groupID < map.getObjectGroupCount(); groupID++) {
-				for (int objectID = 0; objectID < map.getObjectCount(groupID); objectID++) {
-					int objectX = map.getObjectX(groupID, objectID);
-					int objectY = map.getObjectY(groupID, objectID);
-					int objectWidth = map.getObjectWidth(groupID, objectID);
-					int objectHeight = map.getObjectHeight(groupID, objectID);
-					String type = map.getObjectType(groupID, objectID).toLowerCase();
+			for (int groupID = 0; groupID < tiledMap.getObjectGroupCount(); groupID++) {
+				for (int objectID = 0; objectID < tiledMap.getObjectCount(groupID); objectID++) {
+					int objectX = tiledMap.getObjectX(groupID, objectID);
+					int objectY = tiledMap.getObjectY(groupID, objectID);
+					int objectWidth = tiledMap.getObjectWidth(groupID, objectID);
+					int objectHeight = tiledMap.getObjectHeight(groupID, objectID);
+					String type = tiledMap.getObjectType(groupID, objectID).toLowerCase();
 	
 					if (type.equals("spawn")) {
-						int spawnNum = Integer.valueOf(map.getObjectProperty(groupID, objectID, "Number", "0"));
-						String enemyId = map.getObjectProperty(groupID, objectID, "Enemy", "");
+						int spawnNum = Integer.valueOf(tiledMap.getObjectProperty(groupID, objectID, "Number", "0"));
+						String enemyId = tiledMap.getObjectProperty(groupID, objectID, "Enemy", "");
 						EnemyData enemyData = (EnemyData)xmls.deserializeData("resources/enemyXMLs/" + enemyId);
 						String enemyResourceRef = enemyData.getResourceRef();
 						int enemyMaxSpeed = enemyData.getMaxSpeed();
@@ -122,7 +104,7 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 							enemy.addComponent(new ResourceRef(enemyResourceRef));
 							enemy.addComponent(new Movement(enemyMaxSpeed, new Vector2f(enemyAcc, enemyAcc), new Vector2f(enemyDec, enemyDec)));
 							enemy.addComponent(new Direction(Dir.DOWN));
-							enemy.addComponent(new Position(startPosition, warp.getMapName()));
+							enemy.addComponent(new Location(startPosition, warp.getMapName()));
 							enemy.addComponent(new EnemyAI(enemyAIType, sight));
 							enemy.addComponent(new Attack(enemyData.getCooldown(),enemyData.getDamage()));
 							HashMap<StatType, Integer> stats = new HashMap<StatType, Integer> ();
@@ -139,7 +121,7 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 						Entity trinket = world.createEntity();
 						trinket.setGroup("TRINKET");
 						trinket.addComponent(new ResourceRef(trinketData.getResourceRef()));
-						trinket.addComponent(new Position(startPosition, warp.getMapName()));
+						trinket.addComponent(new Location(startPosition, warp.getMapName()));
 						switch (trinketType) {
 							case polymorph:
 								PolymorphTrinket polymorphTrinketData = (PolymorphTrinket)trinketData;
