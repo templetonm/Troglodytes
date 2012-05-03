@@ -67,7 +67,7 @@ public class MenuState extends BaseGameState implements MouseListener {
 		optionsX = container.getWidth()/2-(buttonFont.getWidth(optionsSt)/2);
 		optionsY = container.getHeight()/4+titleFont.getHeight(title)+35+buttonFont.getHeight(newGameSt)+10;
 		exitX = container.getWidth()/2-(buttonFont.getWidth(exitSt)/2);
-		exitY = container.getHeight()/4+titleFont.getHeight(title)+35+buttonFont.getHeight(newGameSt)+10+buttonFont.getHeight(optionsSt)+10;
+		exitY = container.getHeight()/4+titleFont.getHeight(title)+35+buttonFont.getHeight(newGameSt)+10+buttonFont.getHeight(optionsSt)+5;
 	}
 
 	@Override
