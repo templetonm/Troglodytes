@@ -291,9 +291,37 @@ public class EnemyAISystem extends BaseEntitySystem {
 									}
 	
 									Path path = enemyAI.getPath();
-	
-									if (path != null && path.getLength() > 1 && enemyAI.pathStep < path.getLength()) {
-										Vector2f curEP = new Vector2f((int) (enemyPosition.x + ew / 2 - 1) / tw, (int) (enemyPosition.y + eh / 2 - 1) / th);
+
+									if (path != null && path.getLength() > 2 && enemyAI.pathStep < path.getLength()) {
+										// get position based on next step of path;
+										Vector2f curEP;
+										if (enemyAI.pathStep+1 < path.getLength()) {
+											float x, y = 0;
+											if (path.getX(enemyAI.pathStep) > path.getX(enemyAI.pathStep+1)) {
+												// go left, use right edge
+												x = (int) (enemyPosition.x + ew - 1 )/ tw;
+											} else if (path.getX(enemyAI.pathStep) < path.getX(enemyAI.pathStep+1)) {
+												// go right, use left edge
+												x = (int) (enemyPosition.x) / tw;
+											} else {
+												// use center
+												x = (int) (enemyPosition.x + ew / 2 - 1) / tw;
+											}
+											if (path.getY(enemyAI.pathStep) > path.getY(enemyAI.pathStep+1)) {
+												// go up, use bottom edge
+												y = (int) (enemyPosition.y + eh - 1) / tw;
+											} else if (path.getY(enemyAI.pathStep) < path.getY(enemyAI.pathStep+1)) {
+												// go down, use top edge
+												y = (int) (enemyPosition.y) / tw;
+											} else {
+												// use center
+												y = (int) (enemyPosition.y + eh / 2 - 1) / tw;
+											}
+											curEP = new Vector2f(x, y);
+										} else {
+											curEP = new Vector2f((int) (enemyPosition.x + ew / 2 - 1) / tw, (int) (enemyPosition.y + eh / 2 - 1) / th);
+										}
+
 										if ((int) curEP.x == path.getX(enemyAI.pathStep) && (int) curEP.y == path.getY(enemyAI.pathStep)) {
 											if (enemyAI.pathStep < path.getLength() - 2) {
 												enemyAI.pathStep++;
@@ -309,6 +337,19 @@ public class EnemyAISystem extends BaseEntitySystem {
 											tmpVelocity.y += acceleration.y;
 										} else if (path.getY(enemyAI.pathStep) < (int) (enemyPosition.y + eh / 2 - 1) / th) {
 											tmpVelocity.y -= acceleration.y;
+										}
+									} else {
+										// Stop moving so much if path is at an end.
+										if (tmpVelocity.y > 0) {
+											tmpVelocity.y -= deceleration.y;
+											if (tmpVelocity.y < 0) {
+												tmpVelocity.y = 0;
+											}
+										} else if (tmpVelocity.y < 0) {
+											tmpVelocity.y += deceleration.y;
+											if (tmpVelocity.y > 0) {
+												tmpVelocity.y = 0;
+											}
 										}
 									}
 								}
