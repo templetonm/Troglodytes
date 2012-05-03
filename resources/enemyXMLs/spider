@@ -17,7 +17,7 @@
    <int>30</int>
   </void> 
   <void property="damage"> 
-   <int>1</int>
+   <int>2</int>
   </void> 
   <void property="cooldown"> 
    <int>250</int>

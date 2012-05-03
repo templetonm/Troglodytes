@@ -1,5 +1,7 @@
 package com.turbonips.troglodytes.states;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -8,6 +10,10 @@ import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.gui.*;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.tiled.TiledMap;
+
+import com.turbonips.troglodytes.ResourceFactory;
+import com.turbonips.troglodytes.ResourceManager;
 
 public class MenuState extends BaseGameState {
 	public static final int ID = 1;
@@ -27,12 +33,23 @@ public class MenuState extends BaseGameState {
 	private MouseOverArea quitGameButton;
 	private Image quitGameButtonImage;
 	private Image quitGameButtonClicked;
+	private TiledMap map;
+	int mapX = 0, 
+		mapY = 0;
+	int mapVelX = (int)(Math.random()*-2) - 1; 
+	int mapVelY = (int)(Math.random()*-2) - 1;
 
 	@Override
 	public void init(GameContainer container, final StateBasedGame game)
 			throws SlickException {
 		super.init(container, game);
-
+		ResourceManager manager = ResourceManager.getInstance();
+		ResourceFactory factory = ResourceFactory.getInstance();
+		ArrayList<String> resourceIds = factory.getResourceIds("tiledmap");
+		String randomMap = resourceIds.get((int)(Math.random() * resourceIds.size()));
+		map = (TiledMap)manager.getResource(randomMap).getObject();
+		
+		
 		unicodeFont = new UnicodeFont ("resources/fonts/C64.ttf", 70, true, false);
 		unicodeFont.getEffects().add(new ColorEffect(java.awt.Color.white));
 
@@ -81,6 +98,22 @@ public class MenuState extends BaseGameState {
 			throws SlickException {
 		// TODO Auto-generated method stub
 		
+		map.render(mapX, mapY, 0);
+		map.render(mapX, mapY, 1);
+		map.render(mapX, mapY, 2);
+		
+		
+		if (map.getTileWidth()*map.getWidth() < Math.abs(mapX)+container.getWidth() ||
+			mapX > 0) {
+			mapVelX *= -1;
+		}
+		if (map.getTileHeight()*map.getHeight() < Math.abs(mapY)+container.getHeight() ||
+			mapY > 0) {
+			mapVelY *= -1;
+		}
+		mapX += mapVelX;
+		mapY += mapVelY;
+		
 		unicodeFont.drawString(container.getWidth()/2-(unicodeFont.getWidth(title)/2), 
 				container.getHeight()/4-unicodeFont.getYOffset(title), 
 				title);
@@ -97,6 +130,7 @@ public class MenuState extends BaseGameState {
 		playGameButton.render(container, g);
 		optionsButton.render(container, g);
 		quitGameButton.render(container, g);
+		
 	}
 
 	@Override

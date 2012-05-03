@@ -50,6 +50,8 @@ public class ResourceFactory {
 	public static ResourceFactory getInstance() {
 		return instance;
 	}
+	
+	
 
 	public Resource create(String id) throws SlickException {
 		Element resourceElement = resourceElements.get(id.toLowerCase());
@@ -134,19 +136,19 @@ public class ResourceFactory {
 
 	}
 
-	public ArrayList<String> getMusicResourceIds() {
-		ArrayList<String> musicResourceIds = new ArrayList<String>();
+	public ArrayList<String> getResourceIds(String resId) {
+		ArrayList<String> resourceIds = new ArrayList<String>();
 		
 		for (Element resourceElement : resourceElements.values()) {
 			String type = resourceElement.getAttribute("type").toLowerCase();
 			
-			if (type.equals("music")) {
+			if (type.equals(resId)) {
 				String id = resourceElement.getAttribute("id").toLowerCase();
-				musicResourceIds.add(id);
+				resourceIds.add(id);
 			}
 		}
 		
-		return musicResourceIds;
+		return resourceIds;
 	}
 
 }

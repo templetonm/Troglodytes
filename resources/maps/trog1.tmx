@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="95" height="70" tilewidth="32" tileheight="32">
  <properties>
-  <property name="LightSize" value="5"/>
+  <property name="LightSize" value="15"/>
   <property name="Music" value="Into the Dark.ogg"/>
  </properties>
  <tileset firstgid="1" name="Cave" tilewidth="32" tileheight="32">
@@ -28,7 +28,7 @@
  </layer>
  <layer name="Foreground" width="95" height="70">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3Zu04DMRCFYQeq0CBEQVoeiEtBuEj08P5PwLiwtLI2y0ZZ+3js/5OmTayz47FXGwIAAAAAAAAAAAAAAPDozepo9b6iPqw+Ncts1jn55fVk9Vx/ya5N8yY/wKed1WGnXsWY7tQLGNijegGDerBZc8O8qS5GTu4azHkNel6HntfhbqPBvNFh3ugwbzSYNzrMGw16Xoee11Gfsae+r47wLVqZfcz9K8x/X721+g795t/6rFfmP7cft9yLHmZ9zP811J1Bp/bjy0Zrab3ncz9WvxX+Z2kOJvEZXLIfPfT8VI35syb3JO2Bc2eR12+C3s9fb7MmV2v2lOBt1uQUZ+9Wat/n97bHrgv8rsdnoHiXui/42+kZeHgf7i17L1TnLNnrztmRs4/3+YPwTj9i9urMk1GyT3m3kHlS6p6pNs26pbxzPfV+K/NkLc+976W/l3jIP8/Za9ZzYv5XQfcM5rLtMecl+38yKFUjZAsAANCDP6adik3oZwAA
+   H4sIAAAAAAAAA+3Zu07EMBCFYQPV0iBEwbY8EJeCq0QP78GLYwtZRFYSvIvt8XH+T5p2HZ2Mx17FOQAAAAAAAAAAAAAAoOjR15Ov54x68fVq85jdOiS/tG593fn6Olkv/JrmnZvfsYV5tfIm+zzHZNlb7mGpveh7Vu/3y7bLFaeae3DTfsni1DIPrv2656LzZkmvWU+FRxgtdxXqc14VPW+Hnrczwt1GEfPGDvPGDvPGBvPGDvPGBj1vh563Y33GLn1f3cK3aMvsQ+5v7uf7aurC17sbN//eZ71l/nP7seReVJj1If8H13YGLe3H+0LP0nvPpz58fTZYZ20ORuEd/Gc/KvT8VIv5k5N7FPfAobNI9Zug+vmrNmtSrWZPDWqzJmVx9pbS+j6/83vsrMLvKr4Di/9SVxV/O74Dhf/Do2WvwuqcJXu7c3bL2Yf7/N7wTr/F7K0zj7aSfcy7h8yjWvdMa9Ose8o7NVLv9zJPcin3vkp/r1HIP81ZNes5If9TZ/cO5rIdMec1uz8yqFVbyBYAAGAE36YLsMnoZwAA
   </data>
  </layer>
  <layer name="Collision" width="95" height="70" visible="0">
