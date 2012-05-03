@@ -169,9 +169,10 @@ public class RenderSystem extends BaseEntitySystem {
 		
 		
 		// If lighting is turned on
-		if (Boolean.parseBoolean(tiledMap.getMapProperty("Dark", "false"))) {
+		int lightSize = Integer.valueOf(tiledMap.getMapProperty("LightSize", "-1"));
+		if (lightSize != -1) {
 			// Draw the player light
-			drawLight(player, 16, container.getWidth()/2, container.getHeight()/2);
+			drawLight(player, lightSize, container.getWidth()/2, container.getHeight()/2);
 		}
 		
 
@@ -197,8 +198,8 @@ public class RenderSystem extends BaseEntitySystem {
 		g.fillRect(bigBarWidth*healthPer+6, 4, bigBarWidth*armorPer, bigBarHeight);*/
 		
 		
-		//Image armorIconImage = (Image) manager.getResource("armoricon").getObject();
-		//g.drawImage(armorIconImage, 3, healthIconImage.getHeight() + 3);
+		Image armorIconImage = (Image) manager.getResource("armoricon").getObject();
+		g.drawImage(armorIconImage, 5, healthIconImage.getHeight() + 8);
 		
 		g.setColor(Color.white);
 		int healthTextWidth = g.getFont().getWidth(health + "/" + maxHealth);
