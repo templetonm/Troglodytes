@@ -23,8 +23,6 @@
 	<resource id="stepsound" type="sound" path="sounds/step.wav" />
 	<resource id="Into the Dark.ogg" type="music" path="music/Into the Dark.ogg" />
 	
-	<resource id="defaultFont" type="font" path="fonts/C64.ttf" />
-	
 	<resource id="trog0" type="tiledmap" path="maps/trogStart.tmx" />
 	<resource id="trog1" type="tiledmap" path="maps/trog1.tmx" />
 	<resource id="trog2" type="tiledmap" path="maps/trog2.tmx" />
