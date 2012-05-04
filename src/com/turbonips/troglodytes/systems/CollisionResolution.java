@@ -23,6 +23,18 @@ public class CollisionResolution {
 	private ComponentMapper<Movement> movementMapper;
 	private ComponentMapper<Location> locationMapper;
 	private ComponentMapper<ResourceRef> resourceMapper;
+	public enum CollisionDirection {
+		NONE,
+		UP, 
+		DOWN,
+		LEFT, 
+		RIGHT,
+		UP_RIGHT,
+		UP_LEFT,
+		DOWN_RIGHT,
+		DOWN_LEFT
+	};
+	
 	
 	private CollisionResolution() {
 	}
@@ -38,6 +50,76 @@ public class CollisionResolution {
 		this.resourceMapper = new ComponentMapper<ResourceRef>(ResourceRef.class, world);
 	}
 	
+	// Figure out if adding the entities velocity will result in a collision
+	public CollisionDirection getCollisionDirection(Entity entity, TiledMap map) {
+		String entityResName = resourceMapper.get(entity).getResourceName();
+		ResourceManager manager = ResourceManager.getInstance();
+		Resource entityRes = manager.getResource(entityResName);
+		Image entityFrame = getFrame(entityRes);
+		int th = map.getTileHeight();
+		int tw = map.getTileWidth();
+		int eh = entityFrame.getHeight()-1;
+		int ew = entityFrame.getWidth()-1;
+		Movement entityMovement = movementMapper.get(entity);
+		Location entityLocation = locationMapper.get(entity);
+		Vector2f entityPosition = entityLocation.getPosition();
+		Vector2f entityVelocity = entityMovement.getVelocity();
+		Vector2f newEntityPosition = new Vector2f(entityPosition);
+		newEntityPosition.add(entityVelocity);
+		int step = 4;
+		CollisionDirection collisionDirection = CollisionDirection.NONE;
+		
+		for (int x=0; x<ew; x=x+step) {
+			// Up
+			if (map.getTileId((int)(newEntityPosition.x+x)/tw, (int)newEntityPosition.y/th, 3) > 0) {
+				
+				if (map.getTileId((int)(entityPosition.x+x)/tw, (int)newEntityPosition.y/th, 3) > 0)  {
+					collisionDirection = CollisionDirection.UP;
+				}
+			}
+			
+			// Down
+			if (map.getTileId((int)(entityPosition.x+x)/tw, (int)(newEntityPosition.y+eh)/th, 3) > 0) {
+				
+				if (map.getTileId((int)(newEntityPosition.x+x)/tw, (int)(newEntityPosition.y+eh)/th, 3) > 0 ) {
+					collisionDirection = CollisionDirection.DOWN;
+				}
+			}
+		}
+		
+		for (int y=0; y<eh; y=y+step) {
+			// Right
+			if (map.getTileId((int)(newEntityPosition.x+ew)/tw, (int)(newEntityPosition.y+y)/th, 3) > 0) {
+					
+				if (map.getTileId((int)(newEntityPosition.x+ew)/tw, (int)(entityPosition.y+y)/th, 3) > 0 ) {
+					if (collisionDirection == CollisionDirection.UP) {
+						collisionDirection = CollisionDirection.UP_RIGHT;
+					} else if (collisionDirection == CollisionDirection.DOWN) {
+						collisionDirection = CollisionDirection.DOWN_RIGHT;
+					} else {
+						collisionDirection = CollisionDirection.RIGHT;
+					}
+				
+				}
+			}
+			
+			// Left
+			if (map.getTileId((int)newEntityPosition.x/tw, (int)(newEntityPosition.y+y)/th, 3) > 0) {
+					
+				if (map.getTileId((int)(newEntityPosition.x)/tw, (int)(entityPosition.y+y)/th, 3) > 0 ) {
+					if (collisionDirection == CollisionDirection.UP) {
+						collisionDirection = CollisionDirection.UP_LEFT;
+					} else if (collisionDirection == CollisionDirection.DOWN) {
+						collisionDirection = CollisionDirection.DOWN_LEFT;
+					} else {
+						collisionDirection = CollisionDirection.LEFT;
+					}
+				}
+			}
+		
+		}
+		return collisionDirection;
+	}
 	
 	/*
 	 * Resolves wall collisions and returns the new player position with velocity
