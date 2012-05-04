@@ -295,22 +295,22 @@ public class EnemyAISystem extends BaseEntitySystem {
 									if (path != null && path.getLength() > 2 && enemyAI.pathStep < path.getLength()) {
 										// get position based on next step of path;
 										Vector2f curEP;
-										if (enemyAI.pathStep+1 < path.getLength()) {
+										/*if (enemyAI.pathStep < path.getLength()) {
 											float x, y = 0;
-											if (path.getX(enemyAI.pathStep) > path.getX(enemyAI.pathStep+1)) {
+											if (path.getX(enemyAI.pathStep-1) > path.getX(enemyAI.pathStep)) {
 												// go left, use right edge
 												x = (int) (enemyPosition.x + ew - 1 )/ tw;
-											} else if (path.getX(enemyAI.pathStep) < path.getX(enemyAI.pathStep+1)) {
+											} else if (path.getX(enemyAI.pathStep-1) < path.getX(enemyAI.pathStep)) {
 												// go right, use left edge
 												x = (int) (enemyPosition.x) / tw;
 											} else {
 												// use center
 												x = (int) (enemyPosition.x + ew / 2 - 1) / tw;
 											}
-											if (path.getY(enemyAI.pathStep) > path.getY(enemyAI.pathStep+1)) {
+											if (path.getY(enemyAI.pathStep-1) > path.getY(enemyAI.pathStep)) {
 												// go up, use bottom edge
 												y = (int) (enemyPosition.y + eh - 1) / tw;
-											} else if (path.getY(enemyAI.pathStep) < path.getY(enemyAI.pathStep+1)) {
+											} else if (path.getY(enemyAI.pathStep-1) < path.getY(enemyAI.pathStep)) {
 												// go down, use top edge
 												y = (int) (enemyPosition.y) / tw;
 											} else {
@@ -318,24 +318,27 @@ public class EnemyAISystem extends BaseEntitySystem {
 												y = (int) (enemyPosition.y + eh / 2 - 1) / tw;
 											}
 											curEP = new Vector2f(x, y);
-										} else {
+										} else {*/
 											curEP = new Vector2f((int) (enemyPosition.x + ew / 2 - 1) / tw, (int) (enemyPosition.y + eh / 2 - 1) / th);
-										}
+										//}
 
+											logger.info(curEP);
+											logger.info("path:" + path.getX(enemyAI.pathStep) + ", " + path.getY(enemyAI.pathStep));
+											
 										if ((int) curEP.x == path.getX(enemyAI.pathStep) && (int) curEP.y == path.getY(enemyAI.pathStep)) {
 											if (enemyAI.pathStep < path.getLength() - 2) {
 												enemyAI.pathStep++;
 											}
 										}
 	
-										if (path.getX(enemyAI.pathStep) > (int) (enemyPosition.x + ew / 2 - 1) / tw) {
+										if (path.getX(enemyAI.pathStep) > (int)curEP.x) {
 											tmpVelocity.x += acceleration.x;
-										} else if (path.getX(enemyAI.pathStep) < (int) (enemyPosition.x + ew / 2 - 1) / tw) {
+										} else if (path.getX(enemyAI.pathStep) < (int)curEP.x) {
 											tmpVelocity.x -= acceleration.x;
 										}
-										if (path.getY(enemyAI.pathStep) > (int) (enemyPosition.y + eh / 2 - 1) / th) {
+										if (path.getY(enemyAI.pathStep) > (int)curEP.y) {
 											tmpVelocity.y += acceleration.y;
-										} else if (path.getY(enemyAI.pathStep) < (int) (enemyPosition.y + eh / 2 - 1) / th) {
+										} else if (path.getY(enemyAI.pathStep) < (int)curEP.y) {
 											tmpVelocity.y -= acceleration.y;
 										}
 									} else {
