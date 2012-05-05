@@ -15,11 +15,13 @@ import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.ResourceManager;
 import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.EnemyAI;
+import com.turbonips.troglodytes.components.EnemyAI.Corner;
 import com.turbonips.troglodytes.components.ResourceRef;
 import com.turbonips.troglodytes.components.Direction.Dir;
 import com.turbonips.troglodytes.components.EnemyAI.AIType;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Location;
+import com.turbonips.troglodytes.systems.CollisionResolution.CollisionDirection;
 
 public class EnemyAISystem extends BaseEntitySystem {
 	private ComponentMapper<Movement> movementMapper;
@@ -173,7 +175,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 										tmpVelocity.y -= acceleration.y;
 										break;
 									case 1: // down
-										tmpVelocity.y += acceleration.x;
+										tmpVelocity.y += acceleration.y;
 										break;
 									case 2: // neither; tend toward zero
 										if (tmpVelocity.y > 0) {
@@ -252,7 +254,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 									}
 								}
 							}
-						} else if (enemyAIType == AIType.DUMBFIND) {
+						} else if (enemyAIType == AIType.DUMBFIND) {							
 							Vector2f playerPosition = playerLocation.getPosition();
 							Vector2f enemyPosition = enemyLocation.getPosition();
 							Vector2f positionDifference = new Vector2f(playerPosition.x - enemyPosition.x, playerPosition.y - enemyPosition.y);
@@ -280,11 +282,39 @@ public class EnemyAISystem extends BaseEntitySystem {
 									int th = tiledMap.getTileHeight();
 									CollisionMap collisionMap = new CollisionMap(tiledMap);
 									AStarPathFinder pathFinder = new AStarPathFinder(collisionMap, (int) range, false);
-	
+
+									CollisionResolution collisionResolution = CollisionResolution.getInstance();
+									CollisionDirection collisionDirection = collisionResolution.getCollisionDirection(enemy, tiledMap);
+									if (collisionDirection == CollisionDirection.UP) {
+										if (enemyAI.corner == Corner.BOTTOMLEFT) {
+											enemyAI.corner = Corner.TOPLEFT;
+										} else if (enemyAI.corner == Corner.BOTTOMRIGHT) {
+											enemyAI.corner = Corner.TOPRIGHT;
+										}
+									} else if (collisionDirection == CollisionDirection.RIGHT) {
+										if (enemyAI.corner == Corner.TOPLEFT) {
+											enemyAI.corner = Corner.TOPRIGHT;
+										} else if (enemyAI.corner == Corner.BOTTOMLEFT) {
+											enemyAI.corner = Corner.BOTTOMRIGHT;
+										}
+									} else if (collisionDirection == CollisionDirection.DOWN) {
+										if (enemyAI.corner == Corner.TOPLEFT) {
+											enemyAI.corner = Corner.BOTTOMLEFT;
+										} else if (enemyAI.corner == Corner.TOPRIGHT) {
+											enemyAI.corner = Corner.BOTTOMRIGHT;
+										}
+									} else if (collisionDirection == CollisionDirection.LEFT) {
+										if (enemyAI.corner == Corner.BOTTOMRIGHT) {
+											enemyAI.corner = Corner.BOTTOMLEFT;
+										} else if (enemyAI.corner == Corner.TOPRIGHT) {
+											enemyAI.corner = Corner.TOPLEFT;
+										}
+									}
+									
 									Path newPath = null;
 									if (enemyAI.pathAge <= 0) {
-										// Middle Path
-										newPath = pathFinder.findPath(null, (int) (enemyPosition.x + ew / 2 - 1) / tw, (int) (enemyPosition.y + eh / 2 - 1) / th, (int) playerPosition.x / tw, (int) playerPosition.y / th);
+										// Top Left Path : Where the path is drawn from doesn't matter that much. 
+										newPath = pathFinder.findPath(null, (int) (enemyPosition.x) / tw, (int) (enemyPosition.y) / th, (int) playerPosition.x / tw, (int) playerPosition.y / th);
 										enemyAI.setPath(newPath);
 										enemyAI.pathAge = 60;
 										enemyAI.pathStep = 1;
@@ -292,54 +322,93 @@ public class EnemyAISystem extends BaseEntitySystem {
 	
 									Path path = enemyAI.getPath();
 
-									if (path != null && path.getLength() > 2 && enemyAI.pathStep < path.getLength()) {
-										// get position based on next step of path;
+									if (path != null && path.getLength() > 2 && enemyAI.pathStep < path.getLength()-1) {
 										Vector2f curEP;
-										/*if (enemyAI.pathStep < path.getLength()) {
-											float x, y = 0;
-											if (path.getX(enemyAI.pathStep-1) > path.getX(enemyAI.pathStep)) {
-												// go left, use right edge
-												x = (int) (enemyPosition.x + ew - 1 )/ tw;
-											} else if (path.getX(enemyAI.pathStep-1) < path.getX(enemyAI.pathStep)) {
-												// go right, use left edge
-												x = (int) (enemyPosition.x) / tw;
-											} else {
-												// use center
-												x = (int) (enemyPosition.x + ew / 2 - 1) / tw;
-											}
-											if (path.getY(enemyAI.pathStep-1) > path.getY(enemyAI.pathStep)) {
-												// go up, use bottom edge
-												y = (int) (enemyPosition.y + eh - 1) / tw;
-											} else if (path.getY(enemyAI.pathStep-1) < path.getY(enemyAI.pathStep)) {
-												// go down, use top edge
-												y = (int) (enemyPosition.y) / tw;
-											} else {
-												// use center
-												y = (int) (enemyPosition.y + eh / 2 - 1) / tw;
-											}
-											curEP = new Vector2f(x, y);
-										} else {*/
-											curEP = new Vector2f((int) (enemyPosition.x + ew / 2 - 1) / tw, (int) (enemyPosition.y + eh / 2 - 1) / th);
-										//}
-
-											logger.info(curEP);
-											logger.info("path:" + path.getX(enemyAI.pathStep) + ", " + path.getY(enemyAI.pathStep));
-											
+										if (enemyAI.corner == Corner.TOPLEFT) {
+											curEP = new Vector2f((int) (enemyPosition.x / tw), (int) (enemyPosition.y / th));
+										} else if (enemyAI.corner == Corner.TOPRIGHT) {
+											curEP = new Vector2f((int) ((enemyPosition.x + ew-1) / tw), (int) (enemyPosition.y / th));
+										} else if (enemyAI.corner == Corner.BOTTOMLEFT) {
+											curEP = new Vector2f((int) (enemyPosition.x / tw), (int) ((enemyPosition.y + eh-1) / th));
+										} else {
+											curEP = new Vector2f((int) ((enemyPosition.x + ew-1) / tw), (int) ((enemyPosition.y + eh-1) / th));
+										}
+										
 										if ((int) curEP.x == path.getX(enemyAI.pathStep) && (int) curEP.y == path.getY(enemyAI.pathStep)) {
 											if (enemyAI.pathStep < path.getLength() - 2) {
 												enemyAI.pathStep++;
 											}
 										}
-	
-										if (path.getX(enemyAI.pathStep) > (int)curEP.x) {
-											tmpVelocity.x += acceleration.x;
-										} else if (path.getX(enemyAI.pathStep) < (int)curEP.x) {
-											tmpVelocity.x -= acceleration.x;
-										}
-										if (path.getY(enemyAI.pathStep) > (int)curEP.y) {
-											tmpVelocity.y += acceleration.y;
-										} else if (path.getY(enemyAI.pathStep) < (int)curEP.y) {
-											tmpVelocity.y -= acceleration.y;
+
+										if (collisionDirection == CollisionDirection.NONE) {
+											if (path.getX(enemyAI.pathStep) > (int)curEP.x) {
+												tmpVelocity.x += acceleration.x;
+											} else if (path.getX(enemyAI.pathStep) < (int)curEP.x) {
+												tmpVelocity.x -= acceleration.x;
+											} else {
+												if (tmpVelocity.x > 0) {
+													tmpVelocity.x -= deceleration.x;
+													if (tmpVelocity.x < 0) {
+														tmpVelocity.x = 0;
+													}
+												} else if (tmpVelocity.x < 0) {
+													tmpVelocity.x += deceleration.x;
+													if (tmpVelocity.x > 0) {
+														tmpVelocity.x = 0;
+													}
+												}
+											}
+											if (path.getY(enemyAI.pathStep) > (int)curEP.y) {
+												tmpVelocity.y += acceleration.y;
+											} else if (path.getY(enemyAI.pathStep) < (int)curEP.y) {
+												tmpVelocity.y -= acceleration.y;
+											} else {
+												if (tmpVelocity.y > 0) {
+													tmpVelocity.y -= deceleration.y;
+													if (tmpVelocity.y < 0) {
+														tmpVelocity.y = 0;
+													}
+												} else if (tmpVelocity.y < 0) {
+													tmpVelocity.y += deceleration.y;
+													if (tmpVelocity.y > 0) {
+														tmpVelocity.y = 0;
+													}
+												}
+											}
+										} else {
+											if (collisionDirection == CollisionDirection.DOWN || collisionDirection == CollisionDirection.UP) {
+												int y = path.getY(enemyAI.pathStep);
+												int x = path.getX(enemyAI.pathStep);
+												if (collisionMap.blocked(null, x+1, y)) {
+													// go left
+													tmpVelocity.x -= acceleration.x;
+												} else if (collisionMap.blocked(null, x-1, y)) {
+													// go right
+													tmpVelocity.x += acceleration.x;
+												} else if (collisionMap.blocked(null, x+2, y)) {
+													tmpVelocity.x -= acceleration.x;
+												} else {
+													tmpVelocity.x += acceleration.x;
+												}
+												tmpVelocity.y = 0;
+											} else if (collisionDirection == CollisionDirection.LEFT || collisionDirection == CollisionDirection.RIGHT) {
+												int y = path.getY(enemyAI.pathStep);
+												int x = path.getX(enemyAI.pathStep);
+												if (collisionMap.blocked(null, x, y+1)) {
+													// go up
+													tmpVelocity.y -= acceleration.y;
+												} else if (collisionMap.blocked(null, x, y-1)) {
+													// go down
+													tmpVelocity.y += acceleration.y;
+												} else if (collisionMap.blocked(null, x, y+2)) {
+
+													tmpVelocity.y -= acceleration.y;
+												} else {
+													tmpVelocity.y += acceleration.y;
+												}
+												tmpVelocity.x = 0;
+											}
+											collisionDirection = CollisionDirection.NONE;
 										}
 									} else {
 										// Stop moving so much if path is at an end.

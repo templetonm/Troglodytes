@@ -171,7 +171,7 @@ public class RenderSystem extends BaseEntitySystem {
 		tiledMap.render(mapX, mapY, 2);
 		
 		// Draw the collision layer
-		//map.render(mapX, mapY, 3);
+		//tiledMap.render(mapX, mapY, 3);
 		
 		
 		// If lighting is turned on
