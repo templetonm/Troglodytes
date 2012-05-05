@@ -11,6 +11,7 @@ import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.CollisionMap;
 import com.turbonips.troglodytes.CreatureAnimation;
+import com.turbonips.troglodytes.PolymorphTrinket;
 import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.ResourceManager;
 import com.turbonips.troglodytes.components.Direction;
@@ -56,6 +57,7 @@ public class TrinketSystem extends BaseEntitySystem {
 		int pw = playerFrame.getWidth();
 		int ph = playerFrame.getHeight();
 		playerPosition = new Vector2f(playerPosition.getX()+pw/2, playerPosition.getY()+ph/2);
+		boolean activePolymorphTrinket = false;
 		
 		for (int i=0; i<trinkets.size(); i++) {
 			Entity trinket = trinkets.get(i);
@@ -65,16 +67,40 @@ public class TrinketSystem extends BaseEntitySystem {
 			
 			if (trinketLocation.getMap().equals(playerLocation.getMap())) {
 				if (trinketPosition.distance(playerPosition) <= 32) {
+					// You picked up a polymorph trinket
 					if (polymorphMapper.get(trinket) != null) {
-						playerRes.setResourceName(polymorphMapper.get(trinket).getPolymorphRef());
+						for (int a=0; a<trinkets.size(); a++) {
+							if (a != i) {
+								polymorphMapper.get(trinkets.get(a)).setActive(false);
+							}
+						}
+						Polymorph polymorph = polymorphMapper.get(trinket);
+						polymorph.setActive(true);
+						polymorph.setExistsOnPlayer(true);
+						// Don't make a map named THE_VOID lol
+						trinketLocation.setMap("THE_VOID");
+					} else {
+						trinket.delete();
 					}
-					
-					trinket.delete();
 				}
-				
 			}
 			
+			// Find the active polymorph trinket and apply it to you
+			if (polymorphMapper.get(trinket) != null) {
+				Polymorph polymorph = polymorphMapper.get(trinket);
+				if (polymorph.isActive() && polymorph.existsOnPlayer()) {
+					playerRes.setResourceName(polymorph.getPolymorphRef());
+					activePolymorphTrinket = true;
+				}
+			}
 		}
+		
+		// TODO: This shouldn't always be playeranimation
+		// If there is no active polymorph trinket, set the player resource to playeranimation
+		if (activePolymorphTrinket == false) {
+			playerRes.setResourceName("playeranimation");
+		}
+		
 
 	}
 

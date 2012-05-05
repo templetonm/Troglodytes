@@ -20,9 +20,11 @@ import com.turbonips.troglodytes.CreatureAnimation;
 import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.ResourceManager;
 import com.turbonips.troglodytes.components.Attack;
+import com.turbonips.troglodytes.components.ColorChange;
 import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Location;
+import com.turbonips.troglodytes.components.Polymorph;
 import com.turbonips.troglodytes.components.ResourceRef;
 import com.turbonips.troglodytes.components.Secondary;
 import com.turbonips.troglodytes.components.Stats.StatType;
@@ -39,6 +41,8 @@ public class RenderSystem extends BaseEntitySystem {
 	private ComponentMapper<Stats> statsMapper;
 	private ComponentMapper<Attack> attackMapper;
 	private ComponentMapper<Secondary> secondaryMapper;
+	private ComponentMapper<Polymorph> polymorphMapper;
+	private ComponentMapper<ColorChange> colorChangeMapper;
 	
 	// Bars below the player/enemy
 	int barSpacing = 1;
@@ -59,6 +63,8 @@ public class RenderSystem extends BaseEntitySystem {
 		attackMapper = new ComponentMapper<Attack>(Attack.class, world);
 		statsMapper = new ComponentMapper<Stats>(Stats.class, world);
 		secondaryMapper = new ComponentMapper<Secondary>(Secondary.class, world);
+		polymorphMapper = new ComponentMapper<Polymorph>(Polymorph.class, world);
+		colorChangeMapper = new ComponentMapper<ColorChange>(ColorChange.class, world);
 	}
 
 	@Override
@@ -175,8 +181,6 @@ public class RenderSystem extends BaseEntitySystem {
 			drawLight(player, lightSize, container.getWidth()/2, container.getHeight()/2);
 		}
 		
-
-		
 		// Draw Upper Left UI
 		float bigBarWidth = 200;
 		float bigBarHeight = 17;
@@ -207,15 +211,37 @@ public class RenderSystem extends BaseEntitySystem {
 		//g.drawString(String.valueOf(armor), armorIconImage.getWidth() + 5, healthIconImage.getHeight() + 3);
 		
 		
-		
-		
-		//if (health > 0 && health != maxHealth) {
-
-		//}
-		
-		/*
-		 * 
-		 */
+		// Polymorph Trinket UI
+		int nPolymorph = 0;
+		for (int i=0; i<trinkets.size(); i++) {
+			Entity trinket = trinkets.get(i);
+			if (polymorphMapper.get(trinket) != null) {
+				Polymorph polymorph = polymorphMapper.get(trinket);
+				if (polymorph.existsOnPlayer()) {
+					Image polymorphImage = getFrame(manager.getResource(polymorph.getPolymorphRef()));
+					int selWidth = 32, selHeight = 40;
+					int notSelWidth = 32, notSelHeight = 40;
+					
+					if (polymorph.isActive()) {
+						//playerRes.setResourceName(polymorph.getPolymorphRef());
+						//activePolymorphTrinket = true;
+						int x = container.getWidth()/2-selWidth/2 + nPolymorph*selWidth;
+						int y = container.getHeight()-selHeight;
+						//g.drawImage(polymorphImage, x-4, y-4, x+selWidth+4, y+selHeight+4, 0, 0, polymorphImage.getWidth(), polymorphImage.getHeight(), Color.green);
+						g.drawImage(polymorphImage, x, y, x+selWidth, y+selHeight, 0, 0, polymorphImage.getWidth(), polymorphImage.getHeight(), Color.white);
+						
+						//g.drawRect(x-2, y-2, width-2, height-2);
+						
+					} else {
+						int x = container.getWidth()/2-notSelWidth/2 + nPolymorph*selWidth;
+						int y = container.getHeight()-notSelHeight;
+						g.drawImage(polymorphImage, x, y, x+notSelWidth, y+notSelHeight, 0, 0, polymorphImage.getWidth(), polymorphImage.getHeight(), Color.gray);
+					}
+					
+					nPolymorph+= 1;
+				}
+			}
+		}
 	}
 	
 	@Override
@@ -294,7 +320,17 @@ public class RenderSystem extends BaseEntitySystem {
 						}
 						break;
 					}
-					g.drawAnimation(animation, x, y);
+				
+					Color color = Color.white;
+					if (colorChangeMapper.get(entity) != null) {
+						ColorChange colorChange = colorChangeMapper.get(entity);
+						if (new Date().getTime()-colorChange.getLastTime() > colorChange.getTime()) {
+							entity.removeComponent(colorChange);
+						} else {
+							color = colorChange.getColor();
+						}
+					}
+					g.drawAnimation(animation, x, y, color);
 					break;
 			case IMAGE:
 				Image entityImg = (Image)res.getObject();

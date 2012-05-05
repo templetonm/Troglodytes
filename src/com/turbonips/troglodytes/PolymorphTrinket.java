@@ -11,4 +11,5 @@ public class PolymorphTrinket extends TrinketData {
 	public void setNewResourceRef(String newResourceRef) {
 		this.newResourceRef = newResourceRef;
 	}
+	
 }

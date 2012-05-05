@@ -1,5 +1,7 @@
 package com.turbonips.troglodytes.systems;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.newdawn.slick.geom.Vector2f;
@@ -116,7 +118,13 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 						}
 					} else if (type.equals("trinketspawn")) {
 						Vector2f startPosition = new Vector2f(objectX + (int) (Math.random() * objectWidth), objectY + (int) (Math.random() * objectHeight));
-						TrinketData trinketData = (TrinketData)xmls.deserializeData("resources/trinketXMLs/" + "testTrinket");
+						
+						File folder = new File("resources/trinketXMLs/");
+						ArrayList<String> fileNames = new ArrayList<String>();
+						for (File file : folder.listFiles()) {
+							if (file.isFile()) fileNames.add(file.getName());
+						}
+						TrinketData trinketData = (TrinketData)xmls.deserializeData("resources/trinketXMLs/" + fileNames.get((int)(Math.random() * fileNames.size())));
 						TrinketType trinketType = trinketData.getType();
 						Entity trinket = world.createEntity();
 						trinket.setGroup("TRINKET");

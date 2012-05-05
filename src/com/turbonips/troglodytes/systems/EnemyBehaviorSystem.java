@@ -3,6 +3,7 @@ package com.turbonips.troglodytes.systems;
 import java.util.Date;
 import java.util.HashMap;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
@@ -14,6 +15,7 @@ import com.turbonips.troglodytes.CreatureAnimation;
 import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.ResourceManager;
 import com.turbonips.troglodytes.components.Attack;
+import com.turbonips.troglodytes.components.ColorChange;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Location;
 import com.turbonips.troglodytes.components.ResourceRef;
@@ -26,6 +28,7 @@ public class EnemyBehaviorSystem extends BaseEntitySystem {
 	private ComponentMapper<ResourceRef> resourceMapper;
 	private ComponentMapper<Stats> statsMapper;
 	private ComponentMapper<Attack> attackMapper;
+	private ComponentMapper<ColorChange> colorChangeMapper;
 
 	@Override
 	protected void initialize() {
@@ -34,6 +37,7 @@ public class EnemyBehaviorSystem extends BaseEntitySystem {
 		resourceMapper = new ComponentMapper<ResourceRef>(ResourceRef.class, world);
 		statsMapper = new ComponentMapper<Stats>(Stats.class, world);
 		attackMapper = new ComponentMapper<Attack>(Attack.class, world);
+		colorChangeMapper = new ComponentMapper<ColorChange>(ColorChange.class, world);
 	}
 
 	@Override
@@ -104,6 +108,11 @@ public class EnemyBehaviorSystem extends BaseEntitySystem {
 			if (new Date().getTime()-enemyAttack.getLastTime() > enemyAttack.getTime()) {
 				enemyAttack.setLastTime(new Date().getTime());
 				playerStats.put(StatType.HEALTH, playerStats.get(StatType.HEALTH) - enemyDamage);
+				if (colorChangeMapper.get(player) == null) {
+					ColorChange colorChange = new ColorChange(500, new Color(255,0,0));
+					colorChange.setLastTime(new Date().getTime());
+					player.addComponent(colorChange);
+				}
 			}
 		}
 	}

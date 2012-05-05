@@ -12,10 +12,12 @@ import com.artemis.Entity;
 import com.artemis.EntitySystem;
 import com.artemis.SystemManager;
 import com.artemis.World;
+import com.turbonips.troglodytes.PolymorphTrinket;
 import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.Direction.Dir;
 import com.turbonips.troglodytes.components.HealthRegen;
+import com.turbonips.troglodytes.components.Polymorph;
 import com.turbonips.troglodytes.components.Secondary;
 import com.turbonips.troglodytes.components.Stats;
 import com.turbonips.troglodytes.components.Stats.StatType;
@@ -66,8 +68,15 @@ public class PlayingState extends BaseGameState {
 		player.setGroup("PLAYER");
 		player.addComponent(new Warp("trog1", new Vector2f(20,20)));
 		player.addComponent(new ResourceRef("playeranimation"));
+		//player.addComponent();
 		player.addComponent(new Movement(10, new Vector2f(2,2), new Vector2f(2,2)));
 		player.addComponent(new Direction(Dir.DOWN));
+		
+		Entity trinket = world.createEntity();
+		trinket.setGroup("TRINKET");
+		trinket.addComponent(new Polymorph("", "playeranimation", true, true));
+		trinket.addComponent(new Location(new Vector2f(0,0), "THE_VOID"));
+		trinket.refresh();
 		
 		HashMap<StatType, Integer> stats = new HashMap<StatType, Integer> ();
 		stats.put(StatType.HEALTH, 100);

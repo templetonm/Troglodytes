@@ -3,6 +3,7 @@ package com.turbonips.troglodytes.systems;
 import java.util.Date;
 import java.util.HashMap;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
@@ -14,6 +15,7 @@ import com.turbonips.troglodytes.CreatureAnimation;
 import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.ResourceManager;
 import com.turbonips.troglodytes.components.Attack;
+import com.turbonips.troglodytes.components.ColorChange;
 import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.HealthRegen;
 import com.turbonips.troglodytes.components.Movement;
@@ -33,6 +35,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 	private ComponentMapper<Secondary> secondaryMapper;
 	private ComponentMapper<Stats> statsMapper;
 	private ComponentMapper<HealthRegen> healthRegenMapper;
+	private ComponentMapper<ColorChange> colorChangeMapper;
 
 	@Override
 	protected void initialize() {
@@ -44,6 +47,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 		statsMapper = new ComponentMapper<Stats>(Stats.class, world);
 		secondaryMapper = new ComponentMapper<Secondary>(Secondary.class, world);
 		healthRegenMapper = new ComponentMapper<HealthRegen>(HealthRegen.class, world);
+		colorChangeMapper = new ComponentMapper<ColorChange>(ColorChange.class, world);
 	}
 
 	@Override
@@ -190,6 +194,11 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 
 					HashMap<StatType, Integer> enemyStats = statsMapper.get(enemy).getStats();
 					enemyStats.put(StatType.HEALTH, enemyStats.get(StatType.HEALTH)-playerDamage);
+					if (colorChangeMapper.get(enemy) == null) {
+						ColorChange colorChange = new ColorChange(500, new Color(255,0,0));
+						colorChange.setLastTime(new Date().getTime());
+						enemy.addComponent(colorChange);
+					}
 
 					if (enemyStats.get(StatType.HEALTH) <= 0) {
 						enemy.delete();
@@ -340,7 +349,11 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 				if (attackEnemy) {
 					HashMap<StatType, Integer> enemyStats = statsMapper.get(enemy).getStats();
 					enemyStats.put(StatType.HEALTH, enemyStats.get(StatType.HEALTH)-playerDamage);
-
+					if (colorChangeMapper.get(enemy) == null) {
+						ColorChange colorChange = new ColorChange(500, new Color(255,0,0));
+						colorChange.setLastTime(new Date().getTime());
+						enemy.addComponent(colorChange);
+					}
 					if (enemyStats.get(StatType.HEALTH) <= 0) {
 						enemy.delete();
 					}
