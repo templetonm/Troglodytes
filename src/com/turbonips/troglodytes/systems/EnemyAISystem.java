@@ -175,7 +175,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 										tmpVelocity.y -= acceleration.y;
 										break;
 									case 1: // down
-										tmpVelocity.y += acceleration.x;
+										tmpVelocity.y += acceleration.y;
 										break;
 									case 2: // neither; tend toward zero
 										if (tmpVelocity.y > 0) {
@@ -285,32 +285,24 @@ public class EnemyAISystem extends BaseEntitySystem {
 
 									CollisionResolution collisionResolution = CollisionResolution.getInstance();
 									CollisionDirection collisionDirection = collisionResolution.getCollisionDirection(enemy, tiledMap);
-									if (collisionDirection == CollisionDirection.UP_LEFT) {
-										enemyAI.corner = Corner.TOPLEFT;
-									} else if (collisionDirection == CollisionDirection.UP) {
+									if (collisionDirection == CollisionDirection.UP) {
 										if (enemyAI.corner == Corner.BOTTOMLEFT) {
 											enemyAI.corner = Corner.TOPLEFT;
 										} else if (enemyAI.corner == Corner.BOTTOMRIGHT) {
 											enemyAI.corner = Corner.TOPRIGHT;
 										}
-									} else if (collisionDirection == CollisionDirection.UP_RIGHT) {
-										enemyAI.corner = Corner.TOPRIGHT;
 									} else if (collisionDirection == CollisionDirection.RIGHT) {
 										if (enemyAI.corner == Corner.TOPLEFT) {
 											enemyAI.corner = Corner.TOPRIGHT;
 										} else if (enemyAI.corner == Corner.BOTTOMLEFT) {
 											enemyAI.corner = Corner.BOTTOMRIGHT;
 										}
-									} else if (collisionDirection == CollisionDirection.DOWN_RIGHT) {
-										enemyAI.corner = Corner.BOTTOMRIGHT;
 									} else if (collisionDirection == CollisionDirection.DOWN) {
 										if (enemyAI.corner == Corner.TOPLEFT) {
 											enemyAI.corner = Corner.BOTTOMLEFT;
 										} else if (enemyAI.corner == Corner.TOPRIGHT) {
 											enemyAI.corner = Corner.BOTTOMRIGHT;
 										}
-									} else if (collisionDirection == CollisionDirection.DOWN_LEFT) {
-										enemyAI.corner = Corner.BOTTOMLEFT;
 									} else if (collisionDirection == CollisionDirection.LEFT) {
 										if (enemyAI.corner == Corner.BOTTOMRIGHT) {
 											enemyAI.corner = Corner.BOTTOMLEFT;
@@ -330,7 +322,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 	
 									Path path = enemyAI.getPath();
 
-									if (path != null && path.getLength() > 2 && enemyAI.pathStep < path.getLength()) {
+									if (path != null && path.getLength() > 2 && enemyAI.pathStep < path.getLength()-1) {
 										Vector2f curEP;
 										if (enemyAI.corner == Corner.TOPLEFT) {
 											curEP = new Vector2f((int) (enemyPosition.x / tw), (int) (enemyPosition.y / th));
@@ -390,8 +382,12 @@ public class EnemyAISystem extends BaseEntitySystem {
 												if (collisionMap.blocked(null, x+1, y)) {
 													// go left
 													tmpVelocity.x -= acceleration.x;
-												} else {
+												} else if (collisionMap.blocked(null, x-1, y)) {
 													// go right
+													tmpVelocity.x += acceleration.x;
+												} else if (collisionMap.blocked(null, x+2, y)) {
+													tmpVelocity.x -= acceleration.x;
+												} else {
 													tmpVelocity.x += acceleration.x;
 												}
 												tmpVelocity.y = 0;
@@ -401,14 +397,17 @@ public class EnemyAISystem extends BaseEntitySystem {
 												if (collisionMap.blocked(null, x, y+1)) {
 													// go up
 													tmpVelocity.y -= acceleration.y;
-												} else {
+												} else if (collisionMap.blocked(null, x, y-1)) {
 													// go down
+													tmpVelocity.y += acceleration.y;
+												} else if (collisionMap.blocked(null, x, y+2)) {
+
+													tmpVelocity.y -= acceleration.y;
+												} else {
 													tmpVelocity.y += acceleration.y;
 												}
 												tmpVelocity.x = 0;
 											}
-											logger.info("BLOCKED:" + collisionDirection + " - EP:" + curEP
-													 + " - p:(" + path.getX(enemyAI.pathStep) + ", " + path.getY(enemyAI.pathStep) + ")");
 											collisionDirection = CollisionDirection.NONE;
 										}
 									} else {
