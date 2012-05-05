@@ -353,26 +353,63 @@ public class EnemyAISystem extends BaseEntitySystem {
 												tmpVelocity.x += acceleration.x;
 											} else if (path.getX(enemyAI.pathStep) < (int)curEP.x) {
 												tmpVelocity.x -= acceleration.x;
+											} else {
+												if (tmpVelocity.x > 0) {
+													tmpVelocity.x -= deceleration.x;
+													if (tmpVelocity.x < 0) {
+														tmpVelocity.x = 0;
+													}
+												} else if (tmpVelocity.x < 0) {
+													tmpVelocity.x += deceleration.x;
+													if (tmpVelocity.x > 0) {
+														tmpVelocity.x = 0;
+													}
+												}
 											}
 											if (path.getY(enemyAI.pathStep) > (int)curEP.y) {
 												tmpVelocity.y += acceleration.y;
 											} else if (path.getY(enemyAI.pathStep) < (int)curEP.y) {
 												tmpVelocity.y -= acceleration.y;
-											}
-										} else {
-											if (collisionDirection == CollisionDirection.DOWN) {
-												if (enemyAI.pathStep > 0) {
-													if (path.getX(enemyAI.pathStep-1) < path.getX(enemyAI.pathStep+1)) {
-														tmpVelocity.x += acceleration.x;
-													} else if (path.getX(enemyAI.pathStep-1) > path.getX(enemyAI.pathStep+1)) {
-														tmpVelocity.x -= acceleration.x;
+											} else {
+												if (tmpVelocity.y > 0) {
+													tmpVelocity.y -= deceleration.y;
+													if (tmpVelocity.y < 0) {
+														tmpVelocity.y = 0;
 													}
-													tmpVelocity.y += acceleration.x;
+												} else if (tmpVelocity.y < 0) {
+													tmpVelocity.y += deceleration.y;
+													if (tmpVelocity.y > 0) {
+														tmpVelocity.y = 0;
+													}
 												}
 											}
-											logger.info("BLOCKED:" + collisionDirection + curEP + path.getX(enemyAI.pathStep) + path.getY(enemyAI.pathStep));
-											tmpVelocity.x = 0;
-											tmpVelocity.y = 0;
+										} else {
+											if (collisionDirection == CollisionDirection.DOWN || collisionDirection == CollisionDirection.UP) {
+												int y = path.getY(enemyAI.pathStep);
+												int x = path.getX(enemyAI.pathStep);
+												if (collisionMap.blocked(null, x+1, y)) {
+													// go left
+													tmpVelocity.x -= acceleration.x;
+												} else {
+													// go right
+													tmpVelocity.x += acceleration.x;
+												}
+												tmpVelocity.y = 0;
+											} else if (collisionDirection == CollisionDirection.LEFT || collisionDirection == CollisionDirection.RIGHT) {
+												int y = path.getY(enemyAI.pathStep);
+												int x = path.getX(enemyAI.pathStep);
+												if (collisionMap.blocked(null, x, y+1)) {
+													// go up
+													tmpVelocity.y -= acceleration.y;
+												} else {
+													// go down
+													tmpVelocity.y += acceleration.y;
+												}
+												tmpVelocity.x = 0;
+											}
+											logger.info("BLOCKED:" + collisionDirection + " - EP:" + curEP
+													 + " - p:(" + path.getX(enemyAI.pathStep) + ", " + path.getY(enemyAI.pathStep) + ")");
+											collisionDirection = CollisionDirection.NONE;
 										}
 									} else {
 										// Stop moving so much if path is at an end.
