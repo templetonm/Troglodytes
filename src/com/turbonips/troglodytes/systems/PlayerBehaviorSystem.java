@@ -195,7 +195,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 					HashMap<StatType, Integer> enemyStats = statsMapper.get(enemy).getStats();
 					enemyStats.put(StatType.HEALTH, enemyStats.get(StatType.HEALTH)-playerDamage);
 					if (colorChangeMapper.get(enemy) == null) {
-						ColorChange colorChange = new ColorChange(500, new Color(255,0,0));
+						ColorChange colorChange = new ColorChange(250, new Color(255,0,0));
 						colorChange.setLastTime(new Date().getTime());
 						enemy.addComponent(colorChange);
 					}
@@ -350,7 +350,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 					HashMap<StatType, Integer> enemyStats = statsMapper.get(enemy).getStats();
 					enemyStats.put(StatType.HEALTH, enemyStats.get(StatType.HEALTH)-playerDamage);
 					if (colorChangeMapper.get(enemy) == null) {
-						ColorChange colorChange = new ColorChange(500, new Color(255,0,0));
+						ColorChange colorChange = new ColorChange(250, new Color(255,0,0));
 						colorChange.setLastTime(new Date().getTime());
 						enemy.addComponent(colorChange);
 					}
