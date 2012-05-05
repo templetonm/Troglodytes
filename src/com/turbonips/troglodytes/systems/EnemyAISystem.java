@@ -15,6 +15,7 @@ import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.ResourceManager;
 import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.EnemyAI;
+import com.turbonips.troglodytes.components.EnemyAI.Corner;
 import com.turbonips.troglodytes.components.ResourceRef;
 import com.turbonips.troglodytes.components.Direction.Dir;
 import com.turbonips.troglodytes.components.EnemyAI.AIType;
@@ -253,6 +254,8 @@ public class EnemyAISystem extends BaseEntitySystem {
 								}
 							}
 						} else if (enemyAIType == AIType.DUMBFIND) {
+							CollisionResolution collisionResolution = CollisionResolution.getInstance();
+							
 							Vector2f playerPosition = playerLocation.getPosition();
 							Vector2f enemyPosition = enemyLocation.getPosition();
 							Vector2f positionDifference = new Vector2f(playerPosition.x - enemyPosition.x, playerPosition.y - enemyPosition.y);
@@ -283,8 +286,8 @@ public class EnemyAISystem extends BaseEntitySystem {
 	
 									Path newPath = null;
 									if (enemyAI.pathAge <= 0) {
-										// Middle Path
-										newPath = pathFinder.findPath(null, (int) (enemyPosition.x + ew / 2 - 1) / tw, (int) (enemyPosition.y + eh / 2 - 1) / th, (int) playerPosition.x / tw, (int) playerPosition.y / th);
+										// Top Left Path : Where the path is drawn from doesn't matter that much. 
+										newPath = pathFinder.findPath(null, (int) (enemyPosition.x) / tw, (int) (enemyPosition.y) / th, (int) playerPosition.x / tw, (int) playerPosition.y / th);
 										enemyAI.setPath(newPath);
 										enemyAI.pathAge = 60;
 										enemyAI.pathStep = 1;
@@ -293,37 +296,20 @@ public class EnemyAISystem extends BaseEntitySystem {
 									Path path = enemyAI.getPath();
 
 									if (path != null && path.getLength() > 2 && enemyAI.pathStep < path.getLength()) {
-										// get position based on next step of path;
 										Vector2f curEP;
-										/*if (enemyAI.pathStep < path.getLength()) {
-											float x, y = 0;
-											if (path.getX(enemyAI.pathStep-1) > path.getX(enemyAI.pathStep)) {
-												// go left, use right edge
-												x = (int) (enemyPosition.x + ew - 1 )/ tw;
-											} else if (path.getX(enemyAI.pathStep-1) < path.getX(enemyAI.pathStep)) {
-												// go right, use left edge
-												x = (int) (enemyPosition.x) / tw;
-											} else {
-												// use center
-												x = (int) (enemyPosition.x + ew / 2 - 1) / tw;
-											}
-											if (path.getY(enemyAI.pathStep-1) > path.getY(enemyAI.pathStep)) {
-												// go up, use bottom edge
-												y = (int) (enemyPosition.y + eh - 1) / tw;
-											} else if (path.getY(enemyAI.pathStep-1) < path.getY(enemyAI.pathStep)) {
-												// go down, use top edge
-												y = (int) (enemyPosition.y) / tw;
-											} else {
-												// use center
-												y = (int) (enemyPosition.y + eh / 2 - 1) / tw;
-											}
-											curEP = new Vector2f(x, y);
-										} else {*/
-											curEP = new Vector2f((int) (enemyPosition.x + ew / 2 - 1) / tw, (int) (enemyPosition.y + eh / 2 - 1) / th);
-										//}
-
-											logger.info(curEP);
-											logger.info("path:" + path.getX(enemyAI.pathStep) + ", " + path.getY(enemyAI.pathStep));
+										
+										if (enemyAI.corner == Corner.TOPLEFT) {
+											curEP = new Vector2f((int) (enemyPosition.x / tw), (int) (enemyPosition.y / th));
+										} else if (enemyAI.corner == Corner.TOPRIGHT) {
+											curEP = new Vector2f((int) ((enemyPosition.x + ew-1) / tw), (int) (enemyPosition.y / th));
+										} else if (enemyAI.corner == Corner.BOTTOMLEFT) {
+											curEP = new Vector2f((int) (enemyPosition.x / tw), (int) ((enemyPosition.y + eh-1) / th));
+										} else {
+											curEP = new Vector2f((int) ((enemyPosition.x + ew-1) / tw), (int) ((enemyPosition.y + eh-1) / th));
+										}
+										
+//										logger.info(curEP);
+//										logger.info("path:" + path.getX(enemyAI.pathStep) + ", " + path.getY(enemyAI.pathStep));
 											
 										if ((int) curEP.x == path.getX(enemyAI.pathStep) && (int) curEP.y == path.getY(enemyAI.pathStep)) {
 											if (enemyAI.pathStep < path.getLength() - 2) {

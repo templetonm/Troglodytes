@@ -11,6 +11,14 @@ public class EnemyAI extends Component
 	private Path path = null;
 	public int pathAge = 0;
 	public int pathStep = 0;
+	public Corner corner = Corner.TOPLEFT;
+	
+	public enum Corner {
+		TOPLEFT,
+		TOPRIGHT,
+		BOTTOMLEFT,
+		BOTTOMRIGHT
+	}
 	
 	public EnemyAI (String enemyAIType, int sight) {
 		this.enemyAIType = AIType.valueOf(enemyAIType.toUpperCase());
