@@ -21,6 +21,7 @@ import com.turbonips.troglodytes.components.Direction.Dir;
 import com.turbonips.troglodytes.components.EnemyAI.AIType;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Location;
+import com.turbonips.troglodytes.systems.CollisionResolution.CollisionDirection;
 
 public class EnemyAISystem extends BaseEntitySystem {
 	private ComponentMapper<Movement> movementMapper;
@@ -253,9 +254,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 									}
 								}
 							}
-						} else if (enemyAIType == AIType.DUMBFIND) {
-							CollisionResolution collisionResolution = CollisionResolution.getInstance();
-							
+						} else if (enemyAIType == AIType.DUMBFIND) {							
 							Vector2f playerPosition = playerLocation.getPosition();
 							Vector2f enemyPosition = enemyLocation.getPosition();
 							Vector2f positionDifference = new Vector2f(playerPosition.x - enemyPosition.x, playerPosition.y - enemyPosition.y);
@@ -283,7 +282,43 @@ public class EnemyAISystem extends BaseEntitySystem {
 									int th = tiledMap.getTileHeight();
 									CollisionMap collisionMap = new CollisionMap(tiledMap);
 									AStarPathFinder pathFinder = new AStarPathFinder(collisionMap, (int) range, false);
-	
+
+									CollisionResolution collisionResolution = CollisionResolution.getInstance();
+									CollisionDirection collisionDirection = collisionResolution.getCollisionDirection(enemy, tiledMap);
+									if (collisionDirection == CollisionDirection.UP_LEFT) {
+										enemyAI.corner = Corner.TOPLEFT;
+									} else if (collisionDirection == CollisionDirection.UP) {
+										if (enemyAI.corner == Corner.BOTTOMLEFT) {
+											enemyAI.corner = Corner.TOPLEFT;
+										} else if (enemyAI.corner == Corner.BOTTOMRIGHT) {
+											enemyAI.corner = Corner.TOPRIGHT;
+										}
+									} else if (collisionDirection == CollisionDirection.UP_RIGHT) {
+										enemyAI.corner = Corner.TOPRIGHT;
+									} else if (collisionDirection == CollisionDirection.RIGHT) {
+										if (enemyAI.corner == Corner.TOPLEFT) {
+											enemyAI.corner = Corner.TOPRIGHT;
+										} else if (enemyAI.corner == Corner.BOTTOMLEFT) {
+											enemyAI.corner = Corner.BOTTOMRIGHT;
+										}
+									} else if (collisionDirection == CollisionDirection.DOWN_RIGHT) {
+										enemyAI.corner = Corner.BOTTOMRIGHT;
+									} else if (collisionDirection == CollisionDirection.DOWN) {
+										if (enemyAI.corner == Corner.TOPLEFT) {
+											enemyAI.corner = Corner.BOTTOMLEFT;
+										} else if (enemyAI.corner == Corner.TOPRIGHT) {
+											enemyAI.corner = Corner.BOTTOMRIGHT;
+										}
+									} else if (collisionDirection == CollisionDirection.DOWN_LEFT) {
+										enemyAI.corner = Corner.BOTTOMLEFT;
+									} else if (collisionDirection == CollisionDirection.LEFT) {
+										if (enemyAI.corner == Corner.BOTTOMRIGHT) {
+											enemyAI.corner = Corner.BOTTOMLEFT;
+										} else if (enemyAI.corner == Corner.TOPRIGHT) {
+											enemyAI.corner = Corner.TOPLEFT;
+										}
+									}
+									
 									Path newPath = null;
 									if (enemyAI.pathAge <= 0) {
 										// Top Left Path : Where the path is drawn from doesn't matter that much. 
@@ -297,7 +332,6 @@ public class EnemyAISystem extends BaseEntitySystem {
 
 									if (path != null && path.getLength() > 2 && enemyAI.pathStep < path.getLength()) {
 										Vector2f curEP;
-										
 										if (enemyAI.corner == Corner.TOPLEFT) {
 											curEP = new Vector2f((int) (enemyPosition.x / tw), (int) (enemyPosition.y / th));
 										} else if (enemyAI.corner == Corner.TOPRIGHT) {
@@ -308,24 +342,37 @@ public class EnemyAISystem extends BaseEntitySystem {
 											curEP = new Vector2f((int) ((enemyPosition.x + ew-1) / tw), (int) ((enemyPosition.y + eh-1) / th));
 										}
 										
-//										logger.info(curEP);
-//										logger.info("path:" + path.getX(enemyAI.pathStep) + ", " + path.getY(enemyAI.pathStep));
-											
 										if ((int) curEP.x == path.getX(enemyAI.pathStep) && (int) curEP.y == path.getY(enemyAI.pathStep)) {
 											if (enemyAI.pathStep < path.getLength() - 2) {
 												enemyAI.pathStep++;
 											}
 										}
-	
-										if (path.getX(enemyAI.pathStep) > (int)curEP.x) {
-											tmpVelocity.x += acceleration.x;
-										} else if (path.getX(enemyAI.pathStep) < (int)curEP.x) {
-											tmpVelocity.x -= acceleration.x;
-										}
-										if (path.getY(enemyAI.pathStep) > (int)curEP.y) {
-											tmpVelocity.y += acceleration.y;
-										} else if (path.getY(enemyAI.pathStep) < (int)curEP.y) {
-											tmpVelocity.y -= acceleration.y;
+
+										if (collisionDirection == CollisionDirection.NONE) {
+											if (path.getX(enemyAI.pathStep) > (int)curEP.x) {
+												tmpVelocity.x += acceleration.x;
+											} else if (path.getX(enemyAI.pathStep) < (int)curEP.x) {
+												tmpVelocity.x -= acceleration.x;
+											}
+											if (path.getY(enemyAI.pathStep) > (int)curEP.y) {
+												tmpVelocity.y += acceleration.y;
+											} else if (path.getY(enemyAI.pathStep) < (int)curEP.y) {
+												tmpVelocity.y -= acceleration.y;
+											}
+										} else {
+											if (collisionDirection == CollisionDirection.DOWN) {
+												if (enemyAI.pathStep > 0) {
+													if (path.getX(enemyAI.pathStep-1) < path.getX(enemyAI.pathStep+1)) {
+														tmpVelocity.x += acceleration.x;
+													} else if (path.getX(enemyAI.pathStep-1) > path.getX(enemyAI.pathStep+1)) {
+														tmpVelocity.x -= acceleration.x;
+													}
+													tmpVelocity.y += acceleration.x;
+												}
+											}
+											logger.info("BLOCKED:" + collisionDirection + curEP + path.getX(enemyAI.pathStep) + path.getY(enemyAI.pathStep));
+											tmpVelocity.x = 0;
+											tmpVelocity.y = 0;
 										}
 									} else {
 										// Stop moving so much if path is at an end.
