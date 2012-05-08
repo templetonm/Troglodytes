@@ -74,7 +74,8 @@ public class PlayingState extends BaseGameState {
 		
 		Entity trinket = world.createEntity();
 		trinket.setGroup("TRINKET");
-		trinket.addComponent(new Polymorph("", "playeranimation", true, true));
+		trinket.addComponent(new Polymorph("playeranimation", true, true));
+		trinket.addComponent(new ResourceRef("playerTrinket"));
 		trinket.addComponent(new Location(new Vector2f(0,0), "THE_VOID"));
 		trinket.refresh();
 		
