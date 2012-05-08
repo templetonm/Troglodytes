@@ -322,7 +322,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 	
 									Path path = enemyAI.getPath();
 
-									if (path != null && path.getLength() > 2 && enemyAI.pathStep < path.getLength()-1) {
+									if (path != null && path.getLength() > 1 && enemyAI.pathStep < path.getLength()-1) {
 										Vector2f curEP;
 										if (enemyAI.corner == Corner.TOPLEFT) {
 											curEP = new Vector2f((int) (enemyPosition.x / tw), (int) (enemyPosition.y / th));
