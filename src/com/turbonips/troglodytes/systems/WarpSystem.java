@@ -133,7 +133,7 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 						switch (trinketType) {
 							case polymorph:
 								PolymorphTrinket polymorphTrinketData = (PolymorphTrinket)trinketData;
-								trinket.addComponent(new Polymorph(playerResourceRef.getResourceName(), polymorphTrinketData.getNewResourceRef()));
+								trinket.addComponent(new Polymorph(polymorphTrinketData.getNewResourceRef()));
 								break;
 						}
 						

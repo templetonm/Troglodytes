@@ -217,10 +217,11 @@ public class RenderSystem extends BaseEntitySystem {
 			Entity trinket = trinkets.get(i);
 			if (polymorphMapper.get(trinket) != null) {
 				Polymorph polymorph = polymorphMapper.get(trinket);
+				ResourceRef trinketRef = resourceMapper.get(trinket);
 				if (polymorph.existsOnPlayer()) {
-					Image polymorphImage = getFrame(manager.getResource(polymorph.getPolymorphRef()));
-					int selWidth = 32, selHeight = 40;
-					int notSelWidth = 32, notSelHeight = 40;
+					Image polymorphImage = (Image)manager.getResource(trinketRef.getResourceName()).getObject();
+					int selWidth = 32, selHeight = 32;
+					int notSelWidth = 32, notSelHeight = 32;
 					
 					if (polymorph.isActive()) {
 						//playerRes.setResourceName(polymorph.getPolymorphRef());

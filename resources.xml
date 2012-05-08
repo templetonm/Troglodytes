@@ -9,6 +9,8 @@
 	<resource id="smallsmoke" type="image" path="graphics/blankParticleW.png" />
 	<resource id="light" type="image" path="graphics/light.png" />
 	<resource id="meat" type="image" path="graphics/meat.png" />
+	<resource id="yetiTrinket" type="image" path="graphics/yetiTrinket.png" />
+	<resource id="playerTrinket" type="image" path="graphics/humanTrinket.png" />
 
 	<resource id="playeranimation" type="creatureanimation" path="graphics/demoCharTest.png" width="32" height="64" />
 	<resource id="smalldinoanimation" type="creatureanimation" path="graphics/smalldino.png" width="64" height="48" />

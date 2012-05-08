@@ -10,11 +10,12 @@
   </void>
   
   <void property="resourceRef">
-  	<string>meat</string>
+  	<string>yetiTrinket</string>
   </void>
   
   <void property="newResourceRef">
   	<string>yetianimation</string>
   </void>
- </object> 
+ 
+ </object>
 </java> 
