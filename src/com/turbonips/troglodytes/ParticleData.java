@@ -31,6 +31,7 @@ public class ParticleData
 	private float colorChangeA;
 	private float velocitySpeed;
 	private boolean intervalRandom;
+	private String resourceRef;
 	
 	public String getType () {return type;}
 	public int getInterval () {return interval;}
@@ -56,6 +57,7 @@ public class ParticleData
 	public float getColorChangeA () {return colorChangeA;}
 	public float getVelocitySpeed () {return velocitySpeed;}
 	public boolean getIntervalRandom () {return intervalRandom;}
+	public String getResourceRef() {return resourceRef;}
 	
 	public void setType (String newType) {type = newType;}
 	public void setInterval (int newInterval) {interval = newInterval;}
@@ -81,4 +83,5 @@ public class ParticleData
 	public void setColorChangeA (float newColorChangeA) {colorChangeA = newColorChangeA;}
 	public void setVelocitySpeed (float newVelocitySpeed) {velocitySpeed = newVelocitySpeed;}
 	public void setIntervalRandom (boolean newIntervalRandom) {intervalRandom = newIntervalRandom;}
+	public void setResourceRef (String newResourceRef) {resourceRef = newResourceRef;}
 }

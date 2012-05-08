@@ -321,9 +321,6 @@ public class EnemyAISystem extends BaseEntitySystem {
 										} else {*/
 											curEP = new Vector2f((int) (enemyPosition.x + ew / 2 - 1) / tw, (int) (enemyPosition.y + eh / 2 - 1) / th);
 										//}
-
-											logger.info(curEP);
-											logger.info("path:" + path.getX(enemyAI.pathStep) + ", " + path.getY(enemyAI.pathStep));
 											
 										if ((int) curEP.x == path.getX(enemyAI.pathStep) && (int) curEP.y == path.getY(enemyAI.pathStep)) {
 											if (enemyAI.pathStep < path.getLength() - 2) {

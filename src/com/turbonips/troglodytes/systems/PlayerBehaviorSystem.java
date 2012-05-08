@@ -11,8 +11,11 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.CreatureAnimation;
+import com.turbonips.troglodytes.Emitter;
+import com.turbonips.troglodytes.ParticleData;
 import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.ResourceManager;
+import com.turbonips.troglodytes.XMLSerializer;
 import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.HealthRegen;
@@ -343,6 +346,15 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 
 					if (enemyStats.get(StatType.HEALTH) <= 0) {
 						enemy.delete();
+						// Create enemy death entity for particle effect
+						Entity enemyDeath = world.createEntity();
+						enemyDeath.setGroup("ENEMY_DEATH");
+						// get the particle data
+						XMLSerializer xmls = XMLSerializer.getInstance();
+						ParticleData particleData = (ParticleData)xmls.deserializeData("resources/particleXMLs/deathsplat");
+						String particleResourceRef = particleData.getResourceRef();
+						Emitter pem = new Emitter(particleData);
+						
 					}
 				}
 			}
