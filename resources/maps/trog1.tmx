@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="95" height="70" tilewidth="32" tileheight="32">
  <properties>
-  <property name="Dark" value="true"/>
+  <property name="LightSize" value="10"/>
   <property name="Music" value="Into the Dark.ogg"/>
  </properties>
  <tileset firstgid="1" name="Cave" tilewidth="32" tileheight="32">
