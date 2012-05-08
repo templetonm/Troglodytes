@@ -200,8 +200,7 @@ public class RenderSystem extends BaseEntitySystem {
 		g.fillRect(healthIconImage.getWidth()+9, 6, bigBarWidth*healthPer, bigBarHeight);
 		/*g.setColor(new Color(0,0,255,100));
 		g.fillRect(bigBarWidth*healthPer+6, 4, bigBarWidth*armorPer, bigBarHeight);*/
-		
-		
+
 		Image armorIconImage = (Image) manager.getResource("armoricon").getObject();
 		g.drawImage(armorIconImage, 5, healthIconImage.getHeight() + 8);
 		
@@ -210,6 +209,7 @@ public class RenderSystem extends BaseEntitySystem {
 		g.drawString(health + "/" + maxHealth, 7 + bigBarWidth/2 - healthTextWidth/2 + healthIconImage.getWidth(), 5);
 		//g.drawString(String.valueOf(armor), armorIconImage.getWidth() + 5, healthIconImage.getHeight() + 3);
 		
+
 		
 		// Polymorph Trinket UI
 		int nPolymorph = 0;

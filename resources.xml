@@ -4,13 +4,17 @@
 	<resource id="testblueimage" type="image" path="graphics/blue.png" />
 	<resource id="healthicon" type="image" path="graphics/heart.png" />
 	<resource id="armoricon" type="image" path="graphics/shield.png" />
+
 	<resource id="swampbubble" type="image" path="graphics/testBubble.png" />
 	<resource id="smallfire" type="image" path="graphics/blankParticleW.png" />
 	<resource id="smallsmoke" type="image" path="graphics/blankParticleW.png" />
 	<resource id="light" type="image" path="graphics/light.png" />
+	
 	<resource id="meat" type="image" path="graphics/meat.png" />
 	<resource id="yetiTrinket" type="image" path="graphics/yetiTrinket.png" />
 	<resource id="playerTrinket" type="image" path="graphics/humanTrinket.png" />
+	<resource id="toothTrinket" type="image" path="graphics/tooth.png" />
+	
 
 	<resource id="playeranimation" type="creatureanimation" path="graphics/demoCharTest.png" width="32" height="64" />
 	<resource id="smalldinoanimation" type="creatureanimation" path="graphics/smalldino.png" width="64" height="48" />
