@@ -1,6 +1,5 @@
 package com.turbonips.troglodytes.systems;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import org.newdawn.slick.GameContainer;
@@ -15,6 +14,7 @@ import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.Direction.Dir;
 import com.turbonips.troglodytes.components.Movement;
+import com.turbonips.troglodytes.components.Polymorph;
 import com.turbonips.troglodytes.components.Secondary;
 
 public class InputSystem extends BaseEntitySystem implements KeyListener {
@@ -22,6 +22,7 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 	private ComponentMapper<Direction> directionMapper;
 	private ComponentMapper<Attack> attackMapper;
 	private ComponentMapper<Secondary> secondaryMapper;
+	private ComponentMapper<Polymorph> polymorphMapper;
 	private GameContainer container;
 
 	boolean key_up = false, 
@@ -30,7 +31,10 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 			key_right = false, 
 			key_esc = false, 
 			key_attack = false,
-			key_secondary = false;
+			key_secondary = false,
+			key_a = false,
+			key_d = false;
+	
 
 	public InputSystem(GameContainer container) {
 		this.container = container;
@@ -42,6 +46,7 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 		directionMapper = new ComponentMapper<Direction>(Direction.class, world);
 		attackMapper = new ComponentMapper<Attack>(Attack.class, world);
 		secondaryMapper = new ComponentMapper<Secondary>(Secondary.class, world);
+		polymorphMapper = new ComponentMapper<Polymorph>(Polymorph.class, world);
 		container.getInput().addKeyListener(this);
 	}
 
@@ -144,8 +149,58 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 			} else {
 				playerSecondary.setSecondary(false);
 			}
-	
 		}
+		
+		// Cycle through different polymorph trinkets
+		if (key_a || key_d) {
+			ImmutableBag<Entity> trinkets = world.getGroupManager().getEntities("TRINKET");
+			int activeIndex = 0, rightIndex = 0, leftIndex = 0;
+			for (int i=0; i<trinkets.size(); i++) {
+				Entity trinket = trinkets.get(i);
+				Polymorph polymorph = polymorphMapper.get(trinket);
+				if (polymorph != null && polymorph.existsOnPlayer()) {
+					if (polymorph.isActive()) {
+						activeIndex = i;
+						polymorph.setActive(false);
+						
+						for (int r=activeIndex+1; r<trinkets.size(); r++) {
+							Entity rightTrinket = trinkets.get(r);
+							Polymorph rightPolymorph = polymorphMapper.get(rightTrinket);
+							if (rightPolymorph != null && rightPolymorph.existsOnPlayer()) {
+								rightIndex = r;
+								break;
+							}
+						}
+						
+						for (int l=activeIndex-1; l>0; l--) {
+							Entity leftTrinket = trinkets.get(l);
+							Polymorph leftPolmorph = polymorphMapper.get(leftTrinket);
+							if (leftPolmorph != null && leftPolmorph.existsOnPlayer()) {
+								leftIndex = l;
+								break;
+							}
+						}
+					}
+				}
+			}
+			
+			Polymorph newActivePolymorph;
+			if (key_a) {
+				newActivePolymorph = polymorphMapper.get(trinkets.get(leftIndex));
+			} else {
+				if (rightIndex < activeIndex) rightIndex = activeIndex;
+				newActivePolymorph = polymorphMapper.get(trinkets.get(rightIndex));
+			}
+			newActivePolymorph.setActive(true);
+
+			
+			
+			key_a = false;
+			key_d = false;
+		}
+		
+		
+		
 		if (key_esc) {
 			container.exit();
 		}
@@ -182,6 +237,12 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 			case Input.KEY_X:
 				key_secondary = true;
 				break;
+			case Input.KEY_A:
+				key_a = true;
+				break;
+			case Input.KEY_D:
+				key_d = true;
+				break;
 		}
 	}
 
@@ -211,13 +272,17 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 			case Input.KEY_X:
 				key_secondary = false;
 				break;
+			case Input.KEY_A:
+				key_a = false;
+				break;
+			case Input.KEY_D:
+				key_d = false;
+				break;
 		}
 	}
 
 	@Override
 	public void setInput(Input input) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -227,13 +292,9 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 
 	@Override
 	public void inputEnded() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void inputStarted() {
-		// TODO Auto-generated method stub
-
 	}
 }

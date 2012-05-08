@@ -74,6 +74,8 @@
     <property name="Number" value="10"/>
    </properties>
   </object>
-  <object name="TrinketSpawn" type="TrinketSpawn" x="1753" y="490" width="226" height="137"/>
+  <object name="TrinketSpawn" type="TrinketSpawn" x="1114" y="549" width="226" height="137"/>
+  <object name="TrinketSpawn" type="TrinketSpawn" x="1797" y="486" width="226" height="137"/>
+  <object name="TrinketSpawn" type="TrinketSpawn" x="718" y="684" width="226" height="137"/>
  </objectgroup>
 </map>
