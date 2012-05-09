@@ -175,7 +175,6 @@ public class RenderSystem extends BaseEntitySystem {
 			ParticleComponent particleComponent = particleComponentMapper.get(enemyDeath);
 			particleComponent.updateParticleSystem(world.getDelta());
 			particleComponent.renderParticleSystem(enemyDeathX, enemyDeathY);
-			g.drawString("A", enemyDeathX, enemyDeathY);
 		}
 		
 		// Draw the foreground

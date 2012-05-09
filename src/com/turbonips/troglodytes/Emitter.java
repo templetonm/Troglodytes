@@ -33,8 +33,11 @@ public class Emitter implements ParticleEmitter
     private float colorChangeA;
     private float velocitySpeed;
     private boolean intervalRandom;
+    private boolean finite; 
     
     private boolean enabled = false;
+    
+    private boolean finiteSpawnCompleted = false;
     
 	public Emitter(ParticleData particleData)
 	{
@@ -61,8 +64,9 @@ public class Emitter implements ParticleEmitter
 		colorChangeA = particleData.getColorChangeA();
 		velocitySpeed = particleData.getVelocitySpeed();
 		intervalRandom = particleData.getIntervalRandom();
+		finite = particleData.getFinite();
 		
-		this.timer = this.interval;
+		this.timer = 0;
 	}
 	
 	@Override
@@ -114,8 +118,7 @@ public class Emitter implements ParticleEmitter
 			} else {
 				timer = interval;
 			}
-			for (int i = 0; i < maxParticles; i++)
-			{
+			for (int i = 0; i < maxParticles; i++) {
 				float vX = 0, vY = 0, oX = 0, oY = 0;
 				
 				if (velocityXRandom) {
@@ -172,12 +175,16 @@ public class Emitter implements ParticleEmitter
 					oY = spawnOffsetY;
 				}
 				
-				Particle p = system.getNewParticle(this, maxParticleLifespan);
-                p.setColor(colorR, colorG, colorB, colorA);
-                p.setPosition(x + oX, y + oY);
-                p.setSize(size);
-                p.setVelocity(vX, vY, velocitySpeed);
+				if ((finite && !finiteSpawnCompleted) || !finite) {
+					Particle p = system.getNewParticle(this, maxParticleLifespan);
+                	p.setColor(colorR, colorG, colorB, colorA);
+                	p.setPosition(x + oX, y + oY);
+                	p.setSize(size);
+                	p.setVelocity(vX, vY, velocitySpeed);
+				}
 			}
+
+        	finiteSpawnCompleted = true;
 		}
 	}
 

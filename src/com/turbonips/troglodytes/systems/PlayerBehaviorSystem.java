@@ -360,6 +360,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 						ParticleSystem ps = new ParticleSystem(particleImage, 1000);
 						pem.setEnabled(true);
 						ps.addEmitter(pem);
+						ps.update(world.getDelta());
 						enemyDeath.addComponent(new ParticleComponent(ps));
 						enemyDeath.addComponent(new Location(enemyPosition, null));
 						enemy.delete();

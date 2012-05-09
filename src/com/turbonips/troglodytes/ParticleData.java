@@ -32,6 +32,7 @@ public class ParticleData
 	private float velocitySpeed;
 	private boolean intervalRandom;
 	private String resourceRef;
+	private boolean finite;
 	
 	public String getType () {return type;}
 	public int getInterval () {return interval;}
@@ -58,6 +59,7 @@ public class ParticleData
 	public float getVelocitySpeed () {return velocitySpeed;}
 	public boolean getIntervalRandom () {return intervalRandom;}
 	public String getResourceRef() {return resourceRef;}
+	public boolean getFinite() {return finite;}
 	
 	public void setType (String newType) {type = newType;}
 	public void setInterval (int newInterval) {interval = newInterval;}
@@ -84,4 +86,5 @@ public class ParticleData
 	public void setVelocitySpeed (float newVelocitySpeed) {velocitySpeed = newVelocitySpeed;}
 	public void setIntervalRandom (boolean newIntervalRandom) {intervalRandom = newIntervalRandom;}
 	public void setResourceRef (String newResourceRef) {resourceRef = newResourceRef;}
+	public void setFinite (boolean newFinite) {finite = newFinite;}
 }
