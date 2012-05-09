@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.particles.ParticleSystem;
 import org.newdawn.slick.tiled.TiledMap;
 
 import com.artemis.ComponentMapper;
@@ -21,6 +22,7 @@ import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.HealthRegen;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Location;
+import com.turbonips.troglodytes.components.ParticleComponent;
 import com.turbonips.troglodytes.components.ResourceRef;
 import com.turbonips.troglodytes.components.Secondary;
 import com.turbonips.troglodytes.components.Stats;
@@ -345,16 +347,22 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 					enemyStats.put(StatType.HEALTH, enemyStats.get(StatType.HEALTH)-playerDamage);
 
 					if (enemyStats.get(StatType.HEALTH) <= 0) {
-						enemy.delete();
 						// Create enemy death entity for particle effect
 						Entity enemyDeath = world.createEntity();
 						enemyDeath.setGroup("ENEMY_DEATH");
 						// get the particle data
 						XMLSerializer xmls = XMLSerializer.getInstance();
+						ResourceManager rm = ResourceManager.getInstance();
 						ParticleData particleData = (ParticleData)xmls.deserializeData("resources/particleXMLs/deathsplat");
 						String particleResourceRef = particleData.getResourceRef();
 						Emitter pem = new Emitter(particleData);
-						
+						Image particleImage = (Image)rm.getResource(particleResourceRef).getObject();
+						ParticleSystem ps = new ParticleSystem(particleImage, 1000);
+						pem.setEnabled(true);
+						ps.addEmitter(pem);
+						enemyDeath.addComponent(new ParticleComponent(ps));
+						enemyDeath.addComponent(new Location(enemyPosition, null));
+						enemy.delete();
 					}
 				}
 			}

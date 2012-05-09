@@ -4,11 +4,11 @@ import org.newdawn.slick.particles.ParticleSystem;
 
 import com.artemis.Component;
 
-public class Particle extends Component
+public class ParticleComponent extends Component
 {
 	private ParticleSystem particleSystem;
 
-	public Particle(ParticleSystem particleSystem)
+	public ParticleComponent(ParticleSystem particleSystem)
 	{
 		this.particleSystem = particleSystem;
 	}
