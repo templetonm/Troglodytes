@@ -25,6 +25,7 @@ import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Location;
 import com.turbonips.troglodytes.components.Polymorph;
+import com.turbonips.troglodytes.components.ParticleComponent;
 import com.turbonips.troglodytes.components.ResourceRef;
 import com.turbonips.troglodytes.components.Secondary;
 import com.turbonips.troglodytes.components.Stats.StatType;
@@ -43,6 +44,7 @@ public class RenderSystem extends BaseEntitySystem {
 	private ComponentMapper<Secondary> secondaryMapper;
 	private ComponentMapper<Polymorph> polymorphMapper;
 	private ComponentMapper<ColorChange> colorChangeMapper;
+	private ComponentMapper<ParticleComponent> particleComponentMapper;
 	
 	// Bars below the player/enemy
 	int barSpacing = 1;
@@ -65,6 +67,7 @@ public class RenderSystem extends BaseEntitySystem {
 		secondaryMapper = new ComponentMapper<Secondary>(Secondary.class, world);
 		polymorphMapper = new ComponentMapper<Polymorph>(Polymorph.class, world);
 		colorChangeMapper = new ComponentMapper<ColorChange>(ColorChange.class, world);
+		particleComponentMapper = new ComponentMapper<ParticleComponent>(ParticleComponent.class, world);
 	}
 
 	@Override
@@ -75,6 +78,7 @@ public class RenderSystem extends BaseEntitySystem {
 		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities("ENEMY");
 		ImmutableBag<Entity> maps = world.getGroupManager().getEntities("MAP");
 		ImmutableBag<Entity> trinkets = world.getGroupManager().getEntities("TRINKET");
+		ImmutableBag<Entity> enemyDeaths = world.getGroupManager().getEntities("ENEMY_DEATH");
 		
 		Entity player = players.get(0);
 		Location playerLocation = locationMapper.get(player);
@@ -165,6 +169,18 @@ public class RenderSystem extends BaseEntitySystem {
 				int enemyY = mapY + (int)enemyPosition.y;
 				drawCreatureEntity(enemy, enemyX, enemyY);
 			}
+		}
+		
+		// Draw enemy deaths
+		for (int i=0; i<enemyDeaths.size(); i++) {
+			Entity enemyDeath = enemyDeaths.get(i);
+			Location enemyDeathLocation = locationMapper.get(enemyDeath);
+			Vector2f enemyDeathPosition = enemyDeathLocation.getPosition();
+			int enemyDeathX = mapX + (int)enemyDeathPosition.x;
+			int enemyDeathY = mapY + (int)enemyDeathPosition.y;
+			ParticleComponent particleComponent = particleComponentMapper.get(enemyDeath);
+			particleComponent.updateParticleSystem(world.getDelta());
+			particleComponent.renderParticleSystem(enemyDeathX, enemyDeathY);
 		}
 		
 		// Draw the foreground

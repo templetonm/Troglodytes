@@ -117,9 +117,9 @@ public class EnemyAISystem extends BaseEntitySystem {
 							}
 							velocity.x = tmpVelocity.x;
 							velocity.y = tmpVelocity.y;
-	
+
 							Direction direction = directionMapper.get(enemy);
-	
+
 							if (movement.getCurrentSpeed() != 0) {
 								if (velocity.x > 0) {
 									if (velocity.y > 0) {
@@ -157,7 +157,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 								positionCheck.y = -positionCheck.y;
 							}
 							float range = enemyAI.getSight() * 32;
-	
+
 							if (positionCheck.x < range && positionCheck.y < range) {
 								if (positionDifference.y > 0) {
 									tmpVelocity.y += acceleration.y;
@@ -211,7 +211,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 										}
 										break;
 								}
-	
+
 							}
 							if (tmpVelocity.distance(new Vector2f(0, 0)) > movement.getMaximumSpeed()) {
 								if (tmpVelocity.x > 0) {
@@ -227,7 +227,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 							}
 							velocity.x = tmpVelocity.x;
 							velocity.y = tmpVelocity.y;
-	
+
 							Direction direction = directionMapper.get(enemy);
 							if (movement.getCurrentSpeed() != 0) {
 								if (velocity.x > 0) {
@@ -266,7 +266,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 								positionCheck.y = -positionCheck.y;
 							}
 							float range = enemyAI.getSight() * 32;
-	
+
 							if (positionCheck.x < range && positionCheck.y < range) {
 								if (map != null) {
 									enemyAI.pathAge--;
@@ -310,7 +310,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 											enemyAI.corner = Corner.TOPLEFT;
 										}
 									}
-									
+
 									Path newPath = null;
 									if (enemyAI.pathAge <= 0) {
 										// Top Left Path : Where the path is drawn from doesn't matter that much. 
@@ -319,7 +319,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 										enemyAI.pathAge = 60;
 										enemyAI.pathStep = 1;
 									}
-	
+
 									Path path = enemyAI.getPath();
 
 									if (path != null && path.getLength() > 1 && enemyAI.pathStep < path.getLength()-1) {
@@ -333,7 +333,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 										} else {
 											curEP = new Vector2f((int) ((enemyPosition.x + ew-1) / tw), (int) ((enemyPosition.y + eh-1) / th));
 										}
-										
+
 										if ((int) curEP.x == path.getX(enemyAI.pathStep) && (int) curEP.y == path.getY(enemyAI.pathStep)) {
 											if (enemyAI.pathStep < path.getLength() - 2) {
 												enemyAI.pathStep++;
@@ -426,7 +426,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 									}
 								}
 							} else {
-	
+
 								switch ((int) (Math.random() * 30)) {
 									case 0: // up
 										tmpVelocity.y -= acceleration.y;
@@ -468,7 +468,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 										}
 								}
 							}
-	
+
 							if (tmpVelocity.distance(new Vector2f(0, 0)) > movement.getMaximumSpeed()) {
 								if (tmpVelocity.x > 0) {
 									tmpVelocity.x -= movement.getDeceleration().getX();
@@ -483,7 +483,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 							}
 							velocity.x = tmpVelocity.x;
 							velocity.y = tmpVelocity.y;
-	
+
 							Direction direction = directionMapper.get(enemy);
 							if (movement.getCurrentSpeed() != 0) {
 								if (velocity.x > 0) {
