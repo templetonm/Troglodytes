@@ -16,6 +16,7 @@ import com.turbonips.troglodytes.ResourceManager;
 import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Location;
+import com.turbonips.troglodytes.components.ParticleComponent;
 import com.turbonips.troglodytes.components.ResourceRef;
 import com.turbonips.troglodytes.components.Stats;
 import com.turbonips.troglodytes.components.Stats.StatType;
@@ -26,6 +27,7 @@ public class EnemyBehaviorSystem extends BaseEntitySystem {
 	private ComponentMapper<ResourceRef> resourceMapper;
 	private ComponentMapper<Stats> statsMapper;
 	private ComponentMapper<Attack> attackMapper;
+	private ComponentMapper<ParticleComponent> particleComponentMapper;
 
 	@Override
 	protected void initialize() {
@@ -34,6 +36,7 @@ public class EnemyBehaviorSystem extends BaseEntitySystem {
 		resourceMapper = new ComponentMapper<ResourceRef>(ResourceRef.class, world);
 		statsMapper = new ComponentMapper<Stats>(Stats.class, world);
 		attackMapper = new ComponentMapper<Attack>(Attack.class, world);
+		particleComponentMapper = new ComponentMapper<ParticleComponent>(ParticleComponent.class, world);
 	}
 
 	@Override
@@ -44,12 +47,22 @@ public class EnemyBehaviorSystem extends BaseEntitySystem {
 	@Override
 	protected void processEntities(ImmutableBag<Entity> entities) {
 		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities("ENEMY");
+		ImmutableBag<Entity> enemyDeaths = world.getGroupManager().getEntities("ENEMY_DEATH");
 		ImmutableBag<Entity> players = world.getGroupManager().getEntities("PLAYER");
 		ImmutableBag<Entity> maps = world.getGroupManager().getEntities("MAP");
 		ResourceManager manager = ResourceManager.getInstance();
 		Entity map = maps.get(0);
 		Location playerLocation = locationMapper.get(players.get(0));
 
+		// Clean up any finished enemyDeath entities.
+		for (int i = 0; i < enemyDeaths.size(); i++) {
+			Entity enemyDeath = enemyDeaths.get(i);
+			ParticleComponent pc = particleComponentMapper.get(enemyDeath);
+			if (pc.getEmitterFinished()) {
+				enemyDeath.delete();
+			}
+		}
+		
 		for (int i = 0; i < enemies.size(); i++) {
 			Entity enemy = enemies.get(i);
 			Movement movement = movementMapper.get(enemy);

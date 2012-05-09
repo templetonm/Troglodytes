@@ -347,6 +347,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 					enemyStats.put(StatType.HEALTH, enemyStats.get(StatType.HEALTH)-playerDamage);
 
 					if (enemyStats.get(StatType.HEALTH) <= 0) {
+						enemy.delete();
 						// Create enemy death entity for particle effect
 						Entity enemyDeath = world.createEntity();
 						enemyDeath.setGroup("ENEMY_DEATH");
@@ -360,10 +361,8 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 						ParticleSystem ps = new ParticleSystem(particleImage, 1000);
 						pem.setEnabled(true);
 						ps.addEmitter(pem);
-						ps.update(world.getDelta());
-						enemyDeath.addComponent(new ParticleComponent(ps));
-						enemyDeath.addComponent(new Location(enemyPosition, null));
-						enemy.delete();
+						enemyDeath.addComponent(new ParticleComponent(ps, true));
+						enemyDeath.addComponent(new Location(new Vector2f(enemyPosition.getX() + ew/2, enemyPosition.getY() + eh/2), null));
 					}
 				}
 			}

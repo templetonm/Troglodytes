@@ -109,6 +109,7 @@ public class Emitter implements ParticleEmitter
 	@Override
 	public void update(ParticleSystem system, int delta)
 	{
+		if ((finite && !finiteSpawnCompleted) || !finite) {
 		timer -= delta;		
 		if (timer <= 0)
 		{
@@ -173,18 +174,15 @@ public class Emitter implements ParticleEmitter
 				} else {
 					oX = spawnOffsetX;
 					oY = spawnOffsetY;
-				}
-				
-				if ((finite && !finiteSpawnCompleted) || !finite) {
+				}				
 					Particle p = system.getNewParticle(this, maxParticleLifespan);
-                	p.setColor(colorR, colorG, colorB, colorA);
-                	p.setPosition(x + oX, y + oY);
-                	p.setSize(size);
+               		p.setColor(colorR, colorG, colorB, colorA);
+               		p.setPosition(x + oX, y + oY);
+               		p.setSize(size);
                 	p.setVelocity(vX, vY, velocitySpeed);
 				}
+        		finiteSpawnCompleted = true;
 			}
-
-        	finiteSpawnCompleted = true;
 		}
 	}
 
