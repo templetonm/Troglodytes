@@ -77,5 +77,8 @@
   <object name="TrinketSpawn" type="TrinketSpawn" x="1114" y="549" width="226" height="137"/>
   <object name="TrinketSpawn" type="TrinketSpawn" x="1797" y="486" width="226" height="137"/>
   <object name="TrinketSpawn" type="TrinketSpawn" x="718" y="684" width="226" height="137"/>
+  <object name="TrinketSpawn" type="TrinketSpawn" x="1381" y="567" width="226" height="137"/>
+  <object name="TrinketSpawn" type="TrinketSpawn" x="880" y="543" width="226" height="137"/>
+  <object name="TrinketSpawn" type="TrinketSpawn" x="2225" y="558" width="226" height="137"/>
  </objectgroup>
 </map>

@@ -25,4 +25,25 @@ public class Stats extends Component {
 	public void setStats(HashMap<StatType, Integer> stats) {
 		this.stats = stats;
 	}
+	
+	public void applyModifiers(HashMap<StatType, Integer> modifiers) {
+		for (StatType stat : stats.keySet()) {
+			if (modifiers.containsKey(stat)) {
+				stats.put(stat, stats.get(stat) + modifiers.get(stat));
+			}
+		}
+	}
+	
+	public void removeModifiers(HashMap<StatType, Integer> modifiers) {
+		for (StatType stat : stats.keySet()) {
+			if (modifiers.containsKey(stat)) {
+				stats.put(stat, stats.get(stat) - modifiers.get(stat));
+				switch (stat) {
+					case MAX_HEALTH:
+						stats.put(StatType.HEALTH, stats.get(StatType.MAX_HEALTH));
+						break;
+				}
+			}
+		}
+	}
 }

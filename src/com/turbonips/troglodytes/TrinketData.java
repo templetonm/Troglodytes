@@ -4,9 +4,10 @@ public class TrinketData {
 	private String name;
 	private String type;
 	private String resourceRef;
+	private int addHealth;
 	
 	public enum TrinketType {
-		none,
+		normal,
 		polymorph
 	}
 	
@@ -22,7 +23,7 @@ public class TrinketData {
 		if (type.equals("polymorph")) {
 			return TrinketType.polymorph;
 		} else {
-			return TrinketType.none;
+			return TrinketType.normal;
 		}		
 	}
 	public void setType(String type) {
@@ -33,5 +34,11 @@ public class TrinketData {
 	}
 	public void setResourceRef(String resourceRef) {
 		this.resourceRef = resourceRef;
+	}
+	public int getAddHealth() {
+		return addHealth;
+	}
+	public void setAddHealth(int addHealth) {
+		this.addHealth = addHealth;
 	}
 }

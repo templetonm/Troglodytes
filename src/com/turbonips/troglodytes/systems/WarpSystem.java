@@ -24,6 +24,7 @@ import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Polymorph;
 import com.turbonips.troglodytes.components.Location;
 import com.turbonips.troglodytes.components.ResourceRef;
+import com.turbonips.troglodytes.components.StatModifiers;
 import com.turbonips.troglodytes.components.Stats;
 import com.turbonips.troglodytes.components.VisitedMaps;
 import com.turbonips.troglodytes.components.Warp;
@@ -136,8 +137,9 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 								trinket.addComponent(new Polymorph(polymorphTrinketData.getNewResourceRef()));
 								break;
 						}
-						
-						
+						HashMap<StatType, Integer> modifiers = new HashMap<StatType, Integer>();
+						modifiers.put(StatType.MAX_HEALTH, trinketData.getAddHealth());
+						trinket.addComponent(new StatModifiers(modifiers));
 					}
 				}
 			}

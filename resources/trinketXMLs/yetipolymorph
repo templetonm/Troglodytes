@@ -2,7 +2,7 @@
 <java version="1.6.0_29" class="java.beans.XMLDecoder"> 
  <object class="com.turbonips.troglodytes.PolymorphTrinket"> 
   <void property="name">
-   <string>Test Tooth</string> 
+   <string>Test Trinket</string> 
   </void>
   
   <void property="type">
@@ -10,11 +10,15 @@
   </void>
   
   <void property="resourceRef">
-  	<string>toothTrinket</string>
+  	<string>yetiTrinket</string>
   </void>
   
   <void property="newResourceRef">
-  	<string>smalldinoanimation</string>
+  	<string>yetianimation</string>
+  </void>
+  
+  <void property="addHealth">
+  	<int>5</int>
   </void>
  
  </object>

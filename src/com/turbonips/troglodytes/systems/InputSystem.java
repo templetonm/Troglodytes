@@ -1,6 +1,7 @@
 package com.turbonips.troglodytes.systems;
 
 import java.util.Date;
+import java.util.HashMap;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
@@ -13,9 +14,12 @@ import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.Direction.Dir;
+import com.turbonips.troglodytes.components.Stats;
+import com.turbonips.troglodytes.components.Stats.StatType;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Polymorph;
 import com.turbonips.troglodytes.components.Secondary;
+import com.turbonips.troglodytes.components.StatModifiers;
 
 public class InputSystem extends BaseEntitySystem implements KeyListener {
 	private ComponentMapper<Movement> movementMapper;
@@ -34,6 +38,8 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 			key_secondary = false,
 			key_a = false,
 			key_d = false;
+	private ComponentMapper<StatModifiers> statModifiersMapper;
+	private ComponentMapper<Stats> statsMapper;
 	
 
 	public InputSystem(GameContainer container) {
@@ -47,6 +53,8 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 		attackMapper = new ComponentMapper<Attack>(Attack.class, world);
 		secondaryMapper = new ComponentMapper<Secondary>(Secondary.class, world);
 		polymorphMapper = new ComponentMapper<Polymorph>(Polymorph.class, world);
+		statModifiersMapper = new ComponentMapper<StatModifiers>(StatModifiers.class, world);
+		statsMapper = new ComponentMapper<Stats>(Stats.class, world);
 		container.getInput().addKeyListener(this);
 	}
 
@@ -184,17 +192,29 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 				}
 			}
 			
-			Polymorph newActivePolymorph;
+			// Remove previous polymorph modifiers
+			StatModifiers statModifiers = statModifiersMapper.get(trinkets.get(activeIndex));
+			HashMap<StatType, Integer> modifiers;
+			if (statModifiers != null) {
+				modifiers = statModifiers.getModifiers();
+				statsMapper.get(player).removeModifiers(modifiers);
+			}
+			
+			Entity polymorphEntity;
 			if (key_a) {
-				newActivePolymorph = polymorphMapper.get(trinkets.get(leftIndex));
+				polymorphEntity = trinkets.get(leftIndex);
 			} else {
 				if (rightIndex < activeIndex) rightIndex = activeIndex;
-				newActivePolymorph = polymorphMapper.get(trinkets.get(rightIndex));
+				polymorphEntity = trinkets.get(rightIndex);
 			}
-			newActivePolymorph.setActive(true);
-
 			
-			
+			// Add new polymorph modifiers
+			statModifiers = statModifiersMapper.get(polymorphEntity);
+			if (statModifiers != null) {
+				modifiers = statModifiers.getModifiers();
+				statsMapper.get(player).applyModifiers(modifiers);
+			}
+			polymorphMapper.get(polymorphEntity).setActive(true);
 			key_a = false;
 			key_d = false;
 		}
