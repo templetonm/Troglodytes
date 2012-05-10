@@ -322,7 +322,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 
 									Path path = enemyAI.getPath();
 
-									if (path != null && path.getLength() > 1 && enemyAI.pathStep < path.getLength()-1) {
+									if (path != null && path.getLength() > 1 && enemyAI.pathStep < path.getLength()-2) {
 										Vector2f curEP;
 										if (enemyAI.corner == Corner.TOPLEFT) {
 											curEP = new Vector2f((int) (enemyPosition.x / tw), (int) (enemyPosition.y / th));
@@ -411,7 +411,56 @@ public class EnemyAISystem extends BaseEntitySystem {
 											collisionDirection = CollisionDirection.NONE;
 										}
 									} else {
+									/*	String playerResName = resourceMapper.get(player).getResourceName();
+										Resource playerRes = manager.getResource(playerResName);
+										Image playerFrame = getFrame(playerRes);
+										int ph = playerFrame.getHeight();
+										int pw = playerFrame.getWidth();
 										// Stop moving so much if path is at an end.
+										if (positionDifference.x > 0) { // Enemy left of player.
+											if (positionDifference.x < ew) {
+												tmpVelocity.x -= acceleration.x;
+											} else {
+												if (tmpVelocity.x > 0) {
+													tmpVelocity.x -= deceleration.x;
+													if (tmpVelocity.x < 0) {
+														tmpVelocity.x = 0;
+													}
+												} else if (tmpVelocity.x < 0) {
+													tmpVelocity.x += deceleration.x;
+													if (tmpVelocity.x > 0) {
+														tmpVelocity.x = 0;
+													}
+												}
+											}
+										} else if (positionDifference.x <= 0) {
+											if (positionDifference.x > -pw) {
+												tmpVelocity.x += acceleration.x;
+											} else {
+												if (tmpVelocity.x > 0) {
+													tmpVelocity.x -= deceleration.x;
+													if (tmpVelocity.x < 0) {
+														tmpVelocity.x = 0;
+													}
+												} else if (tmpVelocity.x < 0) {
+													tmpVelocity.x += deceleration.x;
+													if (tmpVelocity.x > 0) {
+														tmpVelocity.x = 0;
+													}
+												}
+											}
+										}*/
+										if (tmpVelocity.x > 0) {
+											tmpVelocity.x -= deceleration.x;
+											if (tmpVelocity.x < 0) {
+												tmpVelocity.x = 0;
+											}
+										} else if (tmpVelocity.x < 0) {
+											tmpVelocity.x += deceleration.x;
+											if (tmpVelocity.x > 0) {
+												tmpVelocity.x = 0;
+											}
+										}
 										if (tmpVelocity.y > 0) {
 											tmpVelocity.y -= deceleration.y;
 											if (tmpVelocity.y < 0) {
