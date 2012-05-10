@@ -207,6 +207,21 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 
 					if (enemyStats.get(StatType.HEALTH) <= 0) {
 						enemy.delete();
+						// Create enemy death entity for particle effect
+						Entity enemyDeath = world.createEntity();
+						enemyDeath.setGroup("ENEMY_DEATH");
+						XMLSerializer xmls = XMLSerializer.getInstance();
+						ResourceManager rm = ResourceManager.getInstance();
+						ParticleData particleData = (ParticleData)xmls.deserializeData("resources/particleXMLs/deathsplat");
+						String particleResourceRef = particleData.getResourceRef();
+						Emitter pem = new Emitter(particleData);
+						Image particleImage = (Image)rm.getResource(particleResourceRef).getObject();
+						ParticleSystem ps = new ParticleSystem(particleImage, 1000);
+						pem.setEnabled(true);
+						ps.addEmitter(pem);
+						enemyDeath.addComponent(new ParticleComponent(ps, true));
+						enemyDeath.addComponent(new Location(new Vector2f(enemyPosition.getX() + ew/2, enemyPosition.getY() + eh/2), null));
+
 					}
 				}
 			}
@@ -364,7 +379,6 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 						// Create enemy death entity for particle effect
 						Entity enemyDeath = world.createEntity();
 						enemyDeath.setGroup("ENEMY_DEATH");
-						// get the particle data
 						XMLSerializer xmls = XMLSerializer.getInstance();
 						ResourceManager rm = ResourceManager.getInstance();
 						ParticleData particleData = (ParticleData)xmls.deserializeData("resources/particleXMLs/deathsplat");
