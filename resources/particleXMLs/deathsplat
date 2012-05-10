@@ -17,7 +17,7 @@
    <float>1.0</float> 
   </void> 
   <void property="interval"> 
-   <int>2000</int> 
+   <int>1000</int> 
   </void> 
   <void property="maxParticleLifespan"> 
    <int>3000</int> 
@@ -27,16 +27,7 @@
   </void> 
   <void property="size"> 
    <float>10.0</float> 
-  </void> 
-  <void property="spawnOffsetPercentNegative"> 
-   <float>1.0</float> 
-  </void> 
-  <void property="spawnOffsetRandom"> 
-   <boolean>true</boolean> 
-  </void> 
-  <void property="spawnOffsetX"> 
-   <float>10</float> 
-  </void> 
+  </void>
   <void property="type"> 
    <string>deathsplat</string> 
   </void> 
@@ -50,16 +41,19 @@
    <float>0.0050</float> 
   </void>
   <void property="velocityX"> 
-   <float>1.0</float> 
+   <float>6.0</float> 
   </void> 
   <void property="velocityXRandom"> 
    <boolean>true</boolean> 
   </void> 
   <void property="velocityY"> 
-   <float>-1.0</float>
+   <float>5.0</float>
   </void>
   <void property="velocityYRandom">
    <boolean>true</boolean> 
   </void> 
+  <void property="finite">
+   <boolean>true</boolean>
+  </void>
  </object> 
 </java> 
