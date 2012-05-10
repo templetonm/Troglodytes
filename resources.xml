@@ -8,9 +8,10 @@
 	<resource id="swampbubble" type="image" path="graphics/testBubble.png" />
 	<resource id="smallfire" type="image" path="graphics/blankParticleW.png" />
 	<resource id="smallsmoke" type="image" path="graphics/blankParticleW.png" />
+	<resource id="deathsplat" type="image" path="graphics/deathparticle.png" />
 	<resource id="light" type="image" path="graphics/light.png" />
 	
-	<resource id="meat" type="image" path="graphics/meat.png" />
+	<resource id="meatTrinket" type="image" path="graphics/meat.png" />
 	<resource id="yetiTrinket" type="image" path="graphics/yetiTrinket.png" />
 	<resource id="playerTrinket" type="image" path="graphics/humanTrinket.png" />
 	<resource id="toothTrinket" type="image" path="graphics/tooth.png" />

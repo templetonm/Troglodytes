@@ -68,23 +68,17 @@ public class PlayingState extends BaseGameState {
 		player.setGroup("PLAYER");
 		player.addComponent(new Warp("testing", new Vector2f(20,20)));
 		player.addComponent(new ResourceRef("playeranimation"));
-		//player.addComponent();
-		player.addComponent(new Movement(10, new Vector2f(2,2), new Vector2f(2,2)));
-		player.addComponent(new Direction(Dir.DOWN));
-		
-		Entity trinket = world.createEntity();
-		trinket.setGroup("TRINKET");
-		trinket.addComponent(new Polymorph("playeranimation", true, true));
-		trinket.addComponent(new ResourceRef("playerTrinket"));
-		trinket.addComponent(new Location(new Vector2f(0,0), "THE_VOID"));
-		trinket.refresh();
-		
 		HashMap<StatType, Integer> stats = new HashMap<StatType, Integer> ();
 		stats.put(StatType.HEALTH, 100);
 		stats.put(StatType.MAX_HEALTH, 100);
 		stats.put(StatType.ARMOR, 25);
 		stats.put(StatType.RANGE, 3);
+		stats.put(StatType.ACCELERATION, 1);
+		stats.put(StatType.DECELERATION, 1);
+		stats.put(StatType.MAX_SPEED, 10);
 		player.addComponent(new Stats(stats));
+		player.addComponent(new Movement(stats));
+		player.addComponent(new Direction(Dir.DOWN));
 		player.addComponent(new VisitedMaps());
 		// This position is overwritten when the player is warped
 		player.addComponent(new Location(new Vector2f(0,0), ""));
@@ -93,6 +87,13 @@ public class PlayingState extends BaseGameState {
 		player.addComponent(new Secondary(6*1000));
 		player.addComponent(new HealthRegen(250));
 		player.refresh();
+		
+		Entity trinket = world.createEntity();
+		trinket.setGroup("TRINKET");
+		trinket.addComponent(new Polymorph("playeranimation", true, true));
+		trinket.addComponent(new ResourceRef("playerTrinket"));
+		trinket.addComponent(new Location(new Vector2f(0,0), "THE_VOID"));
+		trinket.refresh();
 	}
 	
 	@Override

@@ -1,5 +1,7 @@
 package com.turbonips.troglodytes.systems;
 
+import java.util.HashMap;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
@@ -19,6 +21,8 @@ import com.turbonips.troglodytes.components.EnemyAI.Corner;
 import com.turbonips.troglodytes.components.ResourceRef;
 import com.turbonips.troglodytes.components.Direction.Dir;
 import com.turbonips.troglodytes.components.EnemyAI.AIType;
+import com.turbonips.troglodytes.components.Stats;
+import com.turbonips.troglodytes.components.Stats.StatType;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Location;
 import com.turbonips.troglodytes.systems.CollisionResolution.CollisionDirection;
@@ -29,6 +33,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 	private ComponentMapper<EnemyAI> enemyAIMapper;
 	private ComponentMapper<Location> locationMapper;
 	private ComponentMapper<ResourceRef> resourceMapper;
+	private ComponentMapper<Stats> statsMapper;
 
 	@Override
 	protected void initialize() {
@@ -37,6 +42,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 		enemyAIMapper = new ComponentMapper<EnemyAI>(EnemyAI.class, world);
 		locationMapper = new ComponentMapper<Location>(Location.class, world);
 		resourceMapper = new ComponentMapper<ResourceRef>(ResourceRef.class, world);
+		statsMapper = new ComponentMapper<Stats>(Stats.class, world);
 	}
 
 	@Override
@@ -49,6 +55,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities("ENEMY");
 		ImmutableBag<Entity> players = world.getGroupManager().getEntities("PLAYER");
 		ImmutableBag<Entity> maps = world.getGroupManager().getEntities("MAP");
+		
 		ResourceManager manager = ResourceManager.getInstance();
 		Entity player = players.get(0);
 		Entity map = maps.get(0);
@@ -56,6 +63,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 
 		for (int i = 0; i < enemies.size(); i++) {
 			Entity enemy = enemies.get(i);
+			HashMap<StatType, Integer> enemyStats = statsMapper.get(enemy).getStats();
 			EnemyAI enemyAI = enemyAIMapper.get(enemy);
 			Location enemyLocation = locationMapper.get(enemy);
 			if (enemyLocation.getMap().equals(playerLocation.getMap())) {
@@ -63,26 +71,27 @@ public class EnemyAISystem extends BaseEntitySystem {
 					Movement movement = movementMapper.get(enemy);
 					if (movement != null) {
 						Vector2f velocity = movement.getVelocity();
-						Vector2f acceleration = movement.getAcceleration();
-						Vector2f deceleration = movement.getDeceleration();
+						int acceleration = enemyStats.get(StatType.ACCELERATION);
+						int deceleration = enemyStats.get(StatType.DECELERATION);
+						int maxSpeed = enemyStats.get(StatType.MAX_SPEED);
 						Vector2f tmpVelocity = new Vector2f(velocity);
 						AIType enemyAIType = enemyAI.getEnemyAIType();
 						if (enemyAIType == AIType.DUMB) {
 							switch ((int) (Math.random() * 30)) {
 								case 0: // up
-									tmpVelocity.y -= acceleration.y;
+									tmpVelocity.y -= acceleration;
 									break;
 								case 1: // down
-									tmpVelocity.y += acceleration.x;
+									tmpVelocity.y += acceleration;
 									break;
 								case 2: // neither; tend toward zero
 									if (tmpVelocity.y > 0) {
-										tmpVelocity.y -= deceleration.y;
+										tmpVelocity.y -= deceleration;
 										if (tmpVelocity.y < 0) {
 											tmpVelocity.y = 0;
 										}
 									} else if (tmpVelocity.y < 0) {
-										tmpVelocity.y += deceleration.y;
+										tmpVelocity.y += deceleration;
 										if (tmpVelocity.y > 0) {
 											tmpVelocity.y = 0;
 										}
@@ -90,36 +99,36 @@ public class EnemyAISystem extends BaseEntitySystem {
 							}
 							switch ((int) (Math.random() * 30)) {
 								case 0: // left
-									tmpVelocity.x -= acceleration.x;
+									tmpVelocity.x -= acceleration;
 									break;
 								case 1: // right
-									tmpVelocity.x += acceleration.x;
+									tmpVelocity.x += acceleration;
 									break;
 								case 2: // neither; tend toward zero
 									if (tmpVelocity.x > 0) {
-										tmpVelocity.x -= deceleration.x;
+										tmpVelocity.x -= deceleration;
 										if (tmpVelocity.x < 0) {
 											tmpVelocity.x = 0;
 										}
 									} else if (tmpVelocity.x < 0) {
-										tmpVelocity.x += deceleration.x;
+										tmpVelocity.x += deceleration;
 										if (tmpVelocity.x > 0) {
 											tmpVelocity.x = 0;
 										}
 									}
 							}
-							if (tmpVelocity.distance(new Vector2f(0, 0)) > movement.getMaximumSpeed()) {
+							if (tmpVelocity.distance(new Vector2f(0, 0)) > maxSpeed) {
 								float scale;
 								// Scale the x and y velocity by the maximum-speed/current-velocity
-								scale = (movement.getMaximumSpeed() / tmpVelocity.distance(new Vector2f(0, 0)));
+								scale = (maxSpeed / tmpVelocity.distance(new Vector2f(0, 0)));
 								tmpVelocity.x = scale * tmpVelocity.x;
 								tmpVelocity.y = scale * tmpVelocity.y;
 							}
 							velocity.x = tmpVelocity.x;
 							velocity.y = tmpVelocity.y;
-	
+
 							Direction direction = directionMapper.get(enemy);
-	
+
 							if (movement.getCurrentSpeed() != 0) {
 								if (velocity.x > 0) {
 									if (velocity.y > 0) {
@@ -157,34 +166,34 @@ public class EnemyAISystem extends BaseEntitySystem {
 								positionCheck.y = -positionCheck.y;
 							}
 							float range = enemyAI.getSight() * 32;
-	
+
 							if (positionCheck.x < range && positionCheck.y < range) {
 								if (positionDifference.y > 0) {
-									tmpVelocity.y += acceleration.y;
+									tmpVelocity.y += acceleration;
 								} else if (positionDifference.y < 0) {
-									tmpVelocity.y -= acceleration.y;
+									tmpVelocity.y -= acceleration;
 								}
 								if (positionDifference.x > 0) {
-									tmpVelocity.x += acceleration.x;
+									tmpVelocity.x += acceleration;
 								} else if (positionDifference.x < 0) {
-									tmpVelocity.x -= acceleration.x;
+									tmpVelocity.x -= acceleration;
 								}
 							} else {
 								switch ((int) (Math.random() * 30)) {
 									case 0: // up
-										tmpVelocity.y -= acceleration.y;
+										tmpVelocity.y -= acceleration;
 										break;
 									case 1: // down
-										tmpVelocity.y += acceleration.y;
+										tmpVelocity.y += acceleration;
 										break;
 									case 2: // neither; tend toward zero
 										if (tmpVelocity.y > 0) {
-											tmpVelocity.y -= deceleration.y;
+											tmpVelocity.y -= deceleration;
 											if (tmpVelocity.y < 0) {
 												tmpVelocity.y = 0;
 											}
 										} else if (tmpVelocity.y < 0) {
-											tmpVelocity.y += deceleration.y;
+											tmpVelocity.y += deceleration;
 											if (tmpVelocity.y > 0) {
 												tmpVelocity.y = 0;
 											}
@@ -192,42 +201,42 @@ public class EnemyAISystem extends BaseEntitySystem {
 								}
 								switch ((int) (Math.random() * 30)) {
 									case 0: // left
-										tmpVelocity.x -= acceleration.x;
+										tmpVelocity.x -= acceleration;
 										break;
 									case 1: // right
-										tmpVelocity.x += acceleration.x;
+										tmpVelocity.x += acceleration;
 										break;
 									case 2: // neither; tend toward zero
 										if (tmpVelocity.x > 0) {
-											tmpVelocity.x -= deceleration.x;
+											tmpVelocity.x -= deceleration;
 											if (tmpVelocity.x < 0) {
 												tmpVelocity.x = 0;
 											}
 										} else if (tmpVelocity.x < 0) {
-											tmpVelocity.x += deceleration.x;
+											tmpVelocity.x += deceleration;
 											if (tmpVelocity.x > 0) {
 												tmpVelocity.x = 0;
 											}
 										}
 										break;
 								}
-	
+
 							}
-							if (tmpVelocity.distance(new Vector2f(0, 0)) > movement.getMaximumSpeed()) {
+							if (tmpVelocity.distance(new Vector2f(0, 0)) > maxSpeed) {
 								if (tmpVelocity.x > 0) {
-									tmpVelocity.x -= movement.getDeceleration().getX();
+									tmpVelocity.x -= deceleration;
 								} else {
-									tmpVelocity.x += movement.getDeceleration().getX();
+									tmpVelocity.x += deceleration;
 								}
 								if (tmpVelocity.y > 0) {
-									tmpVelocity.y -= movement.getDeceleration().getY();
+									tmpVelocity.y -= deceleration;
 								} else {
-									tmpVelocity.y += movement.getDeceleration().getY();
+									tmpVelocity.y += deceleration;
 								}
 							}
 							velocity.x = tmpVelocity.x;
 							velocity.y = tmpVelocity.y;
-	
+
 							Direction direction = directionMapper.get(enemy);
 							if (movement.getCurrentSpeed() != 0) {
 								if (velocity.x > 0) {
@@ -266,7 +275,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 								positionCheck.y = -positionCheck.y;
 							}
 							float range = enemyAI.getSight() * 32;
-	
+
 							if (positionCheck.x < range && positionCheck.y < range) {
 								if (map != null) {
 									enemyAI.pathAge--;
@@ -310,7 +319,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 											enemyAI.corner = Corner.TOPLEFT;
 										}
 									}
-									
+
 									Path newPath = null;
 									if (enemyAI.pathAge <= 0) {
 										// Top Left Path : Where the path is drawn from doesn't matter that much. 
@@ -319,7 +328,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 										enemyAI.pathAge = 60;
 										enemyAI.pathStep = 1;
 									}
-	
+
 									Path path = enemyAI.getPath();
 
 									if (path != null && path.getLength() > 1 && enemyAI.pathStep < path.getLength()-1) {
@@ -333,7 +342,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 										} else {
 											curEP = new Vector2f((int) ((enemyPosition.x + ew-1) / tw), (int) ((enemyPosition.y + eh-1) / th));
 										}
-										
+
 										if ((int) curEP.x == path.getX(enemyAI.pathStep) && (int) curEP.y == path.getY(enemyAI.pathStep)) {
 											if (enemyAI.pathStep < path.getLength() - 2) {
 												enemyAI.pathStep++;
@@ -342,34 +351,34 @@ public class EnemyAISystem extends BaseEntitySystem {
 
 										if (collisionDirection == CollisionDirection.NONE) {
 											if (path.getX(enemyAI.pathStep) > (int)curEP.x) {
-												tmpVelocity.x += acceleration.x;
+												tmpVelocity.x += acceleration;
 											} else if (path.getX(enemyAI.pathStep) < (int)curEP.x) {
-												tmpVelocity.x -= acceleration.x;
+												tmpVelocity.x -= acceleration;
 											} else {
 												if (tmpVelocity.x > 0) {
-													tmpVelocity.x -= deceleration.x;
+													tmpVelocity.x -= deceleration;
 													if (tmpVelocity.x < 0) {
 														tmpVelocity.x = 0;
 													}
 												} else if (tmpVelocity.x < 0) {
-													tmpVelocity.x += deceleration.x;
+													tmpVelocity.x += deceleration;
 													if (tmpVelocity.x > 0) {
 														tmpVelocity.x = 0;
 													}
 												}
 											}
 											if (path.getY(enemyAI.pathStep) > (int)curEP.y) {
-												tmpVelocity.y += acceleration.y;
+												tmpVelocity.y += acceleration;
 											} else if (path.getY(enemyAI.pathStep) < (int)curEP.y) {
-												tmpVelocity.y -= acceleration.y;
+												tmpVelocity.y -= acceleration;
 											} else {
 												if (tmpVelocity.y > 0) {
-													tmpVelocity.y -= deceleration.y;
+													tmpVelocity.y -= deceleration;
 													if (tmpVelocity.y < 0) {
 														tmpVelocity.y = 0;
 													}
 												} else if (tmpVelocity.y < 0) {
-													tmpVelocity.y += deceleration.y;
+													tmpVelocity.y += deceleration;
 													if (tmpVelocity.y > 0) {
 														tmpVelocity.y = 0;
 													}
@@ -381,14 +390,14 @@ public class EnemyAISystem extends BaseEntitySystem {
 												int x = path.getX(enemyAI.pathStep);
 												if (collisionMap.blocked(null, x+1, y)) {
 													// go left
-													tmpVelocity.x -= acceleration.x;
+													tmpVelocity.x -= acceleration;
 												} else if (collisionMap.blocked(null, x-1, y)) {
 													// go right
-													tmpVelocity.x += acceleration.x;
+													tmpVelocity.x += acceleration;
 												} else if (collisionMap.blocked(null, x+2, y)) {
-													tmpVelocity.x -= acceleration.x;
+													tmpVelocity.x -= acceleration;
 												} else {
-													tmpVelocity.x += acceleration.x;
+													tmpVelocity.x += acceleration;
 												}
 												tmpVelocity.y = 0;
 											} else if (collisionDirection == CollisionDirection.LEFT || collisionDirection == CollisionDirection.RIGHT) {
@@ -396,15 +405,15 @@ public class EnemyAISystem extends BaseEntitySystem {
 												int x = path.getX(enemyAI.pathStep);
 												if (collisionMap.blocked(null, x, y+1)) {
 													// go up
-													tmpVelocity.y -= acceleration.y;
+													tmpVelocity.y -= acceleration;
 												} else if (collisionMap.blocked(null, x, y-1)) {
 													// go down
-													tmpVelocity.y += acceleration.y;
+													tmpVelocity.y += acceleration;
 												} else if (collisionMap.blocked(null, x, y+2)) {
 
-													tmpVelocity.y -= acceleration.y;
+													tmpVelocity.y -= acceleration;
 												} else {
-													tmpVelocity.y += acceleration.y;
+													tmpVelocity.y += acceleration;
 												}
 												tmpVelocity.x = 0;
 											}
@@ -413,12 +422,12 @@ public class EnemyAISystem extends BaseEntitySystem {
 									} else {
 										// Stop moving so much if path is at an end.
 										if (tmpVelocity.y > 0) {
-											tmpVelocity.y -= deceleration.y;
+											tmpVelocity.y -= deceleration;
 											if (tmpVelocity.y < 0) {
 												tmpVelocity.y = 0;
 											}
 										} else if (tmpVelocity.y < 0) {
-											tmpVelocity.y += deceleration.y;
+											tmpVelocity.y += deceleration;
 											if (tmpVelocity.y > 0) {
 												tmpVelocity.y = 0;
 											}
@@ -426,22 +435,22 @@ public class EnemyAISystem extends BaseEntitySystem {
 									}
 								}
 							} else {
-	
+
 								switch ((int) (Math.random() * 30)) {
 									case 0: // up
-										tmpVelocity.y -= acceleration.y;
+										tmpVelocity.y -= acceleration;
 										break;
 									case 1: // down
-										tmpVelocity.y += acceleration.x;
+										tmpVelocity.y += acceleration;
 										break;
 									case 2: // neither; tend toward zero
 										if (tmpVelocity.y > 0) {
-											tmpVelocity.y -= deceleration.y;
+											tmpVelocity.y -= deceleration;
 											if (tmpVelocity.y < 0) {
 												tmpVelocity.y = 0;
 											}
 										} else if (tmpVelocity.y < 0) {
-											tmpVelocity.y += deceleration.y;
+											tmpVelocity.y += deceleration;
 											if (tmpVelocity.y > 0) {
 												tmpVelocity.y = 0;
 											}
@@ -449,41 +458,41 @@ public class EnemyAISystem extends BaseEntitySystem {
 								}
 								switch ((int) (Math.random() * 30)) {
 									case 0: // left
-										tmpVelocity.x -= acceleration.x;
+										tmpVelocity.x -= acceleration;
 										break;
 									case 1: // right
-										tmpVelocity.x += acceleration.x;
+										tmpVelocity.x += acceleration;
 										break;
 									case 2: // neither; tend toward zero
 										if (tmpVelocity.x > 0) {
-											tmpVelocity.x -= deceleration.x;
+											tmpVelocity.x -= deceleration;
 											if (tmpVelocity.x < 0) {
 												tmpVelocity.x = 0;
 											}
 										} else if (tmpVelocity.x < 0) {
-											tmpVelocity.x += deceleration.x;
+											tmpVelocity.x += deceleration;
 											if (tmpVelocity.x > 0) {
 												tmpVelocity.x = 0;
 											}
 										}
 								}
 							}
-	
-							if (tmpVelocity.distance(new Vector2f(0, 0)) > movement.getMaximumSpeed()) {
+
+							if (tmpVelocity.distance(new Vector2f(0, 0)) > maxSpeed) {
 								if (tmpVelocity.x > 0) {
-									tmpVelocity.x -= movement.getDeceleration().getX();
+									tmpVelocity.x -= deceleration;
 								} else {
-									tmpVelocity.x += movement.getDeceleration().getX();
+									tmpVelocity.x += deceleration;
 								}
 								if (tmpVelocity.y > 0) {
-									tmpVelocity.y -= movement.getDeceleration().getY();
+									tmpVelocity.y -= deceleration;
 								} else {
-									tmpVelocity.y += movement.getDeceleration().getY();
+									tmpVelocity.y += deceleration;
 								}
 							}
 							velocity.x = tmpVelocity.x;
 							velocity.y = tmpVelocity.y;
-	
+
 							Direction direction = directionMapper.get(enemy);
 							if (movement.getCurrentSpeed() != 0) {
 								if (velocity.x > 0) {

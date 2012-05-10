@@ -1,6 +1,7 @@
 package com.turbonips.troglodytes.systems;
 
 import java.util.Date;
+import java.util.HashMap;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
@@ -13,9 +14,12 @@ import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.Direction.Dir;
+import com.turbonips.troglodytes.components.Stats;
+import com.turbonips.troglodytes.components.Stats.StatType;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Polymorph;
 import com.turbonips.troglodytes.components.Secondary;
+import com.turbonips.troglodytes.components.StatModifiers;
 
 public class InputSystem extends BaseEntitySystem implements KeyListener {
 	private ComponentMapper<Movement> movementMapper;
@@ -34,6 +38,8 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 			key_secondary = false,
 			key_a = false,
 			key_d = false;
+	private ComponentMapper<StatModifiers> statModifiersMapper;
+	private ComponentMapper<Stats> statsMapper;
 	
 
 	public InputSystem(GameContainer container) {
@@ -47,6 +53,8 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 		attackMapper = new ComponentMapper<Attack>(Attack.class, world);
 		secondaryMapper = new ComponentMapper<Secondary>(Secondary.class, world);
 		polymorphMapper = new ComponentMapper<Polymorph>(Polymorph.class, world);
+		statModifiersMapper = new ComponentMapper<StatModifiers>(StatModifiers.class, world);
+		statsMapper = new ComponentMapper<Stats>(Stats.class, world);
 		container.getInput().addKeyListener(this);
 	}
 
@@ -58,29 +66,31 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 		Attack playerAttack = attackMapper.get(player);
 		Secondary playerSecondary = secondaryMapper.get(player);
 		Movement movement = movementMapper.get(player);
+		HashMap<StatType, Integer> playerStats = statsMapper.get(player).getStats();
 		if (movement != null) {
 			Vector2f velocity = movement.getVelocity();
-			Vector2f acceleration = movement.getAcceleration();
-			Vector2f deceleration = movement.getDeceleration();
+			int acceleration = playerStats.get(StatType.ACCELERATION);
+			int deceleration = playerStats.get(StatType.DECELERATION);
+			int maxSpeed = playerStats.get(StatType.MAX_SPEED);
 			Vector2f tmpVelocity = new Vector2f(velocity);
 			if (key_up) {
-				tmpVelocity.y -= acceleration.y;
+				tmpVelocity.y -= acceleration;
 			} else if (key_down) {
-				tmpVelocity.y += acceleration.y;
+				tmpVelocity.y += acceleration;
 			}
 			if (key_left) {
-				tmpVelocity.x -= acceleration.x;
+				tmpVelocity.x -= acceleration;
 			} else if (key_right) {
-				tmpVelocity.x += acceleration.x;
+				tmpVelocity.x += acceleration;
 			}
 			if (!key_up && !key_down) {
 				if (tmpVelocity.y > 0) {
-					tmpVelocity.y -= deceleration.y;
+					tmpVelocity.y -= deceleration;
 					if (tmpVelocity.y < 0)
 						tmpVelocity.y = 0;
 				}
 				else if (tmpVelocity.y < 0) {
-					tmpVelocity.y += deceleration.y;
+					tmpVelocity.y += deceleration;
 					if (tmpVelocity.y > 0)
 						tmpVelocity.y = 0;
 				}
@@ -88,21 +98,21 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 			if (!key_left && !key_right) {
 				// Neither key is pressed. Tend to zero velocity
 				if (tmpVelocity.x > 0) {
-					tmpVelocity.x -= deceleration.x;
+					tmpVelocity.x -= deceleration;
 					if (tmpVelocity.x < 0)
 						tmpVelocity.x = 0;
 				}
 				// Neither key is pressed. Tend to zero velocity
 				else if (tmpVelocity.x < 0) {
-					tmpVelocity.x += deceleration.x;
+					tmpVelocity.x += deceleration;
 					if (tmpVelocity.x > 0)
 						tmpVelocity.x = 0;
 				}
 			}
-			if (tmpVelocity.distance(new Vector2f(0,0))>movement.getMaximumSpeed()) {
+			if (tmpVelocity.distance(new Vector2f(0,0))>maxSpeed) {
 				float scale;
 				// Scale the x and y velocity by the maximum-speed/current-velocity
-				scale = (movement.getMaximumSpeed()/tmpVelocity.distance(new Vector2f(0,0)));
+				scale = (maxSpeed/tmpVelocity.distance(new Vector2f(0,0)));
 				tmpVelocity.x = scale*tmpVelocity.x;
 				tmpVelocity.y = scale*tmpVelocity.y;
 			}
@@ -184,17 +194,29 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 				}
 			}
 			
-			Polymorph newActivePolymorph;
+			// Remove previous polymorph modifiers
+			StatModifiers statModifiers = statModifiersMapper.get(trinkets.get(activeIndex));
+			HashMap<StatType, Integer> modifiers;
+			if (statModifiers != null) {
+				modifiers = statModifiers.getModifiers();
+				statsMapper.get(player).removeModifiers(modifiers);
+			}
+			
+			Entity polymorphEntity;
 			if (key_a) {
-				newActivePolymorph = polymorphMapper.get(trinkets.get(leftIndex));
+				polymorphEntity = trinkets.get(leftIndex);
 			} else {
 				if (rightIndex < activeIndex) rightIndex = activeIndex;
-				newActivePolymorph = polymorphMapper.get(trinkets.get(rightIndex));
+				polymorphEntity = trinkets.get(rightIndex);
 			}
-			newActivePolymorph.setActive(true);
-
 			
-			
+			// Add new polymorph modifiers
+			statModifiers = statModifiersMapper.get(polymorphEntity);
+			if (statModifiers != null) {
+				modifiers = statModifiers.getModifiers();
+				statsMapper.get(player).applyModifiers(modifiers);
+			}
+			polymorphMapper.get(polymorphEntity).setActive(true);
 			key_a = false;
 			key_d = false;
 		}

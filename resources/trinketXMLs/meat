@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <java version="1.6.0_29" class="java.beans.XMLDecoder"> 
- <object class="com.turbonips.troglodytes.PolymorphTrinket"> 
+ <object class="com.turbonips.troglodytes.TrinketData"> 
   <void property="name">
    <string>Test Tooth</string> 
   </void>
   
   <void property="type">
-  	<string>polymorph</string>
+  	<string>normal</string>
   </void>
   
   <void property="resourceRef">
-  	<string>toothTrinket</string>
-  </void>
-  
-  <void property="newResourceRef">
-  	<string>smalldinoanimation</string>
+  	<string>meatTrinket</string>
   </void>
  
+  <void property="addHealth">
+  	<int>10</int>
+  </void>
+  
+  <void property="addRange">
+  	<int>0</int>
+  </void>
+ 
+  <void property="addArmor">
+  	<int>0</int>
+  </void>
  </object>
 </java> 

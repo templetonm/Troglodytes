@@ -1,5 +1,7 @@
 package com.turbonips.troglodytes.systems;
 
+import java.util.HashMap;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
@@ -20,23 +22,26 @@ import com.turbonips.troglodytes.components.Polymorph;
 import com.turbonips.troglodytes.components.ResourceRef;
 import com.turbonips.troglodytes.components.Direction.Dir;
 import com.turbonips.troglodytes.components.EnemyAI.AIType;
+import com.turbonips.troglodytes.components.Stats.StatType;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Location;
+import com.turbonips.troglodytes.components.StatModifiers;
+import com.turbonips.troglodytes.components.Stats;
 
 public class TrinketSystem extends BaseEntitySystem {
-	private ComponentMapper<Movement> movementMapper;
-	private ComponentMapper<Direction> directionMapper;
-	private ComponentMapper<EnemyAI> enemyAIMapper;
 	private ComponentMapper<Location> locationMapper;
 	private ComponentMapper<ResourceRef> resourceMapper;
 	private ComponentMapper<Polymorph> polymorphMapper;
+	private ComponentMapper<Stats> statsMapper;
+	private ComponentMapper<StatModifiers> statModifiersMapper;
 
 	@Override
 	protected void initialize() {
-		movementMapper = new ComponentMapper<Movement>(Movement.class, world);
 		locationMapper = new ComponentMapper<Location>(Location.class, world);
 		resourceMapper = new ComponentMapper<ResourceRef>(ResourceRef.class, world);
 		polymorphMapper = new ComponentMapper<Polymorph>(Polymorph.class, world);
+		statsMapper = new ComponentMapper<Stats>(Stats.class, world);
+		statModifiersMapper = new ComponentMapper<StatModifiers>(StatModifiers.class, world);
 	}
 
 	@Override
@@ -57,7 +62,6 @@ public class TrinketSystem extends BaseEntitySystem {
 		int pw = playerFrame.getWidth();
 		int ph = playerFrame.getHeight();
 		playerPosition = new Vector2f(playerPosition.getX()+pw/2, playerPosition.getY()+ph/2);
-		boolean activePolymorphTrinket = false;
 		
 		for (int i=0; i<trinkets.size(); i++) {
 			Entity trinket = trinkets.get(i);
@@ -70,18 +74,30 @@ public class TrinketSystem extends BaseEntitySystem {
 					// You picked up a polymorph trinket
 					if (polymorphMapper.get(trinket) != null) {
 						for (int a=0; a<trinkets.size(); a++) {
-							if (a != i) {
+							if (a != i && polymorphMapper.get(trinkets.get(a)) != null &&
+								polymorphMapper.get(trinkets.get(a)).isActive()) {
+								// Remove previous polymorph modifiers
+								StatModifiers statModifiers = statModifiersMapper.get(trinkets.get(a));
+								HashMap<StatType, Integer> modifiers;
+								if (statModifiers != null) {
+									modifiers = statModifiers.getModifiers();
+									statsMapper.get(player).removeModifiers(modifiers);
+								}
 								polymorphMapper.get(trinkets.get(a)).setActive(false);
 							}
 						}
 						Polymorph polymorph = polymorphMapper.get(trinket);
 						polymorph.setActive(true);
 						polymorph.setExistsOnPlayer(true);
-						// Don't make a map named THE_VOID lol
+						// Don't make a map named THE_VOID
 						trinketLocation.setMap("THE_VOID");
 					} else {
 						trinket.delete();
 					}
+					// Add new trinket modifiers
+					StatModifiers statModifiers = statModifiersMapper.get(trinket);
+					HashMap<StatType, Integer> modifiers = statModifiers.getModifiers();
+					statsMapper.get(player).applyModifiers(modifiers);
 				}
 			}
 			
@@ -90,16 +106,10 @@ public class TrinketSystem extends BaseEntitySystem {
 				Polymorph polymorph = polymorphMapper.get(trinket);
 				if (polymorph.isActive() && polymorph.existsOnPlayer()) {
 					playerRes.setResourceName(polymorph.getPolymorphRef());
-					activePolymorphTrinket = true;
 				}
 			}
 		}
 		
-		// TODO: This shouldn't always be playeranimation
-		// If there is no active polymorph trinket, set the player resource to playeranimation
-		if (activePolymorphTrinket == false) {
-			playerRes.setResourceName("playeranimation");
-		}
 		
 
 	}

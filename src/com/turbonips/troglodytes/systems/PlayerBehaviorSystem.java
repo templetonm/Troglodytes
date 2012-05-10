@@ -6,20 +6,25 @@ import java.util.HashMap;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.particles.ParticleSystem;
 import org.newdawn.slick.tiled.TiledMap;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.CreatureAnimation;
+import com.turbonips.troglodytes.Emitter;
+import com.turbonips.troglodytes.ParticleData;
 import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.ResourceManager;
+import com.turbonips.troglodytes.XMLSerializer;
 import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.ColorChange;
 import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.HealthRegen;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Location;
+import com.turbonips.troglodytes.components.ParticleComponent;
 import com.turbonips.troglodytes.components.ResourceRef;
 import com.turbonips.troglodytes.components.Secondary;
 import com.turbonips.troglodytes.components.Stats;
@@ -186,7 +191,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 
 				double secondaryKnockBackX = (secondaryKnockBack/Math.sqrt(2));
 
-				if (playerCenter.distance(enemyCenter) < MAX_DISTANCE) {
+				if (playerCenter.distance(enemyCenter) < MAX_DISTANCE && locationMapper.get(enemy).getMap().equals(locationMapper.get(player).getMap())) {
 					Vector2f playerToEnemy = new Vector2f(enemyCenter.x - playerCenter.x, enemyCenter.y - playerCenter.y);
 					float scale = (float) (secondaryKnockBack/playerCenter.distance(enemyCenter));
 					enemyVelocity.x = scale * playerToEnemy.x;
@@ -202,6 +207,21 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 
 					if (enemyStats.get(StatType.HEALTH) <= 0) {
 						enemy.delete();
+						// Create enemy death entity for particle effect
+						Entity enemyDeath = world.createEntity();
+						enemyDeath.setGroup("ENEMY_DEATH");
+						XMLSerializer xmls = XMLSerializer.getInstance();
+						ResourceManager rm = ResourceManager.getInstance();
+						ParticleData particleData = (ParticleData)xmls.deserializeData("resources/particleXMLs/deathsplat");
+						String particleResourceRef = particleData.getResourceRef();
+						Emitter pem = new Emitter(particleData);
+						Image particleImage = (Image)rm.getResource(particleResourceRef).getObject();
+						ParticleSystem ps = new ParticleSystem(particleImage, 1000);
+						pem.setEnabled(true);
+						ps.addEmitter(pem);
+						enemyDeath.addComponent(new ParticleComponent(ps, true));
+						enemyDeath.addComponent(new Location(new Vector2f(enemyPosition.getX() + ew/2, enemyPosition.getY() + eh/2), null));
+
 					}
 				}
 			}
@@ -239,7 +259,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 				double attackingKnockBack = 20;
 				double attackingKnockBackX = (attackingKnockBack/Math.sqrt(2));
 
-				if (playerCenter.distance(enemyCenter) < playerStats.get(StatType.RANGE)*32) {
+				if (playerCenter.distance(enemyCenter) < playerStats.get(StatType.RANGE)*32 && locationMapper.get(enemy).getMap().equals(locationMapper.get(player).getMap())) {
 					Vector2f playerToEnemy = new Vector2f(enemyCenter.x - playerCenter.x, playerCenter.y - enemyCenter.y);
 
 					switch (playerDirection.getDirection()) {
@@ -356,6 +376,20 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 					}
 					if (enemyStats.get(StatType.HEALTH) <= 0) {
 						enemy.delete();
+						// Create enemy death entity for particle effect
+						Entity enemyDeath = world.createEntity();
+						enemyDeath.setGroup("ENEMY_DEATH");
+						XMLSerializer xmls = XMLSerializer.getInstance();
+						ResourceManager rm = ResourceManager.getInstance();
+						ParticleData particleData = (ParticleData)xmls.deserializeData("resources/particleXMLs/deathsplat");
+						String particleResourceRef = particleData.getResourceRef();
+						Emitter pem = new Emitter(particleData);
+						Image particleImage = (Image)rm.getResource(particleResourceRef).getObject();
+						ParticleSystem ps = new ParticleSystem(particleImage, 1000);
+						pem.setEnabled(true);
+						ps.addEmitter(pem);
+						enemyDeath.addComponent(new ParticleComponent(ps, true));
+						enemyDeath.addComponent(new Location(new Vector2f(enemyPosition.getX() + ew/2, enemyPosition.getY() + eh/2), null));
 					}
 				}
 			}

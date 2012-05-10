@@ -24,6 +24,7 @@ import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Polymorph;
 import com.turbonips.troglodytes.components.Location;
 import com.turbonips.troglodytes.components.ResourceRef;
+import com.turbonips.troglodytes.components.StatModifiers;
 import com.turbonips.troglodytes.components.Stats;
 import com.turbonips.troglodytes.components.VisitedMaps;
 import com.turbonips.troglodytes.components.Warp;
@@ -104,16 +105,19 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 							Entity enemy = world.createEntity();
 							enemy.setGroup("ENEMY");
 							enemy.addComponent(new ResourceRef(enemyResourceRef));
-							enemy.addComponent(new Movement(enemyMaxSpeed, new Vector2f(enemyAcc, enemyAcc), new Vector2f(enemyDec, enemyDec)));
+							HashMap<StatType, Integer> enemyStats = new HashMap<StatType, Integer> ();
+							enemyStats.put(StatType.HEALTH, enemyData.getHealth());
+							enemyStats.put(StatType.MAX_HEALTH, enemyData.getHealth());
+							enemyStats.put(StatType.RANGE, enemyData.getRange());
+							enemyStats.put(StatType.MAX_SPEED, (int)enemyData.getMaxSpeed());
+							enemyStats.put(StatType.ACCELERATION, (int)enemyData.getAcceleration());
+							enemyStats.put(StatType.DECELERATION, (int)enemyData.getDeceleration());
+							enemy.addComponent(new Movement(enemyStats));
 							enemy.addComponent(new Direction(Dir.DOWN));
 							enemy.addComponent(new Location(startPosition, warp.getMapName()));
 							enemy.addComponent(new EnemyAI(enemyAIType, sight));
 							enemy.addComponent(new Attack(enemyData.getCooldown(),enemyData.getDamage()));
-							HashMap<StatType, Integer> stats = new HashMap<StatType, Integer> ();
-							stats.put(StatType.HEALTH, enemyData.getHealth());
-							stats.put(StatType.MAX_HEALTH, enemyData.getHealth());
-							stats.put(StatType.RANGE, enemyData.getRange());
-							enemy.addComponent(new Stats(stats));
+							enemy.addComponent(new Stats(enemyStats));
 							enemy.refresh();
 						}
 					} else if (type.equals("trinketspawn")) {
@@ -136,8 +140,12 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 								trinket.addComponent(new Polymorph(polymorphTrinketData.getNewResourceRef()));
 								break;
 						}
-						
-						
+						HashMap<StatType, Integer> modifiers = new HashMap<StatType, Integer>();
+						modifiers.put(StatType.MAX_HEALTH, trinketData.getAddHealth());
+						modifiers.put(StatType.RANGE, trinketData.getAddRange());
+						modifiers.put(StatType.ARMOR, trinketData.getAddArmor());
+						modifiers.put(StatType.MAX_SPEED, trinketData.getAddSpeed());
+						trinket.addComponent(new StatModifiers(modifiers));
 					}
 				}
 			}
