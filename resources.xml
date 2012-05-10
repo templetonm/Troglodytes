@@ -32,5 +32,6 @@
 	<resource id="trog0" type="tiledmap" path="maps/trogStart.tmx" />
 	<resource id="trog1" type="tiledmap" path="maps/trog1.tmx" />
 	<resource id="trog2" type="tiledmap" path="maps/trog2.tmx" />
+	<resource id="testing" type="tiledmap" path="maps/workinprogress.tmx" />
 	<!--<resource id="testmap" type="tiledmap" path="maps/testmap.tmx" />  -->
 </resources>
