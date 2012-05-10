@@ -191,7 +191,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 
 				double secondaryKnockBackX = (secondaryKnockBack/Math.sqrt(2));
 
-				if (playerCenter.distance(enemyCenter) < MAX_DISTANCE) {
+				if (playerCenter.distance(enemyCenter) < MAX_DISTANCE && locationMapper.get(enemy).getMap() == locationMapper.get(player).getMap()) {
 					Vector2f playerToEnemy = new Vector2f(enemyCenter.x - playerCenter.x, enemyCenter.y - playerCenter.y);
 					float scale = (float) (secondaryKnockBack/playerCenter.distance(enemyCenter));
 					enemyVelocity.x = scale * playerToEnemy.x;
@@ -259,7 +259,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 				double attackingKnockBack = 20;
 				double attackingKnockBackX = (attackingKnockBack/Math.sqrt(2));
 
-				if (playerCenter.distance(enemyCenter) < playerStats.get(StatType.RANGE)*32) {
+				if (playerCenter.distance(enemyCenter) < playerStats.get(StatType.RANGE)*32 && locationMapper.get(enemy).getMap() == locationMapper.get(player).getMap()) {
 					Vector2f playerToEnemy = new Vector2f(enemyCenter.x - playerCenter.x, playerCenter.y - enemyCenter.y);
 
 					switch (playerDirection.getDirection()) {
