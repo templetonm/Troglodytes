@@ -5,6 +5,9 @@ public class TrinketData {
 	private String type;
 	private String resourceRef;
 	private int addHealth;
+	private int addRange;
+	private int addArmor;
+	private int addSpeed;
 	
 	public enum TrinketType {
 		normal,
@@ -40,5 +43,23 @@ public class TrinketData {
 	}
 	public void setAddHealth(int addHealth) {
 		this.addHealth = addHealth;
+	}
+	public int getAddRange() {
+		return addRange;
+	}
+	public void setAddRange(int addRange) {
+		this.addRange = addRange;
+	}
+	public int getAddArmor() {
+		return addArmor;
+	}
+	public void setAddArmor(int addArmor) {
+		this.addArmor = addArmor;
+	}
+	public int getAddSpeed() {
+		return addSpeed;
+	}
+	public void setAddSpeed(int addSpeed) {
+		this.addSpeed = addSpeed;
 	}
 }

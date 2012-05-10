@@ -66,29 +66,31 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 		Attack playerAttack = attackMapper.get(player);
 		Secondary playerSecondary = secondaryMapper.get(player);
 		Movement movement = movementMapper.get(player);
+		HashMap<StatType, Integer> playerStats = statsMapper.get(player).getStats();
 		if (movement != null) {
 			Vector2f velocity = movement.getVelocity();
-			Vector2f acceleration = movement.getAcceleration();
-			Vector2f deceleration = movement.getDeceleration();
+			int acceleration = playerStats.get(StatType.ACCELERATION);
+			int deceleration = playerStats.get(StatType.DECELERATION);
+			int maxSpeed = playerStats.get(StatType.MAX_SPEED);
 			Vector2f tmpVelocity = new Vector2f(velocity);
 			if (key_up) {
-				tmpVelocity.y -= acceleration.y;
+				tmpVelocity.y -= acceleration;
 			} else if (key_down) {
-				tmpVelocity.y += acceleration.y;
+				tmpVelocity.y += acceleration;
 			}
 			if (key_left) {
-				tmpVelocity.x -= acceleration.x;
+				tmpVelocity.x -= acceleration;
 			} else if (key_right) {
-				tmpVelocity.x += acceleration.x;
+				tmpVelocity.x += acceleration;
 			}
 			if (!key_up && !key_down) {
 				if (tmpVelocity.y > 0) {
-					tmpVelocity.y -= deceleration.y;
+					tmpVelocity.y -= deceleration;
 					if (tmpVelocity.y < 0)
 						tmpVelocity.y = 0;
 				}
 				else if (tmpVelocity.y < 0) {
-					tmpVelocity.y += deceleration.y;
+					tmpVelocity.y += deceleration;
 					if (tmpVelocity.y > 0)
 						tmpVelocity.y = 0;
 				}
@@ -96,21 +98,21 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 			if (!key_left && !key_right) {
 				// Neither key is pressed. Tend to zero velocity
 				if (tmpVelocity.x > 0) {
-					tmpVelocity.x -= deceleration.x;
+					tmpVelocity.x -= deceleration;
 					if (tmpVelocity.x < 0)
 						tmpVelocity.x = 0;
 				}
 				// Neither key is pressed. Tend to zero velocity
 				else if (tmpVelocity.x < 0) {
-					tmpVelocity.x += deceleration.x;
+					tmpVelocity.x += deceleration;
 					if (tmpVelocity.x > 0)
 						tmpVelocity.x = 0;
 				}
 			}
-			if (tmpVelocity.distance(new Vector2f(0,0))>movement.getMaximumSpeed()) {
+			if (tmpVelocity.distance(new Vector2f(0,0))>maxSpeed) {
 				float scale;
 				// Scale the x and y velocity by the maximum-speed/current-velocity
-				scale = (movement.getMaximumSpeed()/tmpVelocity.distance(new Vector2f(0,0)));
+				scale = (maxSpeed/tmpVelocity.distance(new Vector2f(0,0)));
 				tmpVelocity.x = scale*tmpVelocity.x;
 				tmpVelocity.y = scale*tmpVelocity.y;
 			}

@@ -16,6 +16,13 @@
   <void property="addHealth">
   	<int>10</int>
   </void>
+  
+  <void property="addRange">
+  	<int>0</int>
+  </void>
  
+  <void property="addArmor">
+  	<int>0</int>
+  </void>
  </object>
 </java> 

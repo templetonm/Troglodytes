@@ -20,6 +20,18 @@
   <void property="addHealth">
   	<int>5</int>
   </void>
+  
+  <void property="addRange">
+  	<int>1</int>
+  </void>
+  
+  <void property="addArmor">
+  	<int>1</int>
+  </void>
+  
+  <void property="addSpeed">
+  	<int>-2</int>
+  </void>
  
  </object>
 </java> 
