@@ -38,16 +38,16 @@
    <float>1.0</float> 
   </void> 
   <void property="velocitySpeed"> 
-   <float>0.0050</float> 
+   <float>0.0090</float> 
   </void>
   <void property="velocityX"> 
-   <float>15.0</float> 
+   <float>25.0</float> 
   </void> 
   <void property="velocityXRandom"> 
    <boolean>true</boolean> 
   </void> 
   <void property="velocityY"> 
-   <float>15.0</float>
+   <float>25.0</float>
   </void>
   <void property="velocityYRandom">
    <boolean>true</boolean> 
