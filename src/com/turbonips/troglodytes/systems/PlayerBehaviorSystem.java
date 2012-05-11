@@ -93,13 +93,12 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 	}
 
 	private void checkWarps(TiledMap map, Entity player) {
-		boolean collision = false;
 		String playerResName = resourceMapper.get(player).getResourceName();
 		ResourceManager manager = ResourceManager.getInstance();
 		Resource playerRes = manager.getResource(playerResName);
 		Image playerFrame = getFrame(playerRes);
-		int ph = playerFrame.getHeight();
-		int pw = playerFrame.getWidth();
+		int ph = playerFrame.getHeight()-1;
+		int pw = playerFrame.getWidth()-1;
 		Movement movement = movementMapper.get(player);
 		Location playerLocation = locationMapper.get(player);
 		Vector2f playerPosition = playerLocation.getPosition();
@@ -109,41 +108,74 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 
 		for (int i = 0; i < map.getObjectGroupCount(); i++) {
 			for (int j = 0; j < map.getObjectCount(i); j++) {
+				boolean collision = false;
 				if (map.getObjectType(i, j).toLowerCase().equals("warp")) {
+					
 					// Warp x location
-					int x = map.getObjectX(i, j);
+					int wx = map.getObjectX(i, j);
 					// Warp y location
-					int y = map.getObjectY(i, j);
+					int wy = map.getObjectY(i, j);
 					// Warp width
-					int w = map.getObjectWidth(i, j);
+					int ww = map.getObjectWidth(i, j);
 					// Warp height
-					int h = map.getObjectHeight(i, j);
+					int wh = map.getObjectHeight(i, j);
 					String warpMap = map.getObjectProperty(i, j, "Map", "");
 					int warpX = Integer.valueOf(map.getObjectProperty(i, j, "X", ""));
 					int warpY = Integer.valueOf(map.getObjectProperty(i, j, "Y", ""));
 					Vector2f warpPosition = new Vector2f(warpX, warpY);
 
-					// Upper left
-					if (newPlayerPosition.x > x && newPlayerPosition.x < x + w && newPlayerPosition.y > y && newPlayerPosition.y < y + h) {
-						collision = true;
+					int step = 5;
+					for (int x=0; x<pw; x=x+step) {
+						// Up
+						if (newPlayerPosition.x+x > wx && newPlayerPosition.x < wx+ww &&
+							newPlayerPosition.y+ph > wy+wh && newPlayerPosition.y < wy+wh) {
+							
+							if (playerPosition.x+x > wx && playerPosition.x < wx+ww &&
+								newPlayerPosition.y+ph > wy+wh && newPlayerPosition.y < wy+wh) {
+								//newPlayerPosition.y = wy+wh+1;
+							}
+							collision = true;
+						}
+						
+						// Down
+						if (newPlayerPosition.x+x > wx && newPlayerPosition.x < wx+ww &&
+							newPlayerPosition.y+ph > wy && newPlayerPosition.y+ph < wy+wh) {
+							
+							if (playerPosition.x+x > wx && playerPosition.x < wx+ww &&
+								newPlayerPosition.y+ph > wy && newPlayerPosition.y+ph < wy+wh) {
+								//newPlayerPosition.y = wy-ph-1;
+							}
+							collision = true;
+						}
 					}
+					
 
-					// Upper right
-					if (newPlayerPosition.x + pw > x && newPlayerPosition.x + pw < x + w && newPlayerPosition.y > y && newPlayerPosition.y < y + h) {
-						collision = true;
+					for (int y=0; y<ph; y=y+step) {
+						// Left
+						if (newPlayerPosition.y+y > wy && newPlayerPosition.y < wy+wh &&
+							newPlayerPosition.x+pw > wx+ww && newPlayerPosition.x < wx+ww) {
+							
+							if (wy+y > wy && wy < wy+wh &&
+								newPlayerPosition.x+pw > wx+ww && newPlayerPosition.x < wx+ww) {
+								//newPlayerPosition.x = wx+ww+1;
+							}
+							collision = true;
+						}
+						
+						// Right
+						if (newPlayerPosition.y+y > wy && newPlayerPosition.y < wy+wh &&
+							newPlayerPosition.x+pw > wx && newPlayerPosition.x+pw < wx+ww) {
+							
+							if (wy+y > wy && wy < wy+wh &&
+								newPlayerPosition.x+pw > wx && newPlayerPosition.x+pw < wx+ww) {
+								//newPlayerPosition.x = wx-pw-1;
+							}
+							collision = true;
+						}
 					}
-
-					// Lower left
-					if (newPlayerPosition.x > x && newPlayerPosition.x < x + w && newPlayerPosition.y + ph > y && newPlayerPosition.y + ph < y + h) {
-						collision = true;
-					}
-
-					// Lower right
-					if (newPlayerPosition.x + pw > x && newPlayerPosition.x + pw < x + w && newPlayerPosition.y + ph > y && newPlayerPosition.y + ph < y + h) {
-						collision = true;
-					}
-
+					
 					if (collision) {
+						logger.info(warpMap);
 						player.addComponent(new Warp(warpMap, warpPosition));
 						player.refresh();
 						// resourceMapper.get(player).setResourceName("testenemyimage");
