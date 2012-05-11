@@ -76,194 +76,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 						int maxSpeed = enemyStats.get(StatType.MAX_SPEED);
 						Vector2f tmpVelocity = new Vector2f(velocity);
 						AIType enemyAIType = enemyAI.getEnemyAIType();
-						if (enemyAIType == AIType.DUMB) {
-							switch ((int) (Math.random() * 30)) {
-								case 0: // up
-									tmpVelocity.y -= acceleration;
-									break;
-								case 1: // down
-									tmpVelocity.y += acceleration;
-									break;
-								case 2: // neither; tend toward zero
-									if (tmpVelocity.y > 0) {
-										tmpVelocity.y -= deceleration;
-										if (tmpVelocity.y < 0) {
-											tmpVelocity.y = 0;
-										}
-									} else if (tmpVelocity.y < 0) {
-										tmpVelocity.y += deceleration;
-										if (tmpVelocity.y > 0) {
-											tmpVelocity.y = 0;
-										}
-									}
-							}
-							switch ((int) (Math.random() * 30)) {
-								case 0: // left
-									tmpVelocity.x -= acceleration;
-									break;
-								case 1: // right
-									tmpVelocity.x += acceleration;
-									break;
-								case 2: // neither; tend toward zero
-									if (tmpVelocity.x > 0) {
-										tmpVelocity.x -= deceleration;
-										if (tmpVelocity.x < 0) {
-											tmpVelocity.x = 0;
-										}
-									} else if (tmpVelocity.x < 0) {
-										tmpVelocity.x += deceleration;
-										if (tmpVelocity.x > 0) {
-											tmpVelocity.x = 0;
-										}
-									}
-							}
-							if (tmpVelocity.distance(new Vector2f(0, 0)) > maxSpeed) {
-								float scale;
-								// Scale the x and y velocity by the maximum-speed/current-velocity
-								scale = (maxSpeed / tmpVelocity.distance(new Vector2f(0, 0)));
-								tmpVelocity.x = scale * tmpVelocity.x;
-								tmpVelocity.y = scale * tmpVelocity.y;
-							}
-							velocity.x = tmpVelocity.x;
-							velocity.y = tmpVelocity.y;
-
-							Direction direction = directionMapper.get(enemy);
-
-							if (movement.getCurrentSpeed() != 0) {
-								if (velocity.x > 0) {
-									if (velocity.y > 0) {
-										direction.setDirection(Dir.DOWN_RIGHT);
-									} else if (velocity.y < 0) {
-										direction.setDirection(Dir.UP_RIGHT);
-									} else {
-										direction.setDirection(Dir.RIGHT);
-									}
-								} else if (velocity.x < 0) {
-									if (velocity.y > 0) {
-										direction.setDirection(Dir.DOWN_LEFT);
-									} else if (velocity.y < 0) {
-										direction.setDirection(Dir.UP_LEFT);
-									} else {
-										direction.setDirection(Dir.LEFT);
-									}
-								} else {
-									if (velocity.y > 0) {
-										direction.setDirection(Dir.DOWN);
-									} else {
-										direction.setDirection(Dir.UP);
-									}
-								}
-							}
-						} else if (enemyAIType == AIType.DUMBCHARGE) {
-							Vector2f playerPosition = playerLocation.getPosition();
-							Vector2f enemyPosition = enemyLocation.getPosition();
-							Vector2f positionDifference = new Vector2f(playerPosition.x - enemyPosition.x, playerPosition.y - enemyPosition.y);
-							Vector2f positionCheck = new Vector2f(positionDifference);
-							if (positionCheck.x < 0) {
-								positionCheck.x = -positionCheck.x;
-							}
-							if (positionCheck.y < 0) {
-								positionCheck.y = -positionCheck.y;
-							}
-							float range = enemyAI.getSight() * 32;
-
-							if (positionCheck.x < range && positionCheck.y < range) {
-								if (positionDifference.y > 0) {
-									tmpVelocity.y += acceleration;
-								} else if (positionDifference.y < 0) {
-									tmpVelocity.y -= acceleration;
-								}
-								if (positionDifference.x > 0) {
-									tmpVelocity.x += acceleration;
-								} else if (positionDifference.x < 0) {
-									tmpVelocity.x -= acceleration;
-								}
-							} else {
-								switch ((int) (Math.random() * 30)) {
-									case 0: // up
-										tmpVelocity.y -= acceleration;
-										break;
-									case 1: // down
-										tmpVelocity.y += acceleration;
-										break;
-									case 2: // neither; tend toward zero
-										if (tmpVelocity.y > 0) {
-											tmpVelocity.y -= deceleration;
-											if (tmpVelocity.y < 0) {
-												tmpVelocity.y = 0;
-											}
-										} else if (tmpVelocity.y < 0) {
-											tmpVelocity.y += deceleration;
-											if (tmpVelocity.y > 0) {
-												tmpVelocity.y = 0;
-											}
-										}
-								}
-								switch ((int) (Math.random() * 30)) {
-									case 0: // left
-										tmpVelocity.x -= acceleration;
-										break;
-									case 1: // right
-										tmpVelocity.x += acceleration;
-										break;
-									case 2: // neither; tend toward zero
-										if (tmpVelocity.x > 0) {
-											tmpVelocity.x -= deceleration;
-											if (tmpVelocity.x < 0) {
-												tmpVelocity.x = 0;
-											}
-										} else if (tmpVelocity.x < 0) {
-											tmpVelocity.x += deceleration;
-											if (tmpVelocity.x > 0) {
-												tmpVelocity.x = 0;
-											}
-										}
-										break;
-								}
-
-							}
-							if (tmpVelocity.distance(new Vector2f(0, 0)) > maxSpeed) {
-								if (tmpVelocity.x > 0) {
-									tmpVelocity.x -= deceleration;
-								} else {
-									tmpVelocity.x += deceleration;
-								}
-								if (tmpVelocity.y > 0) {
-									tmpVelocity.y -= deceleration;
-								} else {
-									tmpVelocity.y += deceleration;
-								}
-							}
-							velocity.x = tmpVelocity.x;
-							velocity.y = tmpVelocity.y;
-
-							Direction direction = directionMapper.get(enemy);
-							if (movement.getCurrentSpeed() != 0) {
-								if (velocity.x > 0) {
-									if (velocity.y > 0) {
-										direction.setDirection(Dir.DOWN_RIGHT);
-									} else if (velocity.y < 0) {
-										direction.setDirection(Dir.UP_RIGHT);
-									} else {
-										direction.setDirection(Dir.RIGHT);
-									}
-								} else if (velocity.x < 0) {
-									if (velocity.y > 0) {
-										direction.setDirection(Dir.DOWN_LEFT);
-									} else if (velocity.y < 0) {
-										direction.setDirection(Dir.UP_LEFT);
-									} else {
-										direction.setDirection(Dir.LEFT);
-									}
-								} else {
-									if (velocity.y > 0) {
-										direction.setDirection(Dir.DOWN);
-									} else {
-										direction.setDirection(Dir.UP);
-									}
-								}
-							}
-						} else if (enemyAIType == AIType.DUMBFIND) {							
+						if (enemyAIType == AIType.DUMBFIND) {
 							Vector2f playerPosition = playerLocation.getPosition();
 							Vector2f enemyPosition = enemyLocation.getPosition();
 							Vector2f positionDifference = new Vector2f(playerPosition.x - enemyPosition.x, playerPosition.y - enemyPosition.y);
@@ -293,32 +106,6 @@ public class EnemyAISystem extends BaseEntitySystem {
 									AStarPathFinder pathFinder = new AStarPathFinder(collisionMap, (int) range, false);
 
 									CollisionResolution collisionResolution = CollisionResolution.getInstance();
-									CollisionDirection collisionDirection = collisionResolution.getCollisionDirection(enemy, tiledMap);
-									if (collisionDirection == CollisionDirection.UP) {
-										if (enemyAI.corner == Corner.BOTTOMLEFT) {
-											enemyAI.corner = Corner.TOPLEFT;
-										} else if (enemyAI.corner == Corner.BOTTOMRIGHT) {
-											enemyAI.corner = Corner.TOPRIGHT;
-										}
-									} else if (collisionDirection == CollisionDirection.RIGHT) {
-										if (enemyAI.corner == Corner.TOPLEFT) {
-											enemyAI.corner = Corner.TOPRIGHT;
-										} else if (enemyAI.corner == Corner.BOTTOMLEFT) {
-											enemyAI.corner = Corner.BOTTOMRIGHT;
-										}
-									} else if (collisionDirection == CollisionDirection.DOWN) {
-										if (enemyAI.corner == Corner.TOPLEFT) {
-											enemyAI.corner = Corner.BOTTOMLEFT;
-										} else if (enemyAI.corner == Corner.TOPRIGHT) {
-											enemyAI.corner = Corner.BOTTOMRIGHT;
-										}
-									} else if (collisionDirection == CollisionDirection.LEFT) {
-										if (enemyAI.corner == Corner.BOTTOMRIGHT) {
-											enemyAI.corner = Corner.BOTTOMLEFT;
-										} else if (enemyAI.corner == Corner.TOPRIGHT) {
-											enemyAI.corner = Corner.TOPLEFT;
-										}
-									}
 
 									Path newPath = null;
 									if (enemyAI.pathAge <= 0) {
@@ -348,11 +135,33 @@ public class EnemyAISystem extends BaseEntitySystem {
 												enemyAI.pathStep++;
 											}
 										}
-
-										if (collisionDirection == CollisionDirection.NONE) {
-											if (path.getX(enemyAI.pathStep) > (int)curEP.x) {
+										
+											int lookahead = 0;
+											for (int j = 0; j < 3; j++) {
+												if (path.getLength() > enemyAI.pathStep+j+1) {
+													if (path.getX(enemyAI.pathStep+j-1) != path.getX(enemyAI.pathStep+j)) {
+														if (!collisionMap.blocked(null, path.getX(enemyAI.pathStep+j), path.getY(enemyAI.pathStep+j)+1) &&
+															!collisionMap.blocked(null, path.getX(enemyAI.pathStep+j), path.getY(enemyAI.pathStep+j)-1)){
+															lookahead = j+1;
+														} else {
+															break;
+														}
+													} else {
+														if (!collisionMap.blocked(null, path.getX(enemyAI.pathStep+j)+1, path.getY(enemyAI.pathStep+j)) &&
+															!collisionMap.blocked(null, path.getX(enemyAI.pathStep+j)-1, path.getY(enemyAI.pathStep+j))){
+															lookahead = j+1;
+														} else {
+															break;
+														}
+													}
+												} else {
+													break;
+												}
+											}
+											
+											if (path.getX(enemyAI.pathStep+lookahead) > (int)curEP.x) {
 												tmpVelocity.x += acceleration;
-											} else if (path.getX(enemyAI.pathStep) < (int)curEP.x) {
+											} else if (path.getX(enemyAI.pathStep+lookahead) < (int)curEP.x) {
 												tmpVelocity.x -= acceleration;
 											} else {
 												if (tmpVelocity.x > 0) {
@@ -367,9 +176,9 @@ public class EnemyAISystem extends BaseEntitySystem {
 													}
 												}
 											}
-											if (path.getY(enemyAI.pathStep) > (int)curEP.y) {
+											if (path.getY(enemyAI.pathStep+lookahead) > (int)curEP.y) {
 												tmpVelocity.y += acceleration;
-											} else if (path.getY(enemyAI.pathStep) < (int)curEP.y) {
+											} else if (path.getY(enemyAI.pathStep+lookahead) < (int)curEP.y) {
 												tmpVelocity.y -= acceleration;
 											} else {
 												if (tmpVelocity.y > 0) {
@@ -384,58 +193,91 @@ public class EnemyAISystem extends BaseEntitySystem {
 													}
 												}
 											}
-										} else {
+											if (tmpVelocity.distance(new Vector2f(0, 0)) > maxSpeed) {
+												if (tmpVelocity.x > 0) {
+													tmpVelocity.x -= deceleration;
+												} else {
+													tmpVelocity.x += deceleration;
+												}
+												if (tmpVelocity.y > 0) {
+													tmpVelocity.y -= deceleration;
+												} else {
+													tmpVelocity.y += deceleration;
+												}
+											}
+											
+											velocity.x = tmpVelocity.x;
+											velocity.y = tmpVelocity.y;
+											CollisionDirection collisionDirection = collisionResolution.getCollisionDirection(enemy, tiledMap);
 											if (collisionDirection == CollisionDirection.DOWN || collisionDirection == CollisionDirection.UP) {
-												int y = path.getY(enemyAI.pathStep);
-												int x = path.getX(enemyAI.pathStep);
-												if (collisionMap.blocked(null, x+1, y)) {
-													// go left
-													tmpVelocity.x -= acceleration;
-												} else if (collisionMap.blocked(null, x-1, y)) {
-													// go right
-													tmpVelocity.x += acceleration;
-												} else if (collisionMap.blocked(null, x+2, y)) {
-													tmpVelocity.x -= acceleration;
+												int xNext = path.getX(enemyAI.pathStep);
+												if (enemyPosition.x < xNext) {
+													tmpVelocity.x += maxSpeed;
+													if (tmpVelocity.distance(new Vector2f(0, 0)) > maxSpeed) {
+														tmpVelocity.x = maxSpeed;
+													}
+													tmpVelocity.y = 0;
 												} else {
-													tmpVelocity.x += acceleration;
+													tmpVelocity.x -= acceleration;
+													if (tmpVelocity.distance(new Vector2f(0, 0)) > maxSpeed) {
+														tmpVelocity.x = -maxSpeed;
+													}
+													tmpVelocity.y = 0;
 												}
-												tmpVelocity.y = 0;
 											} else if (collisionDirection == CollisionDirection.LEFT || collisionDirection == CollisionDirection.RIGHT) {
-												int y = path.getY(enemyAI.pathStep);
-												int x = path.getX(enemyAI.pathStep);
-												if (collisionMap.blocked(null, x, y+1)) {
-													// go up
-													tmpVelocity.y -= acceleration;
-												} else if (collisionMap.blocked(null, x, y-1)) {
-													// go down
+												int yNext = path.getY(enemyAI.pathStep);
+												if (enemyPosition.y < yNext) {
 													tmpVelocity.y += acceleration;
-												} else if (collisionMap.blocked(null, x, y+2)) {
-
+													if (tmpVelocity.distance(new Vector2f(0, 0)) > maxSpeed) {
+														tmpVelocity.y = maxSpeed;
+													}
+													tmpVelocity.x = 0;
+												} else {
 													tmpVelocity.y -= acceleration;
+													logger.info(acceleration);
+													if (tmpVelocity.distance(new Vector2f(0, 0)) > maxSpeed) {
+														tmpVelocity.y = -maxSpeed;
+													}
+													tmpVelocity.x = 0;
+												}
+											} else if (collisionDirection != CollisionDirection.NONE) {
+												logger.info("RJ pretty sure bout dis");
+												/*int yNext = path.getY(enemyAI.pathStep);
+												if (enemyPosition.y + eh >= yNext + th) {
+													tmpVelocity.y -= acceleration;
+													if (tmpVelocity.distance(new Vector2f(0, 0)) > maxSpeed) {
+														tmpVelocity.y = -maxSpeed;
+														tmpVelocity.x = 0;
+													}
 												} else {
 													tmpVelocity.y += acceleration;
+													if (tmpVelocity.distance(new Vector2f(0, 0)) > maxSpeed) {
+														tmpVelocity.y = maxSpeed;
+														tmpVelocity.x = 0;
+													}
 												}
-												tmpVelocity.x = 0;
+												int xNext = path.getX(enemyAI.pathStep);
+												if (enemyPosition.x + ew >= xNext + tw) {
+													tmpVelocity.x -= acceleration;
+													if (tmpVelocity.distance(new Vector2f(0, 0)) > maxSpeed) {
+														tmpVelocity.x = -maxSpeed;
+														tmpVelocity.y = 0;
+													}
+												} else {
+													tmpVelocity.x += acceleration;
+													if (tmpVelocity.distance(new Vector2f(0, 0)) > maxSpeed) {
+														tmpVelocity.x = maxSpeed;
+														tmpVelocity.y = 0;
+													}
+												}*/
 											}
-											collisionDirection = CollisionDirection.NONE;
-										}
+											logger.info("AFTER " + tmpVelocity + " " + collisionDirection);											
 									} else {
-										// Stop moving so much if path is at an end.
-										if (tmpVelocity.y > 0) {
-											tmpVelocity.y -= deceleration;
-											if (tmpVelocity.y < 0) {
-												tmpVelocity.y = 0;
-											}
-										} else if (tmpVelocity.y < 0) {
-											tmpVelocity.y += deceleration;
-											if (tmpVelocity.y > 0) {
-												tmpVelocity.y = 0;
-											}
-										}
+										// DO SOMETHING IF WE DON'T HAVE A PATH
 									}
 								}
+							// Random walk
 							} else {
-
 								switch ((int) (Math.random() * 30)) {
 									case 0: // up
 										tmpVelocity.y -= acceleration;
@@ -477,7 +319,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 										}
 								}
 							}
-
+							
 							if (tmpVelocity.distance(new Vector2f(0, 0)) > maxSpeed) {
 								if (tmpVelocity.x > 0) {
 									tmpVelocity.x -= deceleration;

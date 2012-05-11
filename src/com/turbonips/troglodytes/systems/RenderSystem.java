@@ -12,6 +12,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
+import org.newdawn.slick.util.pathfinding.Path;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
@@ -22,6 +23,7 @@ import com.turbonips.troglodytes.ResourceManager;
 import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.ColorChange;
 import com.turbonips.troglodytes.components.Direction;
+import com.turbonips.troglodytes.components.EnemyAI;
 import com.turbonips.troglodytes.components.Movement;
 import com.turbonips.troglodytes.components.Location;
 import com.turbonips.troglodytes.components.Polymorph;
@@ -45,6 +47,7 @@ public class RenderSystem extends BaseEntitySystem {
 	private ComponentMapper<Polymorph> polymorphMapper;
 	private ComponentMapper<ColorChange> colorChangeMapper;
 	private ComponentMapper<ParticleComponent> particleComponentMapper;
+	private ComponentMapper<EnemyAI> enemyAIMapper;
 	
 	// Bars below the player/enemy
 	int barSpacing = 1;
@@ -68,6 +71,7 @@ public class RenderSystem extends BaseEntitySystem {
 		polymorphMapper = new ComponentMapper<Polymorph>(Polymorph.class, world);
 		colorChangeMapper = new ComponentMapper<ColorChange>(ColorChange.class, world);
 		particleComponentMapper = new ComponentMapper<ParticleComponent>(ParticleComponent.class, world);
+		enemyAIMapper = new ComponentMapper<EnemyAI>(EnemyAI.class, world); 
 	}
 
 	@Override
@@ -168,6 +172,16 @@ public class RenderSystem extends BaseEntitySystem {
 				int enemyX = mapX + (int)enemyPosition.x;
 				int enemyY = mapY + (int)enemyPosition.y;
 				drawCreatureEntity(enemy, enemyX, enemyY);
+				if (enemyAIMapper.get(enemy) != null) {
+					Path enemyPath = enemyAIMapper.get(enemy).getPath();
+					if (enemyPath != null) {
+						for (int a=0; a<enemyPath.getLength(); a++) {
+							g.setColor(new Color(0,0,255,100));
+							//g.drawRect(enemyPath.getX(a)*32, enemyPath.getY(a)*32, 32, 32);
+							//g.fillRect(mapX + enemyPath.getX(a)*32, mapY + enemyPath.getY(a)*32,32,32);
+						}
+					}
+				}
 			}
 		}
 		
