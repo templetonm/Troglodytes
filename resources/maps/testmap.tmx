@@ -20,14 +20,14 @@
  </layer>
  <layer name="Collision" width="100" height="100">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3RsQkAIBDAwHf/pe0VbE1xB5kga2aWpGf85UeLHy1+tPjR4keLHy1+tPjR4keLHy1+tPjR4keLHy1+tPjR4keLHy1+tPjR4keLHy1+tPjR4keLHy1+tPjR4keLHy1+tPjR4keLHy1+tPjR4keLHy1+tPjR4keLHy1+tPjR4keLHy1+tPjR4keLHy1+tPjR4keLHy1+tPjR4keLHy1+tPjR4keLHy1+tPjR4keLHy1+tPjR4keLHy1+tPjR4keLHy1+tPjR4keLHy1+tPjR4keLHy1+tPjR4keLHy1+tPjR4keLHy1+tPjR4keLHy1+tJw/JN1tNcQduECcAAA=
+   H4sIAAAAAAAAA+3awY6CMBRAUZz//+jZO6FWUbllzkneQkK68EJJ0Nu2bTdjzHA4lx4t3+7xMxjO6fHM8f9mpR6je+sqPVfrsfdZj9fsfYcz17se7zfqsXfezDl6vEaPMT1a9Ggp93j0jNfjuNkeR9ZamR4terSUeszMzForq/Q4e60KPVr0aDm7x9G5X2t1lfft9bW/RY+W0u/n79izVrf6/0v0aNHjeZ/Yo+xXfXq06DHn0/vV3vvGFV3p/rgCPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aLnvYYz5O78klO8RQJwAAA==
   </data>
  </layer>
  <objectgroup name="Objects" width="100" height="100">
-  <object name="TestSpawn" type="Spawn" x="1080" y="312" width="984" height="1004">
+  <object name="TestSpawn" type="Spawn" x="1080" y="312" width="64" height="64">
    <properties>
-    <property name="Enemy" value="snake"/>
-    <property name="Number" value="10"/>
+    <property name="Enemy" value="squareman"/>
+    <property name="Number" value="1"/>
    </properties>
   </object>
  </objectgroup>
