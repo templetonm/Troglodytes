@@ -20,10 +20,10 @@
    <int>1000</int> 
   </void> 
   <void property="maxParticleLifespan"> 
-   <int>3000</int> 
+   <int>300</int> 
   </void> 
   <void property="maxParticles"> 
-   <int>40</int> 
+   <int>100</int> 
   </void> 
   <void property="size"> 
    <float>7.0</float> 
@@ -38,7 +38,7 @@
    <float>1.0</float> 
   </void> 
   <void property="velocitySpeed"> 
-   <float>0.0090</float> 
+   <float>0.0060</float> 
   </void>
   <void property="velocityX"> 
    <float>25.0</float> 
