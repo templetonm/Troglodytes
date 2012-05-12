@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.6.0_29" class="java.beans.XMLDecoder"> 
+ <object class="com.turbonips.troglodytes.EnemyData"> 
+  <void property="name"> 
+   <string>Giant Maggot</string> 
+  </void> 
+  <void property="elite"> 
+   <boolean>false</boolean>
+  </void> 
+  <void property="glow"> 
+   <int>0</int>
+  </void> 
+  <void property="group"> 
+   <int>0</int>
+  </void>
+  <void property="health"> 
+   <int>50</int>
+  </void> 
+  <void property="damage"> 
+   <int>2</int>
+  </void> 
+  <void property="cooldown"> 
+   <int>100</int>
+  </void>
+  <void property="range"> 
+   <int>3</int>
+  </void>
+  <void property="sight"> 
+   <int>10</int>
+  </void>
+  <void property="flier"> 
+   <boolean>false</boolean>
+  </void>
+  <void property="loot"> 
+   <int>0</int>
+  </void>
+  <void property="x"> 
+   <int>0</int>
+  </void>
+  <void property="y"> 
+   <int>0</int>
+  </void>
+  <void property="maxSpeed"> 
+   <int>5</int>
+  </void>
+  <void property="resourceRef"> 
+   <string>giantmaggotanimation</string>
+  </void>
+  <void property="acceleration"> 
+   <float>1</float>
+  </void>
+  <void property="deceleration"> 
+   <float>1</float>
+  </void>
+  <void property="AIType">
+   <string>dumbfind</string>
+  </void>
+ </object> 
+</java> 

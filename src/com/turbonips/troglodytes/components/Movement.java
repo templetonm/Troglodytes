@@ -1,85 +1,41 @@
 package com.turbonips.troglodytes.components;
 
-import org.newdawn.slick.Animation;
+import java.util.HashMap;
 
+import org.newdawn.slick.geom.Vector2f;
 import com.artemis.Component;
-import com.turbonips.troglodytes.CreatureAnimation;
-
+import com.turbonips.troglodytes.components.Stats.StatType;
 
 public class Movement extends Component {
-	private boolean moveUp;
-	private boolean moveDown;
-	private boolean moveLeft;
-	private boolean moveRight;
-	private Animation animation;
+	private Vector2f velocity;
+	private Vector2f nonZeroVelocity;
+	private float maximumSpeed;
+	private Vector2f acceleration;
+	private Vector2f deceleration;
 	
-	public Movement() {
-		clearMovement();
+	
+	public Movement(HashMap<StatType, Integer> stats) {
+		setVelocity(new Vector2f(0,0));
 	}
-	public Movement(Animation animation) {
-		clearMovement();
-		setAnimation(animation);
+
+	public Vector2f getVelocity() {
+		return velocity;
 	}
-	public void clearMovement() {
-		moveUp = false;
-		moveDown = false;
-		moveLeft = false;
-		moveRight = false;
+
+	public void setVelocity(Vector2f velocity) {
+		this.velocity = velocity;
 	}
-	public boolean isMoveUp() {
-		return moveUp;
+
+	public float getCurrentSpeed() {
+		return velocity.distance(new Vector2f(0,0));
 	}
-	public void setMoveUp(boolean moveUp) {
-		this.moveUp = moveUp;
+	
+
+	public Vector2f getNonZeroVelocity() {
+		return nonZeroVelocity;
 	}
-	public boolean isMoveDown() {
-		return moveDown;
-	}
-	public void setMoveDown(boolean moveDown) {
-		this.moveDown = moveDown;
-	}
-	public boolean isMoveLeft() {
-		return moveLeft;
-	}
-	public void setMoveLeft(boolean moveLeft) {
-		this.moveLeft = moveLeft;
-	}
-	public boolean isMoveRight() {
-		return moveRight;
-	}
-	public void setMoveRight(boolean moveRight) {
-		this.moveRight = moveRight;
-	}
-	public Animation getAnimation() {
-		return animation;
-	}
-	public void setAnimation(Animation animation) {
-		this.animation = animation;
-	}
-	public void setIdle(CreatureAnimation creatureAnimation) {
-		if (this.animation == creatureAnimation.getMoveUp()) {
-			setAnimation(creatureAnimation.getIdleUp());
-		} else if (this.animation == creatureAnimation.getMoveDown()) {
-			setAnimation(creatureAnimation.getIdleDown());
-		} else if (this.animation == creatureAnimation.getMoveRight()) {
-			setAnimation(creatureAnimation.getIdleRight());
-		} else if (this.animation == creatureAnimation.getMoveLeft()) {
-			setAnimation(creatureAnimation.getIdleLeft());
-		}
-	}
-	public boolean isMoving() {
-		return isMoveUp() || isMoveDown() || isMoveLeft() || isMoveRight();
-	}
-	public boolean isIdleUp(CreatureAnimation creatureAnimation) {
-		return this.animation == creatureAnimation.getIdleUp();
-	}
-	public boolean isIdleDown(CreatureAnimation creatureAnimation) {
-		return this.animation == creatureAnimation.getIdleDown();
-	}
-	public boolean isIdleLeft(CreatureAnimation creatureAnimation) {
-		return this.animation == creatureAnimation.getIdleLeft();
-	}
-	public boolean isIdleRight(CreatureAnimation creatureAnimation) {
-		return this.animation == creatureAnimation.getIdleRight();
+
+	public void setNonZeroVelocity(Vector2f nonZeroVelocity) {
+		this.nonZeroVelocity = nonZeroVelocity;
 	}
 }

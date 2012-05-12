@@ -1,90 +1,111 @@
 package com.turbonips.troglodytes.states;
 
+import java.util.HashMap;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
 import com.artemis.SystemManager;
 import com.artemis.World;
-import com.turbonips.troglodytes.components.WarpObject;
-import com.turbonips.troglodytes.systems.EnemyCollisionSystem;
-import com.turbonips.troglodytes.systems.PlayerCollisionSystem;
-import com.turbonips.troglodytes.systems.PushSystem;
-import com.turbonips.troglodytes.systems.WallCollisionSystem;
-import com.turbonips.troglodytes.systems.EnemyControlSystem;
-import com.turbonips.troglodytes.systems.MapParticleSystem;
-import com.turbonips.troglodytes.systems.MovementSystem;
-import com.turbonips.troglodytes.systems.MusicSystem;
-import com.turbonips.troglodytes.systems.ObjectCollisionSystem;
-import com.turbonips.troglodytes.systems.AttackSystem;
-import com.turbonips.troglodytes.systems.PlayerControlSystem;
-import com.turbonips.troglodytes.systems.DebugTextSystem;
-import com.turbonips.troglodytes.systems.LightingSystem;
+import com.turbonips.troglodytes.PolymorphTrinket;
+import com.turbonips.troglodytes.components.Attack;
+import com.turbonips.troglodytes.components.Direction;
+import com.turbonips.troglodytes.components.Direction.Dir;
+import com.turbonips.troglodytes.components.HealthRegen;
+import com.turbonips.troglodytes.components.Polymorph;
+import com.turbonips.troglodytes.components.Secondary;
+import com.turbonips.troglodytes.components.Stats;
+import com.turbonips.troglodytes.components.Stats.StatType;
+import com.turbonips.troglodytes.components.Movement;
+import com.turbonips.troglodytes.components.Location;
+import com.turbonips.troglodytes.components.ResourceRef;
+import com.turbonips.troglodytes.components.VisitedMaps;
+import com.turbonips.troglodytes.components.Warp;
+import com.turbonips.troglodytes.systems.CollisionResolution;
+import com.turbonips.troglodytes.systems.EnemyAISystem;
+import com.turbonips.troglodytes.systems.EnemyBehaviorSystem;
+import com.turbonips.troglodytes.systems.InputSystem;
+import com.turbonips.troglodytes.systems.PlayerBehaviorSystem;
 import com.turbonips.troglodytes.systems.RenderSystem;
+import com.turbonips.troglodytes.systems.TrinketSystem;
 import com.turbonips.troglodytes.systems.WarpSystem;
-import com.turbonips.troglodytes.systems.SoundSystem;
 
 public class PlayingState extends BaseGameState {
 	public static final int ID = 3;
-	
 	private World world;
 	private SystemManager systemManager;
-	private EntitySystem playerControlSystem;
-	private EntitySystem movementSystem;
 	private EntitySystem renderSystem;
-	private EntitySystem wallCollisionSystem;
-	private EntitySystem enemyCollisionSystem;
-	private EntitySystem playerCollisionSystem;
-	private EntitySystem lightingSystem;
-	private EntitySystem objectCollisionSystem;
-	private EntitySystem debugTextSystem;
-	private EntitySystem enemyControlSystem;
-	private EntitySystem musicSystem;
-	private EntitySystem mapParticleSystem;
+	private EntitySystem inputSystem;
+	private EntitySystem playerBehaviorSystem;
 	private EntitySystem warpSystem;
-	private EntitySystem attackSystem;
-	private EntitySystem pushSystem;
-	private EntitySystem soundSystem;
+	private EntitySystem enemyAISystem;
+	private EntitySystem enemyBehaviorSystem;
+	private EntitySystem trinketSystem;
 
+	@Override
+	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
+		// TODO Auto-generated method stub
+		super.enter(container, game);
+		world = new World();
+	    systemManager = world.getSystemManager();
+	    warpSystem = systemManager.setSystem(new WarpSystem());
+	    renderSystem = systemManager.setSystem(new RenderSystem(container, game));
+	    inputSystem = systemManager.setSystem(new InputSystem(container));
+	    playerBehaviorSystem = systemManager.setSystem(new PlayerBehaviorSystem());
+	    enemyAISystem = systemManager.setSystem(new EnemyAISystem());
+	    enemyBehaviorSystem = systemManager.setSystem(new EnemyBehaviorSystem());
+	    trinketSystem = systemManager.setSystem(new TrinketSystem());
+	    systemManager.initializeAll();
+	    CollisionResolution.getInstance().initialize(world);
+		
+		// Setup the initial player
+		Entity player = world.createEntity();
+		player.setGroup("PLAYER");
+		player.addComponent(new Warp("testing", new Vector2f(20,20)));
+		player.addComponent(new ResourceRef("playeranimation"));
+		HashMap<StatType, Integer> stats = new HashMap<StatType, Integer> ();
+		stats.put(StatType.HEALTH, 100);
+		stats.put(StatType.MAX_HEALTH, 100);
+		stats.put(StatType.ARMOR, 25);
+		stats.put(StatType.RANGE, 3);
+		stats.put(StatType.ACCELERATION, 1);
+		stats.put(StatType.DECELERATION, 1);
+		stats.put(StatType.MAX_SPEED, 10);
+		player.addComponent(new Stats(stats));
+		player.addComponent(new Movement(stats));
+		player.addComponent(new Direction(Dir.DOWN));
+		player.addComponent(new VisitedMaps());
+		// This position is overwritten when the player is warped
+		player.addComponent(new Location(new Vector2f(0,0), ""));
+		player.addComponent(new Attack(500,9));
+		// It's over 9000
+		player.addComponent(new Secondary(6*1000));
+		player.addComponent(new HealthRegen(250));
+		player.refresh();
+		
+		Entity trinket = world.createEntity();
+		trinket.setGroup("TRINKET");
+		trinket.addComponent(new Polymorph("playeranimation", true, true));
+		trinket.addComponent(new ResourceRef("playerTrinket"));
+		trinket.addComponent(new Location(new Vector2f(0,0), "THE_VOID"));
+		trinket.refresh();
+	}
+	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		super.init(container, game);
-		world = new World();
-	    systemManager = world.getSystemManager();
-	    playerControlSystem = systemManager.setSystem(new PlayerControlSystem(container));
-		renderSystem = systemManager.setSystem(new RenderSystem(container));
-		wallCollisionSystem = systemManager.setSystem(new WallCollisionSystem());
-		lightingSystem = systemManager.setSystem(new LightingSystem(container));
-		objectCollisionSystem = systemManager.setSystem(new ObjectCollisionSystem());
-		debugTextSystem = systemManager.setSystem(new DebugTextSystem(container));
-		movementSystem = systemManager.setSystem(new MovementSystem());
-		enemyControlSystem = systemManager.setSystem(new EnemyControlSystem());
-		warpSystem = systemManager.setSystem(new WarpSystem());
-		musicSystem = systemManager.setSystem(new MusicSystem(container));
-		mapParticleSystem = systemManager.setSystem(new MapParticleSystem());
-		attackSystem = systemManager.setSystem(new AttackSystem());
-		enemyCollisionSystem = systemManager.setSystem(new EnemyCollisionSystem());
-		playerCollisionSystem = systemManager.setSystem(new PlayerCollisionSystem());
-		pushSystem = systemManager.setSystem(new PushSystem());
-		soundSystem = systemManager.setSystem(new SoundSystem());
-		systemManager.initializeAll();
-		
-		Entity player = world.createEntity();
-		player.setGroup("PLAYER");
-		player.addComponent(new WarpObject("trog1",15,15));
 	}
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
 		renderSystem.process();
-		movementSystem.process();
-		lightingSystem.process();
-		debugTextSystem.process();
 	}
 
 	@Override
@@ -92,18 +113,12 @@ public class PlayingState extends BaseGameState {
 			throws SlickException {
 		world.loopStart();
 		world.setDelta(delta);
+		inputSystem.process();
+		playerBehaviorSystem.process();
+		enemyAISystem.process();
+		enemyBehaviorSystem.process();
+		trinketSystem.process();
 		warpSystem.process();
-		wallCollisionSystem.process();
-		objectCollisionSystem.process();
-		playerCollisionSystem.process();
-		playerControlSystem.process();
-		enemyCollisionSystem.process();
-		enemyControlSystem.process();
-		soundSystem.process();
-		musicSystem.process();
-		mapParticleSystem.process();
-		attackSystem.process();
-		pushSystem.process();
 	}
 
 	@Override

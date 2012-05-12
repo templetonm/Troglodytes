@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="collision" tilewidth="32" tileheight="32">
+  <image source="../graphics/collision.png" width="64" height="32"/>
+ </tileset>
+ <layer name="Ground" width="100" height="100">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3BMQEAAADCoPVP7WULoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgBt5RKnmQJwAAA==
+  </data>
+ </layer>
+ <layer name="Background" width="100" height="100">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3BMQEAAADCoPVP7WULoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgBt5RKnmQJwAAA==
+  </data>
+ </layer>
+ <layer name="Foreground" width="100" height="100">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3BMQEAAADCoPVP7WULoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgBt5RKnmQJwAAA==
+  </data>
+ </layer>
+ <layer name="Collision" width="100" height="100">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3awY6CMBRAUZz//+jZO6FWUbllzkneQkK68EJJ0Nu2bTdjzHA4lx4t3+7xMxjO6fHM8f9mpR6je+sqPVfrsfdZj9fsfYcz17se7zfqsXfezDl6vEaPMT1a9Ggp93j0jNfjuNkeR9ZamR4terSUeszMzForq/Q4e60KPVr0aDm7x9G5X2t1lfft9bW/RY+W0u/n79izVrf6/0v0aNHjeZ/Yo+xXfXq06DHn0/vV3vvGFV3p/rgCPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aLnvYYz5O78klO8RQJwAAA==
+  </data>
+ </layer>
+ <objectgroup name="Objects" width="100" height="100">
+  <object name="TestSpawn" type="Spawn" x="1080" y="312" width="64" height="64">
+   <properties>
+    <property name="Enemy" value="squareman"/>
+    <property name="Number" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

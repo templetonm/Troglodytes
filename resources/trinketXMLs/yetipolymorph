@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.6.0_29" class="java.beans.XMLDecoder"> 
+ <object class="com.turbonips.troglodytes.PolymorphTrinket"> 
+  <void property="name">
+   <string>Test Trinket</string> 
+  </void>
+  
+  <void property="type">
+  	<string>polymorph</string>
+  </void>
+  
+  <void property="resourceRef">
+  	<string>yetiTrinket</string>
+  </void>
+  
+  <void property="newResourceRef">
+  	<string>yetianimation</string>
+  </void>
+  
+  <void property="addHealth">
+  	<int>5</int>
+  </void>
+  
+  <void property="addRange">
+  	<int>1</int>
+  </void>
+  
+  <void property="addArmor">
+  	<int>1</int>
+  </void>
+  
+  <void property="addSpeed">
+  	<int>-2</int>
+  </void>
+ 
+ </object>
+</java> 

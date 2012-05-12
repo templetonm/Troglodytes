@@ -5,9 +5,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
-import com.artemis.Component;
-
-public class CreatureAnimation extends Component {
+public class CreatureAnimation {
 	private SpriteSheet sheet;
 	private Animation moveUp;
 	private Animation moveRight;
@@ -96,12 +94,13 @@ public class CreatureAnimation extends Component {
 		return this.current;
 	}
 
-	public void setCurrent(Animation current) {
-		//this.current = current;
+	public void setCurrent(Animation current, float speed) {
+		current.setSpeed(speed);
+		this.current = current;
 	}
 
 	public void setIdle() {
-		/*if (this.current == this.moveUp) {
+		if (this.current == this.moveUp) {
 			this.current = this.idleUp;
 		} else if (this.current == this.moveDown) {
 			this.current = this.idleDown;
@@ -109,7 +108,7 @@ public class CreatureAnimation extends Component {
 			this.current = this.idleRight;
 		} else if (this.current == this.moveLeft) {
 			this.current = this.idleLeft;
-		}*/
+		}
 	}
 
 	public Animation getIdleUp() {

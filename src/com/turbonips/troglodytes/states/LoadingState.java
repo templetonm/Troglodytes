@@ -17,7 +17,6 @@ public class LoadingState extends BaseGameState implements Runnable {
 			throws SlickException {
 		super.init(container, game);
 		new Thread(this).start();
-
 	}
 
 	@Override

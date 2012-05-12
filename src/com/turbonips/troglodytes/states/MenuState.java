@@ -1,117 +1,149 @@
 package com.turbonips.troglodytes.states;
 
-import org.newdawn.slick.AngelCodeFont;
-import org.newdawn.slick.Font;
+import java.awt.Font;
+
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
+import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
-import org.newdawn.slick.gui.*;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.Color;
 
-public class MenuState extends BaseGameState {
+public class MenuState extends BaseMenuState implements MouseListener {
 	public static final int ID = 1;
-
-	private Image backgroundImage;
-	private UnicodeFont unicodeFont;
-
+	
+	private UnicodeFont titleFont;
+	private UnicodeFont buttonFont;
 	private String title = "Troglodytes";
-
-	private MouseOverArea playGameButton;
-	private Image playGameButtonImage;
-	private Image playGameButtonClicked;
-
-	private MouseOverArea optionsButton;
-	private Image optionsButtonImage;
-	private Image optionsButtonClicked;
-
-	private MouseOverArea quitGameButton;
-	private Image quitGameButtonImage;
-	private Image quitGameButtonClicked;
+	private StateBasedGame game;
+	
+	enum SelectedState {NONE,
+						NEW_GAME,
+						OPTIONS,
+						EXIT };
+				
+	SelectedState selectedState = SelectedState.NONE;
+	private String newGameSt = "New Game";
+	private int newGameX, newGameY;
+	private String optionsSt = "Options";
+	private int optionsX, optionsY;
+	private String exitSt = "Exit";
+	private int exitX, exitY;
 
 	@Override
 	public void init(GameContainer container, final StateBasedGame game)
 			throws SlickException {
 		super.init(container, game);
+		
 
-		backgroundImage = new Image ("resources/graphics/menuBackground.png");
-
-		unicodeFont = new UnicodeFont ("resources/fonts/C64.ttf", 84, true, false);
-		unicodeFont.getEffects().add(new ColorEffect(java.awt.Color.white));
-
-		playGameButtonImage = new Image ("resources/graphics/newGameButton.png");
-		playGameButtonClicked = new Image ("resources/graphics/newGameButton-Clicked.png");
-
-		optionsButtonImage = new Image ("resources/graphics/optionsButton.png");
-		optionsButtonClicked = new Image ("resources/graphics/optionsButton-Clicked.png");
-
-		quitGameButtonImage = new Image ("resources/graphics/quitButton.png");
-		quitGameButtonClicked = new Image ("resources/graphics/quitButton-Clicked.png");
-
-		playGameButton = new MouseOverArea (container, playGameButtonImage, container.getWidth() - playGameButtonImage.getWidth(), 
-				container.getHeight() - playGameButtonImage.getHeight(), playGameButtonImage.getWidth(), playGameButtonImage.getHeight());
-		playGameButton.setMouseOverImage(playGameButtonClicked);
-		playGameButton.addListener(new ComponentListener() {
-
-			public void componentActivated (AbstractComponent arg0) {
-				game.enterState(LoadingState.ID);
-			}
-		});
-
-		optionsButton = new MouseOverArea (container, optionsButtonImage, container.getWidth() - optionsButtonImage.getWidth(), 
-				container.getHeight() - optionsButtonImage.getHeight(), optionsButtonImage.getWidth(), optionsButtonImage.getHeight());
-		optionsButton.setMouseOverImage(optionsButtonClicked);
-		optionsButton.addListener(new ComponentListener() {
-
-			public void componentActivated (AbstractComponent arg0) {
-				game.enterState(OptionState.ID);
-			}
-		});
-
-		quitGameButton = new MouseOverArea (container, quitGameButtonImage, container.getWidth() - quitGameButtonImage.getWidth(), 
-				container.getHeight() - quitGameButtonImage.getHeight(), quitGameButtonImage.getWidth(), quitGameButtonImage.getHeight());
-		quitGameButton.setMouseOverImage(quitGameButtonClicked);
-		quitGameButton.addListener(new ComponentListener() {
-
-			public void componentActivated (AbstractComponent arg0) {
-				System.exit(1);
-			}
-		});
+		// load a default java font
+		String fontName = "Palatino";
+		//String fontName = "Lucida Sans Unicode";
+		titleFont = new UnicodeFont (new Font(fontName, Font.BOLD, 70));
+		titleFont.getEffects().add(new ColorEffect(java.awt.Color.white));
+		buttonFont = new UnicodeFont (new Font(fontName, Font.BOLD, 30));
+		buttonFont.getEffects().add(new ColorEffect(java.awt.Color.white));
+		this.game = game;
+		
+		newGameX = container.getWidth()/2-(buttonFont.getWidth(newGameSt)/2);
+		newGameY = container.getHeight()/4+titleFont.getHeight(title)+35;
+		optionsX = container.getWidth()/2-(buttonFont.getWidth(optionsSt)/2);
+		optionsY = container.getHeight()/4+titleFont.getHeight(title)+35+buttonFont.getHeight(newGameSt)+10;
+		exitX = container.getWidth()/2-(buttonFont.getWidth(exitSt)/2);
+		exitY = container.getHeight()/4+titleFont.getHeight(title)+35+buttonFont.getHeight(newGameSt)+10+buttonFont.getHeight(optionsSt)+5;
 	}
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
-			throws SlickException {
-		// TODO Auto-generated method stub
-
-		backgroundImage.draw(0,0,container.getWidth(), container.getHeight());
-
-		unicodeFont.drawString(container.getWidth()/2-(unicodeFont.getWidth(title)/2), 
-				container.getHeight()/4-unicodeFont.getYOffset(title), 
+			throws SlickException {		
+		super.render(container, game, g);
+		Color WHITE = new Color(255,255,255);
+		Color ORANGE = new Color(255,127,0);
+				
+		// Draw the Title
+		titleFont.drawString(container.getWidth()/2-(titleFont.getWidth(title)/2), 
+				container.getHeight()/4, 
 				title);
-
-		playGameButton.setX(container.getWidth()/2-playGameButton.getWidth()/2);
-		playGameButton.setY(container.getHeight()/2-playGameButton.getHeight()/2);
-
-		optionsButton.setX(container.getWidth()/2-optionsButton.getWidth()/2);
-		optionsButton.setY(container.getHeight()/2-optionsButton.getHeight()/2 + playGameButton.getHeight() + 20);
-
-		quitGameButton.setX(container.getWidth()/2-quitGameButton.getWidth()/2);
-		quitGameButton.setY(container.getHeight()/2-quitGameButton.getHeight()/2 + optionsButton.getHeight() + 60);
-
-		playGameButton.render(container, g);
-		optionsButton.render(container, g);
-		quitGameButton.render(container, g);
+		
+		
+		// Draw the new game button
+		if (selectedState == SelectedState.NEW_GAME) {
+			buttonFont.drawString(newGameX,newGameY, newGameSt, ORANGE);
+		} else {
+			buttonFont.drawString(newGameX,newGameY, newGameSt, WHITE);
+		}
+		
+		// Draw the options button
+		if (selectedState == SelectedState.OPTIONS) {
+			buttonFont.drawString(optionsX, optionsY, optionsSt, ORANGE);
+		} else {
+			buttonFont.drawString(optionsX, optionsY, optionsSt, WHITE);
+		}
+		
+		// Draw the exit button
+		if (selectedState == SelectedState.EXIT) {
+			buttonFont.drawString(exitX, exitY, exitSt, ORANGE);
+		} else {
+			buttonFont.drawString(exitX, exitY, exitSt, WHITE);
+		}
+		
+		titleFont.loadGlyphs();
+		buttonFont.loadGlyphs();
+		
+	}
+	
+	@Override
+	public void mouseClicked(int button, int x, int y, int clickCount) {
+		// New game clicked
+		if (x > newGameX && x < newGameX + buttonFont.getWidth(newGameSt) &&
+			y > newGameY && y < newGameY + buttonFont.getHeight(newGameSt)) {
+			game.enterState(PlayingState.ID);
+		}
+		
+		// Options clicked
+		if (x > optionsX && x < optionsX + buttonFont.getWidth(optionsSt) &&
+			y > optionsY && y < optionsY + buttonFont.getHeight(optionsSt)) {
+			game.enterState(OptionState.ID);
+		}
+		
+		// Exit clicked
+		if (x > exitX && x < exitX + buttonFont.getWidth(exitSt) &&
+			y > exitY && y < exitY + buttonFont.getHeight(exitSt)) {
+			System.exit(1);
+		}
+		
+		selectedState = SelectedState.NONE;
+	}
+	
+	@Override
+	public void mouseMoved(int oldx, int oldy, int newx, int newy) {
+		selectedState = SelectedState.NONE;
+		
+		// New game selected
+		if (newx > newGameX && newx < newGameX + buttonFont.getWidth(newGameSt) &&
+			newy > newGameY && newy < newGameY + buttonFont.getHeight(newGameSt)) {
+			selectedState = SelectedState.NEW_GAME;
+		}
+		
+		// Options selected
+		if (newx > optionsX && newx < optionsX + buttonFont.getWidth(optionsSt) &&
+			newy > optionsY && newy < optionsY + buttonFont.getHeight(optionsSt)) {
+			selectedState = SelectedState.OPTIONS;
+		}
+		
+		// Exit selected
+		if (newx > exitX && newx < exitX + buttonFont.getWidth(exitSt) &&
+			newy > exitY && newy < exitY + buttonFont.getHeight(exitSt)) {
+			selectedState = SelectedState.EXIT;
+		}
 	}
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
-		// TODO Auto-generated method stub
-		unicodeFont.loadGlyphs();
+		
 	}
 
 	@Override

@@ -1,9 +1,11 @@
 package com.turbonips.troglodytes;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 import org.newdawn.slick.SlickException;
+
 
 
 public class ResourceManager {
@@ -39,7 +41,7 @@ public class ResourceManager {
 	
 	public boolean loadMusicResources() {
 		ResourceFactory resourceFactory = ResourceFactory.getInstance();
-		for (String resourceId : resourceFactory.getMusicResourceIds()) {
+		for (String resourceId : resourceFactory.getResourceIds("music")) {
 			getResource(resourceId);
 		}
 		return true;

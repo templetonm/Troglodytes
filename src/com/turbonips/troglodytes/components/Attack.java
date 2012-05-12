@@ -1,12 +1,20 @@
 package com.turbonips.troglodytes.components;
 
-import com.artemis.Component;
+public class Attack extends TimeComponent {
+	private boolean attacking = false;
+	private int damage;
 
-public class Attack extends Component {
-	private boolean attacking;
-	
-	public Attack() {
-		setAttacking(false);
+	public Attack(int cooldown, int damage) {
+		super(cooldown);
+		this.damage = damage;
+	}
+
+	public int getDamage() {
+		return damage;
+	}
+
+	public void setDamage(int damage) {
+		this.damage = damage;
 	}
 
 	public boolean isAttacking() {
@@ -16,5 +24,4 @@ public class Attack extends Component {
 	public void setAttacking(boolean attacking) {
 		this.attacking = attacking;
 	}
-
 }

@@ -10,12 +10,12 @@ public class XMLSerializer {
 	private XMLEncoder xmle;
 	private FileInputStream fis;
 	private XMLDecoder xmld;
+	private static final XMLSerializer instance = new XMLSerializer();
 
-	public XMLSerializer() {
-
+	private XMLSerializer() {
 	}
 
-	public void SerializeObject(Object obj, String objName) {
+	public void serializeObject(Object obj, String objName) {
 		try {
 			String objFilepath = objName;
 			fos = new FileOutputStream(objFilepath);
@@ -26,32 +26,25 @@ public class XMLSerializer {
 			e.printStackTrace();
 		}
 	}
-
-	public EnemyData DeserializeEnemyData(EnemyData enemyData, String enemyName) {
+	
+	public Object deserializeData(String path) {
+		Object data = null;
 		try {
-			String objFilepath = enemyName;
+			data = new EnemyData();
+			String objFilepath = path;
 			fis = new FileInputStream(objFilepath);
 			xmld = new XMLDecoder(fis);
-			enemyData = (EnemyData) xmld.readObject();
+			data = (Object) xmld.readObject();
 			xmld.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return enemyData;
+		return data;
 	}
 
-	public ParticleData DeserializeParticleData(ParticleData particleData, String particleType) {
-		try {
-			String objFilepath = "resources/particleXMLs/" + particleType;
-			fis = new FileInputStream(objFilepath);
-			xmld = new XMLDecoder(fis);
-			particleData = (ParticleData) xmld.readObject();
-			xmld.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return particleData;
+	public static XMLSerializer getInstance() {
+		return instance;
 	}
+
 }
