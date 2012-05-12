@@ -1,7 +1,6 @@
 package com.turbonips.troglodytes.states;
 
 import java.awt.Font;
-import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -11,31 +10,21 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.tiled.TiledMap;
 
-import com.turbonips.troglodytes.ResourceFactory;
-import com.turbonips.troglodytes.ResourceManager;
-
-public class MenuState extends BaseGameState implements MouseListener {
+public class MenuState extends BaseMenuState implements MouseListener {
 	public static final int ID = 1;
 	
 	private UnicodeFont titleFont;
 	private UnicodeFont buttonFont;
 	private String title = "Troglodytes";
-	
-	private TiledMap map;
-	private int mapX = 0, mapY = 0;
-	
-	private int mapVelX = (int)(Math.random()*-2) - 1; 
-	private int mapVelY = (int)(Math.random()*-2) - 1;
 	private StateBasedGame game;
 	
-	enum State {NONE,
-				NEW_GAME,
-				OPTIONS,
-				EXIT};
+	enum SelectedState {NONE,
+						NEW_GAME,
+						OPTIONS,
+						EXIT };
 				
-	State selectedState = State.NONE;
+	SelectedState selectedState = SelectedState.NONE;
 	private String newGameSt = "New Game";
 	private int newGameX, newGameY;
 	private String optionsSt = "Options";
@@ -47,11 +36,7 @@ public class MenuState extends BaseGameState implements MouseListener {
 	public void init(GameContainer container, final StateBasedGame game)
 			throws SlickException {
 		super.init(container, game);
-		ResourceManager manager = ResourceManager.getInstance();
-		ResourceFactory factory = ResourceFactory.getInstance();
-		ArrayList<String> resourceIds = factory.getResourceIds("tiledmap");
-		String randomMap = resourceIds.get((int)(Math.random() * resourceIds.size()));
-		map = (TiledMap)manager.getResource(randomMap).getObject();
+		
 
 		// load a default java font
 		String fontName = "Palatino";
@@ -72,25 +57,10 @@ public class MenuState extends BaseGameState implements MouseListener {
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
-			throws SlickException {
-		// TODO Auto-generated method stub
+			throws SlickException {		
+		super.render(container, game, g);
 		Color WHITE = new Color(255,255,255);
 		Color ORANGE = new Color(255,127,0);
-		
-		map.render(mapX, mapY, 0);
-		map.render(mapX, mapY, 1);
-		map.render(mapX, mapY, 2);
-		
-		if (map.getTileWidth()*map.getWidth() < Math.abs(mapX)+container.getWidth() ||
-			mapX > 0) {
-			mapVelX *= -1;
-		}
-		if (map.getTileHeight()*map.getHeight() < Math.abs(mapY)+container.getHeight() ||
-			mapY > 0) {
-			mapVelY *= -1;
-		}
-		mapX += mapVelX;
-		mapY += mapVelY;
 				
 		// Draw the Title
 		titleFont.drawString(container.getWidth()/2-(titleFont.getWidth(title)/2), 
@@ -99,21 +69,21 @@ public class MenuState extends BaseGameState implements MouseListener {
 		
 		
 		// Draw the new game button
-		if (selectedState == State.NEW_GAME) {
+		if (selectedState == SelectedState.NEW_GAME) {
 			buttonFont.drawString(newGameX,newGameY, newGameSt, ORANGE);
 		} else {
 			buttonFont.drawString(newGameX,newGameY, newGameSt, WHITE);
 		}
 		
 		// Draw the options button
-		if (selectedState == State.OPTIONS) {
+		if (selectedState == SelectedState.OPTIONS) {
 			buttonFont.drawString(optionsX, optionsY, optionsSt, ORANGE);
 		} else {
 			buttonFont.drawString(optionsX, optionsY, optionsSt, WHITE);
 		}
 		
 		// Draw the exit button
-		if (selectedState == State.EXIT) {
+		if (selectedState == SelectedState.EXIT) {
 			buttonFont.drawString(exitX, exitY, exitSt, ORANGE);
 		} else {
 			buttonFont.drawString(exitX, exitY, exitSt, WHITE);
@@ -144,29 +114,29 @@ public class MenuState extends BaseGameState implements MouseListener {
 			System.exit(1);
 		}
 		
-		selectedState = State.NONE;
+		selectedState = SelectedState.NONE;
 	}
 	
 	@Override
 	public void mouseMoved(int oldx, int oldy, int newx, int newy) {
-		selectedState = State.NONE;
+		selectedState = SelectedState.NONE;
 		
 		// New game selected
 		if (newx > newGameX && newx < newGameX + buttonFont.getWidth(newGameSt) &&
 			newy > newGameY && newy < newGameY + buttonFont.getHeight(newGameSt)) {
-			selectedState = State.NEW_GAME;
+			selectedState = SelectedState.NEW_GAME;
 		}
 		
 		// Options selected
 		if (newx > optionsX && newx < optionsX + buttonFont.getWidth(optionsSt) &&
 			newy > optionsY && newy < optionsY + buttonFont.getHeight(optionsSt)) {
-			selectedState = State.OPTIONS;
+			selectedState = SelectedState.OPTIONS;
 		}
 		
 		// Exit selected
 		if (newx > exitX && newx < exitX + buttonFont.getWidth(exitSt) &&
 			newy > exitY && newy < exitY + buttonFont.getHeight(exitSt)) {
-			selectedState = State.EXIT;
+			selectedState = SelectedState.EXIT;
 		}
 	}
 
