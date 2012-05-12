@@ -2,7 +2,7 @@
 <map version="1.0" orientation="orthogonal" width="95" height="70" tilewidth="32" tileheight="32">
  <properties>
   <property name="Dark" value="true"/>
-  <property name="LightSize" value="5"/>
+  <property name="LightSize" value="10"/>
   <property name="Music" value="Into the Dark.ogg"/>
  </properties>
  <tileset firstgid="1" name="Cave" tilewidth="32" tileheight="32">
@@ -17,6 +17,9 @@
  <tileset firstgid="387" name="Cave3" tilewidth="32" tileheight="32">
   <image source="../graphics/set_cave.png" width="256" height="256"/>
  </tileset>
+ <tileset firstgid="451" name="Woodland_ground" tilewidth="32" tileheight="32">
+  <image source="../graphics/Woodland_ground.png" trans="ff00ff" width="512" height="512"/>
+ </tileset>
  <layer name="Ground" width="95" height="70">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC+3bzUoDMRTF8RTUJxA3XfpM7rS693OnglihL+6EGqwz08E2mXtObs7iT0EsJL9cxw5DlyGEpVJKKaWUYVcL/BpaLdrLX7XS2+L3dV/pd/V3YWfeT/Zl3HNCr7/Gjpl1+ed7lzLXefB4e7EvtX5Lb2b7Q9b03z2+gmxrsU9rmXOv7wTeTPZzmt8T+DLaW8w5eyh3yz4InFu1Z03m/u3R+2RM9r7t0XtkTfa4zg380XtkLLrM/WwFvUfWkNebDcH+UVlcazT3w07kDsvCXfbDrK41sh8md9m3lq43uOQu+5xWXbe97ghsp/JwLxXdH7ueez1MnMVq5Gea+TLuY+2eRXrPC8jdYuYvSdynzgMx+zXPe+wp0z2FmH3Zh3Dd9eXQfu7159qj3D08l/rsWnfdHGG+Brl7mPmxM0jtOwu0uZeZP+QsUkhzq5lH27Pm4T62xqyeCcp+mJW77LH2FwT7ZcrSXrMve4YsnwvK/m/W7rLfhpj51u0tP8/LnsM81crnTBbvFmaf1drz7NdivtsZgVsr1jX6e3FmPIMWbEsWv3u1kZl58X/06U+oe0OllFIK3TcXSbjx6GcAAA==
@@ -24,20 +27,20 @@
  </layer>
  <layer name="Background" width="95" height="70">
   <data encoding="base64" compression="gzip">
-   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
+   H4sIAAAAAAAAC+2bPW/UQBCG9ygpABFICSgIEA2gnCCivYgganoiIego+SYl31AhCChJxU/gJ/DLmFFu5M1gr792Ztf2PNKrSInPt/fMePfuvHHOMAzDMAxDj5WZc5cqcnqWenTj5RvkIvi9WZE1q0N00Dn6/A0/5/DzTkXWS+pgNegOekfn6POPO3RcxaKkDmvmvzV+r5Pzv+yY/QZ1WDf/jSDf5Jx6nTtvw8Lzb2vBUcp8+/NLH+/EYvb/WnB1wP59ZzwPXZGqY0K+Yzn34WvB7czch3zyhN7rnYCchJwKHKPhuwqsw71M3PvrWp0rSui93jnIeciFwDHavjmp3ZNz6mG/B+uyGRj7NfjbdciNTHqrjFTuufN54h5MQQr3/ufyeYMeluAgg+tB0z19B+V/Lo/tPAenTdFyv8LmdO0+16ZJD5xRcEDe+Zwe+jw+BaTdX/G8j73X2yLtfmPA3l8Kn1/a/d2Bet+BfBR+Dg33fXnU/xStQO9fIb+En0fa/WqE8z/t8dgu63mV99jvDY4Lusd19nKE87+FvOp/mlqw3z84+blGA1xnb0Vw/x3yycn7x37/6eTnGg1wrt/q4L7s2pb2r7G2ahFrvvGR8E/zjMbaqkWs+YZD/t9B3rv2ddhZPg5DzscyzyDU813mmyag/x+QXXe0DnUh17vLjMk5IdXzZfh1qMsYXXO6rrFaDOl75jZIrLG5kWvtNOcbo0B6jTWqsZ5Pg/V8Gs7OrOdTgN6t59OBPb+ZehAThHr+fuqBTBDr+XSsBnoe77M+1hzMxAjdj52ae/+ej+S9WMLcpyPkHvcXPIM80BrMxAi5p/0FufR+2+twG/IE8sLJ71HrQsg93d/LxX2b6xC9v3F57xup2/uU07xD12FoPNTr5H3I93Nzmnf8fQ7cP3f+xR16P1AeY0zo9ebS+9z/82W48303bO+Ef63j6+xaA+zNGOse32eCGYtzfj/Tf61Yg9eu6LdQHba94zDoPdb+Mb6/YejOQ9BrxRp8dsW+Jr8OPOSa769Jse7len+8DViDPVfsa6I6THUvUyr8Okx1L5Nh9GEM83GuTP1/cWOzcazZ7wzDMAzDMAzDMMbAP5BcSy3oZwAA
   </data>
  </layer>
  <layer name="Foreground" width="95" height="70">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3Zy07DMBCFYRcQUtggxIKy5IG4LLhK7OH9n4DxwpJlpWkqEh9P/H/SbFvrZDx2lBAAAAAAAAAAAAAAAIBHr1ZvVu8z6sPqU7PMZp2SX1mPVk/1l+xanjf5AT7trPY79Sr6dKNeQMce1Avo1J3NmivmTXUxcnLXYM5r0PM69LwOdxsN5o0O80aHeaPBvNFh3mjQ8zr0vI76jD30fbWHb9HK7GPuX2H8++q11XfYbv6tz3pl/mP7ccm96GHWx/xfQt0ZdGg/Pi+0ltZ7vvRj9Vvhf6bmYBKfwX/2o4eez9WYP3NyT9IeOHUWef0m6P389TZrSrVmzxq8zZqS4uxdSu37/GB77HyF3/X4DBTvUrcr/nZ6Bh7eh7eWvReqc5bsdedsz9nH+/xeeKfvMXt15kkv2ae8W8g8WeueqZZn3VLepS31fivzZC7Pve+lv6d4yL/M2WvWY2L+Z0H3DMay3WLOU4YjGaS6z7I4ltuc6iHbpVxmWV2QW1UDPQsAQPgDMwg+g+hnAAA=
+   H4sIAAAAAAAAC+2azUrEMBDHZ1UEvYh4UA9q9wV8Ez8OfoKrXkRfQAU9etjXNgM7EErbnbTJTNLOD/4IsquTX6bTstnlDGBpsVgsFovFIpR1aNc31oSiXe8YMhTt+ktNLLTXUVJSoL2mnCOJ9lpziCbaay/RWSy0HY7NZwjavqfonDDnephzPcy7HuZcD/Ouh3nXYyreb1xuXe4YuXd5EKipJPch/uq5cLl0+Zt158W95jt+6Y3k7t73zfXXN5LekdzdI2+Qzref93glsyjB/afLM4S7BOZ7sN9fQabnsayjVW25eyf6+s+t3/chbb+ncI+k8C894+dQpnskln/JOUMcuv+7W6h3Av1/uSyAvw/kerF6r6RzBLWk9i7h3gf3YcGItOs6pc750hljz5eCRM+b+2bmYN41sHmjh91j9bB5o4PEvDGaST1vjGas5/Wwe6weqe+x62g7X5U6i9ZE0z16f4Tm89U997snGK//HGb9ObR/pqvpv+l6jHkt5jDru9yT/+vI615H2/V4FakWiZ6P4d4/L/0YsF4uXXPQ34Mh12Mun1n+AO9cSWL+cLzXr4HQWSRxJsh1j3B7X8J/yPd8ztxrK+Cfd6EOKe+x3UvMHjxfPGXUg2e7v4F/W2rWhLjnzh2pe29XPei8gnDvyBxk3e+4bDLqCul9iT2o+x/inJB2jznosdbQPUjxDI41VTDcOZGre1rrCfT/XlOfGSyFK0/0PhvqnqA9qKB7H2gOUHL1jkjfZ/u69/H3of4zZ9cEPs/jd4o1en6o+1LRdj419+Q7B+cU7nNmafiuc/I95t7PZZ5MofdL6e/S/dc9l+q6zf8G6O1Bk9sxel63B10OKMczvjdOpuA2VrY991sZ1DOl+NeH9azFYrFYppp/Eo2BOuhnAAA=
   </data>
  </layer>
- <layer name="Collision" width="95" height="70" visible="0">
+ <layer name="Collision" width="95" height="70">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3UwY7CMBADUPh0+HLUA1KFqNokM2N7aks+buu8dHk/H4+367qu67qu67pu0x4Fvat7f619D7XmI0HvVu9q0PsVGxn0WRBmSO873sPoORFBG0UaqwVt181zJGhnlDnDHaO9ow0YTK+mizlbrpwP6d7d/yz+1nG5mzvTXkV3xc2oc6jstD1u59nm6Puwfc/v3fZ6Zzn6G7ads2F1R+6uCPM3j9pfkUr3zDOx78vczHQuxk0rG5XsR4PYZveYzJzP9pj49waXTu5q99zFfub9yPu5kzvb72AHe+ZtmZvRZ1PYmL1b3b46DO6rForuUbtXzhZlYve4b37WJtI8+p72f69iv3Lu2edk/q9UuaPtZ5K9R9G+wj/jjBHPZ7DP9s+0r3a/ssv2OvaZd5C5AWF/tjH7bkeT9V5G++hdEdme89o14vkM9v/2s9lv+bVfCcr96m42+5GcvZfdPmInW5DmqyZq1t+gvRWMIoM2ZvXPeD/ak8W+8m7Rjoz+WUGb3cUfbdP9DtDnVqrNXNd1XddF9QPgbBz26GcAAA==
+   H4sIAAAAAAAAC+2UwQ7CMAxD4dPHl6MdkBAa2tomsZ35Sb4g1jkvhdfz8Xg5juM4juM4juM0zT/Qvbrn17X3UOt8BHRv9ayC7q+YSNCzIJwhfd9xD6NzIkA7inSsBtpdN58joD2jnDPsGO072gGD06t0cc7GlfmQ3rv7P8N3HcfdvDP1VfSu2Bk1h0pPu8f1POscvQ+773nf7V5vln/PsPWchdU7sncFzHce1b+CSu+ZM7H3y+zMNBdjp5WOSu5HQXSz9xhm5rN7DP6/wdHJu9qeu7ifeT9yP3fyzvY/2ME9c7fMzujZFDpm91Z3Xw2D91UXit6jeq/MFuXE3uPu/KybSOfRe/p+XsX9ytyz52T+Vqq8o93PkN1H0X2F/4wZI85ncJ/tP9N9tfcrvexex33mDjI7INyfdcze7ShZ72V0H90rgv2c7SsR5zO4P+rP5n7n1/0KKO9Xe7O5H+HsvezuI3qygXS+6kTN9Qe0bwVHkaAds/rPeD/aJ4v7yt2iPVb43w6+f/RZNmhnKvd/FbSb7jtAz60UO3Mcx3EcB5U3D2aHc+hnAAA=
   </data>
  </layer>
- <objectgroup name="Objects" width="95" height="70">
+ <objectgroup name="Objects" width="95" height="70" visible="0">
   <object name="Warp To Forest" type="Warp" x="1440" y="416" width="96" height="64">
    <properties>
     <property name="Map" value="trog2"/>
@@ -48,31 +51,31 @@
   <object name="SpiderSpawn" type="Spawn" x="1202" y="1577" width="390" height="311">
    <properties>
     <property name="Enemy" value="spider"/>
-    <property name="Number" value="10"/>
+    <property name="Number" value="0"/>
    </properties>
   </object>
   <object name="SpiderSpawn" type="Spawn" x="2032" y="746" width="390" height="311">
    <properties>
     <property name="Enemy" value="spider"/>
-    <property name="Number" value="10"/>
+    <property name="Number" value="0"/>
    </properties>
   </object>
   <object name="SpiderSpawn" type="Spawn" x="552" y="939" width="390" height="311">
    <properties>
     <property name="Enemy" value="spider"/>
-    <property name="Number" value="10"/>
+    <property name="Number" value="0"/>
    </properties>
   </object>
   <object name="YetiSpawn" type="Spawn" x="692" y="1866" width="226" height="137">
    <properties>
     <property name="Enemy" value="yeti"/>
-    <property name="Number" value="10"/>
+    <property name="Number" value="0"/>
    </properties>
   </object>
   <object name="ScorpionSpawn" type="Spawn" x="2141" y="366" width="226" height="137">
    <properties>
     <property name="Enemy" value="scorpion"/>
-    <property name="Number" value="10"/>
+    <property name="Number" value="0"/>
    </properties>
   </object>
   <object name="TrinketSpawn" type="TrinketSpawn" x="1114" y="549" width="226" height="137"/>
