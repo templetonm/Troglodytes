@@ -8,6 +8,9 @@ public class TrinketData {
 	private int addRange;
 	private int addArmor;
 	private int addSpeed;
+	private int addDamage;
+	private int addSight;
+	private int addCooldown;
 	
 	public enum TrinketType {
 		normal,
@@ -61,5 +64,23 @@ public class TrinketData {
 	}
 	public void setAddSpeed(int addSpeed) {
 		this.addSpeed = addSpeed;
+	}
+	public int getAddDamage() {
+		return addDamage;
+	}
+	public void setAddDamage(int addDamage) {
+		this.addDamage = addDamage;
+	}
+	public int getAddSight() {
+		return addSight;
+	}
+	public void setAddSight(int addSight) {
+		this.addSight = addSight;
+	}
+	public int getAddCooldown() {
+		return addCooldown;
+	}
+	public void setAddCooldown(int addCooldown) {
+		this.addCooldown = addCooldown;
 	}
 }

@@ -35,7 +35,6 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 	private ComponentMapper<Warp> warpMapper;
 	private ComponentMapper<Location> locationMapper;
 	private ComponentMapper<VisitedMaps> visitedMapsMapper;
-	private ComponentMapper<ResourceRef> resourceRefMapper;
 
 	public WarpSystem() {
 		super(Warp.class);
@@ -46,7 +45,6 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 		warpMapper = new ComponentMapper<Warp>(Warp.class, world);
 		locationMapper = new ComponentMapper<Location>(Location.class, world);
 		visitedMapsMapper = new ComponentMapper<VisitedMaps>(VisitedMaps.class, world);
-		resourceRefMapper = new ComponentMapper<ResourceRef>(ResourceRef.class, world);
 	}
 
 	@Override
@@ -59,7 +57,6 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 		TiledMap tiledMap = (TiledMap) mapRes.getObject();
 		XMLSerializer xmls = XMLSerializer.getInstance();
 		Entity player = players.get(0);
-		ResourceRef playerResourceRef = resourceRefMapper.get(player);
 		Vector2f playerPosition = locationMapper.get(player).getPosition();
 		
 		playerPosition.set(new Vector2f(warp.getPosition().x * tiledMap.getTileWidth(), warp.getPosition().y * tiledMap.getTileHeight()));
@@ -79,7 +76,7 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 		map.addComponent(new ResourceRef(warp.getMapName()));
 		map.refresh();
 
-		// Spawn enemies and particles
+		// Spawn enemies, particles and trinkets
 		if (!visitedMapsMapper.get(players.get(0)).getMaps().contains(warp.getMapName())) {
 			for (int groupID = 0; groupID < tiledMap.getObjectGroupCount(); groupID++) {
 				for (int objectID = 0; objectID < tiledMap.getObjectCount(groupID); objectID++) {
@@ -112,14 +109,20 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 							enemyStats.put(StatType.MAX_SPEED, (int)enemyData.getMaxSpeed());
 							enemyStats.put(StatType.ACCELERATION, (int)enemyData.getAcceleration());
 							enemyStats.put(StatType.DECELERATION, (int)enemyData.getDeceleration());
-							enemy.addComponent(new Movement(enemyStats));
+							enemyStats.put(StatType.DAMAGE, enemyData.getDamage());
+							enemyStats.put(StatType.SIGHT, enemyData.getSight());
+							enemyStats.put(StatType.ATTACK_COOLDOWN, enemyData.getCooldown());
+							
+							// TODO move sight over to enemy stats
+							enemy.addComponent(new Movement(new Vector2f(0,0)));
 							enemy.addComponent(new Direction(Dir.DOWN));
 							enemy.addComponent(new Location(startPosition, warp.getMapName()));
 							enemy.addComponent(new EnemyAI(enemyAIType, sight));
-							enemy.addComponent(new Attack(enemyData.getCooldown(),enemyData.getDamage()));
+							enemy.addComponent(new Attack());
 							enemy.addComponent(new Stats(enemyStats));
 							enemy.refresh();
 						}
+					// Spawn trinkets
 					} else if (type.equals("trinketspawn")) {
 						Vector2f startPosition = new Vector2f(objectX + (int) (Math.random() * objectWidth), objectY + (int) (Math.random() * objectHeight));
 						
@@ -145,6 +148,9 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 						modifiers.put(StatType.RANGE, trinketData.getAddRange());
 						modifiers.put(StatType.ARMOR, trinketData.getAddArmor());
 						modifiers.put(StatType.MAX_SPEED, trinketData.getAddSpeed());
+						modifiers.put(StatType.DAMAGE, trinketData.getAddDamage());
+						modifiers.put(StatType.SIGHT, trinketData.getAddSight());
+						modifiers.put(StatType.ATTACK_COOLDOWN, trinketData.getAddCooldown());
 						trinket.addComponent(new StatModifiers(modifiers));
 					}
 				}

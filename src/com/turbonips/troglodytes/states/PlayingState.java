@@ -76,13 +76,16 @@ public class PlayingState extends BaseGameState {
 		stats.put(StatType.ACCELERATION, 1);
 		stats.put(StatType.DECELERATION, 1);
 		stats.put(StatType.MAX_SPEED, 10);
+		stats.put(StatType.DAMAGE, 10);
+		stats.put(StatType.SIGHT, 10);
+		stats.put(StatType.ATTACK_COOLDOWN, 500);
 		player.addComponent(new Stats(stats));
-		player.addComponent(new Movement(stats));
+		player.addComponent(new Movement(new Vector2f(0,0)));
 		player.addComponent(new Direction(Dir.DOWN));
 		player.addComponent(new VisitedMaps());
 		// This position is overwritten when the player is warped
 		player.addComponent(new Location(new Vector2f(0,0), ""));
-		player.addComponent(new Attack(500,9));
+		player.addComponent(new Attack());
 		// It's over 9000
 		player.addComponent(new Secondary(6*1000));
 		player.addComponent(new HealthRegen(250));

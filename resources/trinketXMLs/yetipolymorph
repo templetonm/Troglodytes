@@ -30,7 +30,15 @@
   </void>
   
   <void property="addSpeed">
-  	<int>-2</int>
+  	<int>10</int>
+  </void>
+  
+  <void property="addDamage">
+  	<int>100</int>
+  </void>
+  
+  <void property="addCooldown">
+  	<int>500</int>
   </void>
  
  </object>

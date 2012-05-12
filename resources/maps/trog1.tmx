@@ -2,7 +2,7 @@
 <map version="1.0" orientation="orthogonal" width="95" height="70" tilewidth="32" tileheight="32">
  <properties>
   <property name="Dark" value="true"/>
-  <property name="LightSize" value="10"/>
+  <property name="Lighting" value="true"/>
   <property name="Music" value="Into the Dark.ogg"/>
  </properties>
  <tileset firstgid="1" name="Cave" tilewidth="32" tileheight="32">
@@ -22,25 +22,25 @@
  </tileset>
  <layer name="Ground" width="95" height="70">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3ZTUsDMRSF4RTEjboTN6Mrf5M7bd37uVNBbME/boY2WGemg20y95wkZ/FSKC0kT26HKdM45xqllFJKKcNuZvg11FprL39VS++z39ddhc/qd2Fn3k32adxjQq8/xw6ZdfnHe6cy13nweJdin2r9lt7M9vus6b97fAPZ5mIf1jLlXj8IvJnspzR/IPBltLeYc/ZQ7pZ9EjjXas+azMu3R++TMdmXbY/eI2uyx3Vu4I/eI2Oty9TPVtB7ZA15vfkm2D8qi2uN5r7fkdxhWbjLvp/VtUb2/eQu+9rS9QaX3GUf09y36HRPYDtWCf+lWvcn30unx5GzmA+8p5lP4z7U9lmE77yC3C1m/prEfew8ELOf87y3PUe6hxCzL3vnbn2rAu2nXn+sPcq9hOdSX76l7+4A8yXIvYSZHzqD0K6zQJuXMvP7nEUIaW4182h71kr4H5tjVs8EZd/Pyl32WPsLgv0yZWmv2Zc9Q5bPBWX/N2t32a9DzHzt9pb387LnMA/Vcp/J4l3D7LNalzz7uZhvd0zgVot1Cv8T3+mmMzmbnkHju9x0JVvbOvbw9dSU7JVSSin3A9oo1nDoZwAA
+   H4sIAAAAAAAAA+3ZTUsDMRSF4RTEjboTN6Mrf5M7bd37uVNBbME/boY2WGemg20y95wkZ/FSKC0kT26HKdM45xqllFJKKcNuZvg11FprL39VS++z39ddhc/qd2Fn3k32adxjQq8/xw6ZdfnHe6cy13nweJdin2r9lt7M9vus6b97fAPZ5mIf1jLlXj8IvJnspzR/IPBltLeYc/ZQ7pZ9EjjXas+azMu3R++TMdmXbY/eI2uyx3Vu4I/eI2Oty9TPVtB7ZA15vfkm2D8qi2uN5r7fkdxhWbjLvp/VtUb2/eQu+9rS9QaX3GUf09y36HRPYDtWCf+lWvcn30unx5GzmA+8p5lP4z7U9lmE77yC3C1m/prEfew8ELOf87y3PUe6hxCzL3vnbn2rAu2nXn+sPcq9hOdSX76l7+4A8yXIvYSZHzqD0K6zQJuXMvP7nEUIaW4182h71kr4H5tjVs8EZd/Pyl32WPsLgv0yZWmv2Zc9Q5bPBWX/N2t32a9DzHzt9pb387LnMA/Vcp/J4l3D7LNalzz7uZhvd0zgVot1Cv8T3+mmMzmbnkHju9x0JVvbOvbw9dSU7JVSSin3A9oo1nDoZwAA
   </data>
  </layer>
  <layer name="Background" width="95" height="70">
   <data encoding="base64" compression="gzip">
-   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
+   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
   </data>
  </layer>
  <layer name="Foreground" width="95" height="70">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2aS04DMQyGXVjBBiEWwAKYXoCb8FjwlCiwQXABQIIli16bWKqlaDQPZyaxkxl/0i8k1FLni8dTmq4XAGuLxWKxWCwWofShXd9UE4p2vVPIWLTrLzWx0F5HSUmB9ppyjiTaa80hmmivvURnsdB2ODWfIWj7nqNzwpzrYc71MO96mHM9zLse5l2PuXi/cbl1uWPk3uVBoKaS3If4q+fC5dLlb9GdF/eY7/ilN5K7e98319/QSHpHcnePvEE6337e45XMogT3ny7PEO4SmM/Bfn8FmZ7Hso42teXunRjqP7d+34e0/Z7CPZLCv/SMX0KZ7pFY/iXnDHHoXne3UO8E+v9yWQF/H8j1avNcSecIakntXcK9D+7DihFp13VKnfOlM8WeLwWJnjf3zSzBvGtg80YPu8fqYfNGB4l5YzSTet4YzVjP62H3WD1S32P7aDtflTqL1kTTPXp/hObz1T33uyeYrv8cZv05tH+mq+m/6XqMeS3mMOu73JP/68jr7qPteryKVItEz8dw75+XfoxYL5euOejvwZjrMZfPLH+Ad64kMX843uvXQOgskjgT5LpHuL0v4T/kez5n7rEV8M+7UIeU99juJWYPni+eMurBs93fwL8tNWtC3HPnjtS9t6sedF5BuHdkCbLud1y2GXWF9L7EHtT9j3FOSLvHHAxYa+gepHgPjjVVMN45kat7WusJDP9e05AZLIUrT/Q+G+qeoD2ooHsfaA5QcvWOSN9nh7r38feh/jNn1wS+n8fvFGv0/Fj3paLtfG7uyXcOzinc95ml4bvOyfeUez+XeTKH3i+lv0v3X/dcqus2/1ugtwdNbqfouW8PuhxQjhd8b5zMwW2s+Pdorf8N5xr/+rCetVgsFstc8w+KVJ6q6GcAAA==
+   H4sIAAAAAAAAA+2aS04DMQyGXVjBBiEWwAKYXoCb8FjwlCiwQXABQIIli16bWKqlaDQPZyaxkxl/0i8k1FLni8dTmq4XAGuLxWKxWCwWofShXd9UE4p2vVPIWLTrLzWx0F5HSUmB9ppyjiTaa80hmmivvURnsdB2ODWfIWj7nqNzwpzrYc71MO96mHM9zLse5l2PuXi/cbl1uWPk3uVBoKaS3If4q+fC5dLlb9GdF/eY7/ilN5K7e98319/QSHpHcnePvEE6337e45XMogT3ny7PEO4SmM/Bfn8FmZ7Hso42teXunRjqP7d+34e0/Z7CPZLCv/SMX0KZ7pFY/iXnDHHoXne3UO8E+v9yWQF/H8j1avNcSecIakntXcK9D+7DihFp13VKnfOlM8WeLwWJnjf3zSzBvGtg80YPu8fqYfNGB4l5YzSTet4YzVjP62H3WD1S32P7aDtflTqL1kTTPXp/hObz1T33uyeYrv8cZv05tH+mq+m/6XqMeS3mMOu73JP/68jr7qPteryKVItEz8dw75+XfoxYL5euOejvwZjrMZfPLH+Ad64kMX843uvXQOgskjgT5LpHuL0v4T/kez5n7rEV8M+7UIeU99juJWYPni+eMurBs93fwL8tNWtC3HPnjtS9t6sedF5BuHdkCbLud1y2GXWF9L7EHtT9j3FOSLvHHAxYa+gepHgPjjVVMN45kat7WusJDP9e05AZLIUrT/Q+G+qeoD2ooHsfaA5QcvWOSN9nh7r38feh/jNn1wS+n8fvFGv0/Fj3paLtfG7uyXcOzinc95ml4bvOyfeUez+XeTKH3i+lv0v3X/dcqus2/1ugtwdNbqfouW8PuhxQjhd8b5zMwW2s+Pdorf8N5xr/+rCetVgsFstc8w+KVJ6q6GcAAA==
   </data>
  </layer>
  <layer name="Collision" width="95" height="70">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3UwY7CMBADUPh0+HLUA1KFqNokM2N7aks+buu8dHk/H4+367qu67qu67pu0x4Fvat7f619D7XmI0HvVu9q0PsVGxn0WRBmSO873sPoORFBG0UaqwVt181zJGhnlDnDHaO9ow0YTK+mizlbrpwP6d7d/yz+1nG5mzvTXkV3xc2oc6jstD1u59nm6Puwfc/v3fZ6Zzn6G7ads2F1R+6uCPM3j9pfkUr3zDOx78vczHQuxk0rG5XsR4PYZveYzJzP9pj49waXTu5q99zFfub9yPu5kzvb72AHe+ZtmZvRZ1PYmL1b3b46DO6rForuUbtXzhZlYve4b37WJtI8+p72f69iv3Lu2edk/q9UuaPtZ5K9R9G+wj/jjBHPZ7DP9s+0r3a/ssv2OvaZd5C5AWF/tjH7bkeT9V5G++hdEdme89o14vkM9v/2s9lv+bVfCcr96m42+5GcvZfdPmInW5DmqyZq1t+gvRWMIoM2ZvXPeD/ak8W+8m7Rjoz+WUGb3cUfbdP9DtDnVqrNXNd1XddF9QPgbBz26GcAAA==
+   H4sIAAAAAAAAA+3UwY7CMBADUPh0+HLUA1KFqNokM2N7aks+buu8dHk/H4+367qu67qu67pu0x4Fvat7f619D7XmI0HvVu9q0PsVGxn0WRBmSO873sPoORFBG0UaqwVt181zJGhnlDnDHaO9ow0YTK+mizlbrpwP6d7d/yz+1nG5mzvTXkV3xc2oc6jstD1u59nm6Puwfc/v3fZ6Zzn6G7ads2F1R+6uCPM3j9pfkUr3zDOx78vczHQuxk0rG5XsR4PYZveYzJzP9pj49waXTu5q99zFfub9yPu5kzvb72AHe+ZtmZvRZ1PYmL1b3b46DO6rForuUbtXzhZlYve4b37WJtI8+p72f69iv3Lu2edk/q9UuaPtZ5K9R9G+wj/jjBHPZ7DP9s+0r3a/ssv2OvaZd5C5AWF/tjH7bkeT9V5G++hdEdme89o14vkM9v/2s9lv+bVfCcr96m42+5GcvZfdPmInW5DmqyZq1t+gvRWMIoM2ZvXPeD/ak8W+8m7Rjoz+WUGb3cUfbdP9DtDnVqrNXNd1XddF9QPgbBz26GcAAA==
   </data>
  </layer>
- <objectgroup name="Objects" width="95" height="70" visible="0">
+ <objectgroup name="Objects" width="95" height="70">
   <object name="Warp To Forest" type="Warp" x="1440" y="416" width="96" height="64">
    <properties>
     <property name="Map" value="trog2"/>
@@ -75,7 +75,7 @@
   <object name="ScorpionSpawn" type="Spawn" x="2141" y="366" width="226" height="137">
    <properties>
     <property name="Enemy" value="scorpion"/>
-    <property name="Number" value="0"/>
+    <property name="Number" value="20"/>
    </properties>
   </object>
   <object name="TrinketSpawn" type="TrinketSpawn" x="1114" y="549" width="226" height="137"/>

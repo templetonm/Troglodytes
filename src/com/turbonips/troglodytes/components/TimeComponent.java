@@ -11,6 +11,11 @@ public abstract class TimeComponent extends Component {
 		this.lastTime = 0;
 	}
 	
+	public TimeComponent() {
+		this.time = 0;
+		this.lastTime = 0;
+	}
+	
 	public int getTime() {
 		return time;
 	}
