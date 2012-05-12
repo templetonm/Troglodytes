@@ -26,9 +26,9 @@ public class EnemyAI extends Component
 	}
 	
 	public enum AIType {
-		DUMB,
-		DUMBCHARGE,
-		DUMBFIND
+		RANDOM,
+		FOLLOW,
+		ASTAR
 	}
 	
 	public AIType getEnemyAIType() {
