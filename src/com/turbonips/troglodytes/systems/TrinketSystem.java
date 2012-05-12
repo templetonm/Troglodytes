@@ -73,17 +73,35 @@ public class TrinketSystem extends BaseEntitySystem {
 				if (trinketPosition.distance(playerPosition) <= 32) {
 					// You picked up a polymorph trinket
 					if (polymorphMapper.get(trinket) != null) {
+						
+						// Delete the trinket if you've already pick up the same trinket
 						for (int a=0; a<trinkets.size(); a++) {
-							if (a != i && polymorphMapper.get(trinkets.get(a)) != null &&
-								polymorphMapper.get(trinkets.get(a)).isActive()) {
-								// Remove previous polymorph modifiers
-								StatModifiers statModifiers = statModifiersMapper.get(trinkets.get(a));
-								HashMap<StatType, Integer> modifiers;
-								if (statModifiers != null) {
-									modifiers = statModifiers.getModifiers();
-									statsMapper.get(player).removeModifiers(modifiers);
+							if (polymorphMapper.get(trinkets.get(a)) != null && a != i) {
+								if (polymorphMapper.get(trinkets.get(a)).existsOnPlayer()) {
+									if (resourceMapper.get(trinkets.get(a)).getResourceName() != null) {
+										logger.info(polymorphMapper.get(trinkets.get(a)).getTrinketRef() + " " + polymorphMapper.get(trinket).getTrinketRef());
+										if (resourceMapper.get(trinkets.get(a)).getResourceName().equals(
+											resourceMapper.get(trinket).getResourceName())) {
+											trinket.delete();
+											return;
+										}
+									}
 								}
-								polymorphMapper.get(trinkets.get(a)).setActive(false);
+							}
+						}
+						
+						// Remove previous polymorph modifiers and set it to inactive
+						for (int a=0; a<trinkets.size(); a++) {
+							if (polymorphMapper.get(trinkets.get(a)) != null && a != i) {
+								if (polymorphMapper.get(trinkets.get(a)).isActive()) {
+									StatModifiers statModifiers = statModifiersMapper.get(trinkets.get(a));
+									HashMap<StatType, Integer> modifiers;
+									if (statModifiers != null) {
+										modifiers = statModifiers.getModifiers();
+										statsMapper.get(player).removeModifiers(modifiers);
+									}
+									polymorphMapper.get(trinkets.get(a)).setActive(false);
+								}
 							}
 						}
 						Polymorph polymorph = polymorphMapper.get(trinket);
