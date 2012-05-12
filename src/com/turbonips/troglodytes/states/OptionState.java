@@ -117,7 +117,7 @@ public class OptionState extends BaseMenuState {
 			buttonFont.drawString(windowedX, windowedY, windowedSt, WHITE);
 		}
 		if (!container.isFullscreen())
-			g.drawRect(windowedX-2, windowedY-2, buttonFont.getWidth(windowedSt)+4, buttonFont.getHeight(windowedSt)+4);
+			g.drawRect(windowedX-2, windowedY, buttonFont.getWidth(windowedSt)+4, buttonFont.getHeight(windowedSt)+4);
 		
 		// Draw the fullscreen button
 		if (selectedState == SelectedState.FULLSCREEN && !container.isFullscreen()) {
@@ -126,7 +126,7 @@ public class OptionState extends BaseMenuState {
 			buttonFont.drawString(fullscreenX, fullscreenY, fullscreenSt, WHITE);
 		}
 		if (container.isFullscreen())
-			g.drawRect(fullscreenX-2, fullscreenY-2, buttonFont.getWidth(fullscreenSt)+4, buttonFont.getHeight(fullscreenSt)+4);
+			g.drawRect(fullscreenX-2, fullscreenY, buttonFont.getWidth(fullscreenSt)+4, buttonFont.getHeight(fullscreenSt)+4);
 		
 		// Draw the music label
 		buttonFont.drawString(musicX, musicY, musicSt, WHITE);
