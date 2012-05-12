@@ -40,7 +40,7 @@
    H4sIAAAAAAAAC+3UwY7CMBADUPh0+HLUA1KFqNokM2N7aks+buu8dHk/H4+367qu67qu67pu0x4Fvat7f619D7XmI0HvVu9q0PsVGxn0WRBmSO873sPoORFBG0UaqwVt181zJGhnlDnDHaO9ow0YTK+mizlbrpwP6d7d/yz+1nG5mzvTXkV3xc2oc6jstD1u59nm6Puwfc/v3fZ6Zzn6G7ads2F1R+6uCPM3j9pfkUr3zDOx78vczHQuxk0rG5XsR4PYZveYzJzP9pj49waXTu5q99zFfub9yPu5kzvb72AHe+ZtmZvRZ1PYmL1b3b46DO6rForuUbtXzhZlYve4b37WJtI8+p72f69iv3Lu2edk/q9UuaPtZ5K9R9G+wj/jjBHPZ7DP9s+0r3a/ssv2OvaZd5C5AWF/tjH7bkeT9V5G++hdEdme89o14vkM9v/2s9lv+bVfCcr96m42+5GcvZfdPmInW5DmqyZq1t+gvRWMIoM2ZvXPeD/ak8W+8m7Rjoz+WUGb3cUfbdP9DtDnVqrNXNd1XddF9QPgbBz26GcAAA==
   </data>
  </layer>
- <objectgroup name="Objects" width="95" height="70" visible="0">
+ <objectgroup name="Objects" width="95" height="70">
   <object name="Warp To Forest" type="Warp" x="1440" y="416" width="96" height="64">
    <properties>
     <property name="Map" value="trog2"/>
