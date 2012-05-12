@@ -197,7 +197,8 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 			int pw = playerFrame.getWidth();
 			Vector2f playerCenter = new Vector2f(playerPosition.x + (pw / 2), playerPosition.y + (ph / 2));
 			int MAX_DISTANCE = 128;
-			int playerDamage = 10;
+			HashMap<StatType, Integer> playerStats = statsMapper.get(player).getStats();
+			int playerDamage =  playerStats.get(StatType.DAMAGE);;
 
 			for (int i = 0; i < enemies.size(); i++) {
 				Entity enemy = enemies.get(i);
@@ -274,7 +275,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 			Vector2f playerCenter = new Vector2f(playerPosition.x + (pw / 2), playerPosition.y + (ph / 2));
 			Direction playerDirection = directionMapper.get(player);
 			HashMap<StatType, Integer> playerStats = statsMapper.get(player).getStats();
-			int playerDamage = 10;
+			int playerDamage = playerStats.get(StatType.DAMAGE);
 
 			for (int i = 0; i < enemies.size(); i++) {
 				Entity enemy = enemies.get(i);
@@ -289,8 +290,15 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 				Vector2f enemyVelocity = enemyMovement.getVelocity();
 				boolean attackEnemy = false;
 				double attackingKnockBack = 20;
+				// Make sure we don't set the velocity > the entity width or height (necessary for collision)
+				if (ew < eh && attackingKnockBack > ew) {
+					attackingKnockBack = ew;
+				}
+				if (eh < ew && attackingKnockBack > eh) {
+					attackingKnockBack = eh;
+				}
 				double attackingKnockBackX = (attackingKnockBack/Math.sqrt(2));
-
+				
 				if (playerCenter.distance(enemyCenter) < playerStats.get(StatType.RANGE)*32 && locationMapper.get(enemy).getMap().equals(locationMapper.get(player).getMap())) {
 					Vector2f playerToEnemy = new Vector2f(enemyCenter.x - playerCenter.x, playerCenter.y - enemyCenter.y);
 

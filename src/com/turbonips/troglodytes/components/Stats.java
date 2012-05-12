@@ -13,7 +13,10 @@ public class Stats extends Component {
 		RANGE,
 		MAX_SPEED,
 		ACCELERATION,
-		DECELERATION
+		DECELERATION, 
+		DAMAGE,
+		SIGHT,
+		ATTACK_COOLDOWN
 	}
 	private HashMap<StatType, Integer> stats = new HashMap<StatType, Integer>();
 	

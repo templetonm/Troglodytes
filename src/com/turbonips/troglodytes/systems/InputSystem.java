@@ -146,7 +146,7 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 				}
 			}
 			
-			if (key_attack && new Date().getTime()-playerAttack.getLastTime() > playerAttack.getTime()) {
+			if (key_attack && new Date().getTime()-playerAttack.getLastTime() > playerStats.get(StatType.ATTACK_COOLDOWN)) {
 				playerAttack.setAttacking(true);
 				playerAttack.setLastTime(new Date().getTime());
 			} else {

@@ -147,7 +147,7 @@ public class RenderSystem extends BaseEntitySystem {
 		}
 		
 		// Attack cooldown time bar
-		long attackCooldown = attackMapper.get(player).getTime();
+		long attackCooldown = playerStats.get(StatType.ATTACK_COOLDOWN);
 		long currentAttackCooldown = new Date().getTime()-attackMapper.get(player).getLastTime();
 		
 		float attackBarWidth = longestBarWidth/3;
@@ -191,9 +191,10 @@ public class RenderSystem extends BaseEntitySystem {
 		
 		
 		// If lighting is turned on
-		int lightSize = Integer.valueOf(tiledMap.getMapProperty("LightSize", "-1"));
-		if (lightSize != -1) {
+		String dark = tiledMap.getMapProperty("Dark", "false");
+		if (!dark.equals("false")) {
 			// Draw the player light
+			int lightSize =  playerStats.get(StatType.SIGHT);
 			drawLight(player, lightSize, container.getWidth()/2, container.getHeight()/2);
 		}
 		
