@@ -12,7 +12,6 @@ import com.artemis.Entity;
 import com.artemis.EntitySystem;
 import com.artemis.SystemManager;
 import com.artemis.World;
-import com.turbonips.troglodytes.PolymorphTrinket;
 import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.Direction.Dir;
@@ -71,7 +70,7 @@ public class PlayingState extends BaseGameState {
 		HashMap<StatType, Integer> stats = new HashMap<StatType, Integer> ();
 		stats.put(StatType.HEALTH, 100);
 		stats.put(StatType.MAX_HEALTH, 100);
-		stats.put(StatType.ARMOR, 25);
+		stats.put(StatType.ARMOR, 0);
 		stats.put(StatType.RANGE, 3);
 		stats.put(StatType.ACCELERATION, 1);
 		stats.put(StatType.DECELERATION, 1);

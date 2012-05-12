@@ -91,12 +91,35 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 
 
 	}
+	
+	private void checkEnemyDeath(Entity enemy) {
+		HashMap<StatType, Integer> enemyStats = statsMapper.get(enemy).getStats();
+		Location enemyLocation = locationMapper.get(enemy);
+		Vector2f enemyPosition = enemyLocation.getPosition();
+		int ew = getFrame(enemy).getWidth();
+		int eh = getFrame(enemy).getHeight();
+		
+		if (enemyStats.get(StatType.HEALTH) <= 0) {
+			enemy.delete();
+			// Create enemy death entity for particle effect
+			Entity enemyDeath = world.createEntity();
+			enemyDeath.setGroup("ENEMY_DEATH");
+			XMLSerializer xmls = XMLSerializer.getInstance();
+			ResourceManager rm = ResourceManager.getInstance();
+			ParticleData particleData = (ParticleData)xmls.deserializeData("resources/particleXMLs/deathsplat");
+			String particleResourceRef = particleData.getResourceRef();
+			Emitter pem = new Emitter(particleData);
+			Image particleImage = (Image)rm.getResource(particleResourceRef).getObject();
+			ParticleSystem ps = new ParticleSystem(particleImage, 1000);
+			pem.setEnabled(true);
+			ps.addEmitter(pem);
+			enemyDeath.addComponent(new ParticleComponent(ps, true));
+			enemyDeath.addComponent(new Location(new Vector2f(enemyPosition.getX() + ew/2, enemyPosition.getY() + eh/2), null));
+		}
+	}
 
 	private void checkWarps(TiledMap map, Entity player) {
-		String playerResName = resourceMapper.get(player).getResourceName();
-		ResourceManager manager = ResourceManager.getInstance();
-		Resource playerRes = manager.getResource(playerResName);
-		Image playerFrame = getFrame(playerRes);
+		Image playerFrame = getFrame(player);
 		int ph = playerFrame.getHeight()-1;
 		int pw = playerFrame.getWidth()-1;
 		Movement movement = movementMapper.get(player);
@@ -189,10 +212,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 		Secondary playerSecondary = secondaryMapper.get(player);
 		if (playerSecondary.isSecondary()) {
 			Vector2f playerPosition = locationMapper.get(player).getPosition();
-			String playerResName = resourceMapper.get(player).getResourceName();
-			ResourceManager manager = ResourceManager.getInstance();
-			Resource playerRes = manager.getResource(playerResName);
-			Image playerFrame = getFrame(playerRes);
+			Image playerFrame = getFrame(player);
 			int ph = playerFrame.getHeight();
 			int pw = playerFrame.getWidth();
 			Vector2f playerCenter = new Vector2f(playerPosition.x + (pw / 2), playerPosition.y + (ph / 2));
@@ -203,15 +223,12 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 			for (int i = 0; i < enemies.size(); i++) {
 				Entity enemy = enemies.get(i);
 				Vector2f enemyPosition = locationMapper.get(enemy).getPosition();
-				String enemyResName = resourceMapper.get(enemy).getResourceName();
-				Resource enemyRes = manager.getResource(enemyResName);
-				Image enemyFrame = getFrame(enemyRes);
+				Image enemyFrame = getFrame(enemy);
 				int eh = enemyFrame.getHeight();
 				int ew = enemyFrame.getWidth();
 				Vector2f enemyCenter = new Vector2f(enemyPosition.x + (ew / 2), enemyPosition.y + (eh / 2));
 				Movement enemyMovement = movementMapper.get(enemy);
 				Vector2f enemyVelocity = enemyMovement.getVelocity();
-				boolean secondaryEnemy = false;
 				double secondaryKnockBack = 40;
 
 				// Make sure we don't set the velocity > the entity width or height (necessary for collision)
@@ -221,8 +238,6 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 				if (eh < ew && secondaryKnockBack > eh) {
 					secondaryKnockBack = eh;
 				}
-
-				double secondaryKnockBackX = (secondaryKnockBack/Math.sqrt(2));
 
 				if (playerCenter.distance(enemyCenter) < MAX_DISTANCE && locationMapper.get(enemy).getMap().equals(locationMapper.get(player).getMap())) {
 					Vector2f playerToEnemy = new Vector2f(enemyCenter.x - playerCenter.x, enemyCenter.y - playerCenter.y);
@@ -237,25 +252,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 						colorChange.setLastTime(new Date().getTime());
 						enemy.addComponent(colorChange);
 					}
-
-					if (enemyStats.get(StatType.HEALTH) <= 0) {
-						enemy.delete();
-						// Create enemy death entity for particle effect
-						Entity enemyDeath = world.createEntity();
-						enemyDeath.setGroup("ENEMY_DEATH");
-						XMLSerializer xmls = XMLSerializer.getInstance();
-						ResourceManager rm = ResourceManager.getInstance();
-						ParticleData particleData = (ParticleData)xmls.deserializeData("resources/particleXMLs/deathsplat");
-						String particleResourceRef = particleData.getResourceRef();
-						Emitter pem = new Emitter(particleData);
-						Image particleImage = (Image)rm.getResource(particleResourceRef).getObject();
-						ParticleSystem ps = new ParticleSystem(particleImage, 1000);
-						pem.setEnabled(true);
-						ps.addEmitter(pem);
-						enemyDeath.addComponent(new ParticleComponent(ps, true));
-						enemyDeath.addComponent(new Location(new Vector2f(enemyPosition.getX() + ew/2, enemyPosition.getY() + eh/2), null));
-
-					}
+					checkEnemyDeath(enemy);
 				}
 			}
 		}
@@ -266,10 +263,8 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 		if (playerAttack.isAttacking()) {
 
 			Vector2f playerPosition = locationMapper.get(player).getPosition();
-			String playerResName = resourceMapper.get(player).getResourceName();
-			ResourceManager manager = ResourceManager.getInstance();
-			Resource playerRes = manager.getResource(playerResName);
-			Image playerFrame = getFrame(playerRes);
+
+			Image playerFrame = getFrame(player);
 			int ph = playerFrame.getHeight();
 			int pw = playerFrame.getWidth();
 			Vector2f playerCenter = new Vector2f(playerPosition.x + (pw / 2), playerPosition.y + (ph / 2));
@@ -280,9 +275,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 			for (int i = 0; i < enemies.size(); i++) {
 				Entity enemy = enemies.get(i);
 				Vector2f enemyPosition = locationMapper.get(enemy).getPosition();
-				String enemyResName = resourceMapper.get(enemy).getResourceName();
-				Resource enemyRes = manager.getResource(enemyResName);
-				Image enemyFrame = getFrame(enemyRes);
+				Image enemyFrame = getFrame(enemy);
 				int eh = enemyFrame.getHeight();
 				int ew = enemyFrame.getWidth();
 				Vector2f enemyCenter = new Vector2f(enemyPosition.x + (ew / 2), enemyPosition.y + (eh / 2));
@@ -414,29 +407,16 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 						colorChange.setLastTime(new Date().getTime());
 						enemy.addComponent(colorChange);
 					}
-					if (enemyStats.get(StatType.HEALTH) <= 0) {
-						enemy.delete();
-						// Create enemy death entity for particle effect
-						Entity enemyDeath = world.createEntity();
-						enemyDeath.setGroup("ENEMY_DEATH");
-						XMLSerializer xmls = XMLSerializer.getInstance();
-						ResourceManager rm = ResourceManager.getInstance();
-						ParticleData particleData = (ParticleData)xmls.deserializeData("resources/particleXMLs/deathsplat");
-						String particleResourceRef = particleData.getResourceRef();
-						Emitter pem = new Emitter(particleData);
-						Image particleImage = (Image)rm.getResource(particleResourceRef).getObject();
-						ParticleSystem ps = new ParticleSystem(particleImage, 1000);
-						pem.setEnabled(true);
-						ps.addEmitter(pem);
-						enemyDeath.addComponent(new ParticleComponent(ps, true));
-						enemyDeath.addComponent(new Location(new Vector2f(enemyPosition.getX() + ew/2, enemyPosition.getY() + eh/2), null));
-					}
+					checkEnemyDeath(enemy);
 				}
 			}
 		}
 	}
 
-	private Image getFrame(Resource resource) {
+	private Image getFrame(Entity entity) {
+		String resName = resourceMapper.get(entity).getResourceName();
+		ResourceManager manager = ResourceManager.getInstance();
+		Resource resource = manager.getResource(resName);
 		switch (resource.getType()) {
 			case CREATURE_ANIMATION:
 				return ((CreatureAnimation) resource.getObject()).getCurrent().getCurrentFrame();

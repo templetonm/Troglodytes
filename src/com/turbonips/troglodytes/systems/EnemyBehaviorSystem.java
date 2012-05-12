@@ -117,11 +117,16 @@ public class EnemyBehaviorSystem extends BaseEntitySystem {
 		int enemyDamage = enemyStats.get(StatType.DAMAGE);
 		int enemyRange = enemyStats.get(StatType.RANGE);
 		int enemyCooldown = enemyStats.get(StatType.ATTACK_COOLDOWN);
+		int playerArmor = playerStats.get(StatType.ARMOR);
+		int damageReduction = playerArmor/5; 
 
 		if (enemyCenter.distance(playerCenter) < enemyRange*32) {
 			if (new Date().getTime()-enemyAttack.getLastTime() > enemyCooldown) {
 				enemyAttack.setLastTime(new Date().getTime());
-				playerStats.put(StatType.HEALTH, playerStats.get(StatType.HEALTH) - enemyDamage);
+				
+				if (damageReduction < enemyDamage) {
+					playerStats.put(StatType.HEALTH, playerStats.get(StatType.HEALTH) - enemyDamage + damageReduction);
+				}
 				if (colorChangeMapper.get(player) == null) {
 					ColorChange colorChange = new ColorChange(250, new Color(255,0,0));
 					colorChange.setLastTime(new Date().getTime());

@@ -79,7 +79,6 @@ public class TrinketSystem extends BaseEntitySystem {
 							if (polymorphMapper.get(trinkets.get(a)) != null && a != i) {
 								if (polymorphMapper.get(trinkets.get(a)).existsOnPlayer()) {
 									if (resourceMapper.get(trinkets.get(a)).getResourceName() != null) {
-										logger.info(polymorphMapper.get(trinkets.get(a)).getTrinketRef() + " " + polymorphMapper.get(trinket).getTrinketRef());
 										if (resourceMapper.get(trinkets.get(a)).getResourceName().equals(
 											resourceMapper.get(trinket).getResourceName())) {
 											trinket.delete();
