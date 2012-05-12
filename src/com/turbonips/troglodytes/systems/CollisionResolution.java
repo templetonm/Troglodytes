@@ -51,7 +51,7 @@ public class CollisionResolution {
 	}
 	
 	// Figure out if adding the entities velocity will result in a collision
-	public CollisionDirection getCollisionDirection(Entity entity, TiledMap map) {
+	public CollisionDirection getCollisionDirection(Entity entity, TiledMap map, Vector2f entityVelocity) {
 		String entityResName = resourceMapper.get(entity).getResourceName();
 		ResourceManager manager = ResourceManager.getInstance();
 		Resource entityRes = manager.getResource(entityResName);
@@ -60,10 +60,8 @@ public class CollisionResolution {
 		int tw = map.getTileWidth();
 		int eh = entityFrame.getHeight()-1;
 		int ew = entityFrame.getWidth()-1;
-		Movement entityMovement = movementMapper.get(entity);
 		Location entityLocation = locationMapper.get(entity);
 		Vector2f entityPosition = entityLocation.getPosition();
-		Vector2f entityVelocity = entityMovement.getVelocity();
 		Vector2f newEntityPosition = new Vector2f(entityPosition);
 		newEntityPosition.add(entityVelocity);
 		int step = 4;
