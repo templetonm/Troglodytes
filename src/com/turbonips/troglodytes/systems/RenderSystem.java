@@ -151,7 +151,7 @@ public class RenderSystem extends BaseEntitySystem {
 		}
 		
 		// Attack cooldown time bar
-		long attackCooldown = attackMapper.get(player).getTime();
+		long attackCooldown = playerStats.get(StatType.ATTACK_COOLDOWN);
 		long currentAttackCooldown = new Date().getTime()-attackMapper.get(player).getLastTime();
 		
 		float attackBarWidth = longestBarWidth/3;
@@ -205,9 +205,10 @@ public class RenderSystem extends BaseEntitySystem {
 		
 		
 		// If lighting is turned on
-		int lightSize = Integer.valueOf(tiledMap.getMapProperty("LightSize", "-1"));
-		if (lightSize != -1) {
+		String dark = tiledMap.getMapProperty("Dark", "false");
+		if (!dark.equals("false")) {
 			// Draw the player light
+			int lightSize =  playerStats.get(StatType.SIGHT);
 			drawLight(player, lightSize, container.getWidth()/2, container.getHeight()/2);
 		}
 		
@@ -217,29 +218,24 @@ public class RenderSystem extends BaseEntitySystem {
 		if (health < 0) health = 0;
 		float healthPer = (float)(health) / (float)maxHealth;
 		if (healthPer < 0) healthPer = 0;
-		//float armorPer = (float)(armor) / (float)maxHealth;
 		Image healthIconImage = (Image) manager.getResource("healthicon").getObject();
 		
 		// Upper left health icon
-		
 		g.drawImage(healthIconImage, 5, 6);
 		// Upper left bar
 		g.setColor(new Color(50,50,50,125));
 		g.fillRect(healthIconImage.getWidth()+8, 5, bigBarWidth+2, bigBarHeight+2);
 		g.setColor(new Color(255,0,0,150));
 		g.fillRect(healthIconImage.getWidth()+9, 6, bigBarWidth*healthPer, bigBarHeight);
-		/*g.setColor(new Color(0,0,255,100));
-		g.fillRect(bigBarWidth*healthPer+6, 4, bigBarWidth*armorPer, bigBarHeight);*/
 
+		// Upper left armor icon
 		Image armorIconImage = (Image) manager.getResource("armoricon").getObject();
 		g.drawImage(armorIconImage, 5, healthIconImage.getHeight() + 8);
-		
 		g.setColor(Color.white);
 		int healthTextWidth = g.getFont().getWidth(health + "/" + maxHealth);
 		g.drawString(health + "/" + maxHealth, 7 + bigBarWidth/2 - healthTextWidth/2 + healthIconImage.getWidth(), 5);
-		//g.drawString(String.valueOf(armor), armorIconImage.getWidth() + 5, healthIconImage.getHeight() + 3);
-		
-
+		g.drawString(String.valueOf(armor), armorIconImage.getWidth() + 10, 
+					 healthIconImage.getHeight() + 8);
 		
 		// Polymorph Trinket UI
 		int nPolymorph = 0;
@@ -254,15 +250,9 @@ public class RenderSystem extends BaseEntitySystem {
 					int notSelWidth = 32, notSelHeight = 32;
 					
 					if (polymorph.isActive()) {
-						//playerRes.setResourceName(polymorph.getPolymorphRef());
-						//activePolymorphTrinket = true;
 						int x = container.getWidth()/2-selWidth/2 + nPolymorph*selWidth;
 						int y = container.getHeight()-selHeight;
-						//g.drawImage(polymorphImage, x-4, y-4, x+selWidth+4, y+selHeight+4, 0, 0, polymorphImage.getWidth(), polymorphImage.getHeight(), Color.green);
-						g.drawImage(polymorphImage, x, y, x+selWidth, y+selHeight, 0, 0, polymorphImage.getWidth(), polymorphImage.getHeight(), Color.white);
-						
-						//g.drawRect(x-2, y-2, width-2, height-2);
-						
+						g.drawImage(polymorphImage, x, y, x+selWidth, y+selHeight, 0, 0, polymorphImage.getWidth(), polymorphImage.getHeight(), Color.white);						
 					} else {
 						int x = container.getWidth()/2-notSelWidth/2 + nPolymorph*selWidth;
 						int y = container.getHeight()-notSelHeight;

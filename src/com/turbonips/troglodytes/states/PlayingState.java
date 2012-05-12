@@ -12,7 +12,6 @@ import com.artemis.Entity;
 import com.artemis.EntitySystem;
 import com.artemis.SystemManager;
 import com.artemis.World;
-import com.turbonips.troglodytes.PolymorphTrinket;
 import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.Direction.Dir;
@@ -66,23 +65,26 @@ public class PlayingState extends BaseGameState {
 		// Setup the initial player
 		Entity player = world.createEntity();
 		player.setGroup("PLAYER");
-		player.addComponent(new Warp("testing", new Vector2f(20,20)));
+		player.addComponent(new Warp("trog0", new Vector2f(21,24)));
 		player.addComponent(new ResourceRef("playeranimation"));
 		HashMap<StatType, Integer> stats = new HashMap<StatType, Integer> ();
 		stats.put(StatType.HEALTH, 100);
 		stats.put(StatType.MAX_HEALTH, 100);
-		stats.put(StatType.ARMOR, 25);
+		stats.put(StatType.ARMOR, 0);
 		stats.put(StatType.RANGE, 3);
 		stats.put(StatType.ACCELERATION, 1);
 		stats.put(StatType.DECELERATION, 1);
 		stats.put(StatType.MAX_SPEED, 10);
+		stats.put(StatType.DAMAGE, 10);
+		stats.put(StatType.SIGHT, 10);
+		stats.put(StatType.ATTACK_COOLDOWN, 500);
 		player.addComponent(new Stats(stats));
-		player.addComponent(new Movement(stats));
+		player.addComponent(new Movement(new Vector2f(0,0)));
 		player.addComponent(new Direction(Dir.DOWN));
 		player.addComponent(new VisitedMaps());
 		// This position is overwritten when the player is warped
 		player.addComponent(new Location(new Vector2f(0,0), ""));
-		player.addComponent(new Attack(500,9));
+		player.addComponent(new Attack());
 		// It's over 9000
 		player.addComponent(new Secondary(6*1000));
 		player.addComponent(new HealthRegen(250));
