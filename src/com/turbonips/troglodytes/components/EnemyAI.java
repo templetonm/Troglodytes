@@ -9,6 +9,7 @@ public class EnemyAI extends Component
 	private AIType enemyAIType;
 	private int sight = 0;
 	private Path path = null;
+	private int time;
 	public int pathAge = 0;
 	public int pathStep = 0;
 	public Corner corner = Corner.TOPLEFT;
@@ -45,5 +46,17 @@ public class EnemyAI extends Component
 	
 	public Path getPath() {
 		return path;
+	}
+	
+	public void clearTime() {
+		time = 0;
+	}
+	
+	public void sumTime(int delta) {
+		time += delta;
+	}
+	
+	public int getTime() {
+		return time;
 	}
 }
