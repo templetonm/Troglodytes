@@ -34,6 +34,8 @@ public class EnemyAISystem extends BaseEntitySystem {
 	private ComponentMapper<Location> locationMapper;
 	private ComponentMapper<ResourceRef> resourceMapper;
 	private ComponentMapper<Stats> statsMapper;
+	
+	private int time=0;
 
 	@Override
 	protected void initialize() {
@@ -565,9 +567,21 @@ public class EnemyAISystem extends BaseEntitySystem {
 						if (enemyAIType == AIType.RANDOM) {
 							randomAI(enemy, player, map);
 						} else if (enemyAIType == AIType.FOLLOW) {
-							followAI(enemy, player, map);
+							if (enemyAI.getTime() <= 20) {
+								enemyAI.sumTime(world.getDelta());
+								followAI(enemy, player, map);
+							} else {
+								enemyAI.clearTime();
+								randomAI(enemy, player, map);
+							}
 						} else if (enemyAIType == AIType.ASTAR){
-							aStarAI(enemy, player, map);
+							if (enemyAI.getTime() <= 20) {
+								enemyAI.sumTime(world.getDelta());
+								aStarAI(enemy, player, map);
+							} else {
+								enemyAI.clearTime();
+								randomAI(enemy, player, map);
+							}
 						}
 					}
 				}
@@ -579,6 +593,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 		ResourceManager manager = ResourceManager.getInstance();
 		String resName = resourceMapper.get(entity).getResourceName();
 		Resource resource = manager.getResource(resName);
+		
 		switch (resource.getType()) {
 			case CREATURE_ANIMATION:
 				return ((CreatureAnimation) resource.getObject()).getCurrent().getCurrentFrame();
@@ -588,5 +603,4 @@ public class EnemyAISystem extends BaseEntitySystem {
 				return null;
 		}
 	}
-
 }
