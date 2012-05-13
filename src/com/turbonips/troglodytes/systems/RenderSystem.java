@@ -178,7 +178,7 @@ public class RenderSystem extends BaseEntitySystem {
 						for (int a=0; a<enemyPath.getLength(); a++) {
 							g.setColor(new Color(0,0,255,100));
 							//g.drawRect(enemyPath.getX(a)*32, enemyPath.getY(a)*32, 32, 32);
-							//g.fillRect(mapX + enemyPath.getX(a)*32, mapY + enemyPath.getY(a)*32,32,32);
+							g.fillRect(mapX + enemyPath.getX(a)*32, mapY + enemyPath.getY(a)*32,32,32);
 						}
 					}
 				}
@@ -205,7 +205,7 @@ public class RenderSystem extends BaseEntitySystem {
 		tiledMap.render(mapX, mapY, 2);
 		
 		// Draw the collision layer
-		//tiledMap.render(mapX, mapY, 3);
+		tiledMap.render(mapX, mapY, 3);
 		
 		
 		// If lighting is turned on
