@@ -1,11 +1,13 @@
 package com.turbonips.troglodytes.systems;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.particles.ParticleIO;
 import org.newdawn.slick.particles.ParticleSystem;
 import org.newdawn.slick.tiled.TiledMap;
 
@@ -13,11 +15,8 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.CreatureAnimation;
-import com.turbonips.troglodytes.Emitter;
-import com.turbonips.troglodytes.ParticleData;
 import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.ResourceManager;
-import com.turbonips.troglodytes.XMLSerializer;
 import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.ColorChange;
 import com.turbonips.troglodytes.components.Direction;
@@ -99,20 +98,17 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 		
 		if (enemyStats.get(StatType.HEALTH) <= 0) {
 			enemy.delete();
-			// Create enemy death entity for particle effect
-			Entity enemyDeath = world.createEntity();
-			enemyDeath.setGroup("ENEMY_DEATH");
-			XMLSerializer xmls = XMLSerializer.getInstance();
-			ResourceManager rm = ResourceManager.getInstance();
-			ParticleData particleData = (ParticleData)xmls.deserializeData("resources/particleXMLs/deathsplat");
-			String particleResourceRef = particleData.getResourceRef();
-			Emitter pem = new Emitter(particleData);
-			Image particleImage = (Image)rm.getResource(particleResourceRef).getObject();
-			ParticleSystem ps = new ParticleSystem(particleImage, 1000);
-			pem.setEnabled(true);
-			ps.addEmitter(pem);
-			enemyDeath.addComponent(new ParticleComponent(ps, true));
-			enemyDeath.addComponent(new Location(new Vector2f(enemyPosition.getX() + ew/2, enemyPosition.getY() + eh/2), null));
+			
+			// Add a cool effect
+			try {
+				ParticleSystem ps = ParticleIO.loadConfiguredSystem("resources/particleXMLs/blood.xml");
+				Entity enemyDeath = world.createEntity();
+				enemyDeath.setGroup("ENEMY_DEATH");
+				enemyDeath.addComponent(new ParticleComponent(ps, true));
+				enemyDeath.addComponent(new Location(new Vector2f(enemyPosition.getX() + ew/2, enemyPosition.getY() + eh/2), null));				
+			} catch (IOException e) {
+				// Throw slick exception
+			}
 		}
 	}
 
@@ -250,8 +246,19 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 						colorChange.setLastTime(new Date().getTime());
 						enemy.addComponent(colorChange);
 					}
+					
 					checkEnemyDeath(enemy);
 				}
+			}
+			
+			// Add a cool effect
+			try {
+				ParticleSystem ps = ParticleIO.loadConfiguredSystem("resources/particleXMLs/gust.xml");
+				Entity secondary = world.createEntity();
+				secondary.setGroup("SECONDARY");
+				secondary.addComponent(new ParticleComponent(ps, true));
+			} catch (IOException e) {
+				// Throw slick exception
 			}
 		}
 	}

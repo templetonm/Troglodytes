@@ -6,6 +6,7 @@ import com.artemis.Component;
 
 public class ParticleComponent extends Component {
 	private ParticleSystem particleSystem;
+	private int timeSum;
 	
 	private boolean emitterFinite = false;
 	private boolean emitterFinished = false;
@@ -32,11 +33,19 @@ public class ParticleComponent extends Component {
 		particleSystem.render();
 	}
 	
+	public void sumTime(int delta) {
+		timeSum += delta;
+	}
+	
+	public int getTime() {
+		return timeSum;
+	}
+	
 	public boolean getEmitterFinished() {
 		return emitterFinished;
 	}
 	
-	public void setEmitterFinished (boolean emitterFinished) {
+	public void setEmitterFinished(boolean emitterFinished) {
 		this.emitterFinished = emitterFinished;
 	}
 }

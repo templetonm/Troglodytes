@@ -1,10 +1,13 @@
 package com.turbonips.troglodytes.systems;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.particles.ParticleIO;
+import org.newdawn.slick.particles.ParticleSystem;
 import org.newdawn.slick.tiled.TiledMap;
 
 import com.artemis.ComponentMapper;
@@ -21,6 +24,7 @@ import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.EnemyAI;
 import com.turbonips.troglodytes.components.Movement;
+import com.turbonips.troglodytes.components.ParticleComponent;
 import com.turbonips.troglodytes.components.Polymorph;
 import com.turbonips.troglodytes.components.Location;
 import com.turbonips.troglodytes.components.ResourceRef;
@@ -52,6 +56,11 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 		ResourceManager manager = ResourceManager.getInstance();
 		ImmutableBag<Entity> players = world.getGroupManager().getEntities("PLAYER");
 		ImmutableBag<Entity> maps = world.getGroupManager().getEntities("MAP");
+		ImmutableBag<Entity> enemyDeaths = world.getGroupManager().getEntities("ENEMY_DEATH");
+		ImmutableBag<Entity> secondary = world.getGroupManager().getEntities("SECONDARY");
+		ImmutableBag<Entity> auras = world.getGroupManager().getEntities("AURA");
+		ImmutableBag<Entity> particles = world.getGroupManager().getEntities("PARTICLES");
+		
 		Warp warp = warpMapper.get(e);
 		Resource mapRes = manager.getResource(warp.getMapName());
 		TiledMap tiledMap = (TiledMap) mapRes.getObject();
@@ -68,6 +77,17 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 		// Delete existing map
 		for (int i=0; i<maps.size(); i++) {
 			maps.get(i).delete();
+		}
+		
+		// Delete existing enemy death effects
+		for (int i=0; i<enemyDeaths.size(); i++) {
+			Entity enemyDeath = enemyDeaths.get(i);
+			enemyDeath.delete();
+		}
+		
+		// Delete secondary effect
+		if (secondary.get(0) != null) {
+			secondary.get(0).delete();
 		}
 
 		// Add the new map
@@ -152,6 +172,18 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 						modifiers.put(StatType.SIGHT, trinketData.getAddSight());
 						modifiers.put(StatType.ATTACK_COOLDOWN, trinketData.getAddCooldown());
 						trinket.addComponent(new StatModifiers(modifiers));
+					} else if (type.equals("particle")) {
+						String particleId = tiledMap.getObjectProperty(groupID, objectID, "Name", "");
+						ParticleSystem ps = (ParticleSystem)manager.getResource(particleId).getObject();
+						try {
+							//ParticleSystem ps = ParticleIO.loadConfiguredSystem("resources/particleXMLs/bubble.xml");
+							Entity part = world.createEntity();
+							part.setGroup("PARTICLES");
+							part.addComponent(new ParticleComponent(ps, true));
+							part.addComponent(new Location(new Vector2f(objectX, objectY), warp.getMapName()));
+						} catch (Exception ex) {
+							// blah
+						}
 					}
 				}
 			}
@@ -159,5 +191,17 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 		}
 		e.removeComponent(warp);
 		e.refresh();
+		
+		// Add player aura particle effect if it doesn't already exist
+		/*if (auras.get(0) == null) {
+			try {
+				ParticleSystem ps = ParticleIO.loadConfiguredSystem("resources/particleXMLs/aura.xml");
+				Entity playerAura = world.createEntity();
+				playerAura.setGroup("AURA");
+				playerAura.addComponent(new ParticleComponent(ps, true));				
+			} catch (IOException ex) {
+				// Throw slick exception
+			}
+		}*/
 	}
 }

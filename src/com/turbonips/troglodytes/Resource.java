@@ -12,7 +12,8 @@ public class Resource {
 		CREATURE_ANIMATION, 
 		MUSIC,
 		SOUND,
-		FONT
+		FONT, 
+		PARTICLE
 	}
 	private final ResourceType type;
 	

@@ -83,6 +83,9 @@ public class RenderSystem extends BaseEntitySystem {
 		ImmutableBag<Entity> maps = world.getGroupManager().getEntities("MAP");
 		ImmutableBag<Entity> trinkets = world.getGroupManager().getEntities("TRINKET");
 		ImmutableBag<Entity> enemyDeaths = world.getGroupManager().getEntities("ENEMY_DEATH");
+		ImmutableBag<Entity> secondary = world.getGroupManager().getEntities("SECONDARY");
+		ImmutableBag<Entity> auras = world.getGroupManager().getEntities("AURA");
+		ImmutableBag<Entity> mapParticles = world.getGroupManager().getEntities("PARTICLES");
 		
 		Entity player = players.get(0);
 		Location playerLocation = locationMapper.get(player);
@@ -102,6 +105,61 @@ public class RenderSystem extends BaseEntitySystem {
 		// Draw the background
 		tiledMap.render(mapX, mapY, 1);
 		
+		// Draw enemy deaths before everything so it doesn't cover anything but the background
+		for (int i=0; i<enemyDeaths.size(); i++) {
+			Entity enemyDeath = enemyDeaths.get(i);
+			Location enemyDeathLocation = locationMapper.get(enemyDeath);
+			Vector2f enemyDeathPosition = enemyDeathLocation.getPosition();
+			int enemyDeathX = mapX + (int)enemyDeathPosition.x;
+			int enemyDeathY = mapY + (int)enemyDeathPosition.y;
+			ParticleComponent particleComponent = particleComponentMapper.get(enemyDeath);
+			particleComponent.sumTime(world.getDelta());
+			
+			// If we wait for finished then all the particles are gone so just wait a certain time till pause
+			// The effect lasts 250 so lets stop it anywhere above 200... I think deltas are around 10-20
+			if (particleComponent.getTime() >= 200) {
+				particleComponent.renderParticleSystem(enemyDeathX, enemyDeathY);
+			} else {
+				particleComponent.updateParticleSystem(world.getDelta());
+				particleComponent.renderParticleSystem(enemyDeathX, enemyDeathY);
+			}
+		}
+		
+		// Draw enemies
+		for (int i=0; i<enemies.size(); i++) {
+			Entity enemy = enemies.get(i);
+			Location enemyLocation = locationMapper.get(enemy);
+			if (enemyLocation.getMap().equals(playerLocation.getMap())) {
+				Vector2f enemyPosition = enemyLocation.getPosition();
+				int enemyX = mapX + (int)enemyPosition.x;
+				int enemyY = mapY + (int)enemyPosition.y;
+				drawCreatureEntity(enemy, enemyX, enemyY);
+				if (enemyAIMapper.get(enemy) != null) {
+					Path enemyPath = enemyAIMapper.get(enemy).getPath();
+					if (enemyPath != null) {
+						for (int a=0; a<enemyPath.getLength(); a++) {
+							g.setColor(new Color(0,0,255,100));
+							//g.drawRect(enemyPath.getX(a)*32, enemyPath.getY(a)*32, 32, 32);
+							//g.fillRect(mapX + enemyPath.getX(a)*32, mapY + enemyPath.getY(a)*32,32,32);
+						}
+					}
+				}
+			}
+		}
+
+		int playerCenterX = container.getWidth()/2 - playerFrame.getWidth()/2;
+		int playerCenterY = container.getHeight()/2 - playerFrame.getHeight()/2;
+		
+		// Draw aura under the player but over the enemies
+		if (auras.get(0) != null) {
+			ParticleComponent auraParticles = particleComponentMapper.get(auras.get(0));
+			auraParticles.updateParticleSystem(world.getDelta());
+			auraParticles.renderParticleSystem(playerCenterX+playerFrame.getWidth()/2, playerCenterY+playerFrame.getHeight()/2);
+		}
+		
+		// Draw the player
+		drawCreatureEntity(player, playerCenterX, playerCenterY);
+		
 		// Draw trinkets on map
 		for (int i=0; i<trinkets.size(); i++) {
 			Entity trinket = trinkets.get(i);
@@ -119,11 +177,6 @@ public class RenderSystem extends BaseEntitySystem {
 			}
 		}
 		
-		// Draw the player
-		int playerCenterX = container.getWidth()/2 - playerFrame.getWidth()/2;
-		int playerCenterY = container.getHeight()/2 - playerFrame.getHeight()/2;
-		drawCreatureEntity(player, playerCenterX, playerCenterY);
-		
 		// Player Health Bar
 		Stats stats = statsMapper.get(player);
 		HashMap<StatType, Integer> playerStats = stats.getStats();
@@ -133,7 +186,6 @@ public class RenderSystem extends BaseEntitySystem {
 			game.enterState(MenuState.ID);
 		}
 
-		
 		int maxHealth = playerStats.get(StatType.MAX_HEALTH);
 		int armor = playerStats.get(StatType.ARMOR);
 		
@@ -162,51 +214,38 @@ public class RenderSystem extends BaseEntitySystem {
 			g.setColor(new Color(255,255,0));
 			g.fillRect(container.getWidth()/2 - attackBarWidth/2, container.getHeight()/2 + playerFrame.getHeight()/2 + barHeight*2 + barSpacing*2 + 1, attackBarWidth*attackPer, barHeight-2);
 		}
-
-		// Draw enemies
-		for (int i=0; i<enemies.size(); i++) {
-			Entity enemy = enemies.get(i);
-			Location enemyLocation = locationMapper.get(enemy);
-			if (enemyLocation.getMap().equals(playerLocation.getMap())) {
-				Vector2f enemyPosition = enemyLocation.getPosition();
-				int enemyX = mapX + (int)enemyPosition.x;
-				int enemyY = mapY + (int)enemyPosition.y;
-				drawCreatureEntity(enemy, enemyX, enemyY);
-				if (enemyAIMapper.get(enemy) != null) {
-					Path enemyPath = enemyAIMapper.get(enemy).getPath();
-					if (enemyPath != null) {
-						for (int a=0; a<enemyPath.getLength(); a++) {
-							g.setColor(new Color(0,0,255,100));
-							//g.drawRect(enemyPath.getX(a)*32, enemyPath.getY(a)*32, 32, 32);
-							//g.fillRect(mapX + enemyPath.getX(a)*32, mapY + enemyPath.getY(a)*32,32,32);
-						}
-					}
-				}
-			}
-		}
 		
-		// Draw enemy deaths
-		for (int i=0; i<enemyDeaths.size(); i++) {
-			Entity enemyDeath = enemyDeaths.get(i);
-			Location enemyDeathLocation = locationMapper.get(enemyDeath);
-			Vector2f enemyDeathPosition = enemyDeathLocation.getPosition();
-			int enemyDeathX = mapX + (int)enemyDeathPosition.x;
-			int enemyDeathY = mapY + (int)enemyDeathPosition.y;
-			ParticleComponent particleComponent = particleComponentMapper.get(enemyDeath);
-			particleComponent.updateParticleSystem(world.getDelta());
-			particleComponent.renderParticleSystem(enemyDeathX, enemyDeathY);
-			ParticleComponent pc = particleComponentMapper.get(enemyDeath);
-			if (pc.getEmitterFinished()) {
-				enemyDeath.delete();
+		// Draw secondary particles right before the foreground
+		if (secondary.get(0) != null) {
+			ParticleComponent secondaryParticles = particleComponentMapper.get(secondary.get(0));
+			secondaryParticles.updateParticleSystem(world.getDelta());
+			secondaryParticles.renderParticleSystem(playerCenterX+playerFrame.getWidth()/2, playerCenterY+playerFrame.getHeight()/2);
+			
+			if (secondaryParticles.getEmitterFinished()) {
+				secondary.get(0).delete();
 			}
 		}
 		
 		// Draw the foreground
 		tiledMap.render(mapX, mapY, 2);
 		
+		// I think we want to map particles here in case we want torches to flicker over foreground for example
+		for (int i=0; i<mapParticles.size(); i++) {
+			Entity particle = mapParticles.get(i);
+			Location particleLoc = locationMapper.get(particle);
+			
+			if (particleLoc.getMap().equals(playerLocation.getMap())) {
+				ParticleComponent particles = particleComponentMapper.get(particle);
+				Vector2f particlePos = particleLoc.getPosition();
+				int particleX = mapX + (int)particlePos.x;
+				int particleY = mapY + (int)particlePos.y;
+				particles.updateParticleSystem(world.getDelta());
+				particles.renderParticleSystem(particleX, particleY);
+			}
+		}
+		
 		// Draw the collision layer
 		//tiledMap.render(mapX, mapY, 3);
-		
 		
 		// If lighting is turned on
 		String dark = tiledMap.getMapProperty("Dark", "false");
@@ -277,11 +316,6 @@ public class RenderSystem extends BaseEntitySystem {
 	private void drawLight(Entity entity, int lightSize, int x, int y) {
 		Graphics g = container.getGraphics();
 		ResourceManager manager = ResourceManager.getInstance();
-		String resName = resourceMapper.get(entity).getResourceName();
-		Resource res = manager.getResource(resName);
-		Image entityFrame = getFrame(res);
-		int ew = entityFrame.getWidth();
-		int eh = entityFrame.getHeight();
 		
 		float invSize = 1f / lightSize;
 		g.clearAlphaMap();

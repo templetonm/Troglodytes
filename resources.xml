@@ -5,6 +5,7 @@
 	<resource id="healthicon" type="image" path="graphics/heart.png" />
 	<resource id="armoricon" type="image" path="graphics/shield.png" />
 
+	<resource id="bubble" type="particle" path="particleXMLs/bubble.xml" />
 	<resource id="swampbubble" type="image" path="graphics/testBubble.png" />
 	<resource id="smallfire" type="image" path="graphics/blankParticleW.png" />
 	<resource id="smallsmoke" type="image" path="graphics/blankParticleW.png" />

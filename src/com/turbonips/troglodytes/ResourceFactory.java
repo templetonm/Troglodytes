@@ -23,6 +23,9 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.loading.LoadingList;
+import org.newdawn.slick.particles.ParticleIO;
+import org.newdawn.slick.particles.ParticleSystem;
+import org.newdawn.slick.tests.PedigreeTest;
 import org.newdawn.slick.tiled.TiledMap;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -88,6 +91,16 @@ public class ResourceFactory {
 
 //			String TGApath = "resources/" + String.valueOf(resourceElement.getAttribute("TGApath"));
 //			return new Resource(id, ResourceType.FONT, path, new AngelCodeFont(, false));
+		} else if (type.equals("particle")) {
+			ParticleSystem ps = null;
+			try {
+				logger.info(path);
+				ps = ParticleIO.loadConfiguredSystem(path);
+			} catch (IOException e) {
+				// Throw some slick exception
+			}
+			
+			return new Resource(id, ResourceType.PARTICLE, path, ps);
 		}
 		
 		return null;
