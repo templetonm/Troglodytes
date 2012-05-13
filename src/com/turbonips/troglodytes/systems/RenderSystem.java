@@ -86,6 +86,8 @@ public class RenderSystem extends BaseEntitySystem {
 		ImmutableBag<Entity> secondary = world.getGroupManager().getEntities("SECONDARY");
 		ImmutableBag<Entity> auras = world.getGroupManager().getEntities("AURA");
 		ImmutableBag<Entity> mapParticles = world.getGroupManager().getEntities("PARTICLES");
+		ImmutableBag<Entity> mapLights = world.getGroupManager().getEntities("LIGHTS");
+
 		
 		Entity player = players.get(0);
 		Location playerLocation = locationMapper.get(player);
@@ -251,8 +253,27 @@ public class RenderSystem extends BaseEntitySystem {
 		String dark = tiledMap.getMapProperty("Dark", "false");
 		if (!dark.equals("false")) {
 			// Draw the player light
-			int lightSize =  playerStats.get(StatType.SIGHT);
+			int lightSize = playerStats.get(StatType.SIGHT);
+			
+			g.clearAlphaMap();
+			
 			drawLight(player, lightSize, container.getWidth()/2, container.getHeight()/2);
+			
+			// Draw other lights
+			for (int i=0; i<mapLights.size(); i++) {
+				Entity light = mapLights.get(i);
+				Location lightLocation = locationMapper.get(light);
+				Vector2f lightPosition = lightLocation.getPosition();
+				if (lightLocation.getMap().equals(playerLocation.getMap())) {
+					
+					drawLight(light, 5, mapX + (int)lightPosition.x, mapY + (int)lightPosition.y);
+				}
+			}
+
+			GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_DST_ALPHA);
+			g.setColor(new Color(0,0,0,255));
+			g.fillRect(0, 0, container.getWidth(), container.getHeight());
+			g.setDrawMode(Graphics.MODE_NORMAL);
 		}
 		
 		// Draw Upper Left UI
@@ -318,16 +339,11 @@ public class RenderSystem extends BaseEntitySystem {
 		ResourceManager manager = ResourceManager.getInstance();
 		
 		float invSize = 1f / lightSize;
-		g.clearAlphaMap();
 		g.scale(lightSize, lightSize);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
 		Image light = (Image)manager.getResource("light").getObject();
 		light.drawCentered((x) * invSize, (y) * invSize);
 		g.scale(invSize, invSize);
-		GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_DST_ALPHA);
-		g.setColor(new Color(0,0,0,255));
-		g.fillRect(0, 0, container.getWidth(), container.getHeight());
-		g.setDrawMode(Graphics.MODE_NORMAL);
 	}
 	
 	private void drawCreatureEntity(Entity entity, int x, int y) {

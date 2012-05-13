@@ -88,5 +88,8 @@
     <property name="Y" value="7"/>
    </properties>
   </object>
+  <object name="TrinketSpawn" type="TrinketSpawn" x="1414" y="541" width="108" height="60"/>
+  <object name="TestLight" type="Light" x="1040" y="1006" width="106" height="88"/>
+  <object name="TestLight" type="Light" x="938" y="539" width="106" height="88"/>
  </objectgroup>
 </map>

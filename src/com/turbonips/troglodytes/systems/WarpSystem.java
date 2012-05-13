@@ -193,18 +193,10 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 						} catch (Exception ex) {
 							// blah
 						}
-					}
-				}
-			}
-			
-			if (!visitedMapsMapper.get(players.get(0)).getMaps().contains(warp.getMapName())) {
-				for (int groupID = 0; groupID < tiledMap.getObjectGroupCount(); groupID++) {
-					for (int objectID = 0; objectID < tiledMap.getObjectCount(groupID); objectID++) {
-						int objectX = tiledMap.getObjectX(groupID, objectID);
-						int objectY = tiledMap.getObjectY(groupID, objectID);
-						int objectWidth = tiledMap.getObjectWidth(groupID, objectID);
-						int objectHeight = tiledMap.getObjectHeight(groupID, objectID);
-						String type = tiledMap.getObjectType(groupID, objectID).toLowerCase();
+					} else if (type.equals("light")) {
+						Entity light = world.createEntity();
+						light.setGroup("LIGHTS");
+						light.addComponent(new Location(new Vector2f(objectX + objectWidth/2, objectY + objectHeight/2), warp.getMapName()));
 					}
 				}
 			}
