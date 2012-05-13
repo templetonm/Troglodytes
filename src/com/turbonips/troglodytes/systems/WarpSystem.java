@@ -182,9 +182,10 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 						trinket.addComponent(new StatModifiers(modifiers));
 					} else if (type.equals("particle")) {
 						String particleId = tiledMap.getObjectProperty(groupID, objectID, "Name", "");
-						ParticleSystem ps = (ParticleSystem)manager.getResource(particleId).getObject();
+						String resourcePath = manager.getResource(particleId).getPath();
+						//ParticleSystem ps = (ParticleSystem)manager.getResource(particleId).getObject();
 						try {
-							//ParticleSystem ps = ParticleIO.loadConfiguredSystem("resources/particleXMLs/bubble.xml");
+							ParticleSystem ps = ParticleIO.loadConfiguredSystem(resourcePath);
 							Entity part = world.createEntity();
 							part.setGroup("PARTICLES");
 							part.addComponent(new ParticleComponent(ps, true));

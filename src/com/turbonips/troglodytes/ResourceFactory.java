@@ -88,19 +88,8 @@ public class ResourceFactory {
 			unicodeFont.getEffects().add(new ColorEffect(java.awt.Color.white));
 			
 			return new Resource(id, ResourceType.FONT, path, unicodeFont);
-
-//			String TGApath = "resources/" + String.valueOf(resourceElement.getAttribute("TGApath"));
-//			return new Resource(id, ResourceType.FONT, path, new AngelCodeFont(, false));
 		} else if (type.equals("particle")) {
-			ParticleSystem ps = null;
-			try {
-				logger.info(path);
-				ps = ParticleIO.loadConfiguredSystem(path);
-			} catch (IOException e) {
-				// Throw some slick exception
-			}
-			
-			return new Resource(id, ResourceType.PARTICLE, path, ps);
+			return new Resource(id, ResourceType.PARTICLE, path, path);
 		}
 		
 		return null;

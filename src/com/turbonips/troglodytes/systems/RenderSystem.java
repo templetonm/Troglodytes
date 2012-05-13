@@ -125,41 +125,6 @@ public class RenderSystem extends BaseEntitySystem {
 			}
 		}
 		
-		// Draw enemies
-		for (int i=0; i<enemies.size(); i++) {
-			Entity enemy = enemies.get(i);
-			Location enemyLocation = locationMapper.get(enemy);
-			if (enemyLocation.getMap().equals(playerLocation.getMap())) {
-				Vector2f enemyPosition = enemyLocation.getPosition();
-				int enemyX = mapX + (int)enemyPosition.x;
-				int enemyY = mapY + (int)enemyPosition.y;
-				drawCreatureEntity(enemy, enemyX, enemyY);
-				if (enemyAIMapper.get(enemy) != null) {
-					Path enemyPath = enemyAIMapper.get(enemy).getPath();
-					if (enemyPath != null) {
-						for (int a=0; a<enemyPath.getLength(); a++) {
-							g.setColor(new Color(0,0,255,100));
-							//g.drawRect(enemyPath.getX(a)*32, enemyPath.getY(a)*32, 32, 32);
-							//g.fillRect(mapX + enemyPath.getX(a)*32, mapY + enemyPath.getY(a)*32,32,32);
-						}
-					}
-				}
-			}
-		}
-
-		int playerCenterX = container.getWidth()/2 - playerFrame.getWidth()/2;
-		int playerCenterY = container.getHeight()/2 - playerFrame.getHeight()/2;
-		
-		// Draw aura under the player but over the enemies
-		if (auras.get(0) != null) {
-			ParticleComponent auraParticles = particleComponentMapper.get(auras.get(0));
-			auraParticles.updateParticleSystem(world.getDelta());
-			auraParticles.renderParticleSystem(playerCenterX+playerFrame.getWidth()/2, playerCenterY+playerFrame.getHeight()/2);
-		}
-		
-		// Draw the player
-		drawCreatureEntity(player, playerCenterX, playerCenterY);
-		
 		// Draw trinkets on map
 		for (int i=0; i<trinkets.size(); i++) {
 			Entity trinket = trinkets.get(i);
@@ -176,6 +141,41 @@ public class RenderSystem extends BaseEntitySystem {
 				trinketImage.draw(trinketX, trinketY);
 			}
 		}
+		
+		// Draw enemies
+		for (int i=0; i<enemies.size(); i++) {
+			Entity enemy = enemies.get(i);
+			Location enemyLocation = locationMapper.get(enemy);
+			if (enemyLocation.getMap().equals(playerLocation.getMap())) {
+				Vector2f enemyPosition = enemyLocation.getPosition();
+				int enemyX = mapX + (int)enemyPosition.x;
+				int enemyY = mapY + (int)enemyPosition.y;
+				drawCreatureEntity(enemy, enemyX, enemyY);
+				/*if (enemyAIMapper.get(enemy) != null) {
+					Path enemyPath = enemyAIMapper.get(enemy).getPath();
+					if (enemyPath != null) {
+						for (int a=0; a<enemyPath.getLength(); a++) {
+							g.setColor(new Color(0,0,255,100));
+							//g.drawRect(enemyPath.getX(a)*32, enemyPath.getY(a)*32, 32, 32);
+							//g.fillRect(mapX + enemyPath.getX(a)*32, mapY + enemyPath.getY(a)*32,32,32);
+						}
+					}
+				}*/
+			}
+		}
+
+		int playerCenterX = container.getWidth()/2 - playerFrame.getWidth()/2;
+		int playerCenterY = container.getHeight()/2 - playerFrame.getHeight()/2;
+		
+		// Draw aura under the player but over the enemies
+		if (auras.get(0) != null) {
+			ParticleComponent auraParticles = particleComponentMapper.get(auras.get(0));
+			auraParticles.updateParticleSystem(world.getDelta());
+			auraParticles.renderParticleSystem(playerCenterX+playerFrame.getWidth()/2, playerCenterY+playerFrame.getHeight()/2);
+		}
+		
+		// Draw the player
+		drawCreatureEntity(player, playerCenterX, playerCenterY);
 		
 		// Player Health Bar
 		Stats stats = statsMapper.get(player);
@@ -245,7 +245,7 @@ public class RenderSystem extends BaseEntitySystem {
 		}
 		
 		// Draw the collision layer
-		tiledMap.render(mapX, mapY, 3);
+		//tiledMap.render(mapX, mapY, 3);
 		
 		// If lighting is turned on
 		String dark = tiledMap.getMapProperty("Dark", "false");
