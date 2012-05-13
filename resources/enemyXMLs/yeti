@@ -53,7 +53,7 @@
    <float>1</float>
   </void>
   <void property="AIType">
-   <string>dumbfind</string>
+   <string>follow</string>
   </void>
  </object> 
 </java> 

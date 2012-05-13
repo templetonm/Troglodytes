@@ -60,13 +60,13 @@
   </object>
   <object name="DinoSpawn" type="spawn" x="1488" y="1264" width="131" height="124">
    <properties>
-    <property name="Enemy" value="smalldino"/>
+    <property name="Enemy" value="dino"/>
     <property name="Number" value="5"/>
    </properties>
   </object>
   <object name="DinoSpawn" type="spawn" x="882" y="890" width="131" height="124">
    <properties>
-    <property name="Enemy" value="smalldino"/>
+    <property name="Enemy" value="dino"/>
     <property name="Number" value="5"/>
    </properties>
   </object>

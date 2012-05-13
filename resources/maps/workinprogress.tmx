@@ -56,13 +56,13 @@
   </object>
   <object name="SpawnPointD" type="Spawn" x="2393" y="705" width="169" height="136">
    <properties>
-    <property name="Enemy" value="vampirebat"/>
+    <property name="Enemy" value="bat"/>
     <property name="Number" value="0"/>
    </properties>
   </object>
   <object name="SpawnPointB" type="Spawn" x="417" y="1890" width="169" height="136">
    <properties>
-    <property name="Enemy" value="giantmaggot"/>
+    <property name="Enemy" value="maggot"/>
     <property name="Number" value="0"/>
    </properties>
   </object>

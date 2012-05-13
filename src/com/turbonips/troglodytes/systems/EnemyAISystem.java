@@ -304,7 +304,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 			// Path from the enemy center to the player center
 			newPath = pathFinder.findPath(null, (int) enemyCenter.x / tileWidth, (int) enemyCenter.y / tileHeight, (int) playerCenter.x / tileWidth, (int) playerCenter.y / tileHeight);
 			enemyAI.setPath(newPath);
-			enemyAI.pathAge = 10;
+			enemyAI.pathAge = 15;
 			enemyAI.pathStep = 1;
 		}
 
@@ -316,7 +316,7 @@ public class EnemyAISystem extends BaseEntitySystem {
 			Vector2f enemyToTile = new Vector2f();
 			int currentX, currentY;
 			// How far ahead in the path should we check before moving? (Bigger == Smoother)
-			int lookAhead = 6;
+			int lookAhead = 5;
 			boolean xCollide = false, yCollide = false;
 			HashMap<StatType, Integer> enemyStats = statsMapper.get(enemy).getStats();
 			int acceleration = enemyStats.get(StatType.ACCELERATION);
@@ -429,7 +429,6 @@ public class EnemyAISystem extends BaseEntitySystem {
 			
 			CollisionDirection collisionDirection = collisionResolution.getCollisionDirection(enemy, tiledMap, tmpVelocity);
 			if (collisionDirection != CollisionDirection.NONE) {
-				logger.info(collisionDirection);
 				boolean goFirstDirection=false;
 				if (collisionDirection == CollisionDirection.LEFT) {
 					if (left) {

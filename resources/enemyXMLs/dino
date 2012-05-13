@@ -2,7 +2,7 @@
 <java version="1.6.0_29" class="java.beans.XMLDecoder"> 
  <object class="com.turbonips.troglodytes.EnemyData"> 
   <void property="name"> 
-   <string>Giant Maggot</string> 
+   <string>Small Dino</string> 
   </void> 
   <void property="elite"> 
    <boolean>false</boolean>
@@ -17,16 +17,16 @@
    <int>50</int>
   </void> 
   <void property="damage"> 
-   <int>2</int>
+   <int>10</int>
   </void> 
   <void property="cooldown"> 
-   <int>100</int>
+   <int>1000</int>
   </void>
   <void property="range"> 
-   <int>3</int>
+   <int>2</int>
   </void>
   <void property="sight"> 
-   <int>10</int>
+   <int>30</int>
   </void>
   <void property="flier"> 
    <boolean>false</boolean>
@@ -44,16 +44,16 @@
    <int>5</int>
   </void>
   <void property="resourceRef"> 
-   <string>giantmaggotanimation</string>
+   <string>smalldinoanimation</string>
   </void>
   <void property="acceleration"> 
-   <float>1</float>
+   <float>1.5</float>
   </void>
   <void property="deceleration"> 
-   <float>1</float>
+   <float>1.5</float>
   </void>
   <void property="AIType">
-   <string>dumbfind</string>
+   <string>astar</string>
   </void>
  </object> 
 </java> 

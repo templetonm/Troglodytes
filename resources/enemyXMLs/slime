@@ -47,13 +47,13 @@
    <string>slimeanimation</string>
   </void>
   <void property="acceleration"> 
-   <float>.5</float>
+   <float>1.0</float>
   </void>
   <void property="deceleration"> 
-   <float>.5</float>
+   <float>1.0</float>
   </void>
   <void property="AIType">
-   <string>dumbfind</string>
+   <string>random</string>
   </void>
  </object> 
 </java> 
