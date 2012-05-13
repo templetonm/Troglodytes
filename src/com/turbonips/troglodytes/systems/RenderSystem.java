@@ -195,6 +195,10 @@ public class RenderSystem extends BaseEntitySystem {
 			ParticleComponent particleComponent = particleComponentMapper.get(enemyDeath);
 			particleComponent.updateParticleSystem(world.getDelta());
 			particleComponent.renderParticleSystem(enemyDeathX, enemyDeathY);
+			ParticleComponent pc = particleComponentMapper.get(enemyDeath);
+			if (pc.getEmitterFinished()) {
+				enemyDeath.delete();
+			}
 		}
 		
 		// Draw the foreground

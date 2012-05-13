@@ -88,8 +88,6 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 			checkSecondary(player, enemies);
 			playerPosition.set(newPosition);
 		}
-
-
 	}
 	
 	private void checkEnemyDeath(Entity enemy) {
