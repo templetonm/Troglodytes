@@ -56,8 +56,8 @@
   </object>
   <object name="SpiderSpawn" type="Spawn" x="2032" y="746" width="390" height="311">
    <properties>
-    <property name="Enemy" value="spider"/>
-    <property name="Number" value="0"/>
+    <property name="Enemy" value="spider,maggot"/>
+    <property name="Number" value="10-20"/>
    </properties>
   </object>
   <object name="SpiderSpawn" type="Spawn" x="552" y="939" width="390" height="311">

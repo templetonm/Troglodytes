@@ -95,7 +95,7 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 		map.setGroup("MAP");
 		map.addComponent(new ResourceRef(warp.getMapName()));
 		map.refresh();
-
+		
 		// Spawn enemies, particles and trinkets
 		if (!visitedMapsMapper.get(players.get(0)).getMaps().contains(warp.getMapName())) {
 			for (int groupID = 0; groupID < tiledMap.getObjectGroupCount(); groupID++) {
@@ -107,40 +107,48 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 					String type = tiledMap.getObjectType(groupID, objectID).toLowerCase();
 	
 					if (type.equals("spawn")) {
-						int spawnNum = Integer.valueOf(tiledMap.getObjectProperty(groupID, objectID, "Number", "0"));
-						String enemyId = tiledMap.getObjectProperty(groupID, objectID, "Enemy", "");
-						EnemyData enemyData = (EnemyData)xmls.deserializeData("resources/enemyXMLs/" + enemyId);
-						String enemyResourceRef = enemyData.getResourceRef();
-						int enemyMaxSpeed = enemyData.getMaxSpeed();
-						float enemyAcc = enemyData.getAcceleration();
-						float enemyDec = enemyData.getDeceleration();
-						String enemyAIType = enemyData.getAIType();
-						int sight = enemyData.getSight();
-	
-						for (int i = 0; i < spawnNum; i++) {
-							Vector2f startPosition = new Vector2f(objectX + (int) (Math.random() * objectWidth), objectY + (int) (Math.random() * objectHeight));
-							Entity enemy = world.createEntity();
-							enemy.setGroup("ENEMY");
-							enemy.addComponent(new ResourceRef(enemyResourceRef));
-							HashMap<StatType, Integer> enemyStats = new HashMap<StatType, Integer> ();
-							enemyStats.put(StatType.HEALTH, enemyData.getHealth());
-							enemyStats.put(StatType.MAX_HEALTH, enemyData.getHealth());
-							enemyStats.put(StatType.RANGE, enemyData.getRange());
-							enemyStats.put(StatType.MAX_SPEED, (int)enemyData.getMaxSpeed());
-							enemyStats.put(StatType.ACCELERATION, (int)enemyData.getAcceleration());
-							enemyStats.put(StatType.DECELERATION, (int)enemyData.getDeceleration());
-							enemyStats.put(StatType.DAMAGE, enemyData.getDamage());
-							enemyStats.put(StatType.SIGHT, enemyData.getSight());
-							enemyStats.put(StatType.ATTACK_COOLDOWN, enemyData.getCooldown());
-							
-							// TODO move sight over to enemy stats
-							enemy.addComponent(new Movement(new Vector2f(0,0)));
-							enemy.addComponent(new Direction(Dir.DOWN));
-							enemy.addComponent(new Location(startPosition, warp.getMapName()));
-							enemy.addComponent(new EnemyAI(enemyAIType, sight));
-							enemy.addComponent(new Attack());
-							enemy.addComponent(new Stats(enemyStats));
-							enemy.refresh();
+						String spawnNumSt = tiledMap.getObjectProperty(groupID, objectID, "Number", "0");
+						int spawnNum;
+						if (spawnNumSt.contains("-")) {
+							int minSpawnNum = Integer.valueOf(spawnNumSt.split("-")[0]);
+							int maxSpawnNum = Integer.valueOf(spawnNumSt.split("-")[1]);
+							spawnNum = (int)(Math.random() * (maxSpawnNum-minSpawnNum)) + minSpawnNum;
+						} else {
+							spawnNum = Integer.valueOf(tiledMap.getObjectProperty(groupID, objectID, "Number", "0"));
+						}
+						
+						String[] enemyIds = tiledMap.getObjectProperty(groupID, objectID, "Enemy", "").split(",");
+						if (enemyIds.length == 0) enemyIds[0] = tiledMap.getObjectProperty(groupID, objectID, "Enemy", "");
+						
+							for (int i = 0; i < spawnNum; i++) {
+								String enemyId = enemyIds[(int)(Math.random() * (enemyIds.length))].replace(" ", "");
+								EnemyData enemyData = (EnemyData)xmls.deserializeData("resources/enemyXMLs/" + enemyId);
+								String enemyResourceRef = enemyData.getResourceRef();
+								String enemyAIType = enemyData.getAIType();
+								int sight = enemyData.getSight();
+								Vector2f startPosition = new Vector2f(objectX + (int) (Math.random() * objectWidth), objectY + (int) (Math.random() * objectHeight));
+								Entity enemy = world.createEntity();
+								enemy.setGroup("ENEMY");
+								enemy.addComponent(new ResourceRef(enemyResourceRef));
+								HashMap<StatType, Integer> enemyStats = new HashMap<StatType, Integer> ();
+								enemyStats.put(StatType.HEALTH, enemyData.getHealth());
+								enemyStats.put(StatType.MAX_HEALTH, enemyData.getHealth());
+								enemyStats.put(StatType.RANGE, enemyData.getRange());
+								enemyStats.put(StatType.MAX_SPEED, (int)enemyData.getMaxSpeed());
+								enemyStats.put(StatType.ACCELERATION, (int)enemyData.getAcceleration());
+								enemyStats.put(StatType.DECELERATION, (int)enemyData.getDeceleration());
+								enemyStats.put(StatType.DAMAGE, enemyData.getDamage());
+								enemyStats.put(StatType.SIGHT, enemyData.getSight());
+								enemyStats.put(StatType.ATTACK_COOLDOWN, enemyData.getCooldown());
+								
+								// TODO move sight over to enemy stats
+								enemy.addComponent(new Movement(new Vector2f(0,0)));
+								enemy.addComponent(new Direction(Dir.DOWN));
+								enemy.addComponent(new Location(startPosition, warp.getMapName()));
+								enemy.addComponent(new EnemyAI(enemyAIType, sight));
+								enemy.addComponent(new Attack());
+								enemy.addComponent(new Stats(enemyStats));
+								enemy.refresh();
 						}
 					// Spawn trinkets
 					} else if (type.equals("trinketspawn")) {
@@ -184,6 +192,18 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 						} catch (Exception ex) {
 							// blah
 						}
+					}
+				}
+			}
+			
+			if (!visitedMapsMapper.get(players.get(0)).getMaps().contains(warp.getMapName())) {
+				for (int groupID = 0; groupID < tiledMap.getObjectGroupCount(); groupID++) {
+					for (int objectID = 0; objectID < tiledMap.getObjectCount(groupID); objectID++) {
+						int objectX = tiledMap.getObjectX(groupID, objectID);
+						int objectY = tiledMap.getObjectY(groupID, objectID);
+						int objectWidth = tiledMap.getObjectWidth(groupID, objectID);
+						int objectHeight = tiledMap.getObjectHeight(groupID, objectID);
+						String type = tiledMap.getObjectType(groupID, objectID).toLowerCase();
 					}
 				}
 			}

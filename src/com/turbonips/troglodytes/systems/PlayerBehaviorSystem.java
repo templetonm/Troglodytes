@@ -223,7 +223,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 				Vector2f enemyCenter = new Vector2f(enemyPosition.x + (ew / 2), enemyPosition.y + (eh / 2));
 				Movement enemyMovement = movementMapper.get(enemy);
 				Vector2f enemyVelocity = enemyMovement.getVelocity();
-				double secondaryKnockBack = 40;
+				double secondaryKnockBack = 32;
 
 				// Make sure we don't set the velocity > the entity width or height (necessary for collision)
 				if (ew < eh && secondaryKnockBack > ew) {

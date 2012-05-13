@@ -245,7 +245,7 @@ public class RenderSystem extends BaseEntitySystem {
 		}
 		
 		// Draw the collision layer
-		//tiledMap.render(mapX, mapY, 3);
+		tiledMap.render(mapX, mapY, 3);
 		
 		// If lighting is turned on
 		String dark = tiledMap.getMapProperty("Dark", "false");

@@ -41,7 +41,7 @@
    <int>0</int>
   </void>
   <void property="maxSpeed"> 
-   <int>5</int>
+   <int>2</int>
   </void>
   <void property="resourceRef"> 
    <string>testwhiteimage</string>

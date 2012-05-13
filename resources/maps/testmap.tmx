@@ -24,10 +24,10 @@
   </data>
  </layer>
  <objectgroup name="Objects" width="100" height="100">
-  <object name="TestSpawn" type="Spawn" x="1080" y="312" width="64" height="64">
+  <object name="TestSpawn" type="Spawn" x="1072" y="326" width="64" height="64">
    <properties>
-    <property name="Enemy" value="squareman"/>
-    <property name="Number" value="1"/>
+    <property name="Enemy" value="squareman,maggot,dino,spider, bat ,yeti,snake,scorpion,slime"/>
+    <property name="Number" value="20-50"/>
    </properties>
   </object>
  </objectgroup>
