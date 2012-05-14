@@ -83,7 +83,8 @@ public class RenderSystem extends BaseEntitySystem {
 		ImmutableBag<Entity> maps = world.getGroupManager().getEntities("MAP");
 		ImmutableBag<Entity> trinkets = world.getGroupManager().getEntities("TRINKET");
 		ImmutableBag<Entity> enemyDeaths = world.getGroupManager().getEntities("ENEMY_DEATH");
-		ImmutableBag<Entity> secondary = world.getGroupManager().getEntities("SECONDARY");
+		ImmutableBag<Entity> secondaryParticles = world.getGroupManager().getEntities("SECONDARY-PARTICLES");
+		ImmutableBag<Entity> attackParticles = world.getGroupManager().getEntities("ATTACK-PARTICLES");
 		ImmutableBag<Entity> auras = world.getGroupManager().getEntities("AURA");
 		ImmutableBag<Entity> mapParticles = world.getGroupManager().getEntities("PARTICLES");
 		ImmutableBag<Entity> mapLights = world.getGroupManager().getEntities("LIGHTS");
@@ -217,14 +218,35 @@ public class RenderSystem extends BaseEntitySystem {
 			g.fillRect(container.getWidth()/2 - attackBarWidth/2, container.getHeight()/2 + playerFrame.getHeight()/2 + barHeight*2 + barSpacing*2 + 1, attackBarWidth*attackPer, barHeight-2);
 		}
 		
-		// Draw secondary particles right before the foreground
-		if (secondary.get(0) != null) {
-			ParticleComponent secondaryParticles = particleComponentMapper.get(secondary.get(0));
-			secondaryParticles.updateParticleSystem(world.getDelta());
-			secondaryParticles.renderParticleSystem(playerCenterX+playerFrame.getWidth()/2, playerCenterY+playerFrame.getHeight()/2);
+		// Draw attack particles
+		if (attackParticles.size() > 0) {
 			
-			if (secondaryParticles.getEmitterFinished()) {
-				secondary.get(0).delete();
+			// We should still loop through the size just in case we can reduce the cooldown to
+			// be shorter than it's duration
+			for (int i=0; i<attackParticles.size(); i++) {
+				ParticleComponent pc = particleComponentMapper.get(attackParticles.get(i));
+				pc.updateParticleSystem(world.getDelta());
+				pc.renderParticleSystem(playerCenterX+playerFrame.getWidth()/2, playerCenterY+playerFrame.getHeight()/2);
+				
+				if (pc.getEmitterFinished()) {
+					attackParticles.get(i).delete();
+				}
+			}
+		}
+		
+		// Draw secondary particles
+		if (secondaryParticles.size() > 0) {
+			
+			// We should still loop through the size just in case we can reduce the cooldown to
+			// be shorter than it's duration
+			for (int i=0; i<secondaryParticles.size(); i++) {
+				ParticleComponent pc = particleComponentMapper.get(secondaryParticles.get(i));
+				pc.updateParticleSystem(world.getDelta());
+				pc.renderParticleSystem(playerCenterX+playerFrame.getWidth()/2, playerCenterY+playerFrame.getHeight()/2);
+				
+				if (pc.getEmitterFinished()) {
+					secondaryParticles.get(i).delete();
+				}
 			}
 		}
 		

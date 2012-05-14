@@ -188,7 +188,7 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 							ParticleSystem ps = ParticleIO.loadConfiguredSystem(resourcePath);
 							Entity part = world.createEntity();
 							part.setGroup("PARTICLES");
-							part.addComponent(new ParticleComponent(ps, true));
+							part.addComponent(new ParticleComponent(ps, false));
 							part.addComponent(new Location(new Vector2f(objectX, objectY), warp.getMapName()));
 						} catch (Exception ex) {
 							// blah
