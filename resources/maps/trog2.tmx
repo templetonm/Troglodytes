@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="86" height="64" tilewidth="32" tileheight="32">
+<map version="1.0" orientation="orthogonal" width="92" height="64" tilewidth="32" tileheight="32">
  <properties>
   <property name="Dark" value="false"/>
  </properties>
@@ -30,195 +30,210 @@
  <tileset firstgid="1123" name="Out5" tilewidth="32" tileheight="32">
   <image source="../graphics/Forest_cover.png" width="320" height="320"/>
  </tileset>
- <layer name="Ground" width="86" height="64">
+ <layer name="Ground" width="92" height="64">
   <data encoding="base64" compression="gzip">
-   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
+   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
   </data>
  </layer>
- <layer name="Background" width="86" height="64">
+ <layer name="Background" width="92" height="64">
   <data encoding="base64" compression="gzip">
-   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
+   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
   </data>
  </layer>
- <layer name="Foreground" width="86" height="64">
+ <layer name="Foreground" width="92" height="64">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2az07CQBDGK/CmVVETTTSamHgC9IToCaonBBOjoE+BiSdPPgIHH8AXcDfshHFC/2/b2Tq/ZFIbgzZfh9n5ZtfzBEEQimPR9Lz3ZrXP0Gl5XldFT8WliqtWtc9TBzpGy2sVAxU35l7Ijtb0QEWgYmSud+YqeZudPsrTBxUTFVOUt7eiayaGG/IU398z1ZXDmhTFmORpQO4fmerKnRel20zFXMWrio/m6grxJrpa4YPxd8tlvreqfoJ6wjVfi1inyvybm3Tlvva6QFS+ctEXPPe2CW58MtAoLVpT7GUGKXwhnoFAiJ9c0Tc+8Jr4l7MYfbSmR2QGEljyk1y+x3kYGt8yIv4lTtdDoil4S65+smzAH1KPGKcr9evwOVt+0vU5q/aHOs6NNwSvGOcLqV+fWNS1bnPWNL029uv6c+Db8/r0Os5Zs3oYm96njnNWDrqmnbPWoXcIw6auMmddY1NXmbOWA9e5lWvQeim6FoPoWgyiq5CGqPlfnXvHouiauQd4n0uHfSQXYHYI80Pdmx8z8JF59w2q/n5hXbHX0T+fSL5mAt4paDtH2v4nD1kGute5EE2tU0QPWWWte2pU838pUbr6pg+DPfJ2hT1D0nflK12/GJxDCtPVN71YQPZMXJg9c9A1DDzbd+GML2bJXFfQE/djSWakvdbae8Cea5n8MNZ1SPRMmqtj8y6C1t8zHWX6Oc51QEP3ZOMYm9pBz3REnZex2TtAL8C5DmCS9mJQk+mZjrDzMrbPvPlG1yaTXisO0DUut2C/lZ7pmJa8L6jrgAs5mzRfN+23Qi2ZlbgvuGSoa556B/utuC5XAfd1Ky9J64cN8JqlY1FjbfPmq9ZqX8WOiufG5t+1Tew1Vn2rK2tWnlzLq6uPNNpFGoKOmP+Qp1HQvAtD5+OpI7nHAZx3giAIgiAIgiAIgiCk5xcVVi77AFYAAA==
+   H4sIAAAAAAAAC+2aS04bQRCGB9s3nfCUEikoSJGy4rWyCSszsHIgEiIQTgGSV6w4ghccgAvQLbpEpeR5ONPT0zXzf1JpPLIMo9/l6vqrO0kAAEAPD8MkeRy2+wz7oyQ5MHFo4sjE8ajd5+ky+07jiYkTEz/dPfCP1XrHRGbizF3P3RV57p8xy+tfJi5NXLE8P4XeXpkuyWt+f6FM7xjWwiJmIq8zcf9bmd6x88foeWvizsRfE/Ph+5XiHno3yjzi32IXeVlr+wn6hbb8bmJ9DPk3l+kd+5qvmaL8jl13mkl8chEbTxFrtypWa+7dTlbwx3x2RAFfXczY+eGJ8Gt7JbpZrb+I2VHmyVfHXg/qMHU+7Uz4tTK9PwutyWNr89WhIZ8svXKZ3nKeQZ/z5au7Oue2PtnGd+eRyTOX+WM5z7j0qHdf5tyreAg+z7Cfo7lG3TlGn+bc/+vZfHq9Ps25Y9B71Tl3l3uZPHzqjTl3OT71xpy7XbTNAbUh6zH0Dgv0Dgv0Bk1SNGftY+/bFAduXkRe76iDfjoWaEZLc1rrOb5G4Kfr7vPE+nvkenNvZ1/vIr+9QjlAmt8xzeGlw2B7sh/QOhhN9MBt1tLrQTv/typFeqeuX6SzFJst9jBVv8PU6P0c8Xm4PL1T1zNmYu9Lw55AzHrnwfditJ19XyjVm3TmfWOVGfXh6MNT0R58SF4V6j0VOlfN7Zn7jrLRv2eFQvpXjfXEIvfoy5i5GiTPChWdz/LZy1BvorGecKr2jFTz5VmhvPNZvs9qpk7vYeQ9YRmkd1ku0v67PCt0FXg/2NYTzTleNb+X7b9TTboNuB+8UKR3nXpK+++87reB1vWyLlXrkA/4WmnjoYea181vq+G2iXUTN4Pl72262Bq8993a18o6uVlX75Rpt8G0JX05fc7rImSe5mHz95vyXI0BnqcAAAAAAAAAAAAAvngD2Xb6hgBcAAA=
   </data>
  </layer>
- <layer name="Collision" width="86" height="64" visible="0">
+ <layer name="Collision" width="92" height="64" visible="0">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2UUQ7CMAxD4eqcHPGHprG1iRO7xZWehFDXOK/ZXs/H42WMMcYYY4wxxhgToHIxcrF9VntlZ9rB6/EsRJaZfFd7V/aK6GXm7Lu6qEz/5LU7l5Jfdn10NgW3mdodjhleEY4V3peKfGy39lrTr7LTaD4Ft8pe2R4zvas6jWRT8do5q9Hn2R4jDpRnNZqR4fX4n7rT2Ywq8zqau9pbNt9OXhHOR85gO4zOGPq82bqofEhvCAeou4veZWU+xCxG56rrvYhmZXvN9KHqNJOtqx909kyt6mwqXmfzZ2vM7FvZ6VlPFfUjz3d7rfZc4XQFr6utaPZdvTJn9fvZ3bwi1jH3aC9dTu/yKHpfYVZXnN1MTpbXFdyu6lXZbzYX26mK2+8ciExsn0puPwuRh+0x6rbyHnab1ZF+qmcadV9sh1duu78NyHpsf5lvQabfKw/IOop0rZGaV9nYniJef/2+6+tsz4yrkRrGGGOMMcYYY4wxFbwBtKE2nABWAAA=
+   H4sIAAAAAAAAC+3UgUrGMAwE4N9X98lFRPgdbmvSu+aaXSAguraXb52v1099frgZfVbVubq2ve3due1t785tb3t3bnvbu3Pb296dG+3NLMaczDN39q6wRp2v7n3cC5Elku/q2Y7eiCyRve/ORWWyt04u1ndTPRe6VLxRM8+cvcJeyRthr/B9IfOh50Qb2HutubJ1Jh9qH5aHsjcyG9M7YqJqncmm7r3ybmfX7+I9Mpvy3UZnrPA+/k7dOppRzTubg1l3+9v777qZGtljF+/ozKvv+Oi+Kt5Xe2Tmnn2n2XeMzsee87hftFZ9R9msqt4z86laZ7KhZ8zOiZxpJkN0bUfvaJ7ZMyLPVXuzi3l+Zr2KN9ufYb2z926Vzf4078q7/b72Kd6IOuYenQXpk/W+21OtVt5tlvdOd30mp5r3DubdvJXdZ3MpeyuYv+dAZFL3VjD/LkQe9Pws79EZme+n6m4rerO/AdR73Mn799zV/2OQ5+3ozaiz/dFn7+Zdca8j8179jTHzKu+zn++y/PdMxLBi3mrvJ7a97d257W3vzm1ve3due9u7c9vb3p3b3rXeXy3q0L8AXAAA
   </data>
  </layer>
- <objectgroup name="Objects" width="86" height="64">
-  <object name="Warp to Cave" type="Warp" x="2048" y="1568" width="96" height="64">
+ <objectgroup name="Objects" width="92" height="64">
+  <object name="Warp to Cave" type="Warp" x="2112" y="1568" width="96" height="64">
    <properties>
     <property name="Map" value="trog1"/>
     <property name="X" value="46"/>
     <property name="Y" value="15"/>
    </properties>
   </object>
-  <object name="DinoSpawn" type="spawn" x="1488" y="1264" width="131" height="124">
+  <object name="DinoSpawn" type="spawn" x="1552" y="1264" width="131" height="124">
    <properties>
     <property name="Enemy" value="dino"/>
     <property name="Number" value="5"/>
    </properties>
   </object>
-  <object name="DinoSpawn" type="spawn" x="882" y="890" width="131" height="124">
+  <object name="DinoSpawn" type="spawn" x="968" y="1170" width="131" height="124">
    <properties>
     <property name="Enemy" value="dino"/>
     <property name="Number" value="5"/>
    </properties>
   </object>
-  <object name="SpiderSpawn" type="spawn" x="2174" y="884" width="131" height="124">
+  <object name="SpiderSpawn" type="spawn" x="1846" y="582" width="131" height="124">
    <properties>
     <property name="Enemy" value="spider"/>
     <property name="Number" value="2"/>
    </properties>
   </object>
-  <object name="Warp to Start" type="Warp" x="449" y="385" width="98" height="61">
+  <object name="Warp to Start" type="Warp" x="513" y="385" width="98" height="61">
    <properties>
     <property name="Map" value="trog0"/>
     <property name="X" value="61"/>
     <property name="Y" value="31"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="662" y="814" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="726" y="814" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="310" y="948" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="374" y="948" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="330" y="1207" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="394" y="1207" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="444" y="1443" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="508" y="1443" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="651" y="1669" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="715" y="1669" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="515" y="1860" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="579" y="1860" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="268" y="671" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="332" y="671" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="1039" y="149" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="1103" y="149" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="1280" y="200" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="1344" y="200" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="1204" y="587" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="1268" y="587" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="1181" y="855" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="1245" y="855" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="1340" y="1141" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="1404" y="1141" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="1402" y="762" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="1466" y="762" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="1485" y="478" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="1549" y="478" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="1655" y="251" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="1719" y="251" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="2108" y="316" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="2172" y="316" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="2483" y="736" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="2547" y="736" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="2449" y="603" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="2513" y="603" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="2426" y="315" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="2490" y="315" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="224" y="1922" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="288" y="1922" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="253" y="1662" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="317" y="1662" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="118" y="1492" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="182" y="1492" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="125" y="1120" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="189" y="1120" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="78" y="794" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="142" y="794" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="1541" y="146" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="1605" y="146" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="2143" y="145" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="2207" y="145" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="2475" y="120" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="2539" y="120" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
   </object>
-  <object name="SwampBubbles" type="particle" x="2654" y="464" width="71" height="30">
+  <object name="SwampBubbles" type="particle" x="2764" y="664" width="71" height="30">
+   <properties>
+    <property name="Name" value="bubble"/>
+   </properties>
+  </object>
+  <object name="SwampBubbles" type="particle" x="2737" y="463" width="71" height="30">
+   <properties>
+    <property name="Name" value="bubble"/>
+   </properties>
+  </object>
+  <object name="SwampBubbles" type="particle" x="115" y="1775" width="71" height="30">
+   <properties>
+    <property name="Name" value="bubble"/>
+   </properties>
+  </object>
+  <object name="SwampBubbles" type="particle" x="83" y="1329" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
    </properties>
