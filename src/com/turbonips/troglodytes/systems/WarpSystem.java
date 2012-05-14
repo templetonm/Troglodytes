@@ -183,12 +183,13 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 					} else if (type.equals("particle")) {
 						String particleId = tiledMap.getObjectProperty(groupID, objectID, "Name", "");
 						String resourcePath = manager.getResource(particleId).getPath();
+						boolean light = Boolean.valueOf(tiledMap.getObjectProperty(groupID, objectID, "Light", "false"));
 						//ParticleSystem ps = (ParticleSystem)manager.getResource(particleId).getObject();
 						try {
 							ParticleSystem ps = ParticleIO.loadConfiguredSystem(resourcePath);
 							Entity part = world.createEntity();
 							part.setGroup("PARTICLES");
-							part.addComponent(new ParticleComponent(ps, true));
+							part.addComponent(new ParticleComponent(ps, true, light));
 							part.addComponent(new Location(new Vector2f(objectX, objectY), warp.getMapName()));
 						} catch (Exception ex) {
 							// blah

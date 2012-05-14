@@ -230,6 +230,13 @@ public class RenderSystem extends BaseEntitySystem {
 		
 		// Draw the foreground
 		tiledMap.render(mapX, mapY, 2);
+		String dark = tiledMap.getMapProperty("Dark", "false");
+		
+		// Draw the player light
+		if (!dark.equals("false")) {
+			g.clearAlphaMap();
+			drawLight(playerStats.get(StatType.SIGHT), container.getWidth()/2, container.getHeight()/2);
+		}
 		
 		// I think we want to map particles here in case we want torches to flicker over foreground for example
 		for (int i=0; i<mapParticles.size(); i++) {
@@ -243,38 +250,25 @@ public class RenderSystem extends BaseEntitySystem {
 				int particleY = mapY + (int)particlePos.y;
 				particles.updateParticleSystem(world.getDelta());
 				particles.renderParticleSystem(particleX, particleY);
-			}
-		}
-		
-		// Draw the collision layer
-		//tiledMap.render(mapX, mapY, 3);
-		
-		// If lighting is turned on
-		String dark = tiledMap.getMapProperty("Dark", "false");
-		if (!dark.equals("false")) {
-			// Draw the player light
-			int lightSize = playerStats.get(StatType.SIGHT);
-			
-			g.clearAlphaMap();
-			
-			drawLight(player, lightSize, container.getWidth()/2, container.getHeight()/2);
-			
-			// Draw other lights
-			for (int i=0; i<mapLights.size(); i++) {
-				Entity light = mapLights.get(i);
-				Location lightLocation = locationMapper.get(light);
-				Vector2f lightPosition = lightLocation.getPosition();
-				if (lightLocation.getMap().equals(playerLocation.getMap())) {
-					
-					drawLight(light, 5, mapX + (int)lightPosition.x, mapY + (int)lightPosition.y);
+				
+				// Draw particle lights
+				if (!dark.equals("false") && particles.isLight()) {
+					drawLight(5, mapX + (int)particlePos.x, mapY + (int)particlePos.y);
 				}
 			}
-
+			
+		}
+		
+		// End drawing of lights
+		if (!dark.equals("false")) {
 			GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_DST_ALPHA);
 			g.setColor(new Color(0,0,0,255));
 			g.fillRect(0, 0, container.getWidth(), container.getHeight());
 			g.setDrawMode(Graphics.MODE_NORMAL);
 		}
+		
+		// Draw the collision layer
+		//tiledMap.render(mapX, mapY, 3);
 		
 		// Draw Upper Left UI
 		float bigBarWidth = 200;
@@ -334,7 +328,7 @@ public class RenderSystem extends BaseEntitySystem {
 		return true;
 	}
 	
-	private void drawLight(Entity entity, int lightSize, int x, int y) {
+	private void drawLight(int lightSize, int x, int y) {
 		Graphics g = container.getGraphics();
 		ResourceManager manager = ResourceManager.getInstance();
 		
