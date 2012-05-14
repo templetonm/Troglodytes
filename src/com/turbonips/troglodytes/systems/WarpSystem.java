@@ -194,10 +194,6 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 						} catch (Exception ex) {
 							// blah
 						}
-					} else if (type.equals("light")) {
-						Entity light = world.createEntity();
-						light.setGroup("LIGHTS");
-						light.addComponent(new Location(new Vector2f(objectX + objectWidth/2, objectY + objectHeight/2), warp.getMapName()));
 					}
 				}
 			}
