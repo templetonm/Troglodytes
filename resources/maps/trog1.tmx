@@ -2,7 +2,6 @@
 <map version="1.0" orientation="orthogonal" width="95" height="70" tilewidth="32" tileheight="32">
  <properties>
   <property name="Dark" value="true"/>
-  <property name="Lighting" value="true"/>
   <property name="Music" value="Into the Dark.ogg"/>
  </properties>
  <tileset firstgid="1" name="Cave" tilewidth="32" tileheight="32">
@@ -22,22 +21,22 @@
  </tileset>
  <layer name="Ground" width="95" height="70">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3ZTUsDMRSF4RTEjboTN6Mrf5M7bd37uVNBbME/boY2WGemg20y95wkZ/FSKC0kT26HKdM45xqllFJKKcNuZvg11FprL39VS++z39ddhc/qd2Fn3k32adxjQq8/xw6ZdfnHe6cy13nweJdin2r9lt7M9vus6b97fAPZ5mIf1jLlXj8IvJnspzR/IPBltLeYc/ZQ7pZ9EjjXas+azMu3R++TMdmXbY/eI2uyx3Vu4I/eI2Oty9TPVtB7ZA15vfkm2D8qi2uN5r7fkdxhWbjLvp/VtUb2/eQu+9rS9QaX3GUf09y36HRPYDtWCf+lWvcn30unx5GzmA+8p5lP4z7U9lmE77yC3C1m/prEfew8ELOf87y3PUe6hxCzL3vnbn2rAu2nXn+sPcq9hOdSX76l7+4A8yXIvYSZHzqD0K6zQJuXMvP7nEUIaW4182h71kr4H5tjVs8EZd/Pyl32WPsLgv0yZWmv2Zc9Q5bPBWX/N2t32a9DzHzt9pb387LnMA/Vcp/J4l3D7LNalzz7uZhvd0zgVot1Cv8T3+mmMzmbnkHju9x0JVvbOvbw9dSU7JVSSin3A9oo1nDoZwAA
+   H4sIAAAAAAAAC+3ZTUsDMRSF4RTEjboTN6Mrf5M7bd37uVNBbME/boY2WGemg20y95wkZ/FSKC0kT26HKdM45xqllFJKKcNuZvg11FprL39VS++z39ddhc/qd2Fn3k32adxjQq8/xw6ZdfnHe6cy13nweJdin2r9lt7M9vus6b97fAPZ5mIf1jLlXj8IvJnspzR/IPBltLeYc/ZQ7pZ9EjjXas+azMu3R++TMdmXbY/eI2uyx3Vu4I/eI2Oty9TPVtB7ZA15vfkm2D8qi2uN5r7fkdxhWbjLvp/VtUb2/eQu+9rS9QaX3GUf09y36HRPYDtWCf+lWvcn30unx5GzmA+8p5lP4z7U9lmE77yC3C1m/prEfew8ELOf87y3PUe6hxCzL3vnbn2rAu2nXn+sPcq9hOdSX76l7+4A8yXIvYSZHzqD0K6zQJuXMvP7nEUIaW4182h71kr4H5tjVs8EZd/Pyl32WPsLgv0yZWmv2Zc9Q5bPBWX/N2t32a9DzHzt9pb387LnMA/Vcp/J4l3D7LNalzz7uZhvd0zgVot1Cv8T3+mmMzmbnkHju9x0JVvbOvbw9dSU7JVSSin3A9oo1nDoZwAA
   </data>
  </layer>
  <layer name="Background" width="95" height="70">
   <data encoding="base64" compression="gzip">
-   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
+   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
   </data>
  </layer>
  <layer name="Foreground" width="95" height="70">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+2aS04DMQyGXVjBBiEWwAKYXoCb8FjwlCiwQXABQIIli16bWKqlaDQPZyaxkxl/0i8k1FLni8dTmq4XAGuLxWKxWCwWofShXd9UE4p2vVPIWLTrLzWx0F5HSUmB9ppyjiTaa80hmmivvURnsdB2ODWfIWj7nqNzwpzrYc71MO96mHM9zLse5l2PuXi/cbl1uWPk3uVBoKaS3If4q+fC5dLlb9GdF/eY7/ilN5K7e98319/QSHpHcnePvEE6337e45XMogT3ny7PEO4SmM/Bfn8FmZ7Hso42teXunRjqP7d+34e0/Z7CPZLCv/SMX0KZ7pFY/iXnDHHoXne3UO8E+v9yWQF/H8j1avNcSecIakntXcK9D+7DihFp13VKnfOlM8WeLwWJnjf3zSzBvGtg80YPu8fqYfNGB4l5YzSTet4YzVjP62H3WD1S32P7aDtflTqL1kTTPXp/hObz1T33uyeYrv8cZv05tH+mq+m/6XqMeS3mMOu73JP/68jr7qPteryKVItEz8dw75+XfoxYL5euOejvwZjrMZfPLH+Ad64kMX843uvXQOgskjgT5LpHuL0v4T/kez5n7rEV8M+7UIeU99juJWYPni+eMurBs93fwL8tNWtC3HPnjtS9t6sedF5BuHdkCbLud1y2GXWF9L7EHtT9j3FOSLvHHAxYa+gepHgPjjVVMN45kat7WusJDP9e05AZLIUrT/Q+G+qeoD2ooHsfaA5QcvWOSN9nh7r38feh/jNn1wS+n8fvFGv0/Fj3paLtfG7uyXcOzinc95ml4bvOyfeUez+XeTKH3i+lv0v3X/dcqus2/1ugtwdNbqfouW8PuhxQjhd8b5zMwW2s+Pdorf8N5xr/+rCetVgsFstc8w+KVJ6q6GcAAA==
+   H4sIAAAAAAAAC+2aS04DMQyGXVjBBiEWwAKYXoCb8FjwlCiwQXABQIIli16bWKqlaDQPZyaxkxl/0i8k1FLni8dTmq4XAGuLxWKxWCwWofShXd9UE4p2vVPIWLTrLzWx0F5HSUmB9ppyjiTaa80hmmivvURnsdB2ODWfIWj7nqNzwpzrYc71MO96mHM9zLse5l2PuXi/cbl1uWPk3uVBoKaS3If4q+fC5dLlb9GdF/eY7/ilN5K7e98319/QSHpHcnePvEE6337e45XMogT3ny7PEO4SmM/Bfn8FmZ7Hso42teXunRjqP7d+34e0/Z7CPZLCv/SMX0KZ7pFY/iXnDHHoXne3UO8E+v9yWQF/H8j1avNcSecIakntXcK9D+7DihFp13VKnfOlM8WeLwWJnjf3zSzBvGtg80YPu8fqYfNGB4l5YzSTet4YzVjP62H3WD1S32P7aDtflTqL1kTTPXp/hObz1T33uyeYrv8cZv05tH+mq+m/6XqMeS3mMOu73JP/68jr7qPteryKVItEz8dw75+XfoxYL5euOejvwZjrMZfPLH+Ad64kMX843uvXQOgskjgT5LpHuL0v4T/kez5n7rEV8M+7UIeU99juJWYPni+eMurBs93fwL8tNWtC3HPnjtS9t6sedF5BuHdkCbLud1y2GXWF9L7EHtT9j3FOSLvHHAxYa+gepHgPjjVVMN45kat7WusJDP9e05AZLIUrT/Q+G+qeoD2ooHsfaA5QcvWOSN9nh7r38feh/jNn1wS+n8fvFGv0/Fj3paLtfG7uyXcOzinc95ml4bvOyfeUez+XeTKH3i+lv0v3X/dcqus2/1ugtwdNbqfouW8PuhxQjhd8b5zMwW2s+Pdorf8N5xr/+rCetVgsFstc8w+KVJ6q6GcAAA==
   </data>
  </layer>
  <layer name="Collision" width="95" height="70">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3UwY7CMBADUPh0+HLUA1KFqNokM2N7aks+buu8dHk/H4+367qu67qu67pu0x4Fvat7f619D7XmI0HvVu9q0PsVGxn0WRBmSO873sPoORFBG0UaqwVt181zJGhnlDnDHaO9ow0YTK+mizlbrpwP6d7d/yz+1nG5mzvTXkV3xc2oc6jstD1u59nm6Puwfc/v3fZ6Zzn6G7ads2F1R+6uCPM3j9pfkUr3zDOx78vczHQuxk0rG5XsR4PYZveYzJzP9pj49waXTu5q99zFfub9yPu5kzvb72AHe+ZtmZvRZ1PYmL1b3b46DO6rForuUbtXzhZlYve4b37WJtI8+p72f69iv3Lu2edk/q9UuaPtZ5K9R9G+wj/jjBHPZ7DP9s+0r3a/ssv2OvaZd5C5AWF/tjH7bkeT9V5G++hdEdme89o14vkM9v/2s9lv+bVfCcr96m42+5GcvZfdPmInW5DmqyZq1t+gvRWMIoM2ZvXPeD/ak8W+8m7Rjoz+WUGb3cUfbdP9DtDnVqrNXNd1XddF9QPgbBz26GcAAA==
+   H4sIAAAAAAAAC+2cQQ7CMBAD4en05YhDJYSEKMnuzjqxJR9px5PSY4/77Xa4ruu6ruu6rusu2m+huVbv1dCcK3U0NLd6Z0PzKzYy9BbCGel7x3P4dycR2tFsH4PeRn8XGdpdl2eQCO15R+dnaN87Oj9j51zsnYudc9nNeydeRe+KzNQOFU675zgrvVdtUuFc6Xm3+3W2qHDSO7L2KLFW81fsUeGs4CY2defLZO60qyPTDKOSe4XYOxe7Z+L3DZeVvKud8yruR+5Pns9O3ru9B1dw35ktk5nepsCYza3uvjodvM+6UPQexT2zLcqJvcc986NuIp1nnpOK+5ndo9fJ/K9UeafdjySbR9F9hf+MjRHX7+A+23+m+2rvV7jsXsd95hlkMhDufzFmn+2/ybpvR/fRXBF5Xefx1ojr2/31fLqfCeX9Knc395Hp7j6Cs1tI57NO1FyfoX0rOIoM7Xgn/7TPHd3THnfyTzur8D/y3ZTob63QbugzyA69W6l25rqu67ou1SdCvYaX6GcAAA==
   </data>
  </layer>
  <objectgroup name="Objects" width="95" height="70">
@@ -48,7 +47,7 @@
     <property name="Y" value="46"/>
    </properties>
   </object>
-  <object name="SpiderSpawn" type="Spawn" x="1202" y="1577" width="390" height="311">
+  <object name="Creature Spawner" type="Spawn" x="1202" y="1577" width="390" height="311">
    <properties>
     <property name="Enemy" value="spider"/>
     <property name="Number" value="0"/>
@@ -60,13 +59,13 @@
     <property name="Number" value="10-20"/>
    </properties>
   </object>
-  <object name="SpiderSpawn" type="Spawn" x="552" y="939" width="390" height="311">
+  <object name="Creature Spawner" type="Spawn" x="552" y="939" width="390" height="311">
    <properties>
     <property name="Enemy" value="spider"/>
     <property name="Number" value="0"/>
    </properties>
   </object>
-  <object name="YetiSpawn" type="Spawn" x="692" y="1866" width="226" height="137">
+  <object name="Creature Spawner" type="Spawn" x="692" y="1866" width="226" height="137">
    <properties>
     <property name="Enemy" value="yeti"/>
     <property name="Number" value="0"/>
@@ -75,11 +74,9 @@
   <object name="ScorpionSpawn" type="Spawn" x="2141" y="366" width="226" height="137">
    <properties>
     <property name="Enemy" value="scorpion"/>
-    <property name="Number" value="20"/>
+    <property name="Number" value="10"/>
    </properties>
   </object>
-  <object name="TrinketSpawn" type="TrinketSpawn" x="1114" y="549" width="226" height="137"/>
-  <object name="TrinketSpawn" type="TrinketSpawn" x="1797" y="486" width="226" height="137"/>
   <object name="TrinketSpawn" type="TrinketSpawn" x="718" y="684" width="226" height="137"/>
   <object name="Warp To Next Floor" type="Warp" x="754" y="2026" width="96" height="64">
    <properties>
@@ -88,8 +85,30 @@
     <property name="Y" value="7"/>
    </properties>
   </object>
-  <object name="TrinketSpawn" type="TrinketSpawn" x="1414" y="541" width="108" height="60"/>
-  <object name="TestLight" type="Light" x="1040" y="1006" width="106" height="88"/>
-  <object name="TestLight" type="Light" x="938" y="539" width="106" height="88"/>
+  <object name="Torch" type="particle" x="1263" y="482" width="37" height="35">
+   <properties>
+    <property name="Light" value="true"/>
+    <property name="Name" value="flame"/>
+   </properties>
+  </object>
+  <object name="Torch" type="particle" x="1712" y="481" width="37" height="35">
+   <properties>
+    <property name="Light" value="true"/>
+    <property name="Name" value="flame"/>
+   </properties>
+  </object>
+  <object name="Torch" type="particle" x="1008" y="1983" width="37" height="35">
+   <properties>
+    <property name="Light" value="true"/>
+    <property name="Name" value="flame"/>
+   </properties>
+  </object>
+  <object name="Torch" type="particle" x="590" y="1983" width="37" height="35">
+   <properties>
+    <property name="Light" value="true"/>
+    <property name="Name" value="flame"/>
+   </properties>
+  </object>
+  <object name="TrinketSpawn" type="TrinketSpawn" x="2140" y="538" width="226" height="137"/>
  </objectgroup>
 </map>
