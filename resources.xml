@@ -7,6 +7,14 @@
 
 	<resource id="bubble" type="particle" path="particleXMLs/bubble.xml" />
 	<resource id="flame" type="particle" path="particleXMLs/flame.xml" />
+	<resource id="attack-right" type="particle" path="particleXMLs/attack-right.xml" />
+	<resource id="attack-left" type="particle" path="particleXMLs/attack-left.xml" />
+	<resource id="attack-down" type="particle" path="particleXMLs/attack-down.xml" />
+	<resource id="attack-up" type="particle" path="particleXMLs/attack-up.xml" />
+	<resource id="attack-up-right" type="particle" path="particleXMLs/attack-up-right.xml" />
+	<resource id="attack-up-left" type="particle" path="particleXMLs/attack-up-left.xml" />
+	<resource id="attack-down-right" type="particle" path="particleXMLs/attack-down-right.xml" />
+	<resource id="attack-down-left" type="particle" path="particleXMLs/attack-down-left.xml" />
 	<resource id="swampbubble" type="image" path="graphics/testBubble.png" />
 	<resource id="smallfire" type="image" path="graphics/blankParticleW.png" />
 	<resource id="smallsmoke" type="image" path="graphics/blankParticleW.png" />
@@ -30,6 +38,7 @@
 
 	<resource id="stepsound" type="sound" path="sounds/step.wav" />
 	<resource id="Into the Dark.ogg" type="music" path="music/Into the Dark.ogg" />
+	<resource id="Cave, Man.ogg" type="music" path="music/Cave, Man.ogg" />
 	
 	<resource id="trog0" type="tiledmap" path="maps/trogStart.tmx" />
 	<resource id="trog1" type="tiledmap" path="maps/trog1.tmx" />

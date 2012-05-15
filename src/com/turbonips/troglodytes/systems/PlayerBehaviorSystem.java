@@ -255,7 +255,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 			try {
 				ParticleSystem ps = ParticleIO.loadConfiguredSystem("resources/particleXMLs/gust.xml");
 				Entity secondary = world.createEntity();
-				secondary.setGroup("SECONDARY");
+				secondary.setGroup("SECONDARY-PARTICLES");
 				secondary.addComponent(new ParticleComponent(ps, true));
 			} catch (IOException e) {
 				// Throw slick exception
@@ -384,6 +384,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 							break;
 
 						case DOWN_RIGHT:
+							
 							if (playerToEnemy.x < 0) {
 								if (Math.abs(playerToEnemy.y) >= Math.abs(playerToEnemy.x)) {
 									attackEnemy = true;
@@ -414,6 +415,46 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 					}
 					checkEnemyDeath(enemy);
 				}
+			}
+			
+			ResourceManager manager = ResourceManager.getInstance();
+			String attackDirection=null;
+			switch (playerDirection.getDirection()) {
+				case UP:
+					attackDirection="attack-up";
+					break;
+				case DOWN:
+					attackDirection="attack-down";
+					break;
+				case LEFT:
+					attackDirection="attack-left";
+					break;
+				case RIGHT:
+					attackDirection="attack-right";
+					break;
+				case UP_RIGHT:
+					attackDirection="attack-up-right";
+					break;
+				case UP_LEFT:
+					attackDirection="attack-up-left";
+					break;
+				case DOWN_LEFT:
+					attackDirection="attack-down-left";
+					break;
+				case DOWN_RIGHT:
+					attackDirection="attack-down-right";
+					break;
+			}
+					
+			String resourcePath = manager.getResource(attackDirection).getPath();
+			try {
+				ParticleSystem ps = ParticleIO.loadConfiguredSystem(resourcePath);
+				Entity part = world.createEntity();
+				part.setGroup("ATTACK-PARTICLES");
+				part.addComponent(new ParticleComponent(ps, true));
+				part.addComponent(new Location(new Vector2f(playerCenter.x, playerCenter.y+ph/2), null));
+			} catch (Exception ex) {
+				// blah
 			}
 		}
 	}
