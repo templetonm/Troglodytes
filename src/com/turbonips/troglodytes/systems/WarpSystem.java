@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.newdawn.slick.Music;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.particles.ParticleIO;
 import org.newdawn.slick.particles.ParticleSystem;
@@ -12,6 +13,7 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
+import com.artemis.SystemManager;
 import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.EnemyData;
 import com.turbonips.troglodytes.PolymorphTrinket;
@@ -216,5 +218,22 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 				// Throw slick exception
 			}
 		}*/
+		
+		// Hey, music system!
+		String songTitle = tiledMap.getMapProperty("Music", null);
+		if (songTitle != null) {
+			SystemManager systemManager = world.getSystemManager();
+			MusicSystem musicSystem = systemManager.getSystem(MusicSystem.class);
+			if(musicSystem.getTiledMap() != tiledMap) {
+				musicSystem.setTiledMap(tiledMap);
+			}
+
+			if (musicSystem.getTiledMap() != null) {
+				Music music = (Music) manager.getResource(songTitle).getObject();
+				if (musicSystem.getMusic() != music) {
+					musicSystem.setMusic(music);
+				}
+			}
+		}
 	}
 }
