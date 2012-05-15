@@ -31,8 +31,11 @@
   <void property="flier"> 
    <boolean>false</boolean>
   </void>
-  <void property="loot"> 
-   <int>0</int>
+  <void property="rareTrinkets"> 
+   <string>meat</string>
+  </void>
+  <void property="trinkets">
+  	<string>meat,tooth</string>
   </void>
   <void property="x"> 
    <int>0</int>
