@@ -39,38 +39,38 @@
  </layer>
  <layer name="Collision" width="100" height="75">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2UUY4CMQxD2fufkpvs10oIsUybOLYzjaX8Mant1/L8eTyeMzMzMzMzwnmV+vwrqbu6I4+s1H0p+3BjcScm6uxoqfvsfB+j+6t9dWSRzZ7dW+GpO4toftS+Kn9dWKDuJaq7Hd8uw5Qrj8ju4bG3o+s7efVSLUR3jDvH8NTlfaD2ZO7e8Nj345j1ZB6r+9iZT+axurPTO2FqeOi97fqs2Jn9T2R4Gh51uiuPFX+OmVk8sllc3kc1l4wn5hsZHl48Vryi93Xk4cZk1ZNr5m48Vj1nv+/Mw5FJ9Dt1vq48rrxHvlG9B4Q/ByYuPJDZK3igGf23h8WCcdeQHKI8sjlZLLryYOfY/U9xzsPiUZVld79jhgp/HXi4Z6nyyMqhZjE8rr1/+g0jZ0UWh3ntMOJZlTfSfxce0U5VLCI83pmoex8efI/obF14RPioO0f3WpWTJXXnwwPj7xQeLKm7ruBRkbVa6o4RPTB4sKTuGdHF8PBh8S0DMi9L6r4RHdyJR8ajksGKf2RWtroxWPGOzMhWVxbfvCMzstWVx87u4YHP+f7N8Jj3wZCaQ/StDA/9m1j1jMzJVjcWK56RWdly5VF1lsN9QuftzCO6u1on88icgRabA5vH6r7oOWh15uGUOSsVBxUPtzxsf9X+3bI6eKjyj+alzsPyUJ0hm6WiC8e7UM1I7SHT/114OOZASJ0BmdvR08k81Hn+znfzpWai1Kk8XJmczGMGP79XDmQhMHUAAA==
+   H4sIAAAAAAAAC+2TQW4DMQwD0/+/Mj/pqUBPiVaiSMoWAR9X5mjW75/X671nz549e/YIz/+o7/8W9a5O9FGNel/Kfbi5OMmJmh0d9T4n/4/Z+d29JrqoslfndnSa7iLLj5rX1W+yiww3anfoXqd4eMqNmJFhU7s43cfEd8IMog+DkdHpFB/ROch30tXnFB/RWWzWm31E57GZb/YRnTnpnTCzPvTdnvbsmLk+8j07Zq6PfM+Omesj37NjJpu90onpZH14+Yh0Rc+b6MPNSbSTK/M0H9HO1e8n+3B0kv1OzTfVx7fumW8c+FA+3N5I5hsHtg4fLA6WC4YPpAcnH1283enwweZ4cpc7D8tHF8vT+Y4MHf0m+HBn6erI4lC7WB/fu6s4O1gcTrXz+vDxoWRdH+tD7WR9zPHRxcmKeufrA9PvFh+sqHfd4aODtTvqHSP2wPDBinrPiF2sDx8XnxiQvKyo943YwUk+Kh2VDiL9kazsTHMQ6Y5kZGeqi0/dkYzsTPXxZPb6WB8dXOuj3hPJ5egh0hnJyM40F5HOSE52prmIdEaysuPqo+suh/8JzTvZR3Z2d272UbkDHbYHto/ovOw96Ez24cRcjcqDyocbD7tfd383VocO6+McH0+cVOcr/yP1jhG86g6V/Z/iw5EDETUDktux080+1Dx/97v1UjtR5lYfrk5u9rEHf34Bi4Qu4TB1AAA=
   </data>
  </layer>
  <objectgroup name="Objects" width="100" height="75">
   <object name="SpawnPointA" type="Spawn" x="607" y="525" width="288" height="254">
    <properties>
     <property name="Enemy" value="spider"/>
-    <property name="Number" value="0"/>
+    <property name="Number" value="25-50"/>
    </properties>
   </object>
   <object name="SpawnPointC" type="Spawn" x="1324" y="459" width="169" height="136">
    <properties>
     <property name="Enemy" value="slime"/>
-    <property name="Number" value="0"/>
+    <property name="Number" value="10-20"/>
    </properties>
   </object>
   <object name="SpawnPointD" type="Spawn" x="2393" y="705" width="169" height="136">
    <properties>
     <property name="Enemy" value="bat"/>
-    <property name="Number" value="0"/>
+    <property name="Number" value="20-50"/>
    </properties>
   </object>
   <object name="SpawnPointB" type="Spawn" x="417" y="1890" width="169" height="136">
    <properties>
     <property name="Enemy" value="maggot"/>
-    <property name="Number" value="0"/>
+    <property name="Number" value="5-10"/>
    </properties>
   </object>
   <object name="SpawnPointE" type="Spawn" x="2081" y="1537" width="284" height="251">
    <properties>
     <property name="Enemy" value="yeti"/>
-    <property name="Number" value="0"/>
+    <property name="Number" value="5-10"/>
    </properties>
   </object>
   <object name="Warp To Previous Floor" type="Warp" x="608" y="129" width="96" height="64">
@@ -80,5 +80,6 @@
     <property name="Y" value="61"/>
    </properties>
   </object>
+  <object name="TrinketSpawn" type="TrinketSpawn" x="457" y="2215" width="114" height="112"/>
  </objectgroup>
 </map>
