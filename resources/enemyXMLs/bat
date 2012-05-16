@@ -32,7 +32,7 @@
    <boolean>false</boolean>
   </void>
   <void property="rareTrinkets"> 
-   <string>torch, tooth</string>
+   <string>torch,tooth</string>
   </void>
   <void property="trinkets">
   	<string>meat</string>

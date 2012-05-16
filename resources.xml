@@ -7,6 +7,7 @@
 
 	<resource id="bubble" type="particle" path="particleXMLs/bubble.xml" />
 	<resource id="flame" type="particle" path="particleXMLs/flame.xml" />
+	<resource id="lava" type="particle" path="particleXMLs/lava.xml" />
 	<resource id="attack-right" type="particle" path="particleXMLs/attack-right.xml" />
 	<resource id="attack-left" type="particle" path="particleXMLs/attack-left.xml" />
 	<resource id="attack-down" type="particle" path="particleXMLs/attack-down.xml" />
@@ -45,6 +46,7 @@
 	<resource id="squirrelanimation" type="creatureanimation" path="graphics/squirrel.png" width="32" height="32" />
 
 	<resource id="stepsound" type="sound" path="sounds/step.wav" />
+	<resource id="playerattacksound" type="sound" path="sounds/playerattack.wav" />
 	<resource id="Into the Dark.ogg" type="music" path="music/Into the Dark.ogg" />
 	<resource id="Cave, Man.ogg" type="music" path="music/Cave, Man.ogg" />
 	

@@ -28,7 +28,7 @@ public class MusicSystem extends BaseEntitySystem
 		// Music is updated in WarpSystem; when a new map is loaded, a new music is assigned.
 		if (music != null){
 			if (!music.playing()){
-				music.play();
+				music.play(1f, .4f);
 			}
 		}
 	}

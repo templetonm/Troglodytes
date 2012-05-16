@@ -145,16 +145,16 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 								enemyStats.put(StatType.ATTACK_COOLDOWN, enemyData.getCooldown());
 								
 								// Pick either a rare or not rare trinket
-								String selectedTrinkets = enemyData.getTrinkets();
+								String randomTrinkets = enemyData.getTrinkets();
 								if (Math.random() * 100 < 5)
-									selectedTrinkets = enemyData.getRareTrinkets();
+									randomTrinkets = enemyData.getRareTrinkets();
 								
-								String selectedTrinket;
-								if (selectedTrinkets.contains(",")) {
-									int randomIndex = (int)(Math.random() * selectedTrinkets.split(",").length);
-									selectedTrinket = selectedTrinkets.split(",")[randomIndex];
+								String randTrinket;
+								if (randomTrinkets.contains(",")) {
+									int randomIndex = (int)(Math.random() * randomTrinkets.split(",").length);
+									randTrinket = randomTrinkets.split(",")[randomIndex].trim();
 								} else {
-									selectedTrinket = selectedTrinkets;
+									randTrinket = randomTrinkets.trim();
 								}
 								
 								// TODO move sight over to enemy stats
@@ -164,8 +164,8 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 								enemy.addComponent(new EnemyAI(enemyAIType, sight));
 								enemy.addComponent(new Attack());
 								enemy.addComponent(new Stats(enemyStats));
-								if (Math.random() * 10 < 5)  {
-									enemy.addComponent(new TrinketDrop(selectedTrinket, world));
+								if (Math.random() * 10 < 5 && !randTrinket.isEmpty())  {
+									enemy.addComponent(new TrinketDrop(randTrinket, world));
 								}
 								enemy.refresh();
 						}

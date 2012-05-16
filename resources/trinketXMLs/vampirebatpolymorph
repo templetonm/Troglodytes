@@ -37,7 +37,7 @@
   	<int>0</int>
   </void>
   
-  <void property="addCooldown">
+  <void property="addAttackCooldown">
   	<int>500</int>
   </void>
  

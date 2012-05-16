@@ -31,7 +31,7 @@
   <void property="flier"> 
    <boolean>false</boolean>
   </void>
-  <void property="rareTrinkets"> 
+  <void property="rareTrinkets">
    <string>scorpionpolymorph</string>
   </void>
   <void property="trinkets">
