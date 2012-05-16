@@ -22,6 +22,7 @@ import com.turbonips.troglodytes.Resource;
 import com.turbonips.troglodytes.ResourceManager;
 import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.ColorChange;
+import com.turbonips.troglodytes.components.Debug;
 import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.EnemyAI;
 import com.turbonips.troglodytes.components.Movement;
@@ -48,6 +49,7 @@ public class RenderSystem extends BaseEntitySystem {
 	private ComponentMapper<ColorChange> colorChangeMapper;
 	private ComponentMapper<ParticleComponent> particleComponentMapper;
 	private ComponentMapper<EnemyAI> enemyAIMapper;
+	private ComponentMapper<Debug> debugMapper;
 	
 	// Bars below the player/enemy
 	int barSpacing = 1;
@@ -72,6 +74,7 @@ public class RenderSystem extends BaseEntitySystem {
 		colorChangeMapper = new ComponentMapper<ColorChange>(ColorChange.class, world);
 		particleComponentMapper = new ComponentMapper<ParticleComponent>(ParticleComponent.class, world);
 		enemyAIMapper = new ComponentMapper<EnemyAI>(EnemyAI.class, world); 
+		debugMapper = new ComponentMapper<Debug>(Debug.class, world);
 	}
 
 	@Override
@@ -87,8 +90,6 @@ public class RenderSystem extends BaseEntitySystem {
 		ImmutableBag<Entity> attackParticles = world.getGroupManager().getEntities("ATTACK-PARTICLES");
 		ImmutableBag<Entity> auras = world.getGroupManager().getEntities("AURA");
 		ImmutableBag<Entity> mapParticles = world.getGroupManager().getEntities("PARTICLES");
-		ImmutableBag<Entity> mapLights = world.getGroupManager().getEntities("LIGHTS");
-
 		
 		Entity player = players.get(0);
 		Location playerLocation = locationMapper.get(player);
@@ -101,6 +102,7 @@ public class RenderSystem extends BaseEntitySystem {
 		String mapResName = resourceMapper.get(maps.get(0)).getResourceName();
 		Resource mapRes = manager.getResource(mapResName);
 		TiledMap tiledMap = (TiledMap)mapRes.getObject();
+		Debug debug = debugMapper.get(player);
 		
 		// Draw the ground
 		tiledMap.render(mapX, mapY, 0);
@@ -154,16 +156,20 @@ public class RenderSystem extends BaseEntitySystem {
 				int enemyX = mapX + (int)enemyPosition.x;
 				int enemyY = mapY + (int)enemyPosition.y;
 				drawCreatureEntity(enemy, enemyX, enemyY);
-				/*if (enemyAIMapper.get(enemy) != null) {
-					Path enemyPath = enemyAIMapper.get(enemy).getPath();
-					if (enemyPath != null) {
-						for (int a=0; a<enemyPath.getLength(); a++) {
-							g.setColor(new Color(0,0,255,100));
-							//g.drawRect(enemyPath.getX(a)*32, enemyPath.getY(a)*32, 32, 32);
-							//g.fillRect(mapX + enemyPath.getX(a)*32, mapY + enemyPath.getY(a)*32,32,32);
+				if (debug != null) {
+					if (debug.isShowPaths()) {
+						if (enemyAIMapper.get(enemy) != null) {
+							Path enemyPath = enemyAIMapper.get(enemy).getPath();
+							if (enemyPath != null) {
+								for (int a=0; a<enemyPath.getLength(); a++) {
+									g.setColor(new Color(0,0,255,100));
+									//g.drawRect(enemyPath.getX(a)*32, enemyPath.getY(a)*32, 32, 32);
+									g.fillRect(mapX + enemyPath.getX(a)*32, mapY + enemyPath.getY(a)*32,32,32);
+								}
+							}
 						}
 					}
-				}*/
+				}
 			}
 		}
 
@@ -290,7 +296,11 @@ public class RenderSystem extends BaseEntitySystem {
 		}
 		
 		// Draw the collision layer
-		//tiledMap.render(mapX, mapY, 3);
+		if (debug != null) {
+			if (debug.isShowWalls()) {
+				tiledMap.render(mapX, mapY, 3);
+			}
+		}
 		
 		// Draw Upper Left UI
 		float bigBarWidth = 200;

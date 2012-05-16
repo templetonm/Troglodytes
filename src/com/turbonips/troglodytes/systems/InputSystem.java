@@ -13,6 +13,7 @@ import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.CreatureSound;
+import com.turbonips.troglodytes.components.Debug;
 import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.Direction.Dir;
 import com.turbonips.troglodytes.components.Stats;
@@ -29,6 +30,7 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 	private ComponentMapper<Secondary> secondaryMapper;
 	private ComponentMapper<Polymorph> polymorphMapper;
 	private ComponentMapper<CreatureSound> creatureSoundMapper;
+	private ComponentMapper<Debug> debugMapper;
 	private GameContainer container;
 
 	boolean key_up = false, 
@@ -39,7 +41,9 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 			key_attack = false,
 			key_secondary = false,
 			key_a = false,
-			key_d = false;
+			key_d = false,
+			key_w = false,
+			key_p = false;
 	private ComponentMapper<StatModifiers> statModifiersMapper;
 	private ComponentMapper<Stats> statsMapper;
 	
@@ -58,6 +62,7 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 		statModifiersMapper = new ComponentMapper<StatModifiers>(StatModifiers.class, world);
 		statsMapper = new ComponentMapper<Stats>(Stats.class, world);
 		creatureSoundMapper = new ComponentMapper<CreatureSound>(CreatureSound.class, world);
+		debugMapper = new ComponentMapper<Debug>(Debug.class, world);
 		container.getInput().addKeyListener(this);
 	}
 
@@ -238,7 +243,7 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 			key_d = false;
 		}
 		
-		
+
 		
 		if (key_esc) {
 			container.exit();
@@ -252,6 +257,8 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 
 	@Override
 	public void keyPressed(int key, char c) {
+		Entity player = world.getGroupManager().getEntities("PLAYER").get(0);
+		Debug debug = debugMapper.get(player);
 		switch (key) {
 			case Input.KEY_UP:
 				key_up = true;
@@ -281,6 +288,24 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 				break;
 			case Input.KEY_D:
 				key_d = true;
+				break;
+			case Input.KEY_W:
+				if (debug != null) {
+					if (debug.isShowWalls()) {
+						debug.setShowWalls(false);
+					} else {
+						debug.setShowWalls(true);
+					}
+				}
+				break;
+			case Input.KEY_P:
+				if (debug != null) {
+					if (debug.isShowPaths()) {
+						debug.setShowPaths(false);
+					} else {
+						debug.setShowPaths(true);
+					}
+				}
 				break;
 		}
 	}

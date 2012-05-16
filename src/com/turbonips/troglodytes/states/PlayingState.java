@@ -16,6 +16,7 @@ import com.artemis.World;
 import com.turbonips.troglodytes.ResourceManager;
 import com.turbonips.troglodytes.components.Attack;
 import com.turbonips.troglodytes.components.CreatureSound;
+import com.turbonips.troglodytes.components.Debug;
 import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.Direction.Dir;
 import com.turbonips.troglodytes.components.HealthRegen;
@@ -99,6 +100,7 @@ public class PlayingState extends BaseGameState {
 		player.addComponent(new Secondary(6*1000));
 		player.addComponent(new HealthRegen());
 		player.addComponent(new CreatureSound((Sound)ResourceManager.getInstance().getResource("stepsound").getObject()));
+		player.addComponent(new Debug());
 		player.refresh();
 		
 		Entity trinket = world.createEntity();
