@@ -72,7 +72,9 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 		// Health regen
 		if (playerStats.get(StatType.HEALTH) < playerStats.get(StatType.MAX_HEALTH)) {
 			HealthRegen healthRegen = healthRegenMapper.get(player);
-			if (new Date().getTime()-healthRegen.getLastTime() > healthRegen.getTime()) {
+			int healthCooldown = playerStats.get(StatType.HEALTH_COOLDOWN);
+			if (healthCooldown < 0) healthCooldown = 0;
+			if (new Date().getTime()-healthRegen.getLastTime() > playerStats.get(StatType.HEALTH_COOLDOWN)) {
 				playerStats.put(StatType.HEALTH, playerStats.get(StatType.HEALTH)+1);
 				healthRegen.setLastTime(new Date().getTime());
 			}

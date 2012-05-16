@@ -10,7 +10,8 @@ public class TrinketData {
 	private int addSpeed;
 	private int addDamage;
 	private int addSight;
-	private int addCooldown;
+	private int addAttackCooldown;
+	private int addHealthCooldown;
 	
 	public enum TrinketType {
 		normal,
@@ -77,10 +78,16 @@ public class TrinketData {
 	public void setAddSight(int addSight) {
 		this.addSight = addSight;
 	}
-	public int getAddCooldown() {
-		return addCooldown;
+	public int getAddAttackCooldown() {
+		return addAttackCooldown;
 	}
-	public void setAddCooldown(int addCooldown) {
-		this.addCooldown = addCooldown;
+	public void setAddAttackCooldown(int addCooldown) {
+		this.addAttackCooldown = addCooldown;
+	}
+	public int getAddHealthCooldown() {
+		return addHealthCooldown;
+	}
+	public void setAddHealthCooldown(int addHealthCooldown) {
+		this.addHealthCooldown = addHealthCooldown;
 	}
 }

@@ -81,6 +81,7 @@ public class PlayingState extends BaseGameState {
 		stats.put(StatType.DAMAGE, 10);
 		stats.put(StatType.SIGHT, 10);
 		stats.put(StatType.ATTACK_COOLDOWN, 500);
+		stats.put(StatType.HEALTH_COOLDOWN, 250);
 		player.addComponent(new Stats(stats));
 		player.addComponent(new Movement(new Vector2f(0,0)));
 		player.addComponent(new Direction(Dir.DOWN));
@@ -90,7 +91,7 @@ public class PlayingState extends BaseGameState {
 		player.addComponent(new Attack());
 		// It's over 9000
 		player.addComponent(new Secondary(6*1000));
-		player.addComponent(new HealthRegen(250));
+		player.addComponent(new HealthRegen());
 		player.refresh();
 		
 		Entity trinket = world.createEntity();

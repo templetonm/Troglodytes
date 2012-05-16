@@ -16,7 +16,8 @@ public class Stats extends Component {
 		DECELERATION, 
 		DAMAGE,
 		SIGHT,
-		ATTACK_COOLDOWN
+		ATTACK_COOLDOWN,
+		HEALTH_COOLDOWN
 	}
 	private HashMap<StatType, Integer> stats = new HashMap<StatType, Integer>();
 	
