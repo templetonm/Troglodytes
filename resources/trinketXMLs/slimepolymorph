@@ -18,27 +18,27 @@
   </void>
   
   <void property="addHealth">
-  	<int>5</int>
+  	<int>0</int>
   </void>
   
   <void property="addRange">
-  	<int>1</int>
+  	<int>0</int>
   </void>
   
   <void property="addArmor">
-  	<int>1</int>
+  	<int>5</int>
   </void>
   
   <void property="addSpeed">
-  	<int>10</int>
+  	<int>0</int>
   </void>
   
   <void property="addDamage">
-  	<int>100</int>
+  	<int>-9</int>
   </void>
   
   <void property="addCooldown">
-  	<int>500</int>
+  	<int>0</int>
   </void>
  
  </object>

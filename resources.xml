@@ -31,6 +31,7 @@
 	
 	<resource id="healthTrinket" type="image" path="graphics/trinkets/trinket-meat.png" />
 	<resource id="damageTrinket" type="image" path="graphics/trinkets/trinket-tooth.png" />
+	<resource id="lightTrinket" type="image" path="graphics/trinkets/trinket-torch.png" />
 
 	<resource id="playeranimation" type="creatureanimation" path="graphics/demoCharTest.png" width="32" height="64" />
 	<resource id="dinoanimation" type="creatureanimation" path="graphics/dino.png" width="64" height="48" />
@@ -41,6 +42,7 @@
 	<resource id="giantmaggotanimation" type="creatureanimation" path="graphics/giantMaggot.png" width="58" height="46" />
 	<resource id="slimeanimation" type="creatureanimation" path="graphics/slime.png" width="52" height="24" />
 	<resource id="scorpionanimation" type="creatureanimation" path="graphics/scorpion.png" width="48" height="45" />
+	<resource id="squirrelanimation" type="creatureanimation" path="graphics/squirrel.png" width="32" height="32" />
 
 	<resource id="stepsound" type="sound" path="sounds/step.wav" />
 	<resource id="Into the Dark.ogg" type="music" path="music/Into the Dark.ogg" />

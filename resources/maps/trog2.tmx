@@ -59,29 +59,17 @@
     <property name="Y" value="15"/>
    </properties>
   </object>
-  <object name="DinoSpawn" type="spawn" x="1552" y="1264" width="131" height="124">
-   <properties>
-    <property name="Enemy" value="dino"/>
-    <property name="Number" value="5"/>
-   </properties>
-  </object>
-  <object name="DinoSpawn" type="spawn" x="968" y="1170" width="131" height="124">
-   <properties>
-    <property name="Enemy" value="dino"/>
-    <property name="Number" value="5"/>
-   </properties>
-  </object>
-  <object name="SpiderSpawn" type="spawn" x="1845" y="586" width="131" height="124">
+  <object name="SpiderSpawn" type="spawn" x="678" y="1098" width="131" height="124">
    <properties>
     <property name="Enemy" value="spider"/>
-    <property name="Number" value="2"/>
+    <property name="Number" value="5-10"/>
    </properties>
   </object>
   <object name="Warp to Start" type="Warp" x="513" y="385" width="98" height="61">
    <properties>
     <property name="Map" value="trog0"/>
     <property name="X" value="61"/>
-    <property name="Y" value="31"/>
+    <property name="Y" value="28"/>
    </properties>
   </object>
   <object name="SwampBubbles" type="particle" x="726" y="814" width="71" height="30">
@@ -237,6 +225,18 @@
   <object name="SwampBubbles" type="particle" x="83" y="1329" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
+   </properties>
+  </object>
+  <object name="SquirrelSpawn" type="spawn" x="1194" y="1458" width="131" height="124">
+   <properties>
+    <property name="Enemy" value="squirrel"/>
+    <property name="Number" value="5-10"/>
+   </properties>
+  </object>
+  <object name="SpiderSpawn" type="spawn" x="1806" y="523" width="131" height="124">
+   <properties>
+    <property name="Enemy" value="spider"/>
+    <property name="Number" value="5-10"/>
    </properties>
   </object>
  </objectgroup>

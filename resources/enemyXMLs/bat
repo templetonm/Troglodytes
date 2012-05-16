@@ -14,10 +14,10 @@
    <int>0</int>
   </void>
   <void property="health"> 
-   <int>40</int>
+   <int>25</int>
   </void> 
   <void property="damage"> 
-   <int>3</int>
+   <int>2</int>
   </void> 
   <void property="cooldown"> 
    <int>500</int>
@@ -32,10 +32,10 @@
    <boolean>false</boolean>
   </void>
   <void property="rareTrinkets"> 
-   <string>meat</string>
+   <string>torch, tooth</string>
   </void>
   <void property="trinkets">
-  	<string>meat,tooth</string>
+  	<string>meat</string>
   </void>
   <void property="maxSpeed"> 
    <int>7</int>

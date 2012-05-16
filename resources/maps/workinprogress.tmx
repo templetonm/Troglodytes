@@ -29,7 +29,7 @@
  </layer>
  <layer name="Background" width="100" height="75">
   <data encoding="base64" compression="gzip">
-   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
+   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
   </data>
  </layer>
  <layer name="Foreground" width="100" height="75">
@@ -43,19 +43,19 @@
   </data>
  </layer>
  <objectgroup name="Objects" width="100" height="75">
-  <object name="SpawnPointA" type="Spawn" x="607" y="525" width="288" height="254">
+  <object name="SpawnPointA" type="Spawn" x="735" y="907" width="288" height="254">
    <properties>
     <property name="Enemy" value="spider"/>
     <property name="Number" value="25-50"/>
    </properties>
   </object>
-  <object name="SpawnPointC" type="Spawn" x="1324" y="459" width="169" height="136">
+  <object name="SpawnPointC" type="Spawn" x="1202" y="1841" width="137" height="100">
    <properties>
     <property name="Enemy" value="slime"/>
     <property name="Number" value="10-20"/>
    </properties>
   </object>
-  <object name="SpawnPointD" type="Spawn" x="2393" y="705" width="169" height="136">
+  <object name="SpawnPointD" type="Spawn" x="1483" y="637" width="169" height="136">
    <properties>
     <property name="Enemy" value="bat"/>
     <property name="Number" value="20-50"/>
@@ -64,10 +64,10 @@
   <object name="SpawnPointB" type="Spawn" x="417" y="1890" width="169" height="136">
    <properties>
     <property name="Enemy" value="maggot"/>
-    <property name="Number" value="5-10"/>
+    <property name="Number" value="10-15"/>
    </properties>
   </object>
-  <object name="SpawnPointE" type="Spawn" x="2081" y="1537" width="284" height="251">
+  <object name="SpawnPointE" type="Spawn" x="2077" y="1539" width="376" height="331">
    <properties>
     <property name="Enemy" value="yeti"/>
     <property name="Number" value="5-10"/>
@@ -81,5 +81,29 @@
    </properties>
   </object>
   <object name="TrinketSpawn" type="TrinketSpawn" x="457" y="2215" width="114" height="112"/>
+  <object name="Torch" type="particle" x="593" y="190" width="37" height="35">
+   <properties>
+    <property name="Light" value="true"/>
+    <property name="Name" value="flame"/>
+   </properties>
+  </object>
+  <object name="Torch" type="particle" x="719" y="191" width="37" height="35">
+   <properties>
+    <property name="Light" value="true"/>
+    <property name="Name" value="flame"/>
+   </properties>
+  </object>
+  <object name="Torch" type="particle" x="433" y="2077" width="37" height="35">
+   <properties>
+    <property name="Light" value="true"/>
+    <property name="Name" value="flame"/>
+   </properties>
+  </object>
+  <object name="Torch" type="particle" x="1425" y="608" width="37" height="35">
+   <properties>
+    <property name="Light" value="true"/>
+    <property name="Name" value="flame"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

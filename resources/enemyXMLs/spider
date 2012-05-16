@@ -35,7 +35,7 @@
    <string>meat</string>
   </void>
   <void property="trinkets">
-  	<string>meat,tooth</string>
+  	<string>meat</string>
   </void>
   <void property="maxSpeed"> 
    <int>5</int>

@@ -32,10 +32,10 @@
    <boolean>false</boolean>
   </void>
   <void property="rareTrinkets"> 
-   <string>meat</string>
+   <string>slimepolymorph</string>
   </void>
   <void property="trinkets">
-  	<string>meat,tooth</string>
+  	<string>meat</string>
   </void>
   <void property="maxSpeed"> 
    <int>2</int>
@@ -44,10 +44,10 @@
    <string>slimeanimation</string>
   </void>
   <void property="acceleration"> 
-   <float>1.0</float>
+   <float>0.5</float>
   </void>
   <void property="deceleration"> 
-   <float>1.0</float>
+   <float>0.5</float>
   </void>
   <void property="AIType">
    <string>random</string>

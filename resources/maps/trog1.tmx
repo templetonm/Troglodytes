@@ -49,8 +49,8 @@
   </object>
   <object name="Creature Spawner" type="Spawn" x="1202" y="1577" width="390" height="311">
    <properties>
-    <property name="Enemy" value="spider"/>
-    <property name="Number" value="0"/>
+    <property name="Enemy" value="spider,bat"/>
+    <property name="Number" value="5-10"/>
    </properties>
   </object>
   <object name="SpiderSpawn" type="Spawn" x="2032" y="746" width="390" height="311">
@@ -61,20 +61,20 @@
   </object>
   <object name="Creature Spawner" type="Spawn" x="552" y="939" width="390" height="311">
    <properties>
-    <property name="Enemy" value="spider"/>
-    <property name="Number" value="0"/>
+    <property name="Enemy" value="slime,scorpion"/>
+    <property name="Number" value="10-15"/>
    </properties>
   </object>
   <object name="Creature Spawner" type="Spawn" x="692" y="1866" width="226" height="137">
    <properties>
-    <property name="Enemy" value="yeti"/>
-    <property name="Number" value="0"/>
+    <property name="Enemy" value="dino"/>
+    <property name="Number" value="7"/>
    </properties>
   </object>
   <object name="ScorpionSpawn" type="Spawn" x="2141" y="366" width="226" height="137">
    <properties>
     <property name="Enemy" value="scorpion"/>
-    <property name="Number" value="10"/>
+    <property name="Number" value="5-10"/>
    </properties>
   </object>
   <object name="TrinketSpawn" type="TrinketSpawn" x="718" y="684" width="226" height="137"/>

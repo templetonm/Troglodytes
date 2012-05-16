@@ -49,11 +49,17 @@
   </data>
  </layer>
  <objectgroup name="Objects" width="80" height="50">
-  <object name="Warp to Trog2" type="Warp" x="1926" y="1067" width="82" height="108">
+  <object name="Warp to Trog2" type="Warp" x="1928" y="962" width="81" height="219">
    <properties>
     <property name="Map" value="trog2"/>
     <property name="X" value="18"/>
     <property name="Y" value="15"/>
+   </properties>
+  </object>
+  <object name="SpawnPointA" type="Spawn" x="965" y="643" width="86" height="90">
+   <properties>
+    <property name="Enemy" value="squirrel"/>
+    <property name="Number" value="5-10"/>
    </properties>
   </object>
  </objectgroup>
