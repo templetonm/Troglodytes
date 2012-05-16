@@ -41,7 +41,7 @@
    <int>5</int>
   </void>
   <void property="resourceRef"> 
-   <string>smalldinoanimation</string>
+   <string>dinoanimation</string>
   </void>
   <void property="acceleration"> 
    <float>1.5</float>

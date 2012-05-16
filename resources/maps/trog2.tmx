@@ -48,7 +48,7 @@
  </layer>
  <layer name="Collision" width="92" height="64">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3UgUrGMAwE4N9X98lFRPgdbmvSu+aaXSAguraXb52v1099frgZfVbVubq2ve3due1t785tb3t3bnvbu3Pb296dG+3NLMaczDN39q6wRp2v7n3cC5Elku/q2Y7eiCyRve/ORWWyt04u1ndTPRe6VLxRM8+cvcJeyRthr/B9IfOh50Qb2HutubJ1Jh9qH5aHsjcyG9M7YqJqncmm7r3ybmfX7+I9Mpvy3UZnrPA+/k7dOppRzTubg1l3+9v777qZGtljF+/ozKvv+Oi+Kt5Xe2Tmnn2n2XeMzsee87hftFZ9R9msqt4z86laZ7KhZ8zOiZxpJkN0bUfvaJ7ZMyLPVXuzi3l+Zr2KN9ufYb2z926Vzf4078q7/b72Kd6IOuYenQXpk/W+21OtVt5tlvdOd30mp5r3DubdvJXdZ3MpeyuYv+dAZFL3VjD/LkQe9Pws79EZme+n6m4rerO/AdR73Mn799zV/2OQ5+3ozaiz/dFn7+Zdca8j8179jTHzKu+zn++y/PdMxLBi3mrvJ7a97d257W3vzm1ve3due9u7c9vb3p3b3rXeXy3q0L8AXAAA
+   H4sIAAAAAAAAC+3Z22rDQAwE0OTT3S9P+xAIpt6s7iN5FgSl2Nbo7Lok9Hg+Hsdv/bBC6rio6lxTi970nlz0pvfkoje9Jxe96T256E3vyeXtHbksc1b07OxdYe3VH937/CyPLJJ8q2snenvMKHn2t75emeidnyvq80n1XFkLxdtrZkvvDHskbw97hPfLM1/m952Meehtc0C21uSr+D4fOQ/y2a7ylpigWmuyoXtnnm3t/V28d2ZDPtvajEje59+hW0szonlr54n2tOa7g7fHXuw8o4u3dObsM777XBTvVRbN3NY91e6xd74I71Uu6cp6j7RZUb0t86Faa7IheHvPZMkgvXeit3Quaw/JddXe0Suyv+Z+FO9o/wjrzt7dljb73bwrz/bnvXfx9ljn3LuzaHwyP58g7kfm2Y7y7nTWLTnRvDuYT/NGdrfmQvZGMP/M4ZEJ3RvB/G955NHOX/H/Bsk8EavqbCN6R78DXvvYyfs9b/bfGM9+Hb0j1tXzvXt3864416ueq2yeM1d7X/38bd7/rpEY7vSIqErvOxa96T256E3vyUVvek8uetN7ctGb3pOL3rXeL8P5BCAAXAAA
   </data>
  </layer>
  <objectgroup name="Objects" width="92" height="64">
@@ -237,6 +237,11 @@
   <object name="SwampBubbles" type="particle" x="83" y="1329" width="71" height="30">
    <properties>
     <property name="Name" value="bubble"/>
+   </properties>
+  </object>
+  <object name="Lava" type="particle" x="1429" y="2038" width="26" height="19">
+   <properties>
+    <property name="Name" value="lava"/>
    </properties>
   </object>
  </objectgroup>
