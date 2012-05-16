@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -12,7 +13,9 @@ import com.artemis.Entity;
 import com.artemis.EntitySystem;
 import com.artemis.SystemManager;
 import com.artemis.World;
+import com.turbonips.troglodytes.ResourceManager;
 import com.turbonips.troglodytes.components.Attack;
+import com.turbonips.troglodytes.components.CreatureSound;
 import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.Direction.Dir;
 import com.turbonips.troglodytes.components.HealthRegen;
@@ -32,6 +35,7 @@ import com.turbonips.troglodytes.systems.InputSystem;
 import com.turbonips.troglodytes.systems.MusicSystem;
 import com.turbonips.troglodytes.systems.PlayerBehaviorSystem;
 import com.turbonips.troglodytes.systems.RenderSystem;
+import com.turbonips.troglodytes.systems.SoundSystem;
 import com.turbonips.troglodytes.systems.TrinketSystem;
 import com.turbonips.troglodytes.systems.WarpSystem;
 
@@ -47,6 +51,7 @@ public class PlayingState extends BaseGameState {
 	private EntitySystem enemyBehaviorSystem;
 	private EntitySystem trinketSystem;
 	private EntitySystem musicSystem;
+	private EntitySystem soundSystem;
 
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
@@ -62,6 +67,7 @@ public class PlayingState extends BaseGameState {
 	    enemyBehaviorSystem = systemManager.setSystem(new EnemyBehaviorSystem());
 	    trinketSystem = systemManager.setSystem(new TrinketSystem());
 	    musicSystem = systemManager.setSystem(new MusicSystem());
+	    soundSystem = systemManager.setSystem(new SoundSystem());
 	    systemManager.initializeAll();
 	    CollisionResolution.getInstance().initialize(world);
 		
@@ -92,6 +98,7 @@ public class PlayingState extends BaseGameState {
 		// It's over 9000
 		player.addComponent(new Secondary(6*1000));
 		player.addComponent(new HealthRegen());
+		player.addComponent(new CreatureSound((Sound)ResourceManager.getInstance().getResource("stepsound").getObject()));
 		player.refresh();
 		
 		Entity trinket = world.createEntity();
@@ -125,6 +132,7 @@ public class PlayingState extends BaseGameState {
 		enemyBehaviorSystem.process();
 		trinketSystem.process();
 		warpSystem.process();
+		soundSystem.process();
 		musicSystem.process();
 	}
 

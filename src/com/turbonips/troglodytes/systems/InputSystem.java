@@ -12,6 +12,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
 import com.turbonips.troglodytes.components.Attack;
+import com.turbonips.troglodytes.components.CreatureSound;
 import com.turbonips.troglodytes.components.Direction;
 import com.turbonips.troglodytes.components.Direction.Dir;
 import com.turbonips.troglodytes.components.Stats;
@@ -27,6 +28,7 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 	private ComponentMapper<Attack> attackMapper;
 	private ComponentMapper<Secondary> secondaryMapper;
 	private ComponentMapper<Polymorph> polymorphMapper;
+	private ComponentMapper<CreatureSound> creatureSoundMapper;
 	private GameContainer container;
 
 	boolean key_up = false, 
@@ -55,6 +57,7 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 		polymorphMapper = new ComponentMapper<Polymorph>(Polymorph.class, world);
 		statModifiersMapper = new ComponentMapper<StatModifiers>(StatModifiers.class, world);
 		statsMapper = new ComponentMapper<Stats>(Stats.class, world);
+		creatureSoundMapper = new ComponentMapper<CreatureSound>(CreatureSound.class, world);
 		container.getInput().addKeyListener(this);
 	}
 
@@ -66,6 +69,7 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 		Attack playerAttack = attackMapper.get(player);
 		Secondary playerSecondary = secondaryMapper.get(player);
 		Movement movement = movementMapper.get(player);
+		CreatureSound creatureSound = creatureSoundMapper.get(player);
 		HashMap<StatType, Integer> playerStats = statsMapper.get(player).getStats();
 		if (movement != null) {
 			Vector2f velocity = movement.getVelocity();
@@ -160,6 +164,17 @@ public class InputSystem extends BaseEntitySystem implements KeyListener {
 				playerSecondary.setLastTime(new Date().getTime());
 			} else {
 				playerSecondary.setSecondary(false);
+			}
+			
+			// MovementSound
+			if (movement.getCurrentSpeed() != 0) {
+				if (creatureSound != null){
+					creatureSound.setCurrent(creatureSound.getMovementSound());
+				}
+			} else {
+				if (creatureSound != null) {
+					creatureSound.unsetCurrent();
+				}
 			}
 		}
 		
