@@ -59,9 +59,9 @@
     <property name="Y" value="15"/>
    </properties>
   </object>
-  <object name="SpiderSpawn" type="spawn" x="678" y="1098" width="131" height="124">
+  <object name="SpawnPointA" type="spawn" x="678" y="1098" width="131" height="124">
    <properties>
-    <property name="Enemy" value="spider"/>
+    <property name="Enemy" value="spider,snake"/>
     <property name="Number" value="5-10"/>
    </properties>
   </object>
@@ -233,9 +233,9 @@
     <property name="Number" value="5-10"/>
    </properties>
   </object>
-  <object name="SpiderSpawn" type="spawn" x="1806" y="523" width="131" height="124">
+  <object name="SpawnPointB" type="spawn" x="1806" y="523" width="131" height="124">
    <properties>
-    <property name="Enemy" value="spider"/>
+    <property name="Enemy" value="snake,slime"/>
     <property name="Number" value="5-10"/>
    </properties>
   </object>

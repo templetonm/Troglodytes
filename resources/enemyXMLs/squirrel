@@ -32,10 +32,10 @@
    <boolean>false</boolean>
   </void>
   <void property="rareTrinkets"> 
-   <string>meat</string>
+   <string></string>
   </void>
   <void property="trinkets">
-  	<string>meat</string>
+  	<string></string>
   </void>
   <void property="maxSpeed"> 
    <int>3</int>
