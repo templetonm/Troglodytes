@@ -31,11 +31,14 @@
   <void property="flier"> 
    <boolean>false</boolean>
   </void>
-  <void property="loot"> 
-   <int>0</int>
+  <void property="rareTrinkets"> 
+   <string>meat</string>
+  </void>
+  <void property="trinkets">
+  	<string>meat,tooth</string>
   </void>
   <void property="maxSpeed"> 
-   <int>5</int>
+   <int>7</int>
   </void>
   <void property="resourceRef"> 
    <string>scorpionanimation</string>

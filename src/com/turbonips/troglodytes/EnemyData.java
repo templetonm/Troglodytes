@@ -16,13 +16,13 @@ public class EnemyData {
 	private int sight;
 	private boolean flier;
 	private int loot;
-	private int x;
-	private int y;
 	private int maxSpeed;
 	private String resourceRef;
 	private float acceleration;
 	private float deceleration;
 	private String AIType;
+	private String rareTrinkets;
+	private String trinkets;
 
 	public String getName () {return name;}
 	public boolean getElite() {return elite;}
@@ -35,8 +35,6 @@ public class EnemyData {
 	public int getSight() {return sight;}
 	public boolean getFlier() {return flier;}
 	public int getLoot() {return loot;}
-	public int getX() {return x;}
-	public int getY() {return y;}
 	public int getMaxSpeed() {return maxSpeed;}
 	public String getResourceRef() { return resourceRef; }
 	public float getAcceleration() { return acceleration; }
@@ -54,11 +52,21 @@ public class EnemyData {
 	public void setSight (int newSight) { sight = newSight; }
 	public void setFlier (boolean newFlier) { flier = newFlier; }
 	public void setLoot (int newLoot) { loot = newLoot; }
-	public void setX(int x) { this.x = x; }
-	public void setY(int y) { this.y = y; }
 	public void setMaxSpeed(int maxSpeed) { this.maxSpeed = maxSpeed; }
 	public void setResourceRef(String resourceRef) { this.resourceRef = resourceRef; }
 	public void setAcceleration(float acceleration) { this.acceleration = acceleration; }
 	public void setDeceleration(float deceleration) { this.deceleration = deceleration; }
 	public void setAIType(String AIType) { this.AIType = AIType; }
+	public String getRareTrinkets() {
+		return rareTrinkets;
+	}
+	public void setRareTrinkets(String rareTrinkets) {
+		this.rareTrinkets = rareTrinkets;
+	}
+	public String getTrinkets() {
+		return trinkets;
+	}
+	public void setTrinkets(String trinkets) {
+		this.trinkets = trinkets;
+	}
 }

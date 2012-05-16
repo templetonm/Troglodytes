@@ -32,6 +32,7 @@ import com.turbonips.troglodytes.components.Location;
 import com.turbonips.troglodytes.components.ResourceRef;
 import com.turbonips.troglodytes.components.StatModifiers;
 import com.turbonips.troglodytes.components.Stats;
+import com.turbonips.troglodytes.components.TrinketDrop;
 import com.turbonips.troglodytes.components.VisitedMaps;
 import com.turbonips.troglodytes.components.Warp;
 import com.turbonips.troglodytes.components.Direction.Dir;
@@ -143,6 +144,19 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 								enemyStats.put(StatType.SIGHT, enemyData.getSight());
 								enemyStats.put(StatType.ATTACK_COOLDOWN, enemyData.getCooldown());
 								
+								// Pick either a rare or not rare trinket
+								String selectedTrinkets = enemyData.getTrinkets();
+								if (Math.random() * 100 < 5)
+									selectedTrinkets = enemyData.getRareTrinkets();
+								
+								String selectedTrinket;
+								if (selectedTrinkets.contains(",")) {
+									int randomIndex = (int)(Math.random() * selectedTrinkets.split(",").length);
+									selectedTrinket = selectedTrinkets.split(",")[randomIndex];
+								} else {
+									selectedTrinket = selectedTrinkets;
+								}
+								
 								// TODO move sight over to enemy stats
 								enemy.addComponent(new Movement(new Vector2f(0,0)));
 								enemy.addComponent(new Direction(Dir.DOWN));
@@ -150,12 +164,15 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 								enemy.addComponent(new EnemyAI(enemyAIType, sight));
 								enemy.addComponent(new Attack());
 								enemy.addComponent(new Stats(enemyStats));
+								if (Math.random() * 10 < 5)  {
+									enemy.addComponent(new TrinketDrop(selectedTrinket, world));
+								}
 								enemy.refresh();
 						}
 					// Spawn trinkets
 					} else if (type.equals("trinketspawn")) {
 						Vector2f startPosition = new Vector2f(objectX + (int) (Math.random() * objectWidth), objectY + (int) (Math.random() * objectHeight));
-						
+						// There should be a common place for creating trinkets (we do this same logic in TrinketDrop)
 						File folder = new File("resources/trinketXMLs/");
 						ArrayList<String> fileNames = new ArrayList<String>();
 						for (File file : folder.listFiles()) {
@@ -185,20 +202,17 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 					} else if (type.equals("particle")) {
 						String particleId = tiledMap.getObjectProperty(groupID, objectID, "Name", "");
 						String resourcePath = manager.getResource(particleId).getPath();
+						boolean light = Boolean.valueOf(tiledMap.getObjectProperty(groupID, objectID, "Light", "false"));
 						//ParticleSystem ps = (ParticleSystem)manager.getResource(particleId).getObject();
 						try {
 							ParticleSystem ps = ParticleIO.loadConfiguredSystem(resourcePath);
 							Entity part = world.createEntity();
 							part.setGroup("PARTICLES");
-							part.addComponent(new ParticleComponent(ps, false));
+							part.addComponent(new ParticleComponent(ps, true, light));
 							part.addComponent(new Location(new Vector2f(objectX, objectY), warp.getMapName()));
 						} catch (Exception ex) {
 							// blah
 						}
-					} else if (type.equals("light")) {
-						Entity light = world.createEntity();
-						light.setGroup("LIGHTS");
-						light.addComponent(new Location(new Vector2f(objectX + objectWidth/2, objectY + objectHeight/2), warp.getMapName()));
 					}
 				}
 			}

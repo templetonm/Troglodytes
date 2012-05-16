@@ -7,6 +7,7 @@ import com.artemis.Component;
 public class ParticleComponent extends Component {
 	private ParticleSystem particleSystem;
 	private int timeSum;
+	private boolean light = false;
 	
 	private boolean emitterFinite = false;
 	private boolean emitterFinished = false;
@@ -18,6 +19,12 @@ public class ParticleComponent extends Component {
 	public ParticleComponent(ParticleSystem particleSystem, boolean emitterFinite) {
 		this.particleSystem = particleSystem;
 		this.emitterFinite = emitterFinite;
+	}
+	
+	public ParticleComponent(ParticleSystem particleSystem, boolean emitterFinite, boolean light) {
+		this.particleSystem = particleSystem;
+		this.emitterFinite = emitterFinite;
+		this.light = light;
 	}
 	
 	public void updateParticleSystem(int delta) {
@@ -47,5 +54,13 @@ public class ParticleComponent extends Component {
 	
 	public void setEmitterFinished(boolean emitterFinished) {
 		this.emitterFinished = emitterFinished;
+	}
+
+	public boolean isLight() {
+		return light;
+	}
+
+	public void setLight(boolean light) {
+		this.light = light;
 	}
 }

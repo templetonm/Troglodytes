@@ -28,6 +28,7 @@ import com.turbonips.troglodytes.components.ResourceRef;
 import com.turbonips.troglodytes.components.Secondary;
 import com.turbonips.troglodytes.components.Stats;
 import com.turbonips.troglodytes.components.Stats.StatType;
+import com.turbonips.troglodytes.components.TrinketDrop;
 import com.turbonips.troglodytes.components.Warp;
 
 public class PlayerBehaviorSystem extends BaseEntitySystem {
@@ -40,6 +41,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 	private ComponentMapper<Stats> statsMapper;
 	private ComponentMapper<HealthRegen> healthRegenMapper;
 	private ComponentMapper<ColorChange> colorChangeMapper;
+	private ComponentMapper<TrinketDrop> trinketDropMapper;
 
 	@Override
 	protected void initialize() {
@@ -52,6 +54,7 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 		secondaryMapper = new ComponentMapper<Secondary>(Secondary.class, world);
 		healthRegenMapper = new ComponentMapper<HealthRegen>(HealthRegen.class, world);
 		colorChangeMapper = new ComponentMapper<ColorChange>(ColorChange.class, world);
+		trinketDropMapper = new ComponentMapper<TrinketDrop>(TrinketDrop.class, world);
 	}
 
 	@Override
@@ -97,6 +100,13 @@ public class PlayerBehaviorSystem extends BaseEntitySystem {
 		int eh = getFrame(enemy).getHeight();
 		
 		if (enemyStats.get(StatType.HEALTH) <= 0) {
+			
+			TrinketDrop trinketDrop = trinketDropMapper.get(enemy);
+			if (trinketDrop != null) {
+				Location trinketLocation = locationMapper.get(trinketDrop.getTrinket());
+				trinketLocation.setMap(enemyLocation.getMap());
+				trinketLocation.setPosition(new Vector2f(enemyPosition));
+			}
 			enemy.delete();
 			
 			// Add a cool effect
