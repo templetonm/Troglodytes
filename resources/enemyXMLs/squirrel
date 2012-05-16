@@ -2,7 +2,7 @@
 <java version="1.6.0_29" class="java.beans.XMLDecoder"> 
  <object class="com.turbonips.troglodytes.EnemyData"> 
   <void property="name"> 
-   <string>Slime</string> 
+   <string>Squirrel</string> 
   </void> 
   <void property="elite"> 
    <boolean>false</boolean>
@@ -14,10 +14,10 @@
    <int>0</int>
   </void>
   <void property="health"> 
-   <int>100</int>
+   <int>5</int>
   </void> 
   <void property="damage"> 
-   <int>1</int>
+   <int>-5</int>
   </void> 
   <void property="cooldown"> 
    <int>1000</int>
@@ -26,28 +26,28 @@
    <int>2</int>
   </void>
   <void property="sight"> 
-   <int>10</int>
+   <int>5</int>
   </void>
   <void property="flier"> 
    <boolean>false</boolean>
   </void>
   <void property="rareTrinkets"> 
-   <string>slimepolymorph</string>
+   <string>meat</string>
   </void>
   <void property="trinkets">
   	<string>meat</string>
   </void>
   <void property="maxSpeed"> 
-   <int>2</int>
+   <int>3</int>
   </void>
   <void property="resourceRef"> 
-   <string>slimeanimation</string>
+   <string>squirrelanimation</string>
   </void>
   <void property="acceleration"> 
-   <float>0.5</float>
+   <float>1</float>
   </void>
   <void property="deceleration"> 
-   <float>0.5</float>
+   <float>1</float>
   </void>
   <void property="AIType">
    <string>random</string>

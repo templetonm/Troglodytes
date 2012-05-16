@@ -14,19 +14,19 @@
    <int>0</int>
   </void>
   <void property="health"> 
-   <int>100</int>
+   <int>250</int>
   </void> 
   <void property="damage"> 
-   <int>10</int>
+   <int>15</int>
   </void> 
   <void property="cooldown"> 
    <int>1000</int>
   </void>
   <void property="range"> 
-   <int>3</int>
+   <int>4</int>
   </void>
   <void property="sight"> 
-   <int>15</int>
+   <int>5</int>
   </void>
   <void property="flier"> 
    <boolean>false</boolean>
@@ -38,16 +38,16 @@
   	<string>meat,tooth</string>
   </void>
   <void property="maxSpeed"> 
-   <int>7</int>
+   <int>5</int>
   </void>
   <void property="resourceRef"> 
    <string>yetianimation</string>
   </void>
   <void property="acceleration"> 
-   <float>1</float>
+   <float>1.5</float>
   </void>
   <void property="deceleration"> 
-   <float>1</float>
+   <float>1.5</float>
   </void>
   <void property="AIType">
    <string>follow</string>

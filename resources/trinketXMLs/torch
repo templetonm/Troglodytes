@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <java version="1.6.0_29" class="java.beans.XMLDecoder"> 
- <object class="com.turbonips.troglodytes.PolymorphTrinket"> 
+ <object class="com.turbonips.troglodytes.TrinketData"> 
   <void property="name">
-   <string>Scorpion Polymorph Trinket</string> 
+   <string>Light Trinket</string> 
   </void>
   
   <void property="type">
-  	<string>polymorph</string>
+  	<string>normal</string>
   </void>
   
   <void property="resourceRef">
-  	<string>scorpionTrinket</string>
+  	<string>lightTrinket</string>
   </void>
-  
-  <void property="newResourceRef">
-  	<string>scorpionanimation</string>
-  </void>
-  
+ 
   <void property="addHealth">
   	<int>0</int>
   </void>
@@ -24,22 +20,13 @@
   <void property="addRange">
   	<int>0</int>
   </void>
-  
+ 
   <void property="addArmor">
   	<int>0</int>
   </void>
   
-  <void property="addSpeed">
+  <void property="addSight">
   	<int>5</int>
   </void>
-  
-  <void property="addDamage">
-  	<int>-9</int>
-  </void>
-  
-  <void property="addCooldown">
-  	<int>-500</int>
-  </void>
- 
  </object>
 </java> 

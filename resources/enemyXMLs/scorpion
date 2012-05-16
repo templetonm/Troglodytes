@@ -31,11 +31,11 @@
   <void property="flier"> 
    <boolean>false</boolean>
   </void>
-  <void property="rareTrinkets"> 
-   <string></string>
+  <void property="rareTrinkets">
+   <string>scorpionpolymorph</string>
   </void>
   <void property="trinkets">
-  	<string>meat,tooth</string>
+  	<string>meat</string>
   </void>
   <void property="maxSpeed"> 
    <int>7</int>
