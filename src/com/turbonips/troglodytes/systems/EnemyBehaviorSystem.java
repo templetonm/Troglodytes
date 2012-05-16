@@ -114,10 +114,12 @@ public class EnemyBehaviorSystem extends BaseEntitySystem {
 				if (damageReduction < enemyDamage) {
 					playerStats.put(StatType.HEALTH, playerStats.get(StatType.HEALTH) - enemyDamage + damageReduction);
 				}
-				if (colorChangeMapper.get(player) == null) {
-					ColorChange colorChange = new ColorChange(250, new Color(255,0,0));
-					colorChange.setLastTime(new Date().getTime());
-					player.addComponent(colorChange);
+				if (enemyDamage > 0) {
+					if (colorChangeMapper.get(player) == null) {
+						ColorChange colorChange = new ColorChange(250, new Color(255,0,0));
+						colorChange.setLastTime(new Date().getTime());
+						player.addComponent(colorChange);
+					}
 				}
 			}
 		}
