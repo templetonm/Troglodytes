@@ -37,7 +37,8 @@ public class TrinketDrop extends Component {
 		modifiers.put(StatType.MAX_SPEED, trinketData.getAddSpeed());
 		modifiers.put(StatType.DAMAGE, trinketData.getAddDamage());
 		modifiers.put(StatType.SIGHT, trinketData.getAddSight());
-		modifiers.put(StatType.ATTACK_COOLDOWN, trinketData.getAddCooldown());
+		modifiers.put(StatType.ATTACK_COOLDOWN, trinketData.getAddAttackCooldown());
+		modifiers.put(StatType.HEALTH_COOLDOWN, trinketData.getAddHealthCooldown());
 		trinket.addComponent(new StatModifiers(modifiers));
 	}
 

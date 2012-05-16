@@ -178,6 +178,7 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 						for (File file : folder.listFiles()) {
 							if (file.isFile()) fileNames.add(file.getName());
 						}
+						logger.info("resources/trinketXMLs/" + fileNames.get((int)(Math.random() * fileNames.size())));
 						TrinketData trinketData = (TrinketData)xmls.deserializeData("resources/trinketXMLs/" + fileNames.get((int)(Math.random() * fileNames.size())));
 						TrinketType trinketType = trinketData.getType();
 						Entity trinket = world.createEntity();
@@ -197,7 +198,8 @@ public class WarpSystem extends BaseEntityProcessingSystem {
 						modifiers.put(StatType.MAX_SPEED, trinketData.getAddSpeed());
 						modifiers.put(StatType.DAMAGE, trinketData.getAddDamage());
 						modifiers.put(StatType.SIGHT, trinketData.getAddSight());
-						modifiers.put(StatType.ATTACK_COOLDOWN, trinketData.getAddCooldown());
+						modifiers.put(StatType.ATTACK_COOLDOWN, trinketData.getAddAttackCooldown());
+						modifiers.put(StatType.HEALTH_COOLDOWN, trinketData.getAddHealthCooldown());
 						trinket.addComponent(new StatModifiers(modifiers));
 					} else if (type.equals("particle")) {
 						String particleId = tiledMap.getObjectProperty(groupID, objectID, "Name", "");
