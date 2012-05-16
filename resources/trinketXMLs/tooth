@@ -2,7 +2,7 @@
 <java version="1.6.0_29" class="java.beans.XMLDecoder"> 
  <object class="com.turbonips.troglodytes.TrinketData"> 
   <void property="name">
-   <string>Test Tooth</string> 
+   <string>Damage Trinket</string> 
   </void>
   
   <void property="type">
@@ -10,7 +10,7 @@
   </void>
   
   <void property="resourceRef">
-  	<string>toothTrinket</string>
+  	<string>damageTrinket</string>
   </void>
  
   <void property="addHealth">

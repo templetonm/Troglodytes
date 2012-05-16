@@ -2,7 +2,7 @@
 <java version="1.6.0_29" class="java.beans.XMLDecoder"> 
  <object class="com.turbonips.troglodytes.PolymorphTrinket"> 
   <void property="name">
-   <string>Yeti Polymorph Trinket</string> 
+   <string>Snake Polymorph Trinket</string> 
   </void>
   
   <void property="type">
@@ -10,11 +10,11 @@
   </void>
   
   <void property="resourceRef">
-  	<string>yetiTrinket</string>
+  	<string>snakeTrinket</string>
   </void>
   
   <void property="newResourceRef">
-  	<string>yetianimation</string>
+  	<string>snakeanimation</string>
   </void>
   
   <void property="addHealth">

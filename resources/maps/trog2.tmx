@@ -71,7 +71,7 @@
     <property name="Number" value="5"/>
    </properties>
   </object>
-  <object name="SpiderSpawn" type="spawn" x="1846" y="582" width="131" height="124">
+  <object name="SpiderSpawn" type="spawn" x="1845" y="586" width="131" height="124">
    <properties>
     <property name="Enemy" value="spider"/>
     <property name="Number" value="2"/>
