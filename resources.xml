@@ -44,6 +44,7 @@
 	<resource id="scorpionanimation" type="creatureanimation" path="graphics/scorpion.png" width="48" height="45" />
 
 	<resource id="stepsound" type="sound" path="sounds/step.wav" />
+	<resource id="playerattacksound" type="sound" path="sounds/playerattack.wav" />
 	<resource id="Into the Dark.ogg" type="music" path="music/Into the Dark.ogg" />
 	<resource id="Cave, Man.ogg" type="music" path="music/Cave, Man.ogg" />
 	
